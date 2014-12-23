@@ -10,16 +10,16 @@ import com.googlecode.objectify.annotation.Id;
 @Entity
 public class Mensagem {
     @Id
-    private String id;
+    private Long id;
     private Key<Alerta> alerta;
     private Key<Usuario> usuario;
     private String texto;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

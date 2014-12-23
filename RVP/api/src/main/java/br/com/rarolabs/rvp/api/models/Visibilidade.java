@@ -13,18 +13,18 @@ public class Visibilidade {
     public enum Tipo {PRIVADO, SOMENTE_COM_AUTORIDADE, SOMENTE_COM_ADMIN, COM_AUTORIDADE_E_ADMINISTRADOR}
 
     @Id
-    private String id;
+    private Long id;
     private Key<Membro> membro;
     private Tipo email;
     private Tipo telefoneFixo;
     private Tipo telefoneCelular;
     private Tipo endereco;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

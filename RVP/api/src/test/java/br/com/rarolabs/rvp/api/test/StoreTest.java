@@ -1,14 +1,30 @@
 package br.com.rarolabs.rvp.api.test;
 
 
+import com.google.api.server.spi.response.NotFoundException;
+import com.google.appengine.api.search.Field;
+import com.google.appengine.api.search.Index;
+import com.google.appengine.api.search.IndexSpec;
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
+import com.google.appengine.api.search.SearchServiceFactory;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import com.google.apphosting.api.search.DocumentPb;
+import com.googlecode.objectify.Objectify;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.rarolabs.rvp.api.MyEndpoint;
+import java.util.Collection;
+
+import br.com.rarolabs.rvp.api.models.Endereco;
+import br.com.rarolabs.rvp.api.models.Membro;
+import br.com.rarolabs.rvp.api.models.Rede;
+import br.com.rarolabs.rvp.api.models.Usuario;
+import br.com.rarolabs.rvp.api.responders.GeoqueryResponder;
+import br.com.rarolabs.rvp.api.service.OfyService;
 
 import static org.junit.Assert.*;
 
@@ -28,12 +44,76 @@ public class StoreTest {
     }
 
     @Test
-    public void testSayHi() throws Exception {
-        assertTrue(true);
+    public void testUsuario(){
+        Objectify ofy = OfyService.ofy();
+
+        Usuario u = new Usuario();
+        u.setNome("Rodrigo Sol");
+        u.setDddTelefoneCelular("31");
+        u.setTelefoneCelular("71718438");
+        u.setDddTelefoneFixo("31");
+        u.setTelefoneFixo("36548438");
+        u.setEmail("rodrigosol@gmail.com");
+        ofy.save().entities(u).now();
+
+
+        assertNotNull(u.getId());
+
+        Usuario u2 = ofy.load().type(Usuario.class).id(u.getId()).now();
+        assertEquals(u.getId(),u2.getId());
+
+        System.out.println(u.getNome());
+
+
     }
 
     @Test
-    public void testSayHi2() throws Exception {
-        new MyEndpoint().sayHi2("ola");
+    public void testSearch(){
+
+        Rede r = new Rede();
+        r.setLatitude(1.0);
+        r.setLongitude(2.0);
+        r.setNome("Teste");
+
+        Usuario u = new Usuario();
+        u.setNome("Rodrigo");
+        u.setEmail("sol@rarolans.com.br");
+
+        Endereco endereco = new Endereco();
+        endereco.setLatitude(1.0);
+        endereco.setLongitude(2.0);
+
+
+        Objectify ofy = OfyService.ofy();
+        ofy.save().entity(r).now();
+        ofy.save().entity(u).now();
+        ofy.save().entity(endereco).now();
+
+        Membro m = new Membro();
+
+        m.setRede(r);
+        m.setUsuario(u);
+        m.setEndereco(endereco);
+
+        ofy.save().entity(m).now();
+
+
+        IndexSpec indexSpec = IndexSpec.newBuilder().setName("membros").build();
+        Index index = SearchServiceFactory.getSearchService().getIndex(indexSpec);
+
+        String queryString = "distance(memberPosition, geopoint(1, 2)) < 100";
+        Results<ScoredDocument> results = index.search(queryString);
+
+        long totalMatches = results.getNumberFound();
+        int numberOfDocsReturned = results.getNumberReturned();
+
+        System.out.println("Total Matches:"+ totalMatches);
+        System.out.println("Returned:"+ numberOfDocsReturned);
+
+
+        for(ScoredDocument doc : results){
+        }
+
     }
+
 }

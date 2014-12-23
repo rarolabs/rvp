@@ -1,0 +1,394 @@
+{
+ "kind": "discovery#rpcDescription",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/SzVge2gi_JWdtwamDjBNrHFK5gg\"",
+ "discoveryVersion": "v1",
+ "id": "rvpAPI:v1",
+ "name": "rvpAPI",
+ "version": "v1",
+ "description": "This is an API",
+ "ownerDomain": "api.rvp.rarolabs.com.br",
+ "ownerName": "api.rvp.rarolabs.com.br",
+ "icons": {
+  "x16": "http://www.google.com/images/icons/product/search-16.gif",
+  "x32": "http://www.google.com/images/icons/product/search-32.gif"
+ },
+ "protocol": "rpc",
+ "rootUrl": "https://myApplicationId.appspot.com/_ah/api/",
+ "rpcUrl": "https://myApplicationId.appspot.com/_ah/api/rpc",
+ "rpcPath": "/_ah/api/rpc",
+ "parameters": {
+  "alt": {
+   "type": "string",
+   "description": "Data format for the response.",
+   "default": "json",
+   "enum": [
+    "json"
+   ],
+   "enumDescriptions": [
+    "Responses with Content-Type of application/json"
+   ],
+   "location": "query"
+  },
+  "fields": {
+   "type": "string",
+   "description": "Selector specifying which fields to include in a partial response.",
+   "location": "query"
+  },
+  "key": {
+   "type": "string",
+   "description": "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token.",
+   "location": "query"
+  },
+  "oauth_token": {
+   "type": "string",
+   "description": "OAuth 2.0 token for the current user.",
+   "location": "query"
+  },
+  "prettyPrint": {
+   "type": "boolean",
+   "description": "Returns response with indentations and line breaks.",
+   "default": "true",
+   "location": "query"
+  },
+  "quotaUser": {
+   "type": "string",
+   "description": "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters. Overrides userIp if both are provided.",
+   "location": "query"
+  },
+  "userIp": {
+   "type": "string",
+   "description": "IP address of the site where the request originates. Use this if you want to enforce per-user limits.",
+   "location": "query"
+  }
+ },
+ "auth": {
+  "oauth2": {
+   "scopes": {
+    "https://www.googleapis.com/auth/userinfo.email": {
+     "description": "View your email address"
+    }
+   }
+  }
+ },
+ "schemas": {
+  "Coordinator": {
+   "id": "Coordinator",
+   "type": "object",
+   "properties": {
+    "latitude": {
+     "type": "number",
+     "format": "double"
+    },
+    "longitude": {
+     "type": "number",
+     "format": "double"
+    }
+   }
+  },
+  "Endereco": {
+   "id": "Endereco",
+   "type": "object",
+   "properties": {
+    "bairro": {
+     "type": "string"
+    },
+    "cep": {
+     "type": "string"
+    },
+    "cidade": {
+     "type": "string"
+    },
+    "complemento": {
+     "type": "string"
+    },
+    "descricao": {
+     "type": "string"
+    },
+    "estado": {
+     "type": "string"
+    },
+    "id": {
+     "type": "string",
+     "format": "int64"
+    },
+    "latitude": {
+     "type": "number",
+     "format": "double"
+    },
+    "longitude": {
+     "type": "number",
+     "format": "double"
+    },
+    "numero": {
+     "type": "string"
+    },
+    "rua": {
+     "type": "string"
+    }
+   }
+  },
+  "GeoqueryResponder": {
+   "id": "GeoqueryResponder",
+   "type": "object",
+   "properties": {
+    "coordinators": {
+     "type": "array",
+     "items": {
+      "$ref": "Coordinator"
+     }
+    },
+    "distance": {
+     "type": "number",
+     "format": "double"
+    },
+    "idRede": {
+     "type": "string",
+     "format": "int64"
+    },
+    "latitude": {
+     "type": "number",
+     "format": "double"
+    },
+    "longitude": {
+     "type": "number",
+     "format": "double"
+    },
+    "nomeRede": {
+     "type": "string",
+     "format": "int64"
+    },
+    "resultSize": {
+     "type": "integer",
+     "format": "int32"
+    }
+   }
+  },
+  "GeoqueryResponderCollection": {
+   "id": "GeoqueryResponderCollection",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "GeoqueryResponder"
+     }
+    }
+   }
+  },
+  "Rede": {
+   "id": "Rede",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string",
+     "format": "int64"
+    },
+    "latitude": {
+     "type": "number",
+     "format": "double"
+    },
+    "longitude": {
+     "type": "number",
+     "format": "double"
+    },
+    "nome": {
+     "type": "string"
+    }
+   }
+  },
+  "Usuario": {
+   "id": "Usuario",
+   "type": "object",
+   "properties": {
+    "dddTelefoneCelular": {
+     "type": "string"
+    },
+    "dddTelefoneFixo": {
+     "type": "string"
+    },
+    "email": {
+     "type": "string"
+    },
+    "id": {
+     "type": "string",
+     "format": "int64"
+    },
+    "nome": {
+     "type": "string"
+    },
+    "telefoneCelular": {
+     "type": "string"
+    },
+    "telefoneFixo": {
+     "type": "string"
+    }
+   }
+  }
+ },
+ "methods": {
+  "rvpAPI.createRede": {
+   "id": "rvpAPI.createRede",
+   "parameters": {
+    "resource": {
+     "$ref": "Rede"
+    }
+   },
+   "parameterOrder": [
+    "resource"
+   ],
+   "returns": {
+    "$ref": "Rede"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "rvpAPI.createUsuario": {
+   "id": "rvpAPI.createUsuario",
+   "parameters": {
+    "resource": {
+     "$ref": "Usuario"
+    }
+   },
+   "parameterOrder": [
+    "resource"
+   ],
+   "returns": {
+    "$ref": "Usuario"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "rvpAPI.deleteRede": {
+   "id": "rvpAPI.deleteRede",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "rvpAPI.deleteUsuario": {
+   "id": "rvpAPI.deleteUsuario",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "rvpAPI.getRede": {
+   "id": "rvpAPI.getRede",
+   "allowGet": true,
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "returns": {
+    "$ref": "Rede"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "rvpAPI.getRedesByDistance": {
+   "id": "rvpAPI.getRedesByDistance",
+   "allowGet": true,
+   "parameters": {
+    "distancia": {
+     "type": "number",
+     "required": true,
+     "format": "double"
+    },
+    "latitude": {
+     "type": "number",
+     "required": true,
+     "format": "double"
+    },
+    "longitude": {
+     "type": "number",
+     "required": true,
+     "format": "double"
+    }
+   },
+   "parameterOrder": [
+    "latitude",
+    "longitude",
+    "distancia"
+   ],
+   "returns": {
+    "$ref": "GeoqueryResponderCollection"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "rvpAPI.getUsuario": {
+   "id": "rvpAPI.getUsuario",
+   "allowGet": true,
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "returns": {
+    "$ref": "Usuario"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "rvpAPI.solicitarAssociacao": {
+   "id": "rvpAPI.solicitarAssociacao",
+   "parameters": {
+    "rede_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    },
+    "resource": {
+     "$ref": "Endereco"
+    },
+    "usuario_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    }
+   },
+   "parameterOrder": [
+    "resource",
+    "rede_id",
+    "usuario_id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  }
+ }
+}

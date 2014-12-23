@@ -1,8 +1,16 @@
 package br.com.rarolabs.rvp.api.models;
 
+import com.google.api.server.spi.config.AnnotationBoolean;
+import com.google.api.server.spi.config.ApiResourceProperty;
+import com.google.appengine.api.search.GeoPoint;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.google.appengine.api.search.Document;
+import com.google.appengine.api.search.Field;
+
+import java.util.Date;
+
 
 /**
  * Created by rodrigosol on 12/18/14.
@@ -10,11 +18,12 @@ import com.googlecode.objectify.annotation.Id;
 @Entity
 public class Endereco {
     @Id
-    private String id;
+    private Long id;
     private String descricao;
+    @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
     private Key<Usuario> usuario;
-    private Long latitude;
-    private Long Longitude;
+    private Double latitude;
+    private Double Longitude;
     private String rua;
     private String numero;
     private String complemento;
@@ -23,11 +32,11 @@ public class Endereco {
     private String cidade;
     private String estado;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -47,19 +56,19 @@ public class Endereco {
         this.usuario = usuario;
     }
 
-    public Long getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Long latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public Long getLongitude() {
+    public Double getLongitude() {
         return Longitude;
     }
 
-    public void setLongitude(Long longitude) {
+    public void setLongitude(Double longitude) {
         Longitude = longitude;
     }
 
@@ -118,4 +127,6 @@ public class Endereco {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+
+
 }

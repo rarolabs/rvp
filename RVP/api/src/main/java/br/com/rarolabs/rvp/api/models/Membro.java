@@ -1,8 +1,19 @@
 package br.com.rarolabs.rvp.api.models;
 
+import com.google.appengine.api.search.Document;
+import com.google.appengine.api.search.Field;
+import com.google.appengine.api.search.GeoPoint;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Load;
+
+import com.google.appengine.api.search.Index;
+import com.google.appengine.api.search.IndexSpec;
+import com.google.appengine.api.search.SearchServiceFactory;
+import com.google.appengine.api.search.PutException;
+import com.google.appengine.api.search.StatusCode;
 
 import java.util.Date;
 
@@ -13,7 +24,7 @@ import java.util.Date;
 public class Membro {
 
     @Id
-    private String id;
+    private Long id;
     public enum Papel { SYSADMIN, CRIADOR, ADMIN, AUTORIDADE, VIVIZINHO}
     public enum Status {ATIVO, INATIVO}
 
@@ -22,15 +33,17 @@ public class Membro {
 
     private Date dataAssociacao;
 
-    private Key<Rede> rede;
-    private Key<Usuario> usuario;
-    private Key<Visibilidade> visibilidade;
+    private @Load Ref<Rede> rede;
+    private @Load Ref<Usuario> usuario;
+    private @Load Ref<Visibilidade> visibilidade;
+    private @Load Ref<Endereco> endereco;
 
-    public String getId() {
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -58,27 +71,36 @@ public class Membro {
         this.dataAssociacao = dataAssociacao;
     }
 
-    public Key<Rede> getRede() {
-        return rede;
+    public Rede getRede() {
+        return rede.get();
     }
 
-    public void setRede(Key<Rede> rede) {
-        this.rede = rede;
+    public void setRede(Rede rede) {
+        this.rede = Ref.create(rede);
     }
 
-    public Key<Usuario> getUsuario() {
-        return usuario;
+    public Usuario getUsuario() {
+        return usuario.get();
     }
 
-    public void setUsuario(Key<Usuario> usuario) {
-        this.usuario = usuario;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = Ref.create(usuario);
     }
 
-    public Key<Visibilidade> getVisibilidade() {
-        return visibilidade;
+    public Visibilidade getVisibilidade() {
+        return visibilidade.get();
     }
 
-    public void setVisibilidade(Key<Visibilidade> visibilidade) {
-        this.visibilidade = visibilidade;
+    public void setVisibilidade(Visibilidade visibilidade) {
+        this.visibilidade = Ref.create(visibilidade);
     }
+
+    public Endereco getEndereco() {
+        return endereco.get();
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = Ref.create(endereco);
+    }
+
 }
