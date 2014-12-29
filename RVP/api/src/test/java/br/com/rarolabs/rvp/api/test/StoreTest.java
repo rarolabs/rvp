@@ -1,6 +1,7 @@
 package br.com.rarolabs.rvp.api.test;
 
 
+import com.google.api.server.spi.response.ConflictException;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.search.Field;
 import com.google.appengine.api.search.Index;
@@ -18,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collection;
+import java.util.List;
 
 import br.com.rarolabs.rvp.api.models.Alerta;
 import br.com.rarolabs.rvp.api.models.Endereco;
@@ -28,6 +30,7 @@ import br.com.rarolabs.rvp.api.models.Usuario;
 import br.com.rarolabs.rvp.api.models.Visibilidade;
 import br.com.rarolabs.rvp.api.responders.GeoqueryResponder;
 import br.com.rarolabs.rvp.api.service.OfyService;
+import br.com.rarolabs.rvp.api.service.SearchService;
 
 import static org.junit.Assert.*;
 
@@ -47,16 +50,26 @@ public class StoreTest {
     }
 
     @Test
-    public void testUsuario(){
-        Objectify ofy = OfyService.ofy();
-        ofy.delete().keys(ofy.load().type(Alerta.class).keys().list());
-        ofy.delete().keys(ofy.load().type(Endereco.class).keys().list());
-        ofy.delete().keys(ofy.load().type(Membro.class).keys().list());
-        ofy.delete().keys(ofy.load().type(Mensagem.class).keys().list());
-        ofy.delete().keys(ofy.load().type(Rede.class).keys().list());
-        ofy.delete().keys(ofy.load().type(Usuario.class).keys().list());
-        ofy.delete().keys(ofy.load().type(Visibilidade.class).keys().list());
+    public void testUsuario() throws ConflictException {
+        Usuario u = new Usuario();
+        u.setNome("Rodrigo");
+        u.setEmail("sol@rarolans.com.br");
 
+        OfyService.ofy().save().entity(u).now();
+
+        Endereco e = new Endereco();
+        e.setRua("Estrela");
+        e.setLatitude(40.7727419);
+        e.setLongitude(-73.9348984);
+        e.setRua("Rua Amazonas");
+        Rede.novaRede("Rede a",u.getId(),e);
+
+        List<GeoqueryResponder> result = SearchService.searchByPosition(40.7688418,	-73.9201355, 2000.00);
+
+        System.out.println("Size:" + result.size());
+        for(GeoqueryResponder r : result){
+            System.out.println(r.getDistance());
+        }
 
     }
 

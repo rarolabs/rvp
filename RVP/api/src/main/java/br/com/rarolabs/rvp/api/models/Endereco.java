@@ -4,6 +4,7 @@ import com.google.api.server.spi.config.AnnotationBoolean;
 import com.google.api.server.spi.config.ApiResourceProperty;
 import com.google.appengine.api.search.GeoPoint;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.google.appengine.api.search.Document;
@@ -20,8 +21,10 @@ public class Endereco {
     @Id
     private Long id;
     private String descricao;
+
     @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
-    private Key<Usuario> usuario;
+    private Ref<Usuario> usuario;
+
     private Double latitude;
     private Double Longitude;
     private String rua;
@@ -48,13 +51,6 @@ public class Endereco {
         this.descricao = descricao;
     }
 
-    public Key<Usuario> getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Key<Usuario> usuario) {
-        this.usuario = usuario;
-    }
 
     public Double getLatitude() {
         return latitude;
@@ -128,5 +124,11 @@ public class Endereco {
         this.estado = estado;
     }
 
+    public Usuario getUsuario() {
+        return usuario.get();
+    }
 
+    public void setUsuario(Usuario usuario) {
+        this.usuario = Ref.create(usuario);
+    }
 }

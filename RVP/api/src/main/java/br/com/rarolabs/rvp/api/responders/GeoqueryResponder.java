@@ -1,5 +1,6 @@
 package br.com.rarolabs.rvp.api.responders;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class GeoqueryResponder {
     private Long idRede;
     private Long nomeRede;
     private Double distance;
-    private List<Coordinator> coordinators;
+    private List<Coordinator> coordinators = new ArrayList<Coordinator>();
     private Integer resultSize;
     private Double latitude;
     private Double longitude;

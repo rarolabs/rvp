@@ -3,6 +3,9 @@ package br.com.rarolabs.rvp.api.service;
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
 import com.google.appengine.api.search.GeoPoint;
+import com.google.appengine.api.search.GetIndexesRequest;
+import com.google.appengine.api.search.GetRequest;
+import com.google.appengine.api.search.GetResponse;
 import com.google.appengine.api.search.Index;
 import com.google.appengine.api.search.IndexSpec;
 import com.google.appengine.api.search.PutException;
@@ -13,6 +16,8 @@ import com.google.appengine.api.search.SearchServiceFactory;
 import com.google.appengine.api.search.SortExpression;
 import com.google.appengine.api.search.SortOptions;
 import com.google.appengine.api.search.StatusCode;
+import com.google.appengine.api.search.GetResponse;
+import com.google.apphosting.api.DatastorePb;
 import com.googlecode.objectify.Objectify;
 
 import java.util.ArrayList;
@@ -20,6 +25,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 import br.com.rarolabs.rvp.api.models.Endereco;
 import br.com.rarolabs.rvp.api.models.Membro;
@@ -131,5 +137,30 @@ public class SearchService {
 
         }
         return results;
+    }
+
+    public static void cleanIndex(){
+        try {
+            // looping because getRange by default returns up to 100 documents at a time
+            while (true) {
+                List<String> docIds = new ArrayList<String>();
+                // Return a set of doc_ids.
+
+                GetRequest request = GetRequest.newBuilder().setReturningIdsOnly(true).build();
+
+                IndexSpec indexSpec = IndexSpec.newBuilder().setName(indexName).build();
+                Index index = SearchServiceFactory.getSearchService().getIndex(indexSpec);
+                GetResponse<Document> response = index.getRange(request);
+                if (response.getResults().isEmpty()) {
+                    break;
+                }
+                for (Document doc : response) {
+                    docIds.add(doc.getId());
+                }
+                index.delete(docIds);
+            }
+        } catch (RuntimeException e) {
+            throw e;
+        }
     }
 }

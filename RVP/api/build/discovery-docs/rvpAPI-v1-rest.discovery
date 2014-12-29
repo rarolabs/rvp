@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/MPzp-1GL_-FN6TVEEXy0YFe2FGk\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/bliMZqCT-yr7aAoyQlyqji4c3_o\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -337,10 +337,27 @@
   },
   "novaRede": {
    "id": "rvpAPI.novaRede",
-   "path": "novaRede",
+   "path": "novaRede/{nome}/{usuario_id}",
    "httpMethod": "POST",
+   "parameters": {
+    "nome": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    },
+    "usuario_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "nome",
+    "usuario_id"
+   ],
    "request": {
-    "$ref": "Rede",
+    "$ref": "Endereco",
     "parameterName": "resource"
    },
    "response": {

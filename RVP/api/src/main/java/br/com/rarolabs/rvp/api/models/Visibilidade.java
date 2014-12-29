@@ -10,7 +10,7 @@ import com.googlecode.objectify.annotation.Id;
 @Entity
 public class Visibilidade {
 
-    public enum Tipo {PRIVADO, SOMENTE_COM_AUTORIDADE, SOMENTE_COM_ADMIN, COM_AUTORIDADE_E_ADMINISTRADOR}
+    public enum Tipo {PUBLICO,PRIVADO, SOMENTE_COM_AUTORIDADE, SOMENTE_COM_ADMIN, COM_AUTORIDADE_E_ADMINISTRADOR}
 
     @Id
     private Long id;

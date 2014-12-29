@@ -1,5 +1,7 @@
 package br.com.rarolabs.rvp.api.models;
 
+import com.google.api.server.spi.config.AnnotationBoolean;
+import com.google.api.server.spi.config.ApiResourceProperty;
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
 import com.google.appengine.api.search.GeoPoint;
@@ -25,7 +27,10 @@ public class Membro {
 
     @Id
     private Long id;
+
+
     public enum Papel { SYSADMIN, CRIADOR, ADMIN, AUTORIDADE, VIVIZINHO}
+
     public enum Status {ATIVO, INATIVO}
 
     private Papel papel = Papel.VIVIZINHO;
@@ -33,9 +38,16 @@ public class Membro {
 
     private Date dataAssociacao;
 
+    @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
     private @Load Ref<Rede> rede;
+
+    @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
     private @Load Ref<Usuario> usuario;
+
+    @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
     private @Load Ref<Visibilidade> visibilidade;
+
+    @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
     private @Load Ref<Endereco> endereco;
 
 
@@ -88,7 +100,8 @@ public class Membro {
     }
 
     public Visibilidade getVisibilidade() {
-        return visibilidade.get();
+        //return visibilidade.get();
+        return null;
     }
 
     public void setVisibilidade(Visibilidade visibilidade) {

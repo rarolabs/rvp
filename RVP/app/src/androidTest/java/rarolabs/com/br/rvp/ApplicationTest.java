@@ -19,6 +19,9 @@ import java.io.IOException;
 import br.com.rarolabs.rvp.api.rvpAPI.RvpAPI;
 import br.com.rarolabs.rvp.api.rvpAPI.RvpAPIRequest;
 import br.com.rarolabs.rvp.api.rvpAPI.RvpAPIRequestInitializer;
+import br.com.rarolabs.rvp.api.rvpAPI.model.Endereco;
+import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponderCollection;
+import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
 
 /**
@@ -37,6 +40,38 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         super.setUp();
 
     }
+
+
+    public void testNovaRede() {
+        try {
+            RvpAPI service = getService();
+            service.cleanDataBaseForTesting().executeUnparsed();
+            Usuario u = new Usuario();
+            u.setNome("João da Silva");
+            u.setEmail("joao@rarolabs.com.br");
+            u = service.novoUsuario(u).execute();
+
+            Endereco e = new Endereco();
+            e.setLatitude(40.7727419);
+            e.setLongitude(-73.9348984);
+            e.setRua("Rua Amazonas");
+
+            Rede r = service.novaRede("Rede 1",u.getId(),e).execute();
+            Rede loadedRede = service.buscarRede(r.getId()).execute();
+            assertEquals(r.getId(), loadedRede.getId());
+
+            GeoqueryResponderCollection result = service.buscarRedesProximas(40.7688418,	-73.9201355, 2000.00).execute();
+            assertEquals(1,result.getItems().size());
+
+            result = service.buscarRedesProximas(40.7688418,-73.9201355, 100.00).execute();
+            assertEquals(0,result.getItems().size());
+
+
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
+    }
+
 
 
     public void testNovoUsuario(){
@@ -76,7 +111,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
             try {
                 Log.d("Test",e.getMessage());
                 JsonParser json = new AndroidJsonFactory().createJsonParser(e.getMessage());
-                JSONObject jObject = null;
+                JSONObject jObject = new JSONObject();
                 json.parse(jObject);
 
                 assertEquals("409",jObject.getString("code"));

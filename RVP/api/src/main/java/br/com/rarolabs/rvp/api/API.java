@@ -49,6 +49,7 @@ public class API {
         ofy.delete().keys(ofy.load().type(Rede.class).keys().list());
         ofy.delete().keys(ofy.load().type(Usuario.class).keys().list());
         ofy.delete().keys(ofy.load().type(Visibilidade.class).keys().list());
+        SearchService.cleanIndex();
     }
 
     @ApiMethod(name = "novoUsuario")
@@ -80,17 +81,13 @@ public class API {
 
 
     @ApiMethod(name ="novaRede")
-    public  Rede novaRede(Rede rede) throws ConflictException {
+    public  Rede novaRede(
+                @Named("nome") String nome,
+                @Named("usuario_id") Long usuarioId,
+                Endereco endereco) throws ConflictException {
 
-        Objectify ofy = OfyService.ofy();
 
-        if(ofy.load().type(Usuario.class).filter("nome", rede.getNome()).first().now() != null){
-            throw new ConflictException("Já existe uma rede com o nome:" + rede.getNome());
-        }
-
-        ofy.save().entity(rede).now();
-
-        return rede;
+        return Rede.novaRede(nome,usuarioId,endereco);
     }
 
     @ApiMethod(name ="buscarRede")

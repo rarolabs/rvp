@@ -4,13 +4,17 @@ import com.google.api.server.spi.config.AnnotationBoolean;
 import com.google.api.server.spi.config.ApiResourceProperty;
 import com.google.api.server.spi.config.ApiTransformer;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Objectify;
+import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import br.com.rarolabs.rvp.api.service.OfyService;
 import transforms.UsuarioTransform;
 
 /**
@@ -36,19 +40,19 @@ public class Usuario {
 
     @Index
     @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
-    private List<Key<Membro>> partipacoes = new ArrayList<Key<Membro>>();
+    private Collection<Ref<Membro>> partipacoes = new ArrayList<Ref<Membro>>();
 
     @Index
     @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
-    private List<Key<Alerta>> alertas = new ArrayList<Key<Alerta>>();
+    private Collection<Ref<Alerta>> alertas = new ArrayList<Ref<Alerta>>();
 
     @Index
     @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
-    private List<Key<Endereco>> enderecos = new ArrayList<Key<Endereco>>();
+    private Collection<Ref<Endereco>> enderecos = new ArrayList<Ref<Endereco>>();
 
     @Index
     @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
-    private List<Key<Mensagem>> mensagens = new ArrayList<Key<Mensagem>>();
+    private Collection<Ref<Mensagem>> mensagens = new ArrayList<Ref<Mensagem>>();
 
     public Usuario(){
 
@@ -119,35 +123,25 @@ public class Usuario {
         this.id = id;
     }
 
-    public List<Key<Membro>> getPartipacoes() {
-        return partipacoes;
+    public Collection<Membro> getPartipacoes() {
+        return OfyService.ofy().load().refs(partipacoes).values();
     }
 
-    public void setPartipacoes(List<Key<Membro>> partipacoes) {
-        this.partipacoes = partipacoes;
+    public Collection<Alerta> getAlertas() {
+        return OfyService.ofy().load().refs(alertas).values();
     }
 
-    public List<Key<Alerta>> getAlertas() {
-        return alertas;
+    public Collection<Endereco> getEnderecos() {
+        return OfyService.ofy().load().refs(enderecos).values();
     }
 
-    public void setAlertas(List<Key<Alerta>> alertas) {
-        this.alertas = alertas;
+    public Collection<Mensagem> getMensagens() {
+        return OfyService.ofy().load().refs(mensagens).values();
     }
 
-    public List<Key<Endereco>> getEnderecos() {
-        return enderecos;
+    public void add(Membro membro){
+        partipacoes.add(Ref.create(membro));
     }
 
-    public void setEnderecos(List<Key<Endereco>> enderecos) {
-        this.enderecos = enderecos;
-    }
 
-    public List<Key<Mensagem>> getMensagens() {
-        return mensagens;
-    }
-
-    public void setMensagens(List<Key<Mensagem>> mensagens) {
-        this.mensagens = mensagens;
-    }
 }
