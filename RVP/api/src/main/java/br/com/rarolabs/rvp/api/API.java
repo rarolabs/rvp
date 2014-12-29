@@ -22,10 +22,13 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 
 
+import br.com.rarolabs.rvp.api.models.Alerta;
 import br.com.rarolabs.rvp.api.models.Endereco;
 import br.com.rarolabs.rvp.api.models.Membro;
+import br.com.rarolabs.rvp.api.models.Mensagem;
 import br.com.rarolabs.rvp.api.models.Rede;
 import br.com.rarolabs.rvp.api.models.Usuario;
+import br.com.rarolabs.rvp.api.models.Visibilidade;
 import br.com.rarolabs.rvp.api.responders.GeoqueryResponder;
 import br.com.rarolabs.rvp.api.service.OfyService;
 import br.com.rarolabs.rvp.api.service.SearchService;
@@ -36,9 +39,20 @@ import br.com.rarolabs.rvp.api.service.SearchService;
 @Api(name = "rvpAPI", version = "v1", namespace = @ApiNamespace(ownerDomain = "api.rvp.rarolabs.com.br", ownerName = "api.rvp.rarolabs.com.br", packagePath = ""))
 public class API {
 
+    @ApiMethod(name = "cleanDataBaseForTesting")
+    public void cleanDataBaseForTesting(){
+        Objectify ofy = OfyService.ofy();
+        ofy.delete().keys(ofy.load().type(Alerta.class).keys().list());
+        ofy.delete().keys(ofy.load().type(Endereco.class).keys().list());
+        ofy.delete().keys(ofy.load().type(Membro.class).keys().list());
+        ofy.delete().keys(ofy.load().type(Mensagem.class).keys().list());
+        ofy.delete().keys(ofy.load().type(Rede.class).keys().list());
+        ofy.delete().keys(ofy.load().type(Usuario.class).keys().list());
+        ofy.delete().keys(ofy.load().type(Visibilidade.class).keys().list());
+    }
 
-    @ApiMethod(name = "createUsuario")
-    public Usuario createUsuario(Usuario usuario) throws ConflictException {
+    @ApiMethod(name = "novoUsuario")
+    public Usuario novoUsuario(Usuario usuario) throws ConflictException {
 
         Objectify ofy = OfyService.ofy();
         if(ofy.load().type(Usuario.class).filter("email", usuario.getEmail()).first().now() != null){
@@ -48,8 +62,8 @@ public class API {
         return usuario;
     }
 
-    @ApiMethod(name = "getUsuario")
-    public Usuario getUsuario(@Named("id") Long id) throws NotFoundException {
+    @ApiMethod(name = "buscarUsuario")
+    public Usuario buscarUsuario(@Named("id") Long id) throws NotFoundException {
         Objectify ofy = OfyService.ofy();
         Usuario u = ofy.load().type(Usuario.class).id(id).now();
         if(u==null){
@@ -58,15 +72,15 @@ public class API {
         return u;
     }
 
-    @ApiMethod(name ="deleteUsuario")
-    public void deleteUsuario(@Named("id") Long id){
+    @ApiMethod(name ="removerUsuario")
+    public void removerUsuario(@Named("id") Long id){
         Objectify ofy = OfyService.ofy();
         ofy.delete().type(Usuario.class).id(id).now();
     }
 
 
-    @ApiMethod(name ="createRede")
-    public  Rede createRede(Rede rede) throws ConflictException {
+    @ApiMethod(name ="novaRede")
+    public  Rede novaRede(Rede rede) throws ConflictException {
 
         Objectify ofy = OfyService.ofy();
 
@@ -79,8 +93,8 @@ public class API {
         return rede;
     }
 
-    @ApiMethod(name ="getRede")
-    public  Rede getRede(@Named("id") Long id) throws ConflictException, NotFoundException {
+    @ApiMethod(name ="buscarRede")
+    public  Rede buscarRede(@Named("id") Long id) throws ConflictException, NotFoundException {
 
         Objectify ofy = OfyService.ofy();
         Rede u = ofy.load().type(Rede.class).id(id).now();
@@ -90,8 +104,8 @@ public class API {
         return u;
     }
 
-    @ApiMethod(name ="deleteRede")
-    public void deleteRede(@Named("id") Long id){
+    @ApiMethod(name ="apagarRede")
+    public void apagarRede(@Named("id") Long id){
         Objectify ofy = OfyService.ofy();
         ofy.delete().type(Rede.class).id(id).now();
     }
@@ -127,8 +141,8 @@ public class API {
 
     }
 
-    @ApiMethod(name = "getRedesByDistance")
-    public List<GeoqueryResponder> getRedesByDistance(@Named("latitude") Double latitude,
+    @ApiMethod(name = "buscarRedesProximas")
+    public List<GeoqueryResponder> buscarRedesProximas(@Named("latitude") Double latitude,
                                                   @Named("longitude") Double longitude,
                                                   @Named("distancia") Double distancia){
 

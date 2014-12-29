@@ -19,10 +19,13 @@ import org.junit.Test;
 
 import java.util.Collection;
 
+import br.com.rarolabs.rvp.api.models.Alerta;
 import br.com.rarolabs.rvp.api.models.Endereco;
 import br.com.rarolabs.rvp.api.models.Membro;
+import br.com.rarolabs.rvp.api.models.Mensagem;
 import br.com.rarolabs.rvp.api.models.Rede;
 import br.com.rarolabs.rvp.api.models.Usuario;
+import br.com.rarolabs.rvp.api.models.Visibilidade;
 import br.com.rarolabs.rvp.api.responders.GeoqueryResponder;
 import br.com.rarolabs.rvp.api.service.OfyService;
 
@@ -46,74 +49,64 @@ public class StoreTest {
     @Test
     public void testUsuario(){
         Objectify ofy = OfyService.ofy();
-
-        Usuario u = new Usuario();
-        u.setNome("Rodrigo Sol");
-        u.setDddTelefoneCelular("31");
-        u.setTelefoneCelular("71718438");
-        u.setDddTelefoneFixo("31");
-        u.setTelefoneFixo("36548438");
-        u.setEmail("rodrigosol@gmail.com");
-        ofy.save().entities(u).now();
-
-
-        assertNotNull(u.getId());
-
-        Usuario u2 = ofy.load().type(Usuario.class).id(u.getId()).now();
-        assertEquals(u.getId(),u2.getId());
-
-        System.out.println(u.getNome());
+        ofy.delete().keys(ofy.load().type(Alerta.class).keys().list());
+        ofy.delete().keys(ofy.load().type(Endereco.class).keys().list());
+        ofy.delete().keys(ofy.load().type(Membro.class).keys().list());
+        ofy.delete().keys(ofy.load().type(Mensagem.class).keys().list());
+        ofy.delete().keys(ofy.load().type(Rede.class).keys().list());
+        ofy.delete().keys(ofy.load().type(Usuario.class).keys().list());
+        ofy.delete().keys(ofy.load().type(Visibilidade.class).keys().list());
 
 
     }
 
-    @Test
-    public void testSearch(){
-
-        Rede r = new Rede();
-        r.setLatitude(1.0);
-        r.setLongitude(2.0);
-        r.setNome("Teste");
-
-        Usuario u = new Usuario();
-        u.setNome("Rodrigo");
-        u.setEmail("sol@rarolans.com.br");
-
-        Endereco endereco = new Endereco();
-        endereco.setLatitude(1.0);
-        endereco.setLongitude(2.0);
-
-
-        Objectify ofy = OfyService.ofy();
-        ofy.save().entity(r).now();
-        ofy.save().entity(u).now();
-        ofy.save().entity(endereco).now();
-
-        Membro m = new Membro();
-
-        m.setRede(r);
-        m.setUsuario(u);
-        m.setEndereco(endereco);
-
-        ofy.save().entity(m).now();
-
-
-        IndexSpec indexSpec = IndexSpec.newBuilder().setName("membros").build();
-        Index index = SearchServiceFactory.getSearchService().getIndex(indexSpec);
-
-        String queryString = "distance(memberPosition, geopoint(1, 2)) < 100";
-        Results<ScoredDocument> results = index.search(queryString);
-
-        long totalMatches = results.getNumberFound();
-        int numberOfDocsReturned = results.getNumberReturned();
-
-        System.out.println("Total Matches:"+ totalMatches);
-        System.out.println("Returned:"+ numberOfDocsReturned);
-
-
-        for(ScoredDocument doc : results){
-        }
-
-    }
+//    @Test
+//    public void testSearch(){
+//
+//        Rede r = new Rede();
+//        r.setLatitude(1.0);
+//        r.setLongitude(2.0);
+//        r.setNome("Teste");
+//
+//        Usuario u = new Usuario();
+//        u.setNome("Rodrigo");
+//        u.setEmail("sol@rarolans.com.br");
+//
+//        Endereco endereco = new Endereco();
+//        endereco.setLatitude(1.0);
+//        endereco.setLongitude(2.0);
+//
+//
+//        Objectify ofy = OfyService.ofy();
+//        ofy.save().entity(r).now();
+//        ofy.save().entity(u).now();
+//        ofy.save().entity(endereco).now();
+//
+//        Membro m = new Membro();
+//
+//        m.setRede(r);
+//        m.setUsuario(u);
+//        m.setEndereco(endereco);
+//
+//        ofy.save().entity(m).now();
+//
+//
+//        IndexSpec indexSpec = IndexSpec.newBuilder().setName("membros").build();
+//        Index index = SearchServiceFactory.getSearchService().getIndex(indexSpec);
+//
+//        String queryString = "distance(memberPosition, geopoint(1, 2)) < 100";
+//        Results<ScoredDocument> results = index.search(queryString);
+//
+//        long totalMatches = results.getNumberFound();
+//        int numberOfDocsReturned = results.getNumberReturned();
+//
+//        System.out.println("Total Matches:"+ totalMatches);
+//        System.out.println("Returned:"+ numberOfDocsReturned);
+//
+//
+//        for(ScoredDocument doc : results){
+//        }
+//
+//    }
 
 }

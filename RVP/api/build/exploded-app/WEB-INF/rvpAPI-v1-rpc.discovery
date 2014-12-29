@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/SzVge2gi_JWdtwamDjBNrHFK5gg\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/MPzp-1GL_-FN6TVEEXy0YFe2FGk\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -226,42 +226,8 @@
   }
  },
  "methods": {
-  "rvpAPI.createRede": {
-   "id": "rvpAPI.createRede",
-   "parameters": {
-    "resource": {
-     "$ref": "Rede"
-    }
-   },
-   "parameterOrder": [
-    "resource"
-   ],
-   "returns": {
-    "$ref": "Rede"
-   },
-   "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
-   ]
-  },
-  "rvpAPI.createUsuario": {
-   "id": "rvpAPI.createUsuario",
-   "parameters": {
-    "resource": {
-     "$ref": "Usuario"
-    }
-   },
-   "parameterOrder": [
-    "resource"
-   ],
-   "returns": {
-    "$ref": "Usuario"
-   },
-   "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
-   ]
-  },
-  "rvpAPI.deleteRede": {
-   "id": "rvpAPI.deleteRede",
+  "rvpAPI.apagarRede": {
+   "id": "rvpAPI.apagarRede",
    "parameters": {
     "id": {
      "type": "string",
@@ -276,25 +242,8 @@
     "https://www.googleapis.com/auth/userinfo.email"
    ]
   },
-  "rvpAPI.deleteUsuario": {
-   "id": "rvpAPI.deleteUsuario",
-   "parameters": {
-    "id": {
-     "type": "string",
-     "required": true,
-     "format": "int64"
-    }
-   },
-   "parameterOrder": [
-    "id"
-   ],
-   "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
-   ]
-  },
-  "rvpAPI.getRede": {
-   "id": "rvpAPI.getRede",
-   "allowGet": true,
+  "rvpAPI.buscarRede": {
+   "id": "rvpAPI.buscarRede",
    "parameters": {
     "id": {
      "type": "string",
@@ -312,9 +261,8 @@
     "https://www.googleapis.com/auth/userinfo.email"
    ]
   },
-  "rvpAPI.getRedesByDistance": {
-   "id": "rvpAPI.getRedesByDistance",
-   "allowGet": true,
+  "rvpAPI.buscarRedesProximas": {
+   "id": "rvpAPI.buscarRedesProximas",
    "parameters": {
     "distancia": {
      "type": "number",
@@ -344,9 +292,8 @@
     "https://www.googleapis.com/auth/userinfo.email"
    ]
   },
-  "rvpAPI.getUsuario": {
-   "id": "rvpAPI.getUsuario",
-   "allowGet": true,
+  "rvpAPI.buscarUsuario": {
+   "id": "rvpAPI.buscarUsuario",
    "parameters": {
     "id": {
      "type": "string",
@@ -360,6 +307,62 @@
    "returns": {
     "$ref": "Usuario"
    },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "rvpAPI.cleanDataBaseForTesting": {
+   "id": "rvpAPI.cleanDataBaseForTesting",
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "rvpAPI.novaRede": {
+   "id": "rvpAPI.novaRede",
+   "parameters": {
+    "resource": {
+     "$ref": "Rede"
+    }
+   },
+   "parameterOrder": [
+    "resource"
+   ],
+   "returns": {
+    "$ref": "Rede"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "rvpAPI.novoUsuario": {
+   "id": "rvpAPI.novoUsuario",
+   "parameters": {
+    "resource": {
+     "$ref": "Usuario"
+    }
+   },
+   "parameterOrder": [
+    "resource"
+   ],
+   "returns": {
+    "$ref": "Usuario"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "rvpAPI.removerUsuario": {
+   "id": "rvpAPI.removerUsuario",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]

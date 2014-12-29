@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/SzVge2gi_JWdtwamDjBNrHFK5gg\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/MPzp-1GL_-FN6TVEEXy0YFe2FGk\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -228,40 +228,10 @@
   }
  },
  "methods": {
-  "createRede": {
-   "id": "rvpAPI.createRede",
-   "path": "createRede",
+  "apagarRede": {
+   "id": "rvpAPI.apagarRede",
+   "path": "apagarRede/{id}",
    "httpMethod": "POST",
-   "request": {
-    "$ref": "Rede",
-    "parameterName": "resource"
-   },
-   "response": {
-    "$ref": "Rede"
-   },
-   "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
-   ]
-  },
-  "createUsuario": {
-   "id": "rvpAPI.createUsuario",
-   "path": "createUsuario",
-   "httpMethod": "POST",
-   "request": {
-    "$ref": "Usuario",
-    "parameterName": "resource"
-   },
-   "response": {
-    "$ref": "Usuario"
-   },
-   "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
-   ]
-  },
-  "deleteRede": {
-   "id": "rvpAPI.deleteRede",
-   "path": "rede/{id}",
-   "httpMethod": "DELETE",
    "parameters": {
     "id": {
      "type": "string",
@@ -277,29 +247,10 @@
     "https://www.googleapis.com/auth/userinfo.email"
    ]
   },
-  "deleteUsuario": {
-   "id": "rvpAPI.deleteUsuario",
-   "path": "usuario/{id}",
-   "httpMethod": "DELETE",
-   "parameters": {
-    "id": {
-     "type": "string",
-     "required": true,
-     "format": "int64",
-     "location": "path"
-    }
-   },
-   "parameterOrder": [
-    "id"
-   ],
-   "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
-   ]
-  },
-  "getRede": {
-   "id": "rvpAPI.getRede",
-   "path": "rede/{id}",
-   "httpMethod": "GET",
+  "buscarRede": {
+   "id": "rvpAPI.buscarRede",
+   "path": "buscarRede/{id}",
+   "httpMethod": "POST",
    "parameters": {
     "id": {
      "type": "string",
@@ -318,10 +269,10 @@
     "https://www.googleapis.com/auth/userinfo.email"
    ]
   },
-  "getRedesByDistance": {
-   "id": "rvpAPI.getRedesByDistance",
-   "path": "geoqueryrespondercollection/{latitude}/{longitude}/{distancia}",
-   "httpMethod": "GET",
+  "buscarRedesProximas": {
+   "id": "rvpAPI.buscarRedesProximas",
+   "path": "buscarRedesProximas/{latitude}/{longitude}/{distancia}",
+   "httpMethod": "POST",
    "parameters": {
     "distancia": {
      "type": "number",
@@ -354,10 +305,10 @@
     "https://www.googleapis.com/auth/userinfo.email"
    ]
   },
-  "getUsuario": {
-   "id": "rvpAPI.getUsuario",
-   "path": "usuario/{id}",
-   "httpMethod": "GET",
+  "buscarUsuario": {
+   "id": "rvpAPI.buscarUsuario",
+   "path": "buscarUsuario/{id}",
+   "httpMethod": "POST",
    "parameters": {
     "id": {
      "type": "string",
@@ -372,6 +323,63 @@
    "response": {
     "$ref": "Usuario"
    },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "cleanDataBaseForTesting": {
+   "id": "rvpAPI.cleanDataBaseForTesting",
+   "path": "cleanDataBaseForTesting",
+   "httpMethod": "POST",
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "novaRede": {
+   "id": "rvpAPI.novaRede",
+   "path": "novaRede",
+   "httpMethod": "POST",
+   "request": {
+    "$ref": "Rede",
+    "parameterName": "resource"
+   },
+   "response": {
+    "$ref": "Rede"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "novoUsuario": {
+   "id": "rvpAPI.novoUsuario",
+   "path": "novoUsuario",
+   "httpMethod": "POST",
+   "request": {
+    "$ref": "Usuario",
+    "parameterName": "resource"
+   },
+   "response": {
+    "$ref": "Usuario"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "removerUsuario": {
+   "id": "rvpAPI.removerUsuario",
+   "path": "rusuario/{id}",
+   "httpMethod": "DELETE",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]
