@@ -4,6 +4,10 @@ package br.com.rarolabs.rvp.api.models;
 import com.google.api.server.spi.config.AnnotationBoolean;
 import com.google.api.server.spi.config.ApiResourceProperty;
 import com.google.api.server.spi.response.ConflictException;
+import com.google.api.server.spi.response.NotFoundException;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Lists;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.Ref;
@@ -16,6 +20,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
+
+import javax.annotation.Nullable;
 
 import br.com.rarolabs.rvp.api.service.OfyService;
 import br.com.rarolabs.rvp.api.service.SearchService;
@@ -138,4 +145,63 @@ public class Rede {
 
         return rede;
     }
+
+    public static void solicitarAssociacao(Long id, Long usuarioId, final Endereco endereco) throws NotFoundException {
+        final Objectify ofy = OfyService.ofy();
+        final Rede rede = ofy.load().type(Rede.class).id(id).now();
+        if(rede == null){
+            throw new NotFoundException("Rede " + id + " não encontrada");
+        }
+
+        Usuario usuario = ofy.load().type(Usuario.class).id(usuarioId).now();
+        if(usuario == null){
+            throw new NotFoundException("Usuario " + usuarioId + " não encontrado");
+        }
+
+        if(endereco.getId() == null){
+            ofy.save().entity(endereco).now();
+        }
+
+        final Membro m = new Membro();
+        m.setRede(rede);
+        m.setUsuario(usuario);
+        m.setEndereco(endereco);
+        m.setStatus(Membro.Status.AGUARDANDO_APROVACAO);
+        m.setPapel(Membro.Papel.VIVIZINHO);
+        m.setEndereco(endereco);
+
+        final Visibilidade v = new Visibilidade();
+        v.setEndereco(Visibilidade.Tipo.COM_AUTORIDADE_E_ADMINISTRADOR);
+        v.setEmail(Visibilidade.Tipo.COM_AUTORIDADE_E_ADMINISTRADOR);
+        v.setTelefoneCelular(Visibilidade.Tipo.COM_AUTORIDADE_E_ADMINISTRADOR);
+        v.setTelefoneFixo(Visibilidade.Tipo.COM_AUTORIDADE_E_ADMINISTRADOR);
+
+        ofy.transact(new VoidWork() {
+            @Override
+            public void vrun() {
+                ofy.save().entity(v).now();
+                ofy.save().entity(m).now();
+                ofy.save().entity(rede).now();
+                m.setVisibilidade(v);
+                m.setRede(rede);
+                rede.addMembro(m);
+            }
+        });
+    }
+
+    public static Collection<Membro> solicitacoesPendentes(Long redeId) {
+        Objectify ofy = OfyService.ofy();
+        Rede r = ofy.load().type(Rede.class).id(redeId).now();
+        return r.solicitacoesPendentes();
+    }
+
+    private Collection<Membro> solicitacoesPendentes() {
+        return Collections2.filter(getMembros(), new com.google.common.base.Predicate<Membro>() {
+            @Override
+            public boolean apply(@Nullable Membro input) {
+                return input.getStatus() == Membro.Status.AGUARDANDO_APROVACAO;
+            }
+        });
+    }
+
 }

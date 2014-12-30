@@ -3,6 +3,7 @@ package br.com.rarolabs.rvp.api.models;
 import com.google.api.server.spi.config.AnnotationBoolean;
 import com.google.api.server.spi.config.ApiResourceProperty;
 import com.google.api.server.spi.config.ApiTransformer;
+import com.google.api.server.spi.response.ConflictException;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.Ref;
@@ -144,4 +145,17 @@ public class Usuario {
     }
 
 
+    public static Collection<Membro> minhasRedes(Long usuarioId) {
+        return OfyService.ofy().load().type(Usuario.class).id(usuarioId).now().getPartipacoes();
+    }
+
+    public static Usuario novoUsuario(Usuario usuario) throws ConflictException {
+        Objectify ofy = OfyService.ofy();
+        if(ofy.load().type(Usuario.class).filter("email", usuario.getEmail()).first().now() != null){
+            throw new ConflictException("e-mail já cadastrado");
+        }
+        ofy.save().entity(usuario).now();
+        return usuario;
+
+    }
 }

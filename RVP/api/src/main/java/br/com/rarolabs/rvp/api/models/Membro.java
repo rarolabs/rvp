@@ -2,22 +2,18 @@ package br.com.rarolabs.rvp.api.models;
 
 import com.google.api.server.spi.config.AnnotationBoolean;
 import com.google.api.server.spi.config.ApiResourceProperty;
-import com.google.appengine.api.search.Document;
-import com.google.appengine.api.search.Field;
-import com.google.appengine.api.search.GeoPoint;
-import com.googlecode.objectify.Key;
+import com.google.api.server.spi.response.ForbiddenException;
+import com.google.api.server.spi.response.NotFoundException;
+import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Load;
 
-import com.google.appengine.api.search.Index;
-import com.google.appengine.api.search.IndexSpec;
-import com.google.appengine.api.search.SearchServiceFactory;
-import com.google.appengine.api.search.PutException;
-import com.google.appengine.api.search.StatusCode;
-
 import java.util.Date;
+
+import br.com.rarolabs.rvp.api.service.OfyService;
+import br.com.rarolabs.rvp.api.service.SearchService;
 
 /**
  * Created by rodrigosol on 12/18/14.
@@ -29,9 +25,10 @@ public class Membro {
     private Long id;
 
 
+
     public enum Papel { SYSADMIN, CRIADOR, ADMIN, AUTORIDADE, VIVIZINHO}
 
-    public enum Status {ATIVO, INATIVO}
+    public enum Status {ATIVO, INATIVO,AGUARDANDO_APROVACAO,REPROVADO}
 
     private Papel papel = Papel.VIVIZINHO;
     private Status status = Status.ATIVO;
@@ -115,5 +112,78 @@ public class Membro {
     public void setEndereco(Endereco endereco) {
         this.endereco = Ref.create(endereco);
     }
+
+    public static void aprovarAssociacao(Long id) throws NotFoundException, ForbiddenException {
+        mudarStatusAssociacao(id,Status.ATIVO);
+    }
+
+    public static void reprovarAssociacao(Long id) throws NotFoundException, ForbiddenException {
+        mudarStatusAssociacao(id,Status.REPROVADO);
+    }
+
+    public static void tornarAdministrador(Long id) throws NotFoundException, ForbiddenException {
+        mudarPapelAssociacao(id, Papel.ADMIN);
+
+    }
+
+
+    public static void retirarPermissaoAdministrador(Long id) throws NotFoundException, ForbiddenException {
+        mudarPapelAssociacao(id, Papel.VIVIZINHO);
+    }
+
+    public static void inativarVizinho(Long id) throws NotFoundException, ForbiddenException {
+        Membro m = mudarStatusAssociacao(id,Status.INATIVO);
+        SearchService.removeDocument(m);
+    }
+
+
+    public static void ativarVizinho(Long id) throws NotFoundException, ForbiddenException {
+        Membro m = mudarStatusAssociacao(id,Status.ATIVO);
+        SearchService.createDocument(m);
+
+    }
+
+    public static void tornarAutoridade(Long id) throws NotFoundException, ForbiddenException {
+        mudarPapelAssociacao(id, Papel.AUTORIDADE);
+    }
+
+    public static void retirarPermissaoAutoridade(Long id) throws NotFoundException, ForbiddenException {
+        mudarPapelAssociacao(id, Papel.VIVIZINHO);
+    }
+
+    private static Membro mudarStatusAssociacao(Long id, Status status) throws NotFoundException, ForbiddenException {
+        Objectify ofy = OfyService.ofy();
+        Membro m = ofy.load().type(Membro.class).id(id).now();
+        if(m==null){
+            throw new NotFoundException("Membro " + id  + " não encontrado");
+        }
+
+        if(m.getPapel() == Papel.CRIADOR){
+            throw new ForbiddenException("Não é possível mudar o status do criador da rede");
+        }
+
+        m.setStatus(status);
+        ofy.save().entity(m).now();
+        return m;
+    }
+
+    private static Membro mudarPapelAssociacao(Long id, Papel papel) throws NotFoundException, ForbiddenException {
+        Objectify ofy = OfyService.ofy();
+        Membro m = ofy.load().type(Membro.class).id(id).now();
+        if(m==null){
+            throw new NotFoundException("Membro " + id  + " não encontrado");
+        }
+
+        if(m.getPapel() == Papel.CRIADOR){
+            throw new ForbiddenException("Não é possível mudar o papel do criador da rede");
+        }
+
+
+        m.setPapel(papel);
+        ofy.save().entity(m).now();
+        return m;
+    }
+
+
 
 }

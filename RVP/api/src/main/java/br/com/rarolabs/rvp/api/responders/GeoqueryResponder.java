@@ -13,7 +13,7 @@ import br.com.rarolabs.rvp.api.models.Rede;
 public class GeoqueryResponder {
 
     private Long idRede;
-    private Long nomeRede;
+    private String nomeRede;
     private Double distance;
     private List<Coordinator> coordinators = new ArrayList<Coordinator>();
     private Integer resultSize;
@@ -29,11 +29,11 @@ public class GeoqueryResponder {
         this.idRede = idRede;
     }
 
-    public Long getNomeRede() {
+    public String getNomeRede() {
         return nomeRede;
     }
 
-    public void setNomeRede(Long nomeRede) {
+    public void setNomeRede(String nomeRede) {
         this.nomeRede = nomeRede;
     }
 

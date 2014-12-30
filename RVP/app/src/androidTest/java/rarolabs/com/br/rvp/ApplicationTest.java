@@ -72,7 +72,53 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         }
     }
 
+    public void testAssociacao(){
+        try {
+            RvpAPI service = getService();
+            service.cleanDataBaseForTesting().executeUnparsed();
+            Usuario u = new Usuario();
+            u.setNome("João da Silva");
+            u.setEmail("joao@rarolabs.com.br");
+            u = service.novoUsuario(u).execute();
+            assertNotNull(u.getId());
+            System.out.println(u.getId());
 
+            Endereco e = new Endereco();
+            e.setLatitude(40.7727419);
+            e.setLongitude(-73.9348984);
+            e.setRua("Rua Amazonas");
+
+            Rede r = service.novaRede("Rede 1",u.getId(),e).execute();
+
+            u = new Usuario();
+            u.setNome("Rodrigo Sol");
+            u.setEmail("rodrigo@rarolabs.com.br");
+            u = service.novoUsuario(u).execute();
+
+            GeoqueryResponderCollection result = service.buscarRedesProximas(40.7688418,	-73.9201355, 2000.00).execute();
+
+            assertEquals(1,result.getItems().size());
+            e = new Endereco();
+            e.setLatitude(40.7727419);
+            e.setLongitude(-73.9348984);
+            e.setRua("Rua Amazonas");
+
+            Long redeId = result.getItems().get(0).getIdRede();
+
+            assertNotNull(redeId);
+
+            service.solicitarAssociacao(redeId,u.getId(),e);
+
+
+
+
+
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
+
+
+    }
 
     public void testNovoUsuario(){
 

@@ -12,6 +12,8 @@ import com.google.appengine.api.search.Field;
 
 import java.util.Date;
 
+import br.com.rarolabs.rvp.api.service.OfyService;
+
 
 /**
  * Created by rodrigosol on 12/18/14.
@@ -130,5 +132,9 @@ public class Endereco {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = Ref.create(usuario);
+    }
+
+    public static void salvar(Endereco endereco) {
+        OfyService.ofy().save().entity(endereco).now();
     }
 }

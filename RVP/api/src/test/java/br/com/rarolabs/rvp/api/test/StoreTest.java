@@ -21,6 +21,7 @@ import org.junit.Test;
 import java.util.Collection;
 import java.util.List;
 
+import br.com.rarolabs.rvp.api.endpoints.UtilsAPI;
 import br.com.rarolabs.rvp.api.models.Alerta;
 import br.com.rarolabs.rvp.api.models.Endereco;
 import br.com.rarolabs.rvp.api.models.Membro;
@@ -31,6 +32,7 @@ import br.com.rarolabs.rvp.api.models.Visibilidade;
 import br.com.rarolabs.rvp.api.responders.GeoqueryResponder;
 import br.com.rarolabs.rvp.api.service.OfyService;
 import br.com.rarolabs.rvp.api.service.SearchService;
+import br.com.rarolabs.rvp.api.util.Utils;
 
 import static org.junit.Assert.*;
 
@@ -70,6 +72,51 @@ public class StoreTest {
         for(GeoqueryResponder r : result){
             System.out.println(r.getDistance());
         }
+
+    }
+
+    @Test
+    public void testAssociacao() throws ConflictException, NotFoundException {
+
+        //new UtilsAPI().cleanDataBaseForTesting();
+        Usuario u = new Usuario();
+        u.setNome("João da Silva");
+        u.setEmail("joao@rarolabs.com.br");
+
+        u = Usuario.novoUsuario(u);
+        assertNotNull(u.getId());
+        System.out.println(u.getId());
+
+        Endereco e = new Endereco();
+        e.setLatitude(40.7727419);
+        e.setLongitude(-73.9348984);
+        e.setRua("Rua Amazonas");
+
+
+        Rede r = Rede.novaRede("Rede 1",u.getId(),e);
+
+        u = new Usuario();
+        u.setNome("Rodrigo Sol");
+        u.setEmail("rodrigo@rarolabs.com.br");
+        u = Usuario.novoUsuario(u);
+
+        List<GeoqueryResponder> result = SearchService.searchByPosition(40.7688418,	-73.9201355, 2000.00);
+
+        assertEquals(1,result.size());
+        e = new Endereco();
+        e.setLatitude(40.7727419);
+        e.setLongitude(-73.9348984);
+        e.setRua("Rua Amazonas");
+
+        Long redeId = result.get(0).getIdRede();
+
+        assertNotNull(redeId);
+
+        Rede.solicitarAssociacao(redeId, u.getId(), e);
+
+        Collection<Membro> pendentes = Rede.solicitacoesPendentes(redeId);
+        Membro mp = pendentes.iterator().next();
+        assertEquals(mp.getUsuario().getId(),u.getId());
 
     }
 

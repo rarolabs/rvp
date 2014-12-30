@@ -49,11 +49,21 @@ public class SearchService {
 
 
         Document doc = Document.newBuilder()
+                .addField(Field.newBuilder().setName("memberId").setText(membro.getId().toString()))
                 .addField(Field.newBuilder().setName("memberPosition").setGeoPoint(enderecoPosition))
                 .addField(Field.newBuilder().setName("idRede").setText(r.getId().toString()))
                 .build();
 
         indexDocument(doc);
+    }
+    public static void removeDocument(Membro m) {
+        IndexSpec indexSpec = IndexSpec.newBuilder().setName(indexName).build();
+        Index index = SearchServiceFactory.getSearchService().getIndex(indexSpec);
+        Results<ScoredDocument> result = index.search("memberId = " + m.getId().toString());
+        for(ScoredDocument doc : result){
+            index.delete(doc.getId());
+        }
+
     }
 
     public static void indexDocument(Document document) {
@@ -127,8 +137,9 @@ public class SearchService {
             Objectify ofy = OfyService.ofy();
             Rede rede = ofy.load().type(Rede.class).id(id).now();
 
+            geo.setIdRede(id);
             geo.setDistance(redes.get(id));
-            geo.setNomeRede(rede.getId());
+            geo.setNomeRede(rede.getNome());
             geo.setLatitude(rede.getLatitude());
             geo.setLongitude(rede.getLongitude());
             geo.setCoordinators(rede.getMembros());
@@ -163,4 +174,5 @@ public class SearchService {
             throw e;
         }
     }
+
 }

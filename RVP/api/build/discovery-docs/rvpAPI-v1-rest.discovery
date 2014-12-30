@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/bliMZqCT-yr7aAoyQlyqji4c3_o\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/88TJ62S_hwUZ7Kw4O0h0oWKYB78\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -156,8 +156,7 @@
      "format": "double"
     },
     "nomeRede": {
-     "type": "string",
-     "format": "int64"
+     "type": "string"
     },
     "resultSize": {
      "type": "integer",
@@ -176,6 +175,56 @@
      }
     }
    }
+  },
+  "Membro": {
+   "id": "Membro",
+   "type": "object",
+   "properties": {
+    "dataAssociacao": {
+     "type": "string",
+     "format": "date-time"
+    },
+    "id": {
+     "type": "string",
+     "format": "int64"
+    },
+    "papel": {
+     "$ref": "Papel"
+    },
+    "status": {
+     "$ref": "Status"
+    }
+   }
+  },
+  "MembroCollection": {
+   "id": "MembroCollection",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "Membro"
+     }
+    }
+   }
+  },
+  "Papel": {
+   "id": "Papel",
+   "type": "string",
+   "enum": [
+    "ADMIN",
+    "AUTORIDADE",
+    "CRIADOR",
+    "SYSADMIN",
+    "VIVIZINHO"
+   ],
+   "enumDescriptions": [
+    "",
+    "",
+    "",
+    "",
+    ""
+   ]
   },
   "Rede": {
    "id": "Rede",
@@ -197,6 +246,22 @@
      "type": "string"
     }
    }
+  },
+  "Status": {
+   "id": "Status",
+   "type": "string",
+   "enum": [
+    "AGUARDANDO_APROVACAO",
+    "ATIVO",
+    "INATIVO",
+    "REPROVADO"
+   ],
+   "enumDescriptions": [
+    "",
+    "",
+    "",
+    ""
+   ]
   },
   "Usuario": {
    "id": "Usuario",
@@ -242,6 +307,44 @@
    },
    "parameterOrder": [
     "id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "aprovarAssociacao": {
+   "id": "rvpAPI.aprovarAssociacao",
+   "path": "aprovarAssociacao/{membro_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "membro_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "membro_id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "ativarVizinho": {
+   "id": "rvpAPI.ativarVizinho",
+   "path": "ativarVizinho/{membro_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "membro_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "membro_id"
    ],
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
@@ -335,6 +438,47 @@
     "https://www.googleapis.com/auth/userinfo.email"
    ]
   },
+  "inativarVizinho": {
+   "id": "rvpAPI.inativarVizinho",
+   "path": "inativarVizinho/{membro_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "membro_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "membro_id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "minhasRedes": {
+   "id": "rvpAPI.minhasRedes",
+   "path": "minhasRedes/{usuario_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "usuario_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "usuario_id"
+   ],
+   "response": {
+    "$ref": "MembroCollection"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
   "novaRede": {
    "id": "rvpAPI.novaRede",
    "path": "novaRede/{nome}/{usuario_id}",
@@ -401,6 +545,97 @@
     "https://www.googleapis.com/auth/userinfo.email"
    ]
   },
+  "reprovarAssociacao": {
+   "id": "rvpAPI.reprovarAssociacao",
+   "path": "reprovarAssociacao/{membro_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "membro_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "membro_id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "retirarPermissaoAdministrador": {
+   "id": "rvpAPI.retirarPermissaoAdministrador",
+   "path": "retirarPermissaoAdministrador/{membro_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "membro_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "membro_id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "retirarPermissaoAutoridade": {
+   "id": "rvpAPI.retirarPermissaoAutoridade",
+   "path": "retirarPermissaoAutoridade/{membro_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "membro_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "membro_id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "salvarEndereco": {
+   "id": "rvpAPI.salvarEndereco",
+   "path": "salvarEndereco",
+   "httpMethod": "POST",
+   "request": {
+    "$ref": "Endereco",
+    "parameterName": "resource"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "solicitacoesPendentes": {
+   "id": "rvpAPI.solicitacoesPendentes",
+   "path": "solicitacoesPendentes/{rede_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "rede_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "rede_id"
+   ],
+   "response": {
+    "$ref": "MembroCollection"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
   "solicitarAssociacao": {
    "id": "rvpAPI.solicitarAssociacao",
    "path": "solicitarAssociacao/{rede_id}/{usuario_id}",
@@ -427,6 +662,44 @@
     "$ref": "Endereco",
     "parameterName": "resource"
    },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "tornarAdministrador": {
+   "id": "rvpAPI.tornarAdministrador",
+   "path": "tornarAdministrador/{membro_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "membro_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "membro_id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "tornarAutoridade": {
+   "id": "rvpAPI.tornarAutoridade",
+   "path": "tornarAutoridade/{membro_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "membro_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "membro_id"
+   ],
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]
