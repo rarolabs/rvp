@@ -19,7 +19,7 @@
 package br.com.rarolabs.rvp.api.rvpAPI.model;
 
 /**
- * Model definition for Coordinator.
+ * Model definition for MembroCollection.
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the rvpAPI. For a detailed explanation see:
@@ -29,58 +29,37 @@ package br.com.rarolabs.rvp.api.rvpAPI.model;
  * @author Google, Inc.
  */
 @SuppressWarnings("javadoc")
-public final class Coordinator extends com.google.api.client.json.GenericJson {
+public final class MembroCollection extends com.google.api.client.json.GenericJson {
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.Double latitude;
-
-  /**
-   * The value may be {@code null}.
-   */
-  @com.google.api.client.util.Key
-  private java.lang.Double longitude;
+  private java.util.List<Membro> items;
 
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.Double getLatitude() {
-    return latitude;
+  public java.util.List<Membro> getItems() {
+    return items;
   }
 
   /**
-   * @param latitude latitude or {@code null} for none
+   * @param items items or {@code null} for none
    */
-  public Coordinator setLatitude(java.lang.Double latitude) {
-    this.latitude = latitude;
-    return this;
-  }
-
-  /**
-   * @return value or {@code null} for none
-   */
-  public java.lang.Double getLongitude() {
-    return longitude;
-  }
-
-  /**
-   * @param longitude longitude or {@code null} for none
-   */
-  public Coordinator setLongitude(java.lang.Double longitude) {
-    this.longitude = longitude;
+  public MembroCollection setItems(java.util.List<Membro> items) {
+    this.items = items;
     return this;
   }
 
   @Override
-  public Coordinator set(String fieldName, Object value) {
-    return (Coordinator) super.set(fieldName, value);
+  public MembroCollection set(String fieldName, Object value) {
+    return (MembroCollection) super.set(fieldName, value);
   }
 
   @Override
-  public Coordinator clone() {
-    return (Coordinator) super.clone();
+  public MembroCollection clone() {
+    return (MembroCollection) super.clone();
   }
 
 }

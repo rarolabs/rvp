@@ -19,7 +19,7 @@
 package br.com.rarolabs.rvp.api.rvpAPI.model;
 
 /**
- * Model definition for Rede.
+ * Model definition for Membro.
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the rvpAPI. For a detailed explanation see:
@@ -29,7 +29,13 @@ package br.com.rarolabs.rvp.api.rvpAPI.model;
  * @author Google, Inc.
  */
 @SuppressWarnings("javadoc")
-public final class Rede extends com.google.api.client.json.GenericJson {
+public final class Membro extends com.google.api.client.json.GenericJson {
+
+  /**
+   * The value may be {@code null}.
+   */
+  @com.google.api.client.util.Key
+  private com.google.api.client.util.DateTime dataAssociacao;
 
   /**
    * The value may be {@code null}.
@@ -41,19 +47,28 @@ public final class Rede extends com.google.api.client.json.GenericJson {
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.Double latitude;
+  private java.lang.String papel;
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.Double longitude;
+  private java.lang.String status;
 
   /**
-   * The value may be {@code null}.
+   * @return value or {@code null} for none
    */
-  @com.google.api.client.util.Key
-  private java.lang.String nome;
+  public com.google.api.client.util.DateTime getDataAssociacao() {
+    return dataAssociacao;
+  }
+
+  /**
+   * @param dataAssociacao dataAssociacao or {@code null} for none
+   */
+  public Membro setDataAssociacao(com.google.api.client.util.DateTime dataAssociacao) {
+    this.dataAssociacao = dataAssociacao;
+    return this;
+  }
 
   /**
    * @return value or {@code null} for none
@@ -65,7 +80,7 @@ public final class Rede extends com.google.api.client.json.GenericJson {
   /**
    * @param id id or {@code null} for none
    */
-  public Rede setId(java.lang.Long id) {
+  public Membro setId(java.lang.Long id) {
     this.id = id;
     return this;
   }
@@ -73,56 +88,41 @@ public final class Rede extends com.google.api.client.json.GenericJson {
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.Double getLatitude() {
-    return latitude;
+  public java.lang.String getPapel() {
+    return papel;
   }
 
   /**
-   * @param latitude latitude or {@code null} for none
+   * @param papel papel or {@code null} for none
    */
-  public Rede setLatitude(java.lang.Double latitude) {
-    this.latitude = latitude;
+  public Membro setPapel(java.lang.String papel) {
+    this.papel = papel;
     return this;
   }
 
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.Double getLongitude() {
-    return longitude;
+  public java.lang.String getStatus() {
+    return status;
   }
 
   /**
-   * @param longitude longitude or {@code null} for none
+   * @param status status or {@code null} for none
    */
-  public Rede setLongitude(java.lang.Double longitude) {
-    this.longitude = longitude;
-    return this;
-  }
-
-  /**
-   * @return value or {@code null} for none
-   */
-  public java.lang.String getNome() {
-    return nome;
-  }
-
-  /**
-   * @param nome nome or {@code null} for none
-   */
-  public Rede setNome(java.lang.String nome) {
-    this.nome = nome;
+  public Membro setStatus(java.lang.String status) {
+    this.status = status;
     return this;
   }
 
   @Override
-  public Rede set(String fieldName, Object value) {
-    return (Rede) super.set(fieldName, value);
+  public Membro set(String fieldName, Object value) {
+    return (Membro) super.set(fieldName, value);
   }
 
   @Override
-  public Rede clone() {
-    return (Rede) super.clone();
+  public Membro clone() {
+    return (Membro) super.clone();
   }
 
 }

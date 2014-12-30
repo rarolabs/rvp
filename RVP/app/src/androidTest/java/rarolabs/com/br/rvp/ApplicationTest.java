@@ -1,6 +1,7 @@
 package rarolabs.com.br.rvp;
 
 import android.app.Application;
+import android.location.Address;
 import android.test.ApplicationTestCase;
 import android.util.Log;
 
@@ -15,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 
 import br.com.rarolabs.rvp.api.rvpAPI.RvpAPI;
 import br.com.rarolabs.rvp.api.rvpAPI.RvpAPIRequest;
@@ -23,6 +25,7 @@ import br.com.rarolabs.rvp.api.rvpAPI.model.Endereco;
 import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponderCollection;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
+import rarolabs.com.br.rvp.services.EnderecoService;
 
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
@@ -110,9 +113,6 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
             service.solicitarAssociacao(redeId,u.getId(),e);
 
 
-
-
-
         } catch (IOException e) {
             fail(e.getMessage());
         }
@@ -175,6 +175,20 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
 
 
+    }
+
+    public void testAddress(){
+        Log.e("Endereco", "Buscando por endereco");
+        List<Address> results = EnderecoService.getLocationFromAddress(getContext(), "belo horizonte");
+        for(Address a: results){
+            Log.d("Endereco",a.getAddressLine(0));
+            Log.d("Endereco",a.getAddressLine(1));
+            Log.d("Endereco",a.getCountryName());
+            Log.d("Endereco",a.getPostalCode());
+            Log.d("Endereco",a.getLocality());
+            Log.d("Endereco",String.valueOf(a.getLatitude()));
+            Log.d("Endereco",String.valueOf(a.getLongitude()));
+        }
     }
 
     public RvpAPI getService(){
