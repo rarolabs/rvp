@@ -39,4 +39,16 @@ public class EnderecoFixture {
         return e;
 
     }
+
+    public static Endereco getEndereco4() {
+        Endereco e = new Endereco();
+        e.setIdentificacao("Casa");
+        e.setDescricao("Rua Americo Magalhaes 690/102, Barreiro");
+        e.setLocalidade("Belo Horizonte, MG");
+        e.setLatitude(0.0);
+        e.setLongitude(0.0);
+        return e;
+
+    }
+
 }

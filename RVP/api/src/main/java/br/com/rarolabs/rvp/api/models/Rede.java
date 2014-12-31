@@ -223,4 +223,19 @@ public class Rede {
         });
     }
 
+    public static Collection<Membro> membrosAtivos(Long redeId) {
+        Objectify ofy = OfyService.ofy();
+        Rede r = ofy.load().type(Rede.class).id(redeId).now();
+        return r.membrosAtivos();
+    }
+
+    public Collection<Membro> membrosAtivos() {
+        return Collections2.filter(getMembros(), new com.google.common.base.Predicate<Membro>() {
+            @Override
+            public boolean apply(@Nullable Membro input) {
+                return input.getStatus() == Membro.Status.ATIVO;
+            }
+        });
+    }
+
 }

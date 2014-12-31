@@ -40,4 +40,17 @@ public class UsuarioFixture {
         return u;
 
     }
+
+    public static Usuario getLeonardoHerbert() {
+        Usuario u = new Usuario();
+        u.setEmail("leonardo.robotica@gmail.com");
+        u.setNome("Leonardo Herbert");
+        u.setDddTelefoneCelular("31");
+        u.setTelefoneCelular("71718438");
+        u.setDddTelefoneFixo("32");
+        u.setTelefoneFixo("33844939");
+        return u;
+
+    }
+
 }
