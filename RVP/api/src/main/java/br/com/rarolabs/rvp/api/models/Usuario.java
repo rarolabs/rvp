@@ -168,4 +168,9 @@ public class Usuario {
 
         return u;
     }
+
+    public static void apagar(Long id) {
+        Objectify ofy = OfyService.ofy();
+        ofy.delete().type(Usuario.class).id(id).now();
+    }
 }

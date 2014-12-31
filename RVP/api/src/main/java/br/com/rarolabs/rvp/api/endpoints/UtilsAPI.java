@@ -21,7 +21,10 @@ import br.com.rarolabs.rvp.api.service.SearchService;
 
     @Api(name = "rvpAPI", version = "v1", namespace = @ApiNamespace(ownerDomain = "api.rvp.rarolabs.com.br", ownerName = "api.rvp.rarolabs.com.br", packagePath = ""))
     public class UtilsAPI {
-
+    /**
+     * Metodo utilizado somente no contexto de testes para limpar a base de desenvolvimento
+     * a cada caso de teste
+     */
     @ApiMethod(name = "cleanDataBaseForTesting")
     public void cleanDataBaseForTesting() {
         Objectify ofy = OfyService.ofy();

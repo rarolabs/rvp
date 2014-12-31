@@ -239,6 +239,17 @@ public class Rede {
         });
     }
 
+    public static Rede buscar(Long id) throws NotFoundException {
+        Objectify ofy = OfyService.ofy();
+        Rede u = ofy.load().type(Rede.class).id(id).now();
+        if(u==null){
+            throw new NotFoundException("Rede: " + id + " não encontrado");
+        }
+        return u;
+
+    }
+
+
     @Override
     public String toString() {
         return "Rede{" +
@@ -248,5 +259,10 @@ public class Rede {
                 ", dono=" + dono +
                 ", alertas=" + alertas +
                 '}';
+    }
+
+    public static void apagar(Long id) {
+        Objectify ofy = OfyService.ofy();
+        ofy.delete().type(Rede.class).id(id).now();
     }
 }

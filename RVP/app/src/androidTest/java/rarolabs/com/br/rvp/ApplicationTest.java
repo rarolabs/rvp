@@ -10,8 +10,6 @@ import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.json.JsonParser;
 
 
-import junit.framework.Assert;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,7 +23,7 @@ import br.com.rarolabs.rvp.api.rvpAPI.model.Endereco;
 import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponderCollection;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
-import rarolabs.com.br.rvp.services.EnderecoService;
+import rarolabs.com.br.rvp.services.EnderecoServices;
 
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
@@ -179,7 +177,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
     public void testAddress(){
         Log.e("Endereco", "Buscando por endereco");
-        List<Address> results = EnderecoService.getLocationFromAddress(getContext(), "belo horizonte");
+        List<Address> results = EnderecoServices.getLocationFromAddress(getContext(), "belo horizonte");
         for(Address a: results){
             Log.d("Endereco",a.getAddressLine(0));
             Log.d("Endereco",a.getAddressLine(1));
