@@ -67,6 +67,7 @@ public class Rede {
         this.nome = nome;
     }
 
+
     public Collection<Membro> getMembros() {
         return OfyService.ofy().load().refs(membros).values();
     }
@@ -80,6 +81,7 @@ public class Rede {
         this.membros.add(Ref.create(membro));
     }
 
+
     public Membro getDono() {
         return dono.get();
     }
@@ -90,10 +92,12 @@ public class Rede {
         this.membros.add(ref);
     }
 
+    @ApiResourceProperty
     public Double getLatitude(){
       return getDono().getEndereco().getLatitude();
     }
 
+    @ApiResourceProperty
     public Double getLongitude(){
       return getDono().getEndereco().getLongitude();
     }
@@ -209,11 +213,13 @@ public class Rede {
 
     }
 
+
     public static Collection<Membro> solicitacoesPendentes(Long redeId) {
         Objectify ofy = OfyService.ofy();
         Rede r = ofy.load().type(Rede.class).id(redeId).now();
         return r.solicitacoesPendentes();
     }
+
 
     public Collection<Membro> solicitacoesPendentes() {
         return Collections2.filter(getMembros(), new com.google.common.base.Predicate<Membro>() {
@@ -229,6 +235,7 @@ public class Rede {
         Rede r = ofy.load().type(Rede.class).id(redeId).now();
         return r.membrosAtivos();
     }
+
 
     public Collection<Membro> membrosAtivos() {
         return Collections2.filter(getMembros(), new com.google.common.base.Predicate<Membro>() {

@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/wLp1RojJd8RdzJRYVYIpAjt9ZsM\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/j6Vmn_Ib1L_j7oneUZb53lER0Lc\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -172,6 +172,10 @@
      "type": "string",
      "format": "date-time"
     },
+    "enderecoId": {
+     "type": "string",
+     "format": "int64"
+    },
     "id": {
      "type": "string",
      "format": "int64"
@@ -179,8 +183,19 @@
     "papel": {
      "$ref": "Papel"
     },
+    "redeId": {
+     "type": "string",
+     "format": "int64"
+    },
     "status": {
      "$ref": "Status"
+    },
+    "usuarioId": {
+     "type": "string",
+     "format": "int64"
+    },
+    "visibilidade": {
+     "$ref": "Visibilidade"
     }
    }
   },
@@ -251,6 +266,24 @@
     ""
    ]
   },
+  "Tipo": {
+   "id": "Tipo",
+   "type": "string",
+   "enum": [
+    "COM_AUTORIDADE_E_ADMINISTRADOR",
+    "PRIVADO",
+    "PUBLICO",
+    "SOMENTE_COM_ADMIN",
+    "SOMENTE_COM_AUTORIDADE"
+   ],
+   "enumDescriptions": [
+    "",
+    "",
+    "",
+    "",
+    ""
+   ]
+  },
   "Usuario": {
    "id": "Usuario",
    "type": "object",
@@ -276,6 +309,25 @@
     },
     "telefoneFixo": {
      "type": "string"
+    }
+   }
+  },
+  "Visibilidade": {
+   "id": "Visibilidade",
+   "type": "object",
+   "properties": {
+    "endereco": {
+     "$ref": "Tipo"
+    },
+    "id": {
+     "type": "string",
+     "format": "int64"
+    },
+    "telefoneCelular": {
+     "$ref": "Tipo"
+    },
+    "telefoneFixo": {
+     "$ref": "Tipo"
     }
    }
   }
@@ -334,6 +386,72 @@
    "parameterOrder": [
     "membro_id"
    ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "buscarDono": {
+   "id": "rvpAPI.buscarDono",
+   "path": "buscarDono/{rede_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "rede_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "rede_id"
+   ],
+   "response": {
+    "$ref": "Membro"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "buscarMembros": {
+   "id": "rvpAPI.buscarMembros",
+   "path": "buscarMembros/{rede_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "rede_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "rede_id"
+   ],
+   "response": {
+    "$ref": "MembroCollection"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "buscarMembrosAtivos": {
+   "id": "rvpAPI.buscarMembrosAtivos",
+   "path": "buscarMembrosAtios/{rede_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "rede_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "rede_id"
+   ],
+   "response": {
+    "$ref": "MembroCollection"
+   },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]

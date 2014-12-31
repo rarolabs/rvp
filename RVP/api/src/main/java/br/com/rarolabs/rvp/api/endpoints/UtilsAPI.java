@@ -27,14 +27,6 @@ import br.com.rarolabs.rvp.api.service.SearchService;
      */
     @ApiMethod(name = "cleanDataBaseForTesting")
     public void cleanDataBaseForTesting() {
-        Objectify ofy = OfyService.ofy();
-        ofy.delete().keys(ofy.load().type(Alerta.class).keys().list());
-        ofy.delete().keys(ofy.load().type(Endereco.class).keys().list());
-        ofy.delete().keys(ofy.load().type(Membro.class).keys().list());
-        ofy.delete().keys(ofy.load().type(Mensagem.class).keys().list());
-        ofy.delete().keys(ofy.load().type(Rede.class).keys().list());
-        ofy.delete().keys(ofy.load().type(Usuario.class).keys().list());
-        ofy.delete().keys(ofy.load().type(Visibilidade.class).keys().list());
-        SearchService.cleanIndex();
+        OfyService.removeAll();
     }
 }

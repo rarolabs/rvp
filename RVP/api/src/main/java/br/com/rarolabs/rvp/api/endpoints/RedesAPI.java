@@ -97,4 +97,37 @@ public class RedesAPI {
         return Rede.solicitacoesPendentes(redeId);
     }
 
+    /**
+     * busca o criado da rede
+     * @param redeID ID da Rede
+     * @return Criado da rede
+     * @throws NotFoundException Caso a rede não seja encontrada
+     */
+    @ApiMethod(name = "buscarDono")
+    public Membro buscarDono(@Named("rede_id") Long redeID) throws NotFoundException {
+        return Rede.buscar(redeID).getDono();
+    }
+
+    /**
+     * busca todos os membros da rede
+     * @param redeID ID da Rede
+     * @return Membros
+     * @throws NotFoundException Caso a rede não seja encontrada
+     */
+    @ApiMethod(name = "buscarMembros")
+    public Collection<Membro> buscarMembros(@Named("rede_id") Long redeID) throws NotFoundException {
+        return Rede.buscar(redeID).getMembros();
+    }
+
+    /**
+     * busca todos os membros ativos da rede
+     * @param redeID ID da Rede
+     * @return Membros
+     * @throws NotFoundException Caso a rede não seja encontrada
+     */
+    @ApiMethod(name = "buscarMembrosAtivos")
+    public Collection<Membro> buscarMembrosAtios(@Named("rede_id") Long redeID) throws NotFoundException {
+        return Rede.buscar(redeID).membrosAtivos();
+    }
+
 }

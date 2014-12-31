@@ -1,6 +1,9 @@
 package br.com.rarolabs.rvp.api.models;
 
+import com.google.api.server.spi.config.AnnotationBoolean;
+import com.google.api.server.spi.config.ApiResourceProperty;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
@@ -9,12 +12,12 @@ import com.googlecode.objectify.annotation.Id;
  */
 @Entity
 public class Visibilidade {
-
+    @ApiResourceProperty
     public enum Tipo {PUBLICO,PRIVADO, SOMENTE_COM_AUTORIDADE, SOMENTE_COM_ADMIN, COM_AUTORIDADE_E_ADMINISTRADOR}
 
     @Id
     private Long id;
-    private Key<Membro> membro;
+    @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
     private Tipo email;
     private Tipo telefoneFixo;
     private Tipo telefoneCelular;
@@ -28,14 +31,7 @@ public class Visibilidade {
         this.id = id;
     }
 
-    public Key<Membro> getMembro() {
-        return membro;
-    }
-
-    public void setMembro(Key<Membro> membro) {
-        this.membro = membro;
-    }
-
+    @ApiResourceProperty
     public Tipo getEmail() {
         return email;
     }
@@ -44,6 +40,7 @@ public class Visibilidade {
         this.email = email;
     }
 
+    @ApiResourceProperty
     public Tipo getTelefoneFixo() {
         return telefoneFixo;
     }
@@ -52,6 +49,7 @@ public class Visibilidade {
         this.telefoneFixo = telefoneFixo;
     }
 
+    @ApiResourceProperty
     public Tipo getTelefoneCelular() {
         return telefoneCelular;
     }
@@ -60,6 +58,7 @@ public class Visibilidade {
         this.telefoneCelular = telefoneCelular;
     }
 
+    @ApiResourceProperty
     public Tipo getEndereco() {
         return endereco;
     }

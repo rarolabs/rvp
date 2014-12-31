@@ -37,4 +37,17 @@ public class OfyService {
     public static ObjectifyFactory factory() {
         return ObjectifyService.factory();
     }
+
+    public static void removeAll() {
+
+        ObjectifyService.ofy().delete().keys(ObjectifyService.ofy().load().type(Alerta.class).keys().list());
+        ObjectifyService.ofy().delete().keys(ObjectifyService.ofy().load().type(Endereco.class).keys().list());
+        ObjectifyService.ofy().delete().keys(ObjectifyService.ofy().load().type(Membro.class).keys().list());
+        ObjectifyService.ofy().delete().keys(ObjectifyService.ofy().load().type(Mensagem.class).keys().list());
+        ObjectifyService.ofy().delete().keys(ObjectifyService.ofy().load().type(Rede.class).keys().list());
+        ObjectifyService.ofy().delete().keys(ObjectifyService.ofy().load().type(Usuario.class).keys().list());
+        ObjectifyService.ofy().delete().keys(ObjectifyService.ofy().load().type(Visibilidade.class).keys().list());
+        // SearchService.cleanIndex();
+
+    }
 }

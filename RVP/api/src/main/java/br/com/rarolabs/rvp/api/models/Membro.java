@@ -47,7 +47,6 @@ public class Membro {
     @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
     private @Load Ref<Endereco> endereco;
 
-
     public Long getId() {
         return id;
     }
@@ -56,6 +55,7 @@ public class Membro {
         this.id = id;
     }
 
+    @ApiResourceProperty
     public Papel getPapel() {
         return papel;
     }
@@ -64,6 +64,7 @@ public class Membro {
         this.papel = papel;
     }
 
+    @ApiResourceProperty
     public Status getStatus() {
         return status;
     }
@@ -80,6 +81,7 @@ public class Membro {
         this.dataAssociacao = dataAssociacao;
     }
 
+
     public Rede getRede() {
         return rede.get();
     }
@@ -87,6 +89,7 @@ public class Membro {
     public void setRede(Rede rede) {
         this.rede = Ref.create(rede);
     }
+
 
     public Usuario getUsuario() {
         return usuario.get();
@@ -96,6 +99,7 @@ public class Membro {
         this.usuario = Ref.create(usuario);
     }
 
+    @ApiResourceProperty
     public Visibilidade getVisibilidade() {
         return visibilidade.get();
     }
@@ -107,6 +111,19 @@ public class Membro {
     public Endereco getEndereco() {
         return endereco.get();
     }
+
+    public Long getRedeId() {
+        return rede.get().getId();
+    }
+    public Long getUsuarioId() {
+        return usuario.get().getId();
+    }
+
+
+    public Long getEnderecoId() {
+        return endereco.get().getId();
+    }
+
 
     public void setEndereco(Endereco endereco) {
         this.endereco = Ref.create(endereco);
