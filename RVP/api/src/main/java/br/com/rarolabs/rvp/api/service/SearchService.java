@@ -137,6 +137,7 @@ public class SearchService {
             Objectify ofy = OfyService.ofy();
             Rede rede = ofy.load().type(Rede.class).id(id).now();
 
+            System.out.println(rede);
             geo.setIdRede(id);
             geo.setDistance(redes.get(id));
             geo.setNomeRede(rede.getNome());

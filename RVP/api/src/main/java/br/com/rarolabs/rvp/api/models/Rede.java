@@ -132,6 +132,7 @@ public class Rede {
                 m.setEndereco(endereco);
 
                 ofy.save().entity(m).now();
+                u.add(m);
                 rede.setNome(nome);
                 rede.setDono(m);
 
@@ -238,4 +239,14 @@ public class Rede {
         });
     }
 
+    @Override
+    public String toString() {
+        return "Rede{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", membros=" + membros +
+                ", dono=" + dono +
+                ", alertas=" + alertas +
+                '}';
+    }
 }

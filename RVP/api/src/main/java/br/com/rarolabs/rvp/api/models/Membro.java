@@ -113,8 +113,13 @@ public class Membro {
     }
 
     public static void aprovarAssociacao(Long id) throws NotFoundException, ForbiddenException {
-        mudarStatusAssociacao(id,Status.ATIVO);
+
+        Membro m = mudarStatusAssociacao(id,Status.ATIVO);
+        m.getUsuario().add(m);
+        SearchService.createDocument(m);
+
     }
+
 
     public static void reprovarAssociacao(Long id) throws NotFoundException, ForbiddenException {
         mudarStatusAssociacao(id,Status.REPROVADO);

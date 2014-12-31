@@ -6,8 +6,6 @@ import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
-import junit.framework.Assert;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,24 +44,24 @@ public class VisualizarMembrosTest {
     public void visualizarMembros() throws ConflictException, NotFoundException, ForbiddenException {
 
         Usuario rodrigo = Usuario.novoUsuario(UsuarioFixture.getRodrigoSol());
-        Rede rede = Rede.novaRede("Amigos do Comiteco",rodrigo.getId(), EnderecoFixture.getEndereco1());
+        Rede rede = Rede.novaRede("Amigos do Comiteco",rodrigo.getId(), EnderecoFixture.getEnderecoRaro());
 
         Usuario lesio = Usuario.novoUsuario(UsuarioFixture.getLesioPinheiro());
-        Rede.solicitarAssociacao(rede.getId(), lesio.getId(), EnderecoFixture.getEndereco2());
+        Rede.solicitarAssociacao(rede.getId(), lesio.getId(), EnderecoFixture.getEnderecoCasa());
 
         Membro lesioMembro = rede.solicitacoesPendentes().iterator().next();
         Membro.aprovarAssociacao(lesioMembro.getId());
 
 
         Usuario ramon = Usuario.novoUsuario(UsuarioFixture.getRamonSetragni());
-        Rede.solicitarAssociacao(rede.getId(), ramon.getId(), EnderecoFixture.getEndereco3());
+        Rede.solicitarAssociacao(rede.getId(), ramon.getId(), EnderecoFixture.getEnderecoPraca());
 
         Membro ramonMembro = rede.solicitacoesPendentes().iterator().next();
         Membro.aprovarAssociacao(ramonMembro.getId());
 
 
         Usuario leo = Usuario.novoUsuario(UsuarioFixture.getLeonardoHerbert());
-        Rede.solicitarAssociacao(rede.getId(), leo.getId(), EnderecoFixture.getEndereco4());
+        Rede.solicitarAssociacao(rede.getId(), leo.getId(), EnderecoFixture.getEnderecoEscola());
 
 
         Collection<Membro> membrosAtivos = Rede.membrosAtivos(rede.getId());

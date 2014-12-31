@@ -78,4 +78,17 @@ public class GeoqueryResponder {
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
+
+    @Override
+    public String toString() {
+        return "GeoqueryResponder{" +
+                "idRede=" + idRede +
+                ", nomeRede='" + nomeRede + '\'' +
+                ", distance=" + distance +
+                ", coordinators=" + coordinators +
+                ", resultSize=" + resultSize +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                '}';
+    }
 }
