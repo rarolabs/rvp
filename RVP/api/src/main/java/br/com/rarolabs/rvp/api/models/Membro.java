@@ -8,6 +8,7 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Load;
 
 import java.util.Date;
@@ -27,22 +28,24 @@ public class Membro {
 
 
     public enum Papel { SYSADMIN, CRIADOR, ADMIN, AUTORIDADE, VIVIZINHO}
-
     public enum Status {ATIVO, INATIVO,AGUARDANDO_APROVACAO,REPROVADO}
+    public enum Visibilidade {PUBLICO,PRIVADO, SOMENTE_COM_AUTORIDADE, SOMENTE_COM_ADMIN, COM_AUTORIDADE_E_ADMINISTRADOR}
 
     private Papel papel = Papel.VIVIZINHO;
     private Status status = Status.ATIVO;
 
     private Date dataAssociacao;
 
+    private Visibilidade visibilidadeEmail;
+    private Visibilidade visibilidadeEndereco;
+    private Visibilidade visibilidadeTelefoneFixo;
+    private Visibilidade visibilidadeTelefoneCelular;
+
     @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
     private @Load Ref<Rede> rede;
 
     @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
-    private @Load Ref<Usuario> usuario;
-
-    @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
-    private @Load Ref<Visibilidade> visibilidade;
+    private @Index @Load Ref<Usuario> usuario;
 
     @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
     private @Load Ref<Endereco> endereco;
@@ -100,13 +103,40 @@ public class Membro {
     }
 
     @ApiResourceProperty
-    public Visibilidade getVisibilidade() {
-        return visibilidade.get();
+    public Visibilidade getVisibilidadeEmail() {
+        return visibilidadeEmail;
     }
 
-    public void setVisibilidade(Visibilidade visibilidade) {
-        this.visibilidade = Ref.create(visibilidade);
+    public void setVisibilidadeEmail(Visibilidade visibilidadeEmail) {
+        this.visibilidadeEmail = visibilidadeEmail;
     }
+    @ApiResourceProperty
+    public Visibilidade getVisibilidadeEndereco() {
+        return visibilidadeEndereco;
+    }
+
+    public void setVisibilidadeEndereco(Visibilidade visibilidadeEndereco) {
+        this.visibilidadeEndereco = visibilidadeEndereco;
+    }
+
+    @ApiResourceProperty
+    public Visibilidade getVisibilidadeTelefoneFixo() {
+        return visibilidadeTelefoneFixo;
+    }
+
+    public void setVisibilidadeTelefoneFixo(Visibilidade visibilidadeTelefoneFixo) {
+        this.visibilidadeTelefoneFixo = visibilidadeTelefoneFixo;
+    }
+
+    @ApiResourceProperty
+    public Visibilidade getVisibilidadeTelefoneCelular() {
+        return visibilidadeTelefoneCelular;
+    }
+
+    public void setVisibilidadeTelefoneCelular(Visibilidade visibilidadeTelefoneCelular) {
+        this.visibilidadeTelefoneCelular = visibilidadeTelefoneCelular;
+    }
+
 
     public Endereco getEndereco() {
         return endereco.get();
@@ -129,47 +159,54 @@ public class Membro {
         this.endereco = Ref.create(endereco);
     }
 
-    public static void aprovarAssociacao(Long id) throws NotFoundException, ForbiddenException {
+
+
+
+    public static Membro aprovarAssociacao(Long id) throws NotFoundException, ForbiddenException {
 
         Membro m = mudarStatusAssociacao(id,Status.ATIVO);
         m.getUsuario().add(m);
         SearchService.createDocument(m);
+        return m;
 
     }
 
 
-    public static void reprovarAssociacao(Long id) throws NotFoundException, ForbiddenException {
-        mudarStatusAssociacao(id,Status.REPROVADO);
+    public static Membro reprovarAssociacao(Long id) throws NotFoundException, ForbiddenException {
+        return mudarStatusAssociacao(id,Status.REPROVADO);
     }
 
-    public static void tornarAdministrador(Long id) throws NotFoundException, ForbiddenException {
-        mudarPapelAssociacao(id, Papel.ADMIN);
+    public static Membro  tornarAdministrador(Long id) throws NotFoundException, ForbiddenException {
+        return mudarPapelAssociacao(id, Papel.ADMIN);
 
     }
 
 
-    public static void retirarPermissaoAdministrador(Long id) throws NotFoundException, ForbiddenException {
-        mudarPapelAssociacao(id, Papel.VIVIZINHO);
+    public static Membro retirarPermissaoAdministrador(Long id) throws NotFoundException, ForbiddenException {
+        return mudarPapelAssociacao(id, Papel.VIVIZINHO);
     }
 
-    public static void inativarVizinho(Long id) throws NotFoundException, ForbiddenException {
+    public static Membro inativarVizinho(Long id) throws NotFoundException, ForbiddenException {
         Membro m = mudarStatusAssociacao(id,Status.INATIVO);
         SearchService.removeDocument(m);
+        return m;
     }
 
 
-    public static void ativarVizinho(Long id) throws NotFoundException, ForbiddenException {
+    public static Membro ativarVizinho(Long id) throws NotFoundException, ForbiddenException {
         Membro m = mudarStatusAssociacao(id,Status.ATIVO);
         SearchService.createDocument(m);
+        return m;
 
     }
 
-    public static void tornarAutoridade(Long id) throws NotFoundException, ForbiddenException {
-        mudarPapelAssociacao(id, Papel.AUTORIDADE);
+    public static Membro tornarAutoridade(Long id) throws NotFoundException, ForbiddenException {
+
+        return mudarPapelAssociacao(id, Papel.AUTORIDADE);
     }
 
-    public static void retirarPermissaoAutoridade(Long id) throws NotFoundException, ForbiddenException {
-        mudarPapelAssociacao(id, Papel.VIVIZINHO);
+    public static Membro retirarPermissaoAutoridade(Long id) throws NotFoundException, ForbiddenException {
+        return mudarPapelAssociacao(id, Papel.VIVIZINHO);
     }
 
     private static Membro mudarStatusAssociacao(Long id, Status status) throws NotFoundException, ForbiddenException {

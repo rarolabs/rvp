@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/j6Vmn_Ib1L_j7oneUZb53lER0Lc\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/D0cA7KVKuOh6KwPDiWASLg6ENnM\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -192,7 +192,16 @@
      "type": "string",
      "format": "int64"
     },
-    "visibilidade": {
+    "visibilidadeEmail": {
+     "$ref": "Visibilidade"
+    },
+    "visibilidadeEndereco": {
+     "$ref": "Visibilidade"
+    },
+    "visibilidadeTelefoneCelular": {
+     "$ref": "Visibilidade"
+    },
+    "visibilidadeTelefoneFixo": {
      "$ref": "Visibilidade"
     }
    }
@@ -264,24 +273,6 @@
     ""
    ]
   },
-  "Tipo": {
-   "id": "Tipo",
-   "type": "string",
-   "enum": [
-    "COM_AUTORIDADE_E_ADMINISTRADOR",
-    "PRIVADO",
-    "PUBLICO",
-    "SOMENTE_COM_ADMIN",
-    "SOMENTE_COM_AUTORIDADE"
-   ],
-   "enumDescriptions": [
-    "",
-    "",
-    "",
-    "",
-    ""
-   ]
-  },
   "Usuario": {
    "id": "Usuario",
    "type": "object",
@@ -312,22 +303,21 @@
   },
   "Visibilidade": {
    "id": "Visibilidade",
-   "type": "object",
-   "properties": {
-    "endereco": {
-     "$ref": "Tipo"
-    },
-    "id": {
-     "type": "string",
-     "format": "int64"
-    },
-    "telefoneCelular": {
-     "$ref": "Tipo"
-    },
-    "telefoneFixo": {
-     "$ref": "Tipo"
-    }
-   }
+   "type": "string",
+   "enum": [
+    "COM_AUTORIDADE_E_ADMINISTRADOR",
+    "PRIVADO",
+    "PUBLICO",
+    "SOMENTE_COM_ADMIN",
+    "SOMENTE_COM_AUTORIDADE"
+   ],
+   "enumDescriptions": [
+    "",
+    "",
+    "",
+    "",
+    ""
+   ]
   }
  },
  "methods": {
@@ -359,6 +349,9 @@
    "parameterOrder": [
     "membro_id"
    ],
+   "returns": {
+    "$ref": "Membro"
+   },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]
@@ -375,6 +368,9 @@
    "parameterOrder": [
     "membro_id"
    ],
+   "returns": {
+    "$ref": "Membro"
+   },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]
@@ -523,6 +519,9 @@
    "parameterOrder": [
     "membro_id"
    ],
+   "returns": {
+    "$ref": "Membro"
+   },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]
@@ -619,6 +618,9 @@
    "parameterOrder": [
     "membro_id"
    ],
+   "returns": {
+    "$ref": "Membro"
+   },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]
@@ -635,6 +637,9 @@
    "parameterOrder": [
     "membro_id"
    ],
+   "returns": {
+    "$ref": "Membro"
+   },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]
@@ -651,6 +656,9 @@
    "parameterOrder": [
     "membro_id"
    ],
+   "returns": {
+    "$ref": "Membro"
+   },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]
@@ -710,6 +718,9 @@
     "rede_id",
     "usuario_id"
    ],
+   "returns": {
+    "$ref": "Membro"
+   },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]
@@ -726,6 +737,9 @@
    "parameterOrder": [
     "membro_id"
    ],
+   "returns": {
+    "$ref": "Membro"
+   },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]
@@ -742,6 +756,9 @@
    "parameterOrder": [
     "membro_id"
    ],
+   "returns": {
+    "$ref": "Membro"
+   },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]

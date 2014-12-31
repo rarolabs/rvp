@@ -15,6 +15,7 @@ import com.googlecode.objectify.VoidWork;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Load;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,16 +40,16 @@ public class Rede {
 
     @Index
     @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
-    private List<Ref<Membro>> membros = new ArrayList<Ref<Membro>>();
+    private @Load List<Ref<Membro>> membros = new ArrayList<Ref<Membro>>();
 
     @Index
     @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
-    private Ref<Membro> dono;
+    private @Load Ref<Membro> dono;
 
 
     @Index
     @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
-    private List<Ref<Alerta>> alertas = new ArrayList<Ref<Alerta>>();
+    private @Load List<Ref<Alerta>> alertas = new ArrayList<Ref<Alerta>>();
 
 
     public Long getId() {
@@ -116,23 +117,22 @@ public class Rede {
             ofy.save().entity(endereco).now();
         }
 
-        final Visibilidade v =  new Visibilidade();
-        v.setEndereco(Visibilidade.Tipo.PUBLICO);
-        v.setEmail(Visibilidade.Tipo.PUBLICO);
-        v.setTelefoneFixo(Visibilidade.Tipo.PUBLICO);
-        v.setTelefoneCelular(Visibilidade.Tipo.PUBLICO);
 
         final Rede rede = new Rede();
         final Membro m = new Membro();
+
         m.setPapel(Membro.Papel.CRIADOR);
         m.setStatus(Membro.Status.ATIVO);
+        m.setVisibilidadeEndereco(Membro.Visibilidade.PUBLICO);
+        m.setVisibilidadeEmail(Membro.Visibilidade.PUBLICO);
+        m.setVisibilidadeTelefoneFixo(Membro.Visibilidade.PUBLICO);
+        m.setVisibilidadeTelefoneCelular(Membro.Visibilidade.PUBLICO);
+
 
         ofy.transact(new VoidWork() {
             @Override
             public void vrun() {
-                ofy.save().entity(v).now();
                 m.setUsuario(u);
-                m.setVisibilidade(v);
                 m.setEndereco(endereco);
 
                 ofy.save().entity(m).now();
@@ -153,7 +153,7 @@ public class Rede {
         return rede;
     }
 
-    public static void solicitarAssociacao(Long id, Long usuarioId, final Endereco endereco) throws NotFoundException, ConflictException {
+    public static Membro solicitarAssociacao(Long id, Long usuarioId, final Endereco endereco) throws NotFoundException, ConflictException {
 
 
 
@@ -184,23 +184,22 @@ public class Rede {
         m.setPapel(Membro.Papel.VIVIZINHO);
         m.setEndereco(endereco);
 
-        final Visibilidade v = new Visibilidade();
-        v.setEndereco(Visibilidade.Tipo.COM_AUTORIDADE_E_ADMINISTRADOR);
-        v.setEmail(Visibilidade.Tipo.COM_AUTORIDADE_E_ADMINISTRADOR);
-        v.setTelefoneCelular(Visibilidade.Tipo.COM_AUTORIDADE_E_ADMINISTRADOR);
-        v.setTelefoneFixo(Visibilidade.Tipo.COM_AUTORIDADE_E_ADMINISTRADOR);
+        m.setVisibilidadeEndereco(Membro.Visibilidade.COM_AUTORIDADE_E_ADMINISTRADOR);
+        m.setVisibilidadeEmail(Membro.Visibilidade.COM_AUTORIDADE_E_ADMINISTRADOR);
+        m.setVisibilidadeTelefoneCelular(Membro.Visibilidade.COM_AUTORIDADE_E_ADMINISTRADOR);
+        m.setVisibilidadeTelefoneFixo(Membro.Visibilidade.COM_AUTORIDADE_E_ADMINISTRADOR);
 
         ofy.transact(new VoidWork() {
             @Override
             public void vrun() {
-                ofy.save().entity(v).now();
                 ofy.save().entity(m).now();
                 ofy.save().entity(rede).now();
-                m.setVisibilidade(v);
                 m.setRede(rede);
                 rede.addMembro(m);
             }
         });
+
+        return m;
     }
 
     private static boolean solicitacaoRepetida(final Rede rede, final Usuario usuario) {
@@ -225,7 +224,8 @@ public class Rede {
         return Collections2.filter(getMembros(), new com.google.common.base.Predicate<Membro>() {
             @Override
             public boolean apply(@Nullable Membro input) {
-                return input.getStatus() == Membro.Status.AGUARDANDO_APROVACAO;
+                return (input.getStatus() == Membro.Status.AGUARDANDO_APROVACAO);
+
             }
         });
     }

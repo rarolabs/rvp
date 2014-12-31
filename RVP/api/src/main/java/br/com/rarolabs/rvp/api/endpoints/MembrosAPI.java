@@ -34,101 +34,110 @@ public class MembrosAPI {
      * @param redeId ID da Rede
      * @param usuarioId ID do Usuário
      * @param endereco Endereco do usuário para essa rede
+     * @return Membro
      * @throws NotFoundException Pode ser retornada caso a rede e/ou usuário não existam
      * @throws ConflictException Pode ser retornada caso já exista um pedido de associacao nessa
      * rede para o mesmo usuario
      */
     @ApiMethod(name = "solicitarAssociacao")
-    public void solicitarAssociacao(@Named("rede_id") Long redeId,
+    public Membro solicitarAssociacao(@Named("rede_id") Long redeId,
                              @Named("usuario_id") Long usuarioId, Endereco endereco) throws NotFoundException, ConflictException {
-        Rede.solicitarAssociacao(redeId,usuarioId,endereco);
+        return Rede.solicitarAssociacao(redeId,usuarioId,endereco);
     }
 
     /**
      * Aprova o pedido de associacao de um usuário
      * @param membroId ID do membro
+     * @return Membro
      * @throws NotFoundException Pode ser lançada caso alguma entidade não exista
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "aprovarAssociacao")
-    public void aprovarAssociacao(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
-        Membro.aprovarAssociacao(membroId);
+    public Membro aprovarAssociacao(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
+        return Membro.aprovarAssociacao(membroId);
     }
 
     /**
      * Reprova o pedido de associação de um usuário
      * @param membroId id do Membro
+     * @return Membro
      * @throws NotFoundException Pode ser lançada caso alguma entidade não exista
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "reprovarAssociacao")
-    public void reprovarAssociacao(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
-        Membro.reprovarAssociacao(membroId);
+    public Membro reprovarAssociacao(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
+        return Membro.reprovarAssociacao(membroId);
     }
 
     /**
      * Torna um usuário administrador da rede
      * @param membroId id do Membro
+     * @return Membro
      * @throws NotFoundException Pode ser lançada caso alguma entidade não exista
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "tornarAdministrador")
-    public void tornarAdministrador(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
-        Membro.tornarAdministrador(membroId);
+    public Membro tornarAdministrador(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
+        return Membro.tornarAdministrador(membroId);
     }
 
     /**
      * Retirna a permissão de um usuário da rede
      * @param membroId id do Membro
+     * @return Membro
      * @throws NotFoundException Pode ser lançada caso alguma entidade não exista
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "retirarPermissaoAdministrador")
-    public void retirarPermissaoAdministrador(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
-        Membro.retirarPermissaoAdministrador(membroId);
+    public Membro retirarPermissaoAdministrador(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
+        return Membro.retirarPermissaoAdministrador(membroId);
     }
 
     /**
      * Inativa um usuário da rede
      * @param membroId id do Membro
+     * @return Membro
      * @throws NotFoundException Pode ser lançada caso alguma entidade não exista
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "inativarVizinho")
-    public void inativarVizinho(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
-        Membro.inativarVizinho(membroId);
+    public Membro inativarVizinho(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
+        return Membro.inativarVizinho(membroId);
     }
 
     /**
      * Ativa um usuário inativo da rede
      * @param membroId id do Membro
+     * @return Membro
      * @throws NotFoundException Pode ser lançada caso alguma entidade não exista
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "ativarVizinho")
-    public void ativarVizinho(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
-        Membro.ativarVizinho(membroId);
+    public Membro ativarVizinho(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
+        return Membro.ativarVizinho(membroId);
     }
 
     /**
      * Torna um usuário a autoridade policial da rede
      * @param membroId id do Membro
+     * @return Membro
      * @throws NotFoundException Pode ser lançada caso alguma entidade não exista
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "tornarAutoridade")
-    public void tornarAutoridade(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
-        Membro.tornarAutoridade(membroId);
+    public Membro tornarAutoridade(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
+        return Membro.tornarAutoridade(membroId);
     }
 
     /**
      * Retira a permissão de um usuário na rede
      * @param membroId id do Membro
+     * @return Membro
      * @throws NotFoundException Pode ser lançada caso alguma entidade não exista
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "retirarPermissaoAutoridade")
-    public void retirarPermissaoAutoridade(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
-        Membro.retirarPermissaoAutoridade(membroId);
+    public Membro retirarPermissaoAutoridade(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
+       return Membro.retirarPermissaoAutoridade(membroId);
     }
 }

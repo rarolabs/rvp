@@ -5,15 +5,7 @@ import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.googlecode.objectify.Objectify;
 
-import br.com.rarolabs.rvp.api.models.Alerta;
-import br.com.rarolabs.rvp.api.models.Endereco;
-import br.com.rarolabs.rvp.api.models.Membro;
-import br.com.rarolabs.rvp.api.models.Mensagem;
-import br.com.rarolabs.rvp.api.models.Rede;
-import br.com.rarolabs.rvp.api.models.Usuario;
-import br.com.rarolabs.rvp.api.models.Visibilidade;
 import br.com.rarolabs.rvp.api.service.OfyService;
-import br.com.rarolabs.rvp.api.service.SearchService;
 
 /**
  * Created by rodrigosol on 12/30/14.

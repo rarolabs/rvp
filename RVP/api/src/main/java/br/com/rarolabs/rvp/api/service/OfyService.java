@@ -11,7 +11,7 @@ import br.com.rarolabs.rvp.api.models.Membro;
 import br.com.rarolabs.rvp.api.models.Mensagem;
 import br.com.rarolabs.rvp.api.models.Rede;
 import br.com.rarolabs.rvp.api.models.Usuario;
-import br.com.rarolabs.rvp.api.models.Visibilidade;
+
 
 /**
  * Objectify service wrapper so we can statically register our persistence classes
@@ -27,7 +27,6 @@ public class OfyService {
         ObjectifyService.register(Mensagem.class);
         ObjectifyService.register(Rede.class);
         ObjectifyService.register(Usuario.class);
-        ObjectifyService.register(Visibilidade.class);
     }
 
     public static Objectify ofy() {
@@ -46,8 +45,7 @@ public class OfyService {
         ObjectifyService.ofy().delete().keys(ObjectifyService.ofy().load().type(Mensagem.class).keys().list());
         ObjectifyService.ofy().delete().keys(ObjectifyService.ofy().load().type(Rede.class).keys().list());
         ObjectifyService.ofy().delete().keys(ObjectifyService.ofy().load().type(Usuario.class).keys().list());
-        ObjectifyService.ofy().delete().keys(ObjectifyService.ofy().load().type(Visibilidade.class).keys().list());
-        // SearchService.cleanIndex();
+        SearchService.cleanIndex();
 
     }
 }

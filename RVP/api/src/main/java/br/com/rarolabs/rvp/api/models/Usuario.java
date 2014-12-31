@@ -147,7 +147,8 @@ public class Usuario {
 
 
     public static Collection<Membro> minhasRedes(Long usuarioId) {
-        return OfyService.ofy().load().type(Usuario.class).id(usuarioId).now().getPartipacoes();
+        Usuario u = OfyService.ofy().load().type(Usuario.class).id(usuarioId).now();
+        return OfyService.ofy().load().type(Membro.class).filter("usuario",u).list();
     }
 
     public static Usuario novoUsuario(Usuario usuario) throws ConflictException {

@@ -12,7 +12,6 @@ import org.junit.Test;
 import br.com.rarolabs.rvp.api.models.Membro;
 import br.com.rarolabs.rvp.api.models.Rede;
 import br.com.rarolabs.rvp.api.models.Usuario;
-import br.com.rarolabs.rvp.api.models.Visibilidade;
 import br.com.rarolabs.rvp.api.test.fixtures.EnderecoFixture;
 import br.com.rarolabs.rvp.api.test.fixtures.UsuarioFixture;
 import static org.junit.Assert.assertEquals;
@@ -48,10 +47,10 @@ public class CriarRedesTest {
         assertEquals(u.getId(),dono.getUsuario().getId());
         assertEquals(dono.getStatus(), Membro.Status.ATIVO);
         assertEquals(dono.getPapel(), Membro.Papel.CRIADOR);
-        assertEquals(dono.getVisibilidade().getEmail(), Visibilidade.Tipo.PUBLICO);
-        assertEquals(dono.getVisibilidade().getEndereco(), Visibilidade.Tipo.PUBLICO);
-        assertEquals(dono.getVisibilidade().getTelefoneCelular(), Visibilidade.Tipo.PUBLICO);
-        assertEquals(dono.getVisibilidade().getTelefoneFixo(), Visibilidade.Tipo.PUBLICO);
+        assertEquals(dono.getVisibilidadeEmail(), Membro.Visibilidade.PUBLICO);
+        assertEquals(dono.getVisibilidadeEndereco(), Membro.Visibilidade.PUBLICO);
+        assertEquals(dono.getVisibilidadeTelefoneCelular(), Membro.Visibilidade.PUBLICO);
+        assertEquals(dono.getVisibilidadeTelefoneFixo(), Membro.Visibilidade.PUBLICO);
     }
 
     @Test

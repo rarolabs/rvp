@@ -1,25 +1,8 @@
-package rarolabs.com.br.rvp;
+package rarolabs.com.br.rvp.backend;
 
 import android.app.Application;
-import android.location.Address;
 import android.test.ApplicationTestCase;
-import android.util.Log;
 
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-import com.google.api.client.json.JsonParser;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.List;
-
-import br.com.rarolabs.rvp.api.rvpAPI.RvpAPI;
-import br.com.rarolabs.rvp.api.rvpAPI.RvpAPIRequest;
-import br.com.rarolabs.rvp.api.rvpAPI.RvpAPIRequestInitializer;
-import br.com.rarolabs.rvp.api.rvpAPI.model.Endereco;
-import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponderCollection;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
@@ -27,14 +10,13 @@ import rarolabs.com.br.rvp.fixtures.EnderecoFixture;
 import rarolabs.com.br.rvp.fixtures.UsuarioFixture;
 import rarolabs.com.br.rvp.services.BackendExpection;
 import rarolabs.com.br.rvp.services.BackendServices;
-import rarolabs.com.br.rvp.services.EnderecoServices;
 
 /**
- * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
+ * Created by rodrigosol on 12/31/14.
  */
-public class EndPointsServicesTest extends ApplicationTestCase<Application> {
+public class CriarRedeTest extends ApplicationTestCase<Application> {
 
-    public EndPointsServicesTest() {
+    public CriarRedeTest() {
         super(Application.class);
 
     }
@@ -44,8 +26,8 @@ public class EndPointsServicesTest extends ApplicationTestCase<Application> {
         super.setUp();
     }
 
-
     public void testNovaRede() throws BackendExpection {
+        BackendServices.cleanForTesting();
         Usuario u = BackendServices.novoUsuario(UsuarioFixture.getRodrigoSol());
         Rede r = BackendServices.novaRede("Amigos do Comiteco",u.getId(), EnderecoFixture.getEnderecoRaro());
         assertNotNull(r.getId());
@@ -57,10 +39,10 @@ public class EndPointsServicesTest extends ApplicationTestCase<Application> {
         assertEquals(u.getId(),dono.getUsuarioId());
         assertEquals(dono.getStatus(), "ATIVO");
         assertEquals(dono.getPapel(), "CRIADOR");
-        assertEquals(dono.getVisibilidade().getEmail(),"PUBLICO");
-        assertEquals(dono.getVisibilidade().getEndereco(), "PUBLICO");
-        assertEquals(dono.getVisibilidade().getTelefoneCelular(), "PUBLICO");
-        assertEquals(dono.getVisibilidade().getTelefoneFixo(), "PUBLICO");
+        assertEquals(dono.getVisibilidadeEmail(),"PUBLICO");
+        assertEquals(dono.getVisibilidadeEndereco(), "PUBLICO");
+        assertEquals(dono.getVisibilidadeTelefoneCelular(), "PUBLICO");
+        assertEquals(dono.getVisibilidadeTelefoneFixo(), "PUBLICO");
     }
 
 
@@ -75,10 +57,7 @@ public class EndPointsServicesTest extends ApplicationTestCase<Application> {
         } catch (BackendExpection e) {
             assertEquals("Já existe uma rede com o nome:Amigos do Comiteco", e.getMessage());
         }
-
     }
-
-
 
 
 }

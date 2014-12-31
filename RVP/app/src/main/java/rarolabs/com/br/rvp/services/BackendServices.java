@@ -15,6 +15,7 @@ import br.com.rarolabs.rvp.api.rvpAPI.RvpAPI;
 import br.com.rarolabs.rvp.api.rvpAPI.RvpAPIRequest;
 import br.com.rarolabs.rvp.api.rvpAPI.RvpAPIRequestInitializer;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Endereco;
+import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
 
@@ -33,10 +34,10 @@ public class BackendServices {
         }
     }
 
-    public static void ativarVizinho(Long idMembro) throws BackendExpection {
+    public static Membro ativarVizinho(Long idMembro) throws BackendExpection {
         try {
             RvpAPI service = getService();
-            service.ativarVizinho(idMembro).execute();
+            return service.ativarVizinho(idMembro).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
@@ -69,10 +70,10 @@ public class BackendServices {
         }
     }
 
-    public static void inativarVizinho(Long idMembro) throws BackendExpection {
+    public static Membro inativarVizinho(Long idMembro) throws BackendExpection {
         try {
             RvpAPI service = getService();
-            service.inativarVizinho(idMembro).execute();
+            return service.inativarVizinho(idMembro).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
@@ -114,29 +115,29 @@ public class BackendServices {
         }
     }
 
-    public static void aprovarAssociacao(Long idMembro) throws BackendExpection {
+    public static Membro aprovarAssociacao(Long idMembro) throws BackendExpection {
         try {
             RvpAPI service = getService();
-            service.aprovarAssociacao(idMembro).execute();
+            return service.aprovarAssociacao(idMembro).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
     }
 
-    public static void retirarPermissaoAdministrador(Long idMembro) throws BackendExpection {
+    public static Membro retirarPermissaoAdministrador(Long idMembro) throws BackendExpection {
         try {
             RvpAPI service = getService();
-            service.retirarPermissaoAdministrador(idMembro).execute();
+            return service.retirarPermissaoAdministrador(idMembro).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
     }
 
 
-    public static void retirarPermissaoAutoridade(Long idMembro) throws BackendExpection {
+    public static Membro retirarPermissaoAutoridade(Long idMembro) throws BackendExpection {
         try {
             RvpAPI service = getService();
-            service.retirarPermissaoAutoridade(idMembro).execute();
+            return service.retirarPermissaoAutoridade(idMembro).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
@@ -160,38 +161,38 @@ public class BackendServices {
         }
     }
 
-    public static void reprovarAssociacao(Long idMembro) throws BackendExpection {
+    public static Membro reprovarAssociacao(Long idMembro) throws BackendExpection {
         try {
             RvpAPI service = getService();
-            service.reprovarAssociacao(idMembro).execute();
+            return service.reprovarAssociacao(idMembro).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
     }
 
-    public static void solicitarAssociacao(Long redeId,Long usuarioId, Endereco endereco) throws BackendExpection {
+    public static Membro solicitarAssociacao(Long redeId,Long usuarioId, Endereco endereco) throws BackendExpection {
         try {
             RvpAPI service = getService();
-            service.solicitarAssociacao(redeId,usuarioId,endereco).execute();
+            return service.solicitarAssociacao(redeId,usuarioId,endereco).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
     }
 
 
-    public static void tornarAdministrador(Long idMembro) throws BackendExpection {
+    public static Membro tornarAdministrador(Long idMembro) throws BackendExpection {
         try {
             RvpAPI service = getService();
-            service.tornarAdministrador(idMembro).execute();
+            return service.tornarAdministrador(idMembro).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
     }
 
-    public static void tornarAutoridade(Long idMembro) throws BackendExpection {
+    public static Membro tornarAutoridade(Long idMembro) throws BackendExpection {
         try {
             RvpAPI service = getService();
-            service.tornarAutoridade(idMembro).execute();
+            return service.tornarAutoridade(idMembro).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
