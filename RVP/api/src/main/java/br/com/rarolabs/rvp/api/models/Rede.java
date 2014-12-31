@@ -120,6 +120,8 @@ public class Rede {
 
         final Rede rede = new Rede();
         final Membro m = new Membro();
+        m.setPapel(Membro.Papel.CRIADOR);
+        m.setStatus(Membro.Status.ATIVO);
 
         ofy.transact(new VoidWork() {
             @Override
@@ -146,7 +148,10 @@ public class Rede {
         return rede;
     }
 
-    public static void solicitarAssociacao(Long id, Long usuarioId, final Endereco endereco) throws NotFoundException {
+    public static void solicitarAssociacao(Long id, Long usuarioId, final Endereco endereco) throws NotFoundException, ConflictException {
+
+
+
         final Objectify ofy = OfyService.ofy();
         final Rede rede = ofy.load().type(Rede.class).id(id).now();
         if(rede == null){
@@ -156,6 +161,10 @@ public class Rede {
         Usuario usuario = ofy.load().type(Usuario.class).id(usuarioId).now();
         if(usuario == null){
             throw new NotFoundException("Usuario " + usuarioId + " não encontrado");
+        }
+
+        if(solicitacaoRepetida(rede,usuario)){
+            throw new ConflictException("Já existe um pedido de associacao para esse usuario");
         }
 
         if(endereco.getId() == null){
@@ -189,13 +198,23 @@ public class Rede {
         });
     }
 
+    private static boolean solicitacaoRepetida(final Rede rede, final Usuario usuario) {
+        return Collections2.filter(rede.getMembros(), new com.google.common.base.Predicate<Membro>() {
+            @Override
+            public boolean apply(@Nullable Membro input) {
+                return input.getUsuario().getId() == usuario.getId();
+            }
+        }).size() != 0;
+
+    }
+
     public static Collection<Membro> solicitacoesPendentes(Long redeId) {
         Objectify ofy = OfyService.ofy();
         Rede r = ofy.load().type(Rede.class).id(redeId).now();
         return r.solicitacoesPendentes();
     }
 
-    private Collection<Membro> solicitacoesPendentes() {
+    public Collection<Membro> solicitacoesPendentes() {
         return Collections2.filter(getMembros(), new com.google.common.base.Predicate<Membro>() {
             @Override
             public boolean apply(@Nullable Membro input) {

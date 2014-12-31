@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/88TJ62S_hwUZ7Kw4O0h0oWKYB78\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/wLp1RojJd8RdzJRYVYIpAjt9ZsM\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -91,41 +91,29 @@
    "id": "Endereco",
    "type": "object",
    "properties": {
-    "bairro": {
-     "type": "string"
-    },
     "cep": {
      "type": "string"
     },
-    "cidade": {
-     "type": "string"
-    },
-    "complemento": {
-     "type": "string"
-    },
     "descricao": {
-     "type": "string"
-    },
-    "estado": {
      "type": "string"
     },
     "id": {
      "type": "string",
      "format": "int64"
     },
+    "identificacao": {
+     "type": "string"
+    },
     "latitude": {
      "type": "number",
      "format": "double"
     },
+    "localidade": {
+     "type": "string"
+    },
     "longitude": {
      "type": "number",
      "format": "double"
-    },
-    "numero": {
-     "type": "string"
-    },
-    "rua": {
-     "type": "string"
     }
    }
   },

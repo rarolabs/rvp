@@ -9,6 +9,7 @@ package br.com.rarolabs.rvp.api.endpoints;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
+import com.google.api.server.spi.response.ConflictException;
 import com.google.api.server.spi.response.ForbiddenException;
 import com.google.api.server.spi.response.NotFoundException;
 
@@ -29,7 +30,7 @@ public class MembrosAPI {
 
     @ApiMethod(name = "solicitarAssociacao")
     public void solicitarAssociacao(@Named("rede_id") Long redeId,
-                             @Named("usuario_id") Long usuarioId, Endereco endereco) throws NotFoundException {
+                             @Named("usuario_id") Long usuarioId, Endereco endereco) throws NotFoundException, ConflictException {
         Rede.solicitarAssociacao(redeId,usuarioId,endereco);
     }
 

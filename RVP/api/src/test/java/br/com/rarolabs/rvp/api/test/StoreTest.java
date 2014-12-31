@@ -60,10 +60,8 @@ public class StoreTest {
         OfyService.ofy().save().entity(u).now();
 
         Endereco e = new Endereco();
-        e.setRua("Estrela");
         e.setLatitude(40.7727419);
         e.setLongitude(-73.9348984);
-        e.setRua("Rua Amazonas");
         Rede.novaRede("Rede a",u.getId(),e);
 
         List<GeoqueryResponder> result = SearchService.searchByPosition(40.7688418,	-73.9201355, 2000.00);
@@ -90,7 +88,6 @@ public class StoreTest {
         Endereco e = new Endereco();
         e.setLatitude(40.7727419);
         e.setLongitude(-73.9348984);
-        e.setRua("Rua Amazonas");
 
 
         Rede r = Rede.novaRede("Rede 1",u.getId(),e);
@@ -106,7 +103,6 @@ public class StoreTest {
         e = new Endereco();
         e.setLatitude(40.7727419);
         e.setLongitude(-73.9348984);
-        e.setRua("Rua Amazonas");
 
         Long redeId = result.get(0).getIdRede();
 

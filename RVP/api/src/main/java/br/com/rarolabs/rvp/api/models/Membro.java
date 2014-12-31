@@ -97,8 +97,7 @@ public class Membro {
     }
 
     public Visibilidade getVisibilidade() {
-        //return visibilidade.get();
-        return null;
+        return visibilidade.get();
     }
 
     public void setVisibilidade(Visibilidade visibilidade) {

@@ -4,6 +4,7 @@ import com.google.api.server.spi.config.AnnotationBoolean;
 import com.google.api.server.spi.config.ApiResourceProperty;
 import com.google.api.server.spi.config.ApiTransformer;
 import com.google.api.server.spi.response.ConflictException;
+import com.google.api.server.spi.response.NotFoundException;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.Ref;
@@ -157,5 +158,14 @@ public class Usuario {
         ofy.save().entity(usuario).now();
         return usuario;
 
+    }
+
+    public static Usuario buscar(Long id) throws NotFoundException {
+        Usuario u = OfyService.ofy().load().type(Usuario.class).id(id).now();
+        if(u==null){
+            throw  new NotFoundException("Usuario " + id + " nao encontrado");
+        }
+
+        return u;
     }
 }

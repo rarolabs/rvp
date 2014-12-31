@@ -22,20 +22,17 @@ import br.com.rarolabs.rvp.api.service.OfyService;
 public class Endereco {
     @Id
     private Long id;
-    private String descricao;
+
 
     @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
     private Ref<Usuario> usuario;
 
+    private String identificacao;
     private Double latitude;
     private Double Longitude;
-    private String rua;
-    private String numero;
-    private String complemento;
+    private String descricao;
     private String CEP;
-    private String bairro;
-    private String cidade;
-    private String estado;
+    private String localidade;
 
     public Long getId() {
         return id;
@@ -45,14 +42,21 @@ public class Endereco {
         this.id = id;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public Usuario getUsuario() {
+        return usuario.get();
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = Ref.create(usuario);
     }
 
+    public String getIdentificacao() {
+        return identificacao;
+    }
+
+    public void setIdentificacao(String identificacao) {
+        this.identificacao = identificacao;
+    }
 
     public Double getLatitude() {
         return latitude;
@@ -70,28 +74,12 @@ public class Endereco {
         Longitude = longitude;
     }
 
-    public String getRua() {
-        return rua;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setRua(String rua) {
-        this.rua = rua;
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
-
-    public String getComplemento() {
-        return complemento;
-    }
-
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public String getCEP() {
@@ -102,39 +90,15 @@ public class Endereco {
         this.CEP = CEP;
     }
 
-    public String getBairro() {
-        return bairro;
+    public String getLocalidade() {
+        return localidade;
     }
 
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
+    public void setLocalidade(String localidade) {
+        this.localidade = localidade;
     }
 
-    public String getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public Usuario getUsuario() {
-        return usuario.get();
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = Ref.create(usuario);
-    }
-
-    public static void salvar(Endereco endereco) {
-        OfyService.ofy().save().entity(endereco).now();
+    public static void salvar(Endereco e){
+        OfyService.ofy().save().entity(e).now();
     }
 }
