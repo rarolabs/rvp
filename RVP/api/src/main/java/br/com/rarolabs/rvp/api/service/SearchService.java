@@ -162,6 +162,7 @@ public class SearchService {
 
                 IndexSpec indexSpec = IndexSpec.newBuilder().setName(indexName).build();
                 Index index = SearchServiceFactory.getSearchService().getIndex(indexSpec);
+
                 GetResponse<Document> response = index.getRange(request);
                 if (response.getResults().isEmpty()) {
                     break;

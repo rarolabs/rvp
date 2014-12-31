@@ -4,6 +4,7 @@ import com.google.api.server.spi.response.ConflictException;
 import com.google.api.server.spi.response.ForbiddenException;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalSearchServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 import org.junit.After;
@@ -33,7 +34,7 @@ import static org.junit.Assert.assertNotNull;
 public class LocalizarRedesTest {
 
     private final LocalServiceTestHelper helper =
-            new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
+            new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig(),new LocalSearchServiceTestConfig());
 
     @Before
     public void setUp() {
@@ -71,7 +72,7 @@ public class LocalizarRedesTest {
 
     @Test
     public void buscarRedesProximas() throws ConflictException, NotFoundException, ForbiddenException {
-        SearchService.cleanIndex();
+
         Endereco raro = EnderecoFixture.getEnderecoRaro();
         Endereco casa = EnderecoFixture.getEnderecoCasa();
         Endereco praca = EnderecoFixture.getEnderecoPraca();
@@ -123,7 +124,7 @@ public class LocalizarRedesTest {
         //Se esse membro for inativa, a pesquisa deve voltar a retornar 0
         Membro.inativarVizinho(lesioMembro.getId());
         result = SearchService.searchByPosition(casa.getLatitude(), casa.getLongitude(), 500.00);
-        assertEquals(0,result.size());
+        assertEquals(0, result.size());
 
 
     }
