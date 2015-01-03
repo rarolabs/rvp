@@ -5,6 +5,7 @@ import com.google.api.server.spi.config.ApiResourceProperty;
 import com.google.api.server.spi.config.ApiTransformer;
 import com.google.api.server.spi.response.ConflictException;
 import com.google.api.server.spi.response.NotFoundException;
+import com.google.appengine.api.users.User;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.Ref;
@@ -17,7 +18,7 @@ import java.util.Collection;
 import java.util.List;
 
 import br.com.rarolabs.rvp.api.service.OfyService;
-import transforms.UsuarioTransform;
+
 
 /**
  * Created by rodrigosol on 12/18/14.
@@ -28,11 +29,9 @@ import transforms.UsuarioTransform;
 @Entity
 public class Usuario {
     @Id
-    private Long id;
+    private String id;
 
     private String nome;
-    @Index
-    private String email;
 
     private String dddTelefoneFixo;
     private String telefoneFixo;
@@ -62,7 +61,6 @@ public class Usuario {
 
     public Usuario(String nome, String email, String dddTelefoneCelular, String telefoneCelular, String dddTelefoneFixo, String telefoneFixo) {
         this.nome = nome;
-        this.email = email;
         this.dddTelefoneCelular = dddTelefoneCelular;
         this.telefoneCelular = telefoneCelular;
         this.dddTelefoneFixo = this.dddTelefoneFixo;
@@ -102,11 +100,7 @@ public class Usuario {
     }
 
     public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+        return id;
     }
 
     public String getNome() {
@@ -117,11 +111,11 @@ public class Usuario {
         this.nome = nome;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -146,14 +140,14 @@ public class Usuario {
     }
 
 
-    public static Collection<Membro> minhasRedes(Long usuarioId) {
+    public static Collection<Membro> minhasRedes(String usuarioId) {
         Usuario u = OfyService.ofy().load().type(Usuario.class).id(usuarioId).now();
         return OfyService.ofy().load().type(Membro.class).filter("usuario",u).list();
     }
 
     public static Usuario novoUsuario(Usuario usuario) throws ConflictException {
         Objectify ofy = OfyService.ofy();
-        if(ofy.load().type(Usuario.class).filter("email", usuario.getEmail()).first().now() != null){
+        if(ofy.load().type(Usuario.class).id(usuario.getEmail()).now() != null){
             throw new ConflictException("e-mail já cadastrado");
         }
         ofy.save().entity(usuario).now();
@@ -161,7 +155,7 @@ public class Usuario {
 
     }
 
-    public static Usuario buscar(Long id) throws NotFoundException {
+    public static Usuario buscar(String id) throws NotFoundException {
         Usuario u = OfyService.ofy().load().type(Usuario.class).id(id).now();
         if(u==null){
             throw  new NotFoundException("Usuario " + id + " nao encontrado");
@@ -170,7 +164,7 @@ public class Usuario {
         return u;
     }
 
-    public static void apagar(Long id) {
+    public static void apagar(String id) {
         Objectify ofy = OfyService.ofy();
         ofy.delete().type(Usuario.class).id(id).now();
     }

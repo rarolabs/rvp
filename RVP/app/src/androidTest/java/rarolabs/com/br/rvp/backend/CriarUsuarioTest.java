@@ -3,15 +3,19 @@ package rarolabs.com.br.rvp.backend;
 import android.app.Application;
 import android.test.ApplicationTestCase;
 
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
 import rarolabs.com.br.rvp.fixtures.UsuarioFixture;
 import rarolabs.com.br.rvp.services.BackendExpection;
 import rarolabs.com.br.rvp.services.BackendServices;
 
 /**
- * Created by rodrigosol on 12/31/14.
- */
+* Created by rodrigosol on 12/31/14.
+*/
 public class CriarUsuarioTest extends ApplicationTestCase<Application> {
+
+    private BackendServices service;
 
     public CriarUsuarioTest() {
         super(Application.class);
@@ -21,15 +25,18 @@ public class CriarUsuarioTest extends ApplicationTestCase<Application> {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        GoogleAccountCredential credential = GoogleAccountCredential.usingAudience(getContext(), "server:client_id:701949285974-83l9d3ibrmaerqboebi7fvpm3s3tcarc.apps.googleusercontent.com");
+        credential.setSelectedAccountName("rodrigosol@gmail.com");
+        this.service = new BackendServices(credential);
     }
 
 
     public void testNovoUsuario() {
-        BackendServices.cleanForTesting();
+        //service.cleanForTesting();
         try {
             Usuario u = UsuarioFixture.getRodrigoSol();
-            Usuario criado = BackendServices.novoUsuario(u);
-            Usuario recuperado = BackendServices.buscarUsuario(criado.getId());
+            Usuario criado = service.novoUsuario(u);
+            Usuario recuperado = service.buscarUsuario(criado.getId());
 
             assertEquals(criado.getId(), recuperado.getId());
             assertEquals(criado.getEmail(), recuperado.getEmail());
@@ -45,15 +52,15 @@ public class CriarUsuarioTest extends ApplicationTestCase<Application> {
 
 
     public void testeUsuarioDuplicado() throws InterruptedException {
-        BackendServices.cleanForTesting();
+        service.cleanForTesting();
         Usuario a = UsuarioFixture.getRodrigoSol();
         Usuario b = UsuarioFixture.getRodrigoSol();
         a.setEmail("rodrigosol@gmail.com");
         b.setEmail("rodrigosol@gmail.com");
 
         try {
-            BackendServices.novoUsuario(a);
-            BackendServices.novoUsuario(b);
+            service.novoUsuario(a);
+            service.novoUsuario(b);
             fail();
         } catch (BackendExpection e) {
             assertEquals("e-mail já cadastrado", e.getMessage());
@@ -62,12 +69,12 @@ public class CriarUsuarioTest extends ApplicationTestCase<Application> {
     }
 
     public void testUsuarioNaoEncontrado() {
-        BackendServices.cleanForTesting();
+        service.cleanForTesting();
         try {
-            BackendServices.buscarUsuario(22l);
+            service.buscarUsuario("a@a.com");
             fail();
         } catch (BackendExpection e) {
-            assertEquals("Usuario 22 nao encontrado", e.getMessage());
+            assertEquals("Usuario a@a.com nao encontrado", e.getMessage());
         }
 
     }

@@ -53,4 +53,15 @@ appengine {
         getDiscoveryDocsOnBuild = true
     }
 
+    appcfg {
+        logs {
+            severity = 0
+            outputFile = file('/tmp/gae.txt')
+        }
+
+        app {
+            id = 'RVP'
+        }
+    }
+
 }

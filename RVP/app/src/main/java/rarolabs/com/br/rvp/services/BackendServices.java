@@ -1,9 +1,13 @@
 package rarolabs.com.br.rvp.services;
 
+import android.accounts.Account;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.json.JsonParser;
 
 import org.json.JSONException;
@@ -19,114 +23,115 @@ import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
 
+import static android.support.v4.app.ActivityCompat.startActivityForResult;
+
 /**
  * Created by rodrigosol on 12/31/14.
  */
 public class BackendServices {
+    private GoogleAccountCredential credential;
+    private RvpAPI service;
 
+    public BackendServices(GoogleAccountCredential credential){
+        setCredential(credential);
+    }
 
-    public static void apagarRede(Long id) throws BackendExpection {
+    public void setCredential(GoogleAccountCredential credential){
+        this.credential = credential;
+        loadService();
+    }
+
+    public  void apagarRede(Long id) throws BackendExpection {
         try {
-            RvpAPI service = getService();
             service.apagarRede(id).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
     }
 
-    public static Membro ativarVizinho(Long idMembro) throws BackendExpection {
+    public  Membro ativarVizinho(Long idMembro) throws BackendExpection {
         try {
-            RvpAPI service = getService();
             return service.ativarVizinho(idMembro).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
     }
 
-    public static br.com.rarolabs.rvp.api.rvpAPI.model.Rede buscarRede(Long idRede) throws BackendExpection {
+    public  br.com.rarolabs.rvp.api.rvpAPI.model.Rede buscarRede(Long idRede) throws BackendExpection {
         try {
-            RvpAPI service = getService();
             return service.buscarRede(idRede).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
     }
 
-    public static br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponderCollection buscarRedesProximas(Double latitude, Double longitude, Double distancia) throws BackendExpection {
+    public  br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponderCollection buscarRedesProximas(Double latitude, Double longitude, Double distancia) throws BackendExpection {
         try {
-            RvpAPI service = getService();
             return service.buscarRedesProximas(latitude,longitude,distancia).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
     }
 
-    public static Usuario buscarUsuario(Long idUsuario) throws BackendExpection {
+    public  Usuario buscarUsuario(String idUsuario) throws BackendExpection {
         try {
-            RvpAPI service = getService();
             return service.buscarUsuario(idUsuario).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
     }
 
-    public static Membro inativarVizinho(Long idMembro) throws BackendExpection {
+    public  Membro inativarVizinho(Long idMembro) throws BackendExpection {
         try {
-            RvpAPI service = getService();
             return service.inativarVizinho(idMembro).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
     }
 
-    public static br.com.rarolabs.rvp.api.rvpAPI.model.MembroCollection minhasRedes(Long idUsuario) throws BackendExpection {
+    public  br.com.rarolabs.rvp.api.rvpAPI.model.MembroCollection minhasRedes() throws BackendExpection {
         try {
-            RvpAPI service = getService();
-            return service.minhasRedes(idUsuario).execute();
+            return service.minhasRedes().execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
     }
 
-    public static Rede novaRede(String nome, Long usuarioId, Endereco endereco) throws BackendExpection {
+    public  Rede novaRede(String nome, Endereco endereco) throws BackendExpection {
         try {
-            RvpAPI service = getService();
-            return service.novaRede(nome,usuarioId,endereco).execute();
+            return service.novaRede(nome,endereco).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
     }
 
-    public static Usuario novoUsuario(Usuario usuario) throws BackendExpection {
+    public  Usuario novoUsuario(Usuario usuario) throws BackendExpection {
         try {
-            RvpAPI service = getService();
             return service.novoUsuario(usuario).execute();
         } catch (IOException e) {
+            e.printStackTrace();
             throw new BackendExpection(getExceptionMensage(e));
         }
     }
 
-    public static void removerUsuario(Long idUsuario) throws BackendExpection {
+    public  void removerUsuario() throws BackendExpection {
         try {
-            RvpAPI service = getService();
-            service.removerUsuario(idUsuario).execute();
+            service.removerUsuario().execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
     }
 
-    public static Membro aprovarAssociacao(Long idMembro) throws BackendExpection {
+    public  Membro aprovarAssociacao(Long idMembro) throws BackendExpection {
         try {
-            RvpAPI service = getService();
             return service.aprovarAssociacao(idMembro).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
     }
 
-    public static Membro retirarPermissaoAdministrador(Long idMembro) throws BackendExpection {
+    public  Membro retirarPermissaoAdministrador(Long idMembro) throws BackendExpection {
         try {
-            RvpAPI service = getService();
             return service.retirarPermissaoAdministrador(idMembro).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
@@ -134,64 +139,50 @@ public class BackendServices {
     }
 
 
-    public static Membro retirarPermissaoAutoridade(Long idMembro) throws BackendExpection {
+    public  Membro retirarPermissaoAutoridade(Long idMembro) throws BackendExpection {
         try {
-            RvpAPI service = getService();
             return service.retirarPermissaoAutoridade(idMembro).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
     }
 
-    public static void salvarEndereco(Endereco endereco) throws BackendExpection {
-        try {
-            RvpAPI service = getService();
-            service.salvarEndereco(endereco).execute();
-        } catch (IOException e) {
-            throw new BackendExpection(getExceptionMensage(e));
-        }
-    }
 
-    public static br.com.rarolabs.rvp.api.rvpAPI.model.MembroCollection solicitacoesPendentes(Long idRede) throws BackendExpection {
+    public  br.com.rarolabs.rvp.api.rvpAPI.model.MembroCollection solicitacoesPendentes(Long idRede) throws BackendExpection {
         try {
-            RvpAPI service = getService();
             return service.solicitacoesPendentes(idRede).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
     }
 
-    public static Membro reprovarAssociacao(Long idMembro) throws BackendExpection {
+    public  Membro reprovarAssociacao(Long idMembro) throws BackendExpection {
         try {
-            RvpAPI service = getService();
             return service.reprovarAssociacao(idMembro).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
     }
 
-    public static Membro solicitarAssociacao(Long redeId,Long usuarioId, Endereco endereco) throws BackendExpection {
+    public  Membro solicitarAssociacao(Long redeId, Endereco endereco) throws BackendExpection {
         try {
-            RvpAPI service = getService();
-            return service.solicitarAssociacao(redeId,usuarioId,endereco).execute();
+            return service.solicitarAssociacao(redeId,endereco).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
     }
 
 
-    public static Membro tornarAdministrador(Long idMembro) throws BackendExpection {
+    public  Membro tornarAdministrador(Long idMembro) throws BackendExpection {
         try {
-            RvpAPI service = getService();
             return service.tornarAdministrador(idMembro).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
     }
 
-    public static Membro tornarAutoridade(Long idMembro) throws BackendExpection {
+    public  Membro tornarAutoridade(Long idMembro) throws BackendExpection {
         try {
-            RvpAPI service = getService();
             return service.tornarAutoridade(idMembro).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
@@ -199,27 +190,24 @@ public class BackendServices {
     }
 
 
-    public static br.com.rarolabs.rvp.api.rvpAPI.model.Membro buscarDono(Long idRede) throws BackendExpection {
+    public  br.com.rarolabs.rvp.api.rvpAPI.model.Membro buscarDono(Long idRede) throws BackendExpection {
         try {
-            RvpAPI service = getService();
             return service.buscarDono(idRede).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
     }
 
-    public static br.com.rarolabs.rvp.api.rvpAPI.model.MembroCollection buscarMembros(Long idRede) throws BackendExpection {
+    public  br.com.rarolabs.rvp.api.rvpAPI.model.MembroCollection buscarMembros(Long idRede) throws BackendExpection {
         try {
-            RvpAPI service = getService();
             return service.buscarMembros(idRede).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
         }
     }
 
-    public static br.com.rarolabs.rvp.api.rvpAPI.model.MembroCollection buscarMembrosAtivos(Long idRede) throws BackendExpection {
+    public  br.com.rarolabs.rvp.api.rvpAPI.model.MembroCollection buscarMembrosAtivos(Long idRede) throws BackendExpection {
         try {
-            RvpAPI service = getService();
             return service.buscarMembrosAtivos(idRede).execute();
         } catch (IOException e) {
             throw new BackendExpection(getExceptionMensage(e));
@@ -227,9 +215,9 @@ public class BackendServices {
     }
 
 
-    private static RvpAPI getService(){
+    private  void loadService(){
         RvpAPI.Builder builder = new RvpAPI.Builder(
-                AndroidHttp.newCompatibleTransport(),new AndroidJsonFactory(), null);
+                AndroidHttp.newCompatibleTransport(),new AndroidJsonFactory(), credential);
         builder.setRootUrl("http://10.0.0.102:8080/_ah/api");
         builder.setApplicationName("rvpAPI");
         builder.setGoogleClientRequestInitializer(new RvpAPIRequestInitializer() {
@@ -237,12 +225,16 @@ public class BackendServices {
                 request.setDisableGZipContent(true);
             }
         });
-        return builder.build();
+        service = builder.build();
+
     }
+
     private static String getExceptionMensage(Exception e){
 
 
             String msg = e.getMessage();
+            e.printStackTrace();
+
             try {
                 JSONObject jObject = new JSONObject(msg.substring(msg.indexOf("{"), msg.lastIndexOf("}") + 1));
 
@@ -255,8 +247,7 @@ public class BackendServices {
         return msg;
     }
 
-    public static void cleanForTesting() {
-        RvpAPI service = getService();
+    public  void cleanForTesting() {
         try {
             service.cleanDataBaseForTesting().execute();
         } catch (IOException e) {

@@ -3,6 +3,8 @@ package rarolabs.com.br.rvp.backend;
 import android.app.Application;
 import android.test.ApplicationTestCase;
 
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+
 import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
@@ -12,9 +14,11 @@ import rarolabs.com.br.rvp.services.BackendExpection;
 import rarolabs.com.br.rvp.services.BackendServices;
 
 /**
- * Created by rodrigosol on 12/31/14.
- */
+* Created by rodrigosol on 12/31/14.
+*/
 public class CriarRedeTest extends ApplicationTestCase<Application> {
+
+    private BackendServices service;
 
     public CriarRedeTest() {
         super(Application.class);
@@ -24,17 +28,21 @@ public class CriarRedeTest extends ApplicationTestCase<Application> {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        GoogleAccountCredential credential = GoogleAccountCredential.usingAudience(getContext(), "server:client_id:701949285974-83l9d3ibrmaerqboebi7fvpm3s3tcarc.apps.googleusercontent.com");
+        credential.setSelectedAccountName("rodrigosol@gmail.com");
+        this.service = new BackendServices(credential);
+
     }
 
     public void testNovaRede() throws BackendExpection {
-        BackendServices.cleanForTesting();
-        Usuario u = BackendServices.novoUsuario(UsuarioFixture.getRodrigoSol());
-        Rede r = BackendServices.novaRede("Amigos do Comiteco",u.getId(), EnderecoFixture.getEnderecoRaro());
+        service.cleanForTesting();
+        Usuario u = service.novoUsuario(UsuarioFixture.getRodrigoSol());
+        Rede r = service.novaRede("Amigos do Comiteco", EnderecoFixture.getEnderecoRaro());
         assertNotNull(r.getId());
-        Membro dono = BackendServices.buscarDono(r.getId());
+        Membro dono = service.buscarDono(r.getId());
         assertEquals(dono.getUsuarioId(),u.getId());
 
-        Membro membros = BackendServices.buscarMembros(r.getId()).getItems().iterator().next();
+        Membro membros = service.buscarMembros(r.getId()).getItems().iterator().next();
 
         assertEquals(u.getId(),dono.getUsuarioId());
         assertEquals(dono.getStatus(), "ATIVO");
@@ -47,17 +55,27 @@ public class CriarRedeTest extends ApplicationTestCase<Application> {
 
 
     public void testRedeComMesmoNome() {
-        BackendServices.cleanForTesting();
-        Usuario u = null;
+
         try {
-            u = BackendServices.novoUsuario(UsuarioFixture.getRodrigoSol());
-            Rede r = BackendServices.novaRede("Amigos do Comiteco",u.getId(), EnderecoFixture.getEnderecoRaro());
-            Rede r1 = BackendServices.novaRede("Amigos do Comiteco",u.getId(), EnderecoFixture.getEnderecoRaro());
+            service.cleanForTesting();
+            Usuario u = service.novoUsuario(UsuarioFixture.getRodrigoSol());
+            Rede r = service.novaRede("Amigos do Comiteco", EnderecoFixture.getEnderecoRaro());
+            Rede r1 = service.novaRede("Amigos do Comiteco", EnderecoFixture.getEnderecoRaro());
             fail();
         } catch (BackendExpection e) {
             assertEquals("Já existe uma rede com o nome:Amigos do Comiteco", e.getMessage());
         }
     }
+
+    public void testBuscarDono() throws BackendExpection {
+            service.cleanForTesting();
+            Usuario u = service.novoUsuario(UsuarioFixture.getRodrigoSol());
+            Rede r = service.novaRede("Amigos do Comiteco", EnderecoFixture.getEnderecoRaro());
+            Membro dono = service.buscarDono(r.getId());
+            assertEquals(u.getId(),dono.getUsuarioId());
+
+    }
+
 
 
 }

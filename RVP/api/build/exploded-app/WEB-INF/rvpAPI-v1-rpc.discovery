@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/D0cA7KVKuOh6KwPDiWASLg6ENnM\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/LtRSZhmHFJ3ZhUfM3bLVXuB5l9U\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -189,8 +189,7 @@
      "$ref": "Status"
     },
     "usuarioId": {
-     "type": "string",
-     "format": "int64"
+     "type": "string"
     },
     "visibilidadeEmail": {
      "$ref": "Visibilidade"
@@ -287,8 +286,7 @@
      "type": "string"
     },
     "id": {
-     "type": "string",
-     "format": "int64"
+     "type": "string"
     },
     "nome": {
      "type": "string"
@@ -485,14 +483,13 @@
   "rvpAPI.buscarUsuario": {
    "id": "rvpAPI.buscarUsuario",
    "parameters": {
-    "id": {
+    "id_usuario": {
      "type": "string",
-     "required": true,
-     "format": "int64"
+     "required": true
     }
    },
    "parameterOrder": [
-    "id"
+    "id_usuario"
    ],
    "returns": {
     "$ref": "Usuario"
@@ -528,16 +525,6 @@
   },
   "rvpAPI.minhasRedes": {
    "id": "rvpAPI.minhasRedes",
-   "parameters": {
-    "usuario_id": {
-     "type": "string",
-     "required": true,
-     "format": "int64"
-    }
-   },
-   "parameterOrder": [
-    "usuario_id"
-   ],
    "returns": {
     "$ref": "MembroCollection"
    },
@@ -554,17 +541,11 @@
     },
     "resource": {
      "$ref": "Endereco"
-    },
-    "usuario_id": {
-     "type": "string",
-     "required": true,
-     "format": "int64"
     }
    },
    "parameterOrder": [
     "resource",
-    "nome",
-    "usuario_id"
+    "nome"
    ],
    "returns": {
     "$ref": "Rede"
@@ -592,16 +573,6 @@
   },
   "rvpAPI.removerUsuario": {
    "id": "rvpAPI.removerUsuario",
-   "parameters": {
-    "id": {
-     "type": "string",
-     "required": true,
-     "format": "int64"
-    }
-   },
-   "parameterOrder": [
-    "id"
-   ],
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]
@@ -663,20 +634,6 @@
     "https://www.googleapis.com/auth/userinfo.email"
    ]
   },
-  "rvpAPI.salvarEndereco": {
-   "id": "rvpAPI.salvarEndereco",
-   "parameters": {
-    "resource": {
-     "$ref": "Endereco"
-    }
-   },
-   "parameterOrder": [
-    "resource"
-   ],
-   "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
-   ]
-  },
   "rvpAPI.solicitacoesPendentes": {
    "id": "rvpAPI.solicitacoesPendentes",
    "parameters": {
@@ -706,17 +663,11 @@
     },
     "resource": {
      "$ref": "Endereco"
-    },
-    "usuario_id": {
-     "type": "string",
-     "required": true,
-     "format": "int64"
     }
    },
    "parameterOrder": [
     "resource",
-    "rede_id",
-    "usuario_id"
+    "rede_id"
    ],
    "returns": {
     "$ref": "Membro"

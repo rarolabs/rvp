@@ -145,7 +145,7 @@ public class Membro {
     public Long getRedeId() {
         return rede.get().getId();
     }
-    public Long getUsuarioId() {
+    public String getUsuarioId() {
         return usuario.get().getId();
     }
 

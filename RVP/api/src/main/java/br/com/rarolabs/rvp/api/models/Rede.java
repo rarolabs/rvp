@@ -104,7 +104,7 @@ public class Rede {
     }
 
 
-    public static Rede novaRede(final String nome, final Long usuarioId,  final Endereco endereco) throws ConflictException {
+    public static Rede novaRede(final String nome, final String usuarioId,  final Endereco endereco) throws ConflictException {
         final Objectify ofy = OfyService.ofy();
         if(ofy.load().type(Rede.class).filter("nome", nome).first().now() != null){
             throw new ConflictException("Já existe uma rede com o nome:" + nome);
@@ -153,7 +153,7 @@ public class Rede {
         return rede;
     }
 
-    public static Membro solicitarAssociacao(Long id, Long usuarioId, final Endereco endereco) throws NotFoundException, ConflictException {
+    public static Membro solicitarAssociacao(Long id, String usuarioId, final Endereco endereco) throws NotFoundException, ConflictException {
 
 
 

@@ -15,6 +15,7 @@ import java.util.Collection;
 import br.com.rarolabs.rvp.api.models.Membro;
 import br.com.rarolabs.rvp.api.models.Rede;
 import br.com.rarolabs.rvp.api.models.Usuario;
+import br.com.rarolabs.rvp.api.service.OfyService;
 import br.com.rarolabs.rvp.api.test.fixtures.EnderecoFixture;
 import br.com.rarolabs.rvp.api.test.fixtures.RedeFixture;
 import br.com.rarolabs.rvp.api.test.fixtures.UsuarioFixture;
@@ -30,6 +31,7 @@ public class SolicitarAcessoRede {
     @Before
     public void setUp() {
         helper.setUp();
+        OfyService.ofy().clear();
     }
 
     @After

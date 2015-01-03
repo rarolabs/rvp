@@ -3,6 +3,8 @@ package rarolabs.com.br.rvp.backend;
 import android.app.Application;
 import android.test.ApplicationTestCase;
 
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+
 import java.util.TreeSet;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.Endereco;
@@ -18,9 +20,14 @@ import rarolabs.com.br.rvp.services.BackendExpection;
 import rarolabs.com.br.rvp.services.BackendServices;
 
 /**
- * Created by rodrigosol on 12/31/14.
- */
+* Created by rodrigosol on 12/31/14.
+*/
 public class LocalizarRedesTest  extends ApplicationTestCase<Application> {
+
+    private BackendServices service;
+    private GoogleAccountCredential rodrigoSol;
+    private GoogleAccountCredential admin;
+    private GoogleAccountCredential carol;
 
     public LocalizarRedesTest() {
         super(Application.class);
@@ -30,43 +37,64 @@ public class LocalizarRedesTest  extends ApplicationTestCase<Application> {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        rodrigoSol = GoogleAccountCredential.usingAudience(getContext(), "server:client_id:701949285974-83l9d3ibrmaerqboebi7fvpm3s3tcarc.apps.googleusercontent.com");
+        rodrigoSol.setSelectedAccountName("rodrigosol@gmail.com");
+
+        admin = GoogleAccountCredential.usingAudience(getContext(), "server:client_id:701949285974-83l9d3ibrmaerqboebi7fvpm3s3tcarc.apps.googleusercontent.com");
+        admin.setSelectedAccountName("admin@rarolabs.com.br");
+
+        carol = GoogleAccountCredential.usingAudience(getContext(), "server:client_id:701949285974-83l9d3ibrmaerqboebi7fvpm3s3tcarc.apps.googleusercontent.com");
+        carol.setSelectedAccountName("acarolsm@gmail.com");
+
     }
 
+
     public void testMinhasRedes() throws BackendExpection {
-        BackendServices.cleanForTesting();
-        Usuario rodrigo = BackendServices.novoUsuario(UsuarioFixture.getRodrigoSol());
-        Rede rede1 = BackendServices.novaRede("Amigos do Comiteco",rodrigo.getId(), EnderecoFixture.getEnderecoRaro());
-        Rede rede2 = BackendServices.novaRede("Amigos do Nectar",rodrigo.getId(), EnderecoFixture.getEnderecoCasa());
-        Usuario ramon = BackendServices.novoUsuario(UsuarioFixture.getRamonSetragni());
-        Rede rede3 = BackendServices.novaRede("Amigos do Praça",ramon.getId(), EnderecoFixture.getEnderecoPraca());
-        BackendServices.solicitarAssociacao(rede3.getId(),rodrigo.getId(), EnderecoFixture.getEnderecoPraca());
-        BackendServices.aprovarAssociacao(BackendServices.solicitacoesPendentes(rede3.getId()).getItems().get(0).getId());
-        MembroCollection minhasRedes = BackendServices.minhasRedes(rodrigo.getId());
+        service = new BackendServices(rodrigoSol);
+        service.cleanForTesting();
+        Usuario rodrigo = service.novoUsuario(UsuarioFixture.getRodrigoSol());
+        Rede rede1 = service.novaRede("Amigos do Comiteco", EnderecoFixture.getEnderecoRaro());
+        Rede rede2 = service.novaRede("Amigos do Nectar", EnderecoFixture.getEnderecoCasa());
+
+        service = new BackendServices(carol);
+        Usuario ramon = service.novoUsuario(UsuarioFixture.getRamonSetragni());
+        Rede rede3 = service.novaRede("Amigos do Praça", EnderecoFixture.getEnderecoPraca());
+
+        service = new BackendServices(rodrigoSol);
+        service.solicitarAssociacao(rede3.getId(), EnderecoFixture.getEnderecoPraca());
+
+        service = new BackendServices(carol);
+        service.aprovarAssociacao(service.solicitacoesPendentes(rede3.getId()).getItems().get(0).getId());
+
+        service = new BackendServices(rodrigoSol);
+        MembroCollection minhasRedes = service.minhasRedes();
 
         assertEquals(3,minhasRedes.getItems().size());
     }
 
 
     public void testBuscarRedesProximas() throws BackendExpection {
-//        BackendServices.cleanForTesting();
-//        Endereco raro = EnderecoFixture.getEnderecoRaro();
-//        Endereco casa = EnderecoFixture.getEnderecoCasa();
-//        Endereco praca = EnderecoFixture.getEnderecoPraca();
-//        Endereco escola = EnderecoFixture.getEnderecoEscola();
-//
-//        Rede rede1 = RedeFixture.novaRede1();
-//
-//        //Busca exata nas mesma cordenadas da rede
-//        GeoqueryResponderCollection result = BackendServices.buscarRedesProximas(raro.getLatitude(), raro.getLongitude(), 0.00);
-//        assertEquals(1,result.size());
-//        assertEquals("0.0",result.getItems().get(0).getDistance().toString());
+        service = new BackendServices(rodrigoSol);
+        service.cleanForTesting();
 
-        //Não é possivel confiar nos resultados locais
+        Endereco raro = EnderecoFixture.getEnderecoRaro();
+        Endereco casa = EnderecoFixture.getEnderecoCasa();
+        Endereco praca = EnderecoFixture.getEnderecoPraca();
+        Endereco escola = EnderecoFixture.getEnderecoEscola();
+
+        Rede rede1 = RedeFixture.novaRede1(rodrigoSol);
+
+        //Busca exata nas mesma cordenadas da rede
+        GeoqueryResponderCollection result = service.buscarRedesProximas(raro.getLatitude(), raro.getLongitude(), 0.00);
+        assertEquals(1,result.size());
+        assertEquals("0.0",result.getItems().get(0).getDistance().toString());
+
+//        //Não é possivel confiar nos resultados locais
 //        //Busca a raro da praca da bandeira se margem
-//        result = BackendServices.buscarRedesProximas(praca.getLatitude(), praca.getLongitude(), 0.00);
+//        result = service.buscarRedesProximas(praca.getLatitude(), praca.getLongitude(), 0.00);
 //        assertEquals(0,result.size());
 //        //Busca a raro da praca da bandeira com margen de 200m
-//        result = BackendServices.buscarRedesProximas(praca.getLatitude(), praca.getLongitude(), 200.00);
+//        result = service.buscarRedesProximas(praca.getLatitude(), praca.getLongitude(), 200.00);
 //        assertEquals(0,result.size());
 //
 //        //Busca a raro da praca da bandeira com margen de 300m

@@ -3,6 +3,7 @@ package br.com.rarolabs.rvp.api.models;
 import com.google.api.server.spi.config.AnnotationBoolean;
 import com.google.api.server.spi.config.ApiResourceProperty;
 import com.google.appengine.api.search.GeoPoint;
+import com.google.appengine.api.users.User;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
@@ -98,7 +99,4 @@ public class Endereco {
         this.localidade = localidade;
     }
 
-    public static void salvar(Endereco e){
-        OfyService.ofy().save().entity(e).now();
-    }
 }

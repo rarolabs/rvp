@@ -1,5 +1,9 @@
 package rarolabs.com.br.rvp.fixtures;
 
+import android.content.Context;
+
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
 import rarolabs.com.br.rvp.services.BackendExpection;
@@ -9,14 +13,16 @@ import rarolabs.com.br.rvp.services.BackendServices;
  * Created by rodrigosol on 12/31/14.
  */
 public class RedeFixture {
-    public static Rede novaRede1() throws BackendExpection {
-        Usuario u = BackendServices.novoUsuario(UsuarioFixture.getRodrigoSol());
-        return BackendServices.novaRede("Amigos do Comiteco" + Math.random(),u.getId(), EnderecoFixture.getEnderecoRaro());
+    public static Rede novaRede1(GoogleAccountCredential credential) throws BackendExpection {
+        BackendServices service = new BackendServices(credential);
+        Usuario u = service.novoUsuario(UsuarioFixture.getRodrigoSol());
+        return service.novaRede("Amigos do Comiteco" + Math.random(), EnderecoFixture.getEnderecoRaro());
     }
 
-    public static Rede novaRede2() throws BackendExpection {
-        Usuario u = BackendServices.novoUsuario(UsuarioFixture.getRamonSetragni());
-        return BackendServices.novaRede("Amigos da Praça" + Math.random(),u.getId(), EnderecoFixture.getEnderecoEscola());
+    public static Rede novaRede2(GoogleAccountCredential credential) throws BackendExpection {
+        BackendServices service = new BackendServices(credential);
+        Usuario u = service.novoUsuario(UsuarioFixture.getRamonSetragni());
+        return service.novaRede("Amigos da Praça" + Math.random(), EnderecoFixture.getEnderecoEscola());
     }
 
 }

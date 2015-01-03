@@ -8,7 +8,7 @@ import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
 public class UsuarioFixture {
     public static Usuario getRodrigoSol(){
         Usuario u = new Usuario();
-        u.setEmail("rodrigosol@gmail.com" + Math.random());
+        u.setId("rodrigosol@gmail.com");
         u.setNome("Rodrigo Sol");
         u.setDddTelefoneCelular("31");
         u.setTelefoneCelular("71718438");
@@ -17,9 +17,9 @@ public class UsuarioFixture {
         return u;
     }
 
-    public static Usuario getLesioPinheiro() {
+    public static Usuario getAdmin() {
         Usuario u = new Usuario();
-        u.setEmail("lesio.lap@gmail.com" + Math.random());
+        u.setId("admin@rarolabs.com.br");
         u.setNome("Lesio Pinheiro");
         u.setDddTelefoneCelular("31");
         u.setTelefoneCelular("71718438");
@@ -31,7 +31,7 @@ public class UsuarioFixture {
 
     public static Usuario getRamonSetragni() {
         Usuario u = new Usuario();
-        u.setEmail("ramon.setragni@gmail.com" + Math.random());
+        u.setId("ramon.setragni@gmail.com" + Math.random());
         u.setNome("Ramon Setragni");
         u.setDddTelefoneCelular("31");
         u.setTelefoneCelular("71718438");
@@ -43,7 +43,7 @@ public class UsuarioFixture {
 
     public static Usuario getLeonardoHerbert() {
         Usuario u = new Usuario();
-        u.setEmail("leonardo.robotica@gmail.com" + Math.random());
+        u.setId("leonardo.robotica@gmail.com" + Math.random());
         u.setNome("Leonardo Herbert");
         u.setDddTelefoneCelular("31");
         u.setTelefoneCelular("71718438");

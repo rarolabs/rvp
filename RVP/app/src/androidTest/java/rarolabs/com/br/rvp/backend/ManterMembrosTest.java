@@ -3,21 +3,22 @@ package rarolabs.com.br.rvp.backend;
 import android.app.Application;
 import android.test.ApplicationTestCase;
 
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+
 import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
-import br.com.rarolabs.rvp.api.rvpAPI.model.MembroCollection;
-import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
-import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
-import rarolabs.com.br.rvp.fixtures.EnderecoFixture;
-import rarolabs.com.br.rvp.fixtures.RedeFixture;
 import rarolabs.com.br.rvp.fixtures.SolicitacaoFixture;
-import rarolabs.com.br.rvp.fixtures.UsuarioFixture;
 import rarolabs.com.br.rvp.services.BackendExpection;
 import rarolabs.com.br.rvp.services.BackendServices;
 
 /**
- * Created by rodrigosol on 12/31/14.
- */
+* Created by rodrigosol on 12/31/14.
+*/
 public class ManterMembrosTest  extends ApplicationTestCase<Application> {
+
+    private BackendServices service;
+
+    private GoogleAccountCredential rodrigoSol;
+    private GoogleAccountCredential admin;
 
     public ManterMembrosTest() {
         super(Application.class);
@@ -27,13 +28,18 @@ public class ManterMembrosTest  extends ApplicationTestCase<Application> {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        rodrigoSol = GoogleAccountCredential.usingAudience(getContext(), "server:client_id:701949285974-83l9d3ibrmaerqboebi7fvpm3s3tcarc.apps.googleusercontent.com");
+        rodrigoSol.setSelectedAccountName("rodrigosol@gmail.com");
+
+        admin = GoogleAccountCredential.usingAudience(getContext(), "server:client_id:701949285974-83l9d3ibrmaerqboebi7fvpm3s3tcarc.apps.googleusercontent.com");
+        admin.setSelectedAccountName("admin@rarolabs.com.br");
     }
 
     public void testTornarAdministrador() throws BackendExpection {
-        BackendServices.cleanForTesting();
-        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada();
-
-        m = BackendServices.tornarAdministrador(m.getId());
+        this.service = new BackendServices(rodrigoSol);
+        service.cleanForTesting();
+        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(admin,rodrigoSol);
+        m = service.tornarAdministrador(m.getId());
         assertEquals(m.getStatus(), "ATIVO");
         assertEquals(m.getPapel(), "ADMIN");
 
@@ -41,10 +47,10 @@ public class ManterMembrosTest  extends ApplicationTestCase<Application> {
 
 
     public void testRetirarPermissaoAdministrador() throws BackendExpection, InterruptedException {
-        BackendServices.cleanForTesting();
-        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada();
-
-        m = BackendServices.retirarPermissaoAdministrador(m.getId());
+        this.service = new BackendServices(rodrigoSol);
+        service.cleanForTesting();
+        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(admin,rodrigoSol);
+        m = service.retirarPermissaoAdministrador(m.getId());
         assertEquals(m.getStatus(), "ATIVO");
         assertEquals(m.getPapel(), "VIVIZINHO");
 
@@ -52,10 +58,10 @@ public class ManterMembrosTest  extends ApplicationTestCase<Application> {
 
 
     public void testTornarAutoriadade() throws BackendExpection {
-        BackendServices.cleanForTesting();
-        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada();
-
-        m = BackendServices.tornarAutoridade(m.getId());
+        this.service = new BackendServices(rodrigoSol);
+        service.cleanForTesting();
+        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(admin,rodrigoSol);
+        m = service.tornarAutoridade(m.getId());
         assertEquals(m.getStatus(), "ATIVO");
         assertEquals(m.getPapel(), "AUTORIDADE");
 
@@ -63,10 +69,10 @@ public class ManterMembrosTest  extends ApplicationTestCase<Application> {
 
 
     public void testRetirarPermissaoAutoriadade() throws BackendExpection, InterruptedException {
-        BackendServices.cleanForTesting();
-        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada();
-
-        m = BackendServices.retirarPermissaoAutoridade(m.getId());
+        this.service = new BackendServices(rodrigoSol);
+        service.cleanForTesting();
+        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(admin,rodrigoSol);
+        m = service.retirarPermissaoAutoridade(m.getId());
         assertEquals(m.getStatus(), "ATIVO");
         assertEquals(m.getPapel(), "VIVIZINHO");
 
@@ -74,10 +80,10 @@ public class ManterMembrosTest  extends ApplicationTestCase<Application> {
 
 
     public void testInativarVizinho() throws BackendExpection {
-        BackendServices.cleanForTesting();
-        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada();
-
-        m = BackendServices.inativarVizinho(m.getId());
+        this.service = new BackendServices(rodrigoSol);
+        service.cleanForTesting();
+        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(admin,rodrigoSol);
+        m = service.inativarVizinho(m.getId());
         assertEquals(m.getStatus(), "INATIVO");
         assertEquals(m.getPapel(), "VIVIZINHO");
 
@@ -85,36 +91,12 @@ public class ManterMembrosTest  extends ApplicationTestCase<Application> {
 
 
     public void testAtivarVizinho() throws BackendExpection, InterruptedException {
-        BackendServices.cleanForTesting();
-        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada();
-
-        m = BackendServices.ativarVizinho(m.getId());
+        this.service = new BackendServices(rodrigoSol);
+        service.cleanForTesting();
+        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(admin,rodrigoSol);
+        m = service.ativarVizinho(m.getId());
         assertEquals(m.getStatus(), "ATIVO");
         assertEquals(m.getPapel(), "VIVIZINHO");
-
-    }
-
-
-
-    public void testSolicitarAcesso() throws BackendExpection, InterruptedException {
-        BackendServices.cleanForTesting();
-        Rede rede = RedeFixture.novaRede1();
-        Usuario lesio = BackendServices.novoUsuario(UsuarioFixture.getLesioPinheiro());
-        BackendServices.solicitarAssociacao(rede.getId(),lesio.getId(), EnderecoFixture.getEnderecoCasa());
-
-        MembroCollection solicitacoes = BackendServices.solicitacoesPendentes(rede.getId());
-        assertEquals(1,solicitacoes.size());
-        Membro m = solicitacoes.getItems().get(0);
-        assertEquals(lesio.getId(),m.getUsuarioId());
-        assertEquals(m.getStatus(), "AGUARDANDO_APROVACAO");
-        assertEquals(m.getPapel(), "VIVIZINHO");
-        assertEquals(m.getRedeId(),rede.getId());
-
-        Usuario ramon = BackendServices.novoUsuario(UsuarioFixture.getRamonSetragni());
-        BackendServices.solicitarAssociacao(rede.getId(),ramon.getId(), EnderecoFixture.getEnderecoPraca());
-        solicitacoes = BackendServices.solicitacoesPendentes(rede.getId());
-        assertEquals(2,solicitacoes.getItems().size());
-
 
     }
 

@@ -5,6 +5,7 @@ import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.ConflictException;
 import com.google.api.server.spi.response.NotFoundException;
+import com.google.appengine.api.users.User;
 
 
 import java.util.Collection;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import javax.inject.Named;
 
+import br.com.rarolabs.rvp.api.auth.Constants;
 import br.com.rarolabs.rvp.api.models.Endereco;
 import br.com.rarolabs.rvp.api.models.Membro;
 import br.com.rarolabs.rvp.api.models.Rede;
@@ -20,23 +22,28 @@ import br.com.rarolabs.rvp.api.responders.GeoqueryResponder;
 import br.com.rarolabs.rvp.api.service.SearchService;
 
 
-@Api(name = "rvpAPI", version = "v1", namespace = @ApiNamespace(ownerDomain = "api.rvp.rarolabs.com.br", ownerName = "api.rvp.rarolabs.com.br", packagePath = ""))
+@Api(name = "rvpAPI", version = "v1",
+        namespace = @ApiNamespace(ownerDomain = "api.rvp.rarolabs.com.br",
+                ownerName = "api.rvp.rarolabs.com.br", packagePath = ""),
+        scopes = {Constants.EMAIL_SCOPE},
+        clientIds = {Constants.WEB_CLIENT_ID, Constants.ANDROID_CLIENT_ID},
+        audiences = {Constants.ANDROID_AUDIENCE}
+)
 public class RedesAPI {
     /**
      * Cria uma nova rede de vizinhos protegidos
      * @param nome Nome da Rede
-     * @param usuarioId ID usuário criador da rede
      * @param endereco Endereco do usuário criador da rede
+     * @param user usuario autenticado
      * @return A rede criada
      * @throws ConflictException Em caso de já existir uma rede com o mesmo nome
      */
     @ApiMethod(name ="novaRede")
     public Rede novaRede(
             @Named("nome") String nome,
-            @Named("usuario_id") Long usuarioId,
-            Endereco endereco) throws ConflictException {
+            Endereco endereco,User user) throws ConflictException {
 
-        return Rede.novaRede(nome,usuarioId,endereco);
+        return Rede.novaRede(nome,user.getEmail(),endereco);
     }
 
     /**
@@ -56,7 +63,7 @@ public class RedesAPI {
      * @param id ID da rede a ser apagada
      */
     @ApiMethod(name ="apagarRede")
-    public void apagarRede(@Named("id") Long id){
+    public void apagarRede(@Named("id") Long id,User user){
         Rede.apagar(id);
     }
 
@@ -78,12 +85,12 @@ public class RedesAPI {
 
     /**
      * Busca todas as rede que o usuário faz parte
-     * @param usuarioId ID do Usuário
+     * @param user id o usuario
      * @return Coleção das redes do usuário
      */
     @ApiMethod(name = "minhasRedes")
-    public Collection<Membro> minhasRedes(@Named("usuario_id") Long usuarioId){
-        return Usuario.minhasRedes(usuarioId);
+    public Collection<Membro> minhasRedes(User user){
+        return Usuario.minhasRedes(user.getEmail());
     }
 
     /**
@@ -93,7 +100,7 @@ public class RedesAPI {
      * @return Retorna os membros que estão pendentes
      */
     @ApiMethod(name = "solicitacoesPendentes")
-    public Collection<Membro> solicitacoesPendentes(@Named("rede_id") Long redeId){
+    public Collection<Membro> solicitacoesPendentes(@Named("rede_id") Long redeId,User user){
         return Rede.solicitacoesPendentes(redeId);
     }
 
@@ -104,7 +111,7 @@ public class RedesAPI {
      * @throws NotFoundException Caso a rede não seja encontrada
      */
     @ApiMethod(name = "buscarDono")
-    public Membro buscarDono(@Named("rede_id") Long redeID) throws NotFoundException {
+    public Membro buscarDono(@Named("rede_id") Long redeID,User user) throws NotFoundException {
         return Rede.buscar(redeID).getDono();
     }
 
@@ -115,7 +122,7 @@ public class RedesAPI {
      * @throws NotFoundException Caso a rede não seja encontrada
      */
     @ApiMethod(name = "buscarMembros")
-    public Collection<Membro> buscarMembros(@Named("rede_id") Long redeID) throws NotFoundException {
+    public Collection<Membro> buscarMembros(@Named("rede_id") Long redeID,User user) throws NotFoundException {
         return Rede.buscar(redeID).getMembros();
     }
 
@@ -126,7 +133,7 @@ public class RedesAPI {
      * @throws NotFoundException Caso a rede não seja encontrada
      */
     @ApiMethod(name = "buscarMembrosAtivos")
-    public Collection<Membro> buscarMembrosAtios(@Named("rede_id") Long redeID) throws NotFoundException {
+    public Collection<Membro> buscarMembrosAtios(@Named("rede_id") Long redeID,User user) throws NotFoundException {
         return Rede.buscar(redeID).membrosAtivos();
     }
 

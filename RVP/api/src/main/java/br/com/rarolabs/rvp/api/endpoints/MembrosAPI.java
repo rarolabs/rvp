@@ -12,27 +12,36 @@ import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.ConflictException;
 import com.google.api.server.spi.response.ForbiddenException;
 import com.google.api.server.spi.response.NotFoundException;
+import com.google.appengine.api.users.User;
 
 
 import javax.inject.Named;
 
 
+import br.com.rarolabs.rvp.api.auth.Constants;
 import br.com.rarolabs.rvp.api.models.Endereco;
 import br.com.rarolabs.rvp.api.models.Membro;
 import br.com.rarolabs.rvp.api.models.Rede;
+import br.com.rarolabs.rvp.api.models.Usuario;
 
 /**
  * API - Rede de Vizinho Protegidos
  * Endpoints para gestão dos membros
  */
-@Api(name = "rvpAPI", version = "v1", namespace = @ApiNamespace(ownerDomain = "api.rvp.rarolabs.com.br", ownerName = "api.rvp.rarolabs.com.br", packagePath = ""))
+@Api(name = "rvpAPI", version = "v1",
+     namespace = @ApiNamespace(ownerDomain = "api.rvp.rarolabs.com.br",
+                               ownerName = "api.rvp.rarolabs.com.br", packagePath = ""),
+        scopes = {Constants.EMAIL_SCOPE},
+        clientIds = {Constants.WEB_CLIENT_ID, Constants.ANDROID_CLIENT_ID},
+        audiences = {Constants.ANDROID_AUDIENCE}
+)
+
 public class MembrosAPI {
 
     /**
      * Solicita a associacao de um usuário a uma rede. A solicitacao
      * ficará pendente até quem um administrador aprove ou rejeite
      * @param redeId ID da Rede
-     * @param usuarioId ID do Usuário
      * @param endereco Endereco do usuário para essa rede
      * @return Membro
      * @throws NotFoundException Pode ser retornada caso a rede e/ou usuário não existam
@@ -40,9 +49,9 @@ public class MembrosAPI {
      * rede para o mesmo usuario
      */
     @ApiMethod(name = "solicitarAssociacao")
-    public Membro solicitarAssociacao(@Named("rede_id") Long redeId,
-                             @Named("usuario_id") Long usuarioId, Endereco endereco) throws NotFoundException, ConflictException {
-        return Rede.solicitarAssociacao(redeId,usuarioId,endereco);
+    public Membro solicitarAssociacao(@Named("rede_id") Long redeId, Endereco endereco, User user) throws NotFoundException, ConflictException {
+
+        return Rede.solicitarAssociacao(redeId,user.getEmail(),endereco);
     }
 
     /**
@@ -53,7 +62,7 @@ public class MembrosAPI {
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "aprovarAssociacao")
-    public Membro aprovarAssociacao(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
+    public Membro aprovarAssociacao(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException {
         return Membro.aprovarAssociacao(membroId);
     }
 
@@ -65,7 +74,7 @@ public class MembrosAPI {
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "reprovarAssociacao")
-    public Membro reprovarAssociacao(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
+    public Membro reprovarAssociacao(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException {
         return Membro.reprovarAssociacao(membroId);
     }
 
@@ -77,7 +86,7 @@ public class MembrosAPI {
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "tornarAdministrador")
-    public Membro tornarAdministrador(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
+    public Membro tornarAdministrador(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException {
         return Membro.tornarAdministrador(membroId);
     }
 
@@ -89,7 +98,7 @@ public class MembrosAPI {
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "retirarPermissaoAdministrador")
-    public Membro retirarPermissaoAdministrador(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
+    public Membro retirarPermissaoAdministrador(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException {
         return Membro.retirarPermissaoAdministrador(membroId);
     }
 
@@ -101,7 +110,7 @@ public class MembrosAPI {
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "inativarVizinho")
-    public Membro inativarVizinho(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
+    public Membro inativarVizinho(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException {
         return Membro.inativarVizinho(membroId);
     }
 
@@ -113,7 +122,7 @@ public class MembrosAPI {
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "ativarVizinho")
-    public Membro ativarVizinho(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
+    public Membro ativarVizinho(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException {
         return Membro.ativarVizinho(membroId);
     }
 
@@ -125,7 +134,7 @@ public class MembrosAPI {
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "tornarAutoridade")
-    public Membro tornarAutoridade(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
+    public Membro tornarAutoridade(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException {
         return Membro.tornarAutoridade(membroId);
     }
 
@@ -137,7 +146,7 @@ public class MembrosAPI {
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "retirarPermissaoAutoridade")
-    public Membro retirarPermissaoAutoridade(@Named("membro_id") Long membroId) throws NotFoundException, ForbiddenException {
+    public Membro retirarPermissaoAutoridade(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException {
        return Membro.retirarPermissaoAutoridade(membroId);
     }
 }

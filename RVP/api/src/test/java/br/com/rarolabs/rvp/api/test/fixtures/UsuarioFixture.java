@@ -8,7 +8,7 @@ import br.com.rarolabs.rvp.api.models.Usuario;
 public class UsuarioFixture {
     public static Usuario getRodrigoSol(){
         Usuario u = new Usuario();
-        u.setEmail("rodrigosol@gmail.com");
+        u.setId("rodrigosol@gmail.com");
         u.setNome("Rodrigo Sol");
         u.setDddTelefoneCelular("31");
         u.setTelefoneCelular("71718438");
@@ -19,7 +19,7 @@ public class UsuarioFixture {
 
     public static Usuario getLesioPinheiro() {
         Usuario u = new Usuario();
-        u.setEmail("lesio.lap@gmail.com");
+        u.setId("lesio.lap@gmail.com");
         u.setNome("Lesio Pinheiro");
         u.setDddTelefoneCelular("31");
         u.setTelefoneCelular("71718438");
@@ -31,7 +31,7 @@ public class UsuarioFixture {
 
     public static Usuario getRamonSetragni() {
         Usuario u = new Usuario();
-        u.setEmail("ramon.setragni@gmail.com");
+        u.setId("ramon.setragni@gmail.com");
         u.setNome("Ramon Setragni");
         u.setDddTelefoneCelular("31");
         u.setTelefoneCelular("71718438");
@@ -43,7 +43,7 @@ public class UsuarioFixture {
 
     public static Usuario getLeonardoHerbert() {
         Usuario u = new Usuario();
-        u.setEmail("leonardo.robotica@gmail.com");
+        u.setId("leonardo.robotica@gmail.com");
         u.setNome("Leonardo Herbert");
         u.setDddTelefoneCelular("31");
         u.setTelefoneCelular("71718438");

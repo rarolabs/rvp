@@ -2,6 +2,7 @@ package br.com.rarolabs.rvp.api.test;
 
 import com.google.api.server.spi.response.ConflictException;
 import com.google.api.server.spi.response.NotFoundException;
+import com.google.appengine.api.users.User;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalSearchServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -11,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import br.com.rarolabs.rvp.api.models.Usuario;
+import br.com.rarolabs.rvp.api.service.OfyService;
 import br.com.rarolabs.rvp.api.test.fixtures.UsuarioFixture;
 
 import static org.junit.Assert.assertEquals;
@@ -26,6 +28,7 @@ public class CriarUsuarioTest {
     @Before
     public void setUp() {
         helper.setUp();
+        OfyService.ofy().clear();
     }
 
     @After
@@ -37,6 +40,8 @@ public class CriarUsuarioTest {
     public void novoUsuarioTest(){
         try {
             Usuario u = UsuarioFixture.getRodrigoSol();
+
+
             Usuario criado = Usuario.novoUsuario(u);
             Usuario recuperado = Usuario.buscar(u.getId());
 
@@ -76,10 +81,10 @@ public class CriarUsuarioTest {
     public void usuarioNaoEncontradoTest(){
 
         try {
-            Usuario.buscar(22l);
+            Usuario.buscar("abacate@com.com");
             fail();
         } catch (NotFoundException e) {
-            assertEquals("Usuario 22 nao encontrado",e.getMessage());
+            assertEquals("Usuario abacate@com.com nao encontrado",e.getMessage());
         }
 
     }

@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/D0cA7KVKuOh6KwPDiWASLg6ENnM\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/LtRSZhmHFJ3ZhUfM3bLVXuB5l9U\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -191,8 +191,7 @@
      "$ref": "Status"
     },
     "usuarioId": {
-     "type": "string",
-     "format": "int64"
+     "type": "string"
     },
     "visibilidadeEmail": {
      "$ref": "Visibilidade"
@@ -289,8 +288,7 @@
      "type": "string"
     },
     "id": {
-     "type": "string",
-     "format": "int64"
+     "type": "string"
     },
     "nome": {
      "type": "string"
@@ -512,18 +510,17 @@
   },
   "buscarUsuario": {
    "id": "rvpAPI.buscarUsuario",
-   "path": "buscarUsuario/{id}",
+   "path": "buscarUsuario/{id_usuario}",
    "httpMethod": "POST",
    "parameters": {
-    "id": {
+    "id_usuario": {
      "type": "string",
      "required": true,
-     "format": "int64",
      "location": "path"
     }
    },
    "parameterOrder": [
-    "id"
+    "id_usuario"
    ],
    "response": {
     "$ref": "Usuario"
@@ -564,19 +561,8 @@
   },
   "minhasRedes": {
    "id": "rvpAPI.minhasRedes",
-   "path": "minhasRedes/{usuario_id}",
+   "path": "minhasRedes",
    "httpMethod": "POST",
-   "parameters": {
-    "usuario_id": {
-     "type": "string",
-     "required": true,
-     "format": "int64",
-     "location": "path"
-    }
-   },
-   "parameterOrder": [
-    "usuario_id"
-   ],
    "response": {
     "$ref": "MembroCollection"
    },
@@ -586,24 +572,17 @@
   },
   "novaRede": {
    "id": "rvpAPI.novaRede",
-   "path": "novaRede/{nome}/{usuario_id}",
+   "path": "novaRede/{nome}",
    "httpMethod": "POST",
    "parameters": {
     "nome": {
      "type": "string",
      "required": true,
      "location": "path"
-    },
-    "usuario_id": {
-     "type": "string",
-     "required": true,
-     "format": "int64",
-     "location": "path"
     }
    },
    "parameterOrder": [
-    "nome",
-    "usuario_id"
+    "nome"
    ],
    "request": {
     "$ref": "Endereco",
@@ -633,19 +612,8 @@
   },
   "removerUsuario": {
    "id": "rvpAPI.removerUsuario",
-   "path": "rusuario/{id}",
+   "path": "rusuario",
    "httpMethod": "DELETE",
-   "parameters": {
-    "id": {
-     "type": "string",
-     "required": true,
-     "format": "int64",
-     "location": "path"
-    }
-   },
-   "parameterOrder": [
-    "id"
-   ],
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]
@@ -716,18 +684,6 @@
     "https://www.googleapis.com/auth/userinfo.email"
    ]
   },
-  "salvarEndereco": {
-   "id": "rvpAPI.salvarEndereco",
-   "path": "salvarEndereco",
-   "httpMethod": "POST",
-   "request": {
-    "$ref": "Endereco",
-    "parameterName": "resource"
-   },
-   "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
-   ]
-  },
   "solicitacoesPendentes": {
    "id": "rvpAPI.solicitacoesPendentes",
    "path": "solicitacoesPendentes/{rede_id}",
@@ -752,7 +708,7 @@
   },
   "solicitarAssociacao": {
    "id": "rvpAPI.solicitarAssociacao",
-   "path": "solicitarAssociacao/{rede_id}/{usuario_id}",
+   "path": "solicitarAssociacao/{rede_id}",
    "httpMethod": "POST",
    "parameters": {
     "rede_id": {
@@ -760,17 +716,10 @@
      "required": true,
      "format": "int64",
      "location": "path"
-    },
-    "usuario_id": {
-     "type": "string",
-     "required": true,
-     "format": "int64",
-     "location": "path"
     }
    },
    "parameterOrder": [
-    "rede_id",
-    "usuario_id"
+    "rede_id"
    ],
    "request": {
     "$ref": "Endereco",
