@@ -14,8 +14,8 @@ import com.google.appengine.api.users.User;
 @Api(name = "rvpAPI", version = "v1",
         namespace = @ApiNamespace(ownerDomain = "api.rvp.rarolabs.com.br",
                 ownerName = "api.rvp.rarolabs.com.br", packagePath = ""),
-        scopes = {Constants.EMAIL_SCOPE},
-        clientIds = {Constants.WEB_CLIENT_ID, Constants.ANDROID_CLIENT_ID},
+        scopes = {Constants.PROFILE_SCOPE},
+        clientIds = {Constants.WEB_CLIENT_ID, Constants.ANDROID_CLIENT_ID, com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
         audiences = {Constants.ANDROID_AUDIENCE}
 )
     public class UtilsAPI {

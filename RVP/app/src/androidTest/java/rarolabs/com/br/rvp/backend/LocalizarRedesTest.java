@@ -46,12 +46,12 @@ public class LocalizarRedesTest  extends ApplicationTestCase<Application> {
 
         carol = GoogleAccountCredential.usingAudience(getContext(), Constants.OAUTH_CLIENT_ID);
         carol.setSelectedAccountName("acarolsm@gmail.com");
-        this.service = new BackendServices(rodrigoSol,Constants.BACKEND_URL);
+        this.service = new BackendServices(getContext(),rodrigoSol,Constants.BACKEND_URL);
 
     }
 
 
-    public void testMinhasRedes() throws BackendExpection {
+    public void testMinhasRedes() throws Exception {
         service.cleanForTesting();
         Usuario rodrigo = service.novoUsuario(UsuarioFixture.getRodrigoSol());
         Rede rede1 = service.novaRede("Amigos do Comiteco", EnderecoFixture.getEnderecoRaro());
@@ -74,7 +74,7 @@ public class LocalizarRedesTest  extends ApplicationTestCase<Application> {
     }
 
 
-    public void testBuscarRedesProximas() throws BackendExpection {
+    public void testBuscarRedesProximas() throws Exception {
         service.cleanForTesting();
 
         Endereco raro = EnderecoFixture.getEnderecoRaro();
@@ -82,7 +82,7 @@ public class LocalizarRedesTest  extends ApplicationTestCase<Application> {
         Endereco praca = EnderecoFixture.getEnderecoPraca();
         Endereco escola = EnderecoFixture.getEnderecoEscola();
 
-        Rede rede1 = RedeFixture.novaRede1(rodrigoSol);
+        Rede rede1 = RedeFixture.novaRede1(service);
 
         //Busca exata nas mesma cordenadas da rede
         GeoqueryResponderCollection result = service.buscarRedesProximas(raro.getLatitude(), raro.getLongitude(), 0.00);

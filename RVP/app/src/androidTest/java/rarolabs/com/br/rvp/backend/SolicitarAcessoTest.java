@@ -45,14 +45,14 @@ public class SolicitarAcessoTest  extends ApplicationTestCase<Application> {
 
         carol = GoogleAccountCredential.usingAudience(getContext(), Constants.OAUTH_CLIENT_ID);
         carol.setSelectedAccountName("acarolsm@gmail.com");
-        this.service = new BackendServices(rodrigoSol,Constants.BACKEND_URL);
+        this.service = new BackendServices(getContext(),rodrigoSol,Constants.BACKEND_URL);
 
     }
 
 
-    public void testSolicitarAcesso() throws BackendExpection {
+    public void testSolicitarAcesso() throws Exception {
         service.cleanForTesting();
-        Rede rede = RedeFixture.novaRede1(rodrigoSol);
+        Rede rede = RedeFixture.novaRede1(service);
         service.setCredential(admin);
         Usuario lesio = service.novoUsuario(UsuarioFixture.getAdmin());
         service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoCasa());
@@ -78,11 +78,11 @@ public class SolicitarAcessoTest  extends ApplicationTestCase<Application> {
     }
 
 
-    public void pedidoDuplicado(){
+    public void pedidoDuplicado() throws Exception{
 
         try {
             service.cleanForTesting();
-            Rede rede = RedeFixture.novaRede1(rodrigoSol);
+            Rede rede = RedeFixture.novaRede1(service);
             service.setCredential(admin);
             Usuario lesio = service.novoUsuario(UsuarioFixture.getAdmin());
             service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoCasa());
@@ -97,9 +97,9 @@ public class SolicitarAcessoTest  extends ApplicationTestCase<Application> {
     }
 
 
-    public void testMembros() throws BackendExpection {
+    public void testMembros() throws Exception {
         service.cleanForTesting();
-        Rede rede = RedeFixture.novaRede1(rodrigoSol);
+        Rede rede = RedeFixture.novaRede1(service);
         service.setCredential(admin);
         Usuario lesio = service.novoUsuario(UsuarioFixture.getAdmin());
         Membro solicitacao = service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoCasa());

@@ -31,10 +31,10 @@ public class CriarRedeTest extends ApplicationTestCase<Application> {
         super.setUp();
         GoogleAccountCredential credential = GoogleAccountCredential.usingAudience(getContext(), Constants.OAUTH_CLIENT_ID);
         credential.setSelectedAccountName("rodrigosol@gmail.com");
-        this.service = new BackendServices(credential,Constants.BACKEND_URL);
+        this.service = new BackendServices(getContext(),credential,Constants.BACKEND_URL);
     }
 
-    public void testNovaRede() throws BackendExpection {
+    public void testNovaRede() throws Exception {
         service.cleanForTesting();
         Usuario u = service.novoUsuario(UsuarioFixture.getRodrigoSol());
         Rede r = service.novaRede("Amigos do Comiteco", EnderecoFixture.getEnderecoRaro());
@@ -54,7 +54,7 @@ public class CriarRedeTest extends ApplicationTestCase<Application> {
     }
 
 
-    public void testRedeComMesmoNome() {
+    public void testRedeComMesmoNome() throws Exception{
 
         try {
             service.cleanForTesting();
@@ -63,11 +63,11 @@ public class CriarRedeTest extends ApplicationTestCase<Application> {
             Rede r1 = service.novaRede("Amigos do Comiteco", EnderecoFixture.getEnderecoRaro());
             fail();
         } catch (BackendExpection e) {
-            assertEquals("Já existe uma rede com o nome:Amigos do Comiteco", e.getMessage());
+            assertEquals("Já existe uma rede com o nome:Amigos do Comiteco", e.getDescricao());
         }
     }
 
-    public void testBuscarDono() throws BackendExpection {
+    public void testBuscarDono() throws Exception {
             service.cleanForTesting();
             Usuario u = service.novoUsuario(UsuarioFixture.getRodrigoSol());
             Rede r = service.novaRede("Amigos do Comiteco", EnderecoFixture.getEnderecoRaro());

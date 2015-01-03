@@ -5,6 +5,7 @@ import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.ConflictException;
 import com.google.api.server.spi.response.NotFoundException;
+import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.appengine.api.users.User;
 
 
@@ -17,8 +18,8 @@ import br.com.rarolabs.rvp.api.models.Usuario;
 @Api(name = "rvpAPI", version = "v1",
         namespace = @ApiNamespace(ownerDomain = "api.rvp.rarolabs.com.br",
                 ownerName = "api.rvp.rarolabs.com.br", packagePath = ""),
-        scopes = {Constants.EMAIL_SCOPE},
-        clientIds = {Constants.WEB_CLIENT_ID, Constants.ANDROID_CLIENT_ID},
+        scopes = {Constants.PROFILE_SCOPE},
+        clientIds = {Constants.WEB_CLIENT_ID, Constants.ANDROID_CLIENT_ID,com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
         audiences = {Constants.ANDROID_AUDIENCE}
 )
 public class UsuariosAPI {
@@ -30,7 +31,11 @@ public class UsuariosAPI {
      * @throws ConflictException Caso o e-mail informado já esteja em uso
      */
     @ApiMethod(name = "novoUsuario")
-    public Usuario novoUsuario(Usuario usuario,User user) throws ConflictException {
+    public Usuario novoUsuario(Usuario usuario,User user) throws ConflictException, OAuthRequestException {
+        if(user==null){
+            throw new OAuthRequestException("Usuário não autenticado");
+        }
+
         usuario.setId(user.getEmail());
         usuario.setNome(user.getNickname());
         return Usuario.novoUsuario(usuario);
@@ -43,7 +48,11 @@ public class UsuariosAPI {
      * @throws NotFoundException caso o usuário não seja encontrado
      */
     @ApiMethod(name = "buscarUsuario")
-    public Usuario buscarUsuario(@Named("id_usuario") String usuarioId,User user) throws NotFoundException {
+    public Usuario buscarUsuario(@Named("id_usuario") String usuarioId,User user) throws NotFoundException, OAuthRequestException {
+        if(user==null){
+            throw new OAuthRequestException("Usuário não autenticado");
+        }
+
         return Usuario.buscar(usuarioId);
     }
 
@@ -52,7 +61,11 @@ public class UsuariosAPI {
      * @param user Usuario autenticado
      */
     @ApiMethod(name ="removerUsuario")
-    public void removerUsuario(User user){
+    public void removerUsuario(User user) throws OAuthRequestException {
+        if(user==null){
+            throw new OAuthRequestException("Usuário não autenticado");
+        }
+
         Usuario.apagar(user.getEmail());
     }
 

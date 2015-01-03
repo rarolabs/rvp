@@ -5,6 +5,7 @@ import com.google.api.server.spi.config.AnnotationBoolean;
 import com.google.api.server.spi.config.ApiResourceProperty;
 import com.google.api.server.spi.response.ConflictException;
 import com.google.api.server.spi.response.NotFoundException;
+import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
@@ -268,8 +269,19 @@ public class Rede {
                 '}';
     }
 
-    public static void apagar(Long id) {
+    public static void apagar(Long id,String userId) throws OAuthRequestException {
         Objectify ofy = OfyService.ofy();
-        ofy.delete().type(Rede.class).id(id).now();
+        Usuario u = ofy.load().type(Usuario.class).id(userId).now();
+        Rede r = ofy.load().type(Rede.class).id(id).now();
+        if(podeApagar(r,u)) {
+            ofy.delete().type(Rede.class).id(id).now();
+        }else{
+            throw new OAuthRequestException("O usuário " + u.getEmail() + " não tem permissão para apagar essa rede");
+        }
+    }
+
+    private static boolean podeApagar(Rede r, Usuario u) throws OAuthRequestException {
+
+        return r.getDono().getUsuario().getId() == u.getId();
     }
 }

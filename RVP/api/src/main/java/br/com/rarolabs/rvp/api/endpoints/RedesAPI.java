@@ -5,6 +5,7 @@ import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.ConflictException;
 import com.google.api.server.spi.response.NotFoundException;
+import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.appengine.api.users.User;
 
 
@@ -25,8 +26,8 @@ import br.com.rarolabs.rvp.api.service.SearchService;
 @Api(name = "rvpAPI", version = "v1",
         namespace = @ApiNamespace(ownerDomain = "api.rvp.rarolabs.com.br",
                 ownerName = "api.rvp.rarolabs.com.br", packagePath = ""),
-        scopes = {Constants.EMAIL_SCOPE},
-        clientIds = {Constants.WEB_CLIENT_ID, Constants.ANDROID_CLIENT_ID},
+        scopes = {Constants.PROFILE_SCOPE},
+        clientIds = {Constants.WEB_CLIENT_ID, Constants.ANDROID_CLIENT_ID,com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
         audiences = {Constants.ANDROID_AUDIENCE}
 )
 public class RedesAPI {
@@ -41,7 +42,10 @@ public class RedesAPI {
     @ApiMethod(name ="novaRede")
     public Rede novaRede(
             @Named("nome") String nome,
-            Endereco endereco,User user) throws ConflictException {
+            Endereco endereco,User user) throws ConflictException, OAuthRequestException {
+        if(user==null){
+            throw new OAuthRequestException("Usuário não autenticado");
+        }
 
         return Rede.novaRede(nome,user.getEmail(),endereco);
     }
@@ -63,8 +67,12 @@ public class RedesAPI {
      * @param id ID da rede a ser apagada
      */
     @ApiMethod(name ="apagarRede")
-    public void apagarRede(@Named("id") Long id,User user){
-        Rede.apagar(id);
+    public void apagarRede(@Named("id") Long id,User user) throws OAuthRequestException {
+        if(user==null){
+            throw new OAuthRequestException("Usuário não autenticado");
+        }
+
+        Rede.apagar(id,user.getEmail());
     }
 
     /**
@@ -89,7 +97,11 @@ public class RedesAPI {
      * @return Coleção das redes do usuário
      */
     @ApiMethod(name = "minhasRedes")
-    public Collection<Membro> minhasRedes(User user){
+    public Collection<Membro> minhasRedes(User user) throws OAuthRequestException {
+        if(user==null){
+            throw new OAuthRequestException("Usuário não autenticado");
+        }
+
         return Usuario.minhasRedes(user.getEmail());
     }
 
@@ -100,7 +112,11 @@ public class RedesAPI {
      * @return Retorna os membros que estão pendentes
      */
     @ApiMethod(name = "solicitacoesPendentes")
-    public Collection<Membro> solicitacoesPendentes(@Named("rede_id") Long redeId,User user){
+    public Collection<Membro> solicitacoesPendentes(@Named("rede_id") Long redeId,User user) throws OAuthRequestException {
+        if(user==null){
+            throw new OAuthRequestException("Usuário não autenticado");
+        }
+
         return Rede.solicitacoesPendentes(redeId);
     }
 
@@ -111,7 +127,11 @@ public class RedesAPI {
      * @throws NotFoundException Caso a rede não seja encontrada
      */
     @ApiMethod(name = "buscarDono")
-    public Membro buscarDono(@Named("rede_id") Long redeID,User user) throws NotFoundException {
+    public Membro buscarDono(@Named("rede_id") Long redeID,User user) throws NotFoundException, OAuthRequestException {
+        if(user==null){
+            throw new OAuthRequestException("Usuário não autenticado");
+        }
+
         return Rede.buscar(redeID).getDono();
     }
 
@@ -122,7 +142,11 @@ public class RedesAPI {
      * @throws NotFoundException Caso a rede não seja encontrada
      */
     @ApiMethod(name = "buscarMembros")
-    public Collection<Membro> buscarMembros(@Named("rede_id") Long redeID,User user) throws NotFoundException {
+    public Collection<Membro> buscarMembros(@Named("rede_id") Long redeID,User user) throws NotFoundException, OAuthRequestException {
+        if(user==null){
+            throw new OAuthRequestException("Usuário não autenticado");
+        }
+
         return Rede.buscar(redeID).getMembros();
     }
 
@@ -133,7 +157,11 @@ public class RedesAPI {
      * @throws NotFoundException Caso a rede não seja encontrada
      */
     @ApiMethod(name = "buscarMembrosAtivos")
-    public Collection<Membro> buscarMembrosAtios(@Named("rede_id") Long redeID,User user) throws NotFoundException {
+    public Collection<Membro> buscarMembrosAtios(@Named("rede_id") Long redeID,User user) throws NotFoundException, OAuthRequestException {
+        if(user==null){
+            throw new OAuthRequestException("Usuário não autenticado");
+        }
+
         return Rede.buscar(redeID).membrosAtivos();
     }
 

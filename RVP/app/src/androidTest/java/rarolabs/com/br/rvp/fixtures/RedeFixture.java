@@ -14,14 +14,12 @@ import rarolabs.com.br.rvp.services.BackendServices;
  * Created by rodrigosol on 12/31/14.
  */
 public class RedeFixture {
-    public static Rede novaRede1(GoogleAccountCredential credential) throws BackendExpection {
-        BackendServices service = new BackendServices(credential, Constants.BACKEND_URL);
+    public static Rede novaRede1(BackendServices service) throws BackendExpection {
         Usuario u = service.novoUsuario(UsuarioFixture.getRodrigoSol());
         return service.novaRede("Amigos do Comiteco" + Math.random(), EnderecoFixture.getEnderecoRaro());
     }
 
-    public static Rede novaRede2(GoogleAccountCredential credential) throws BackendExpection {
-        BackendServices service = new BackendServices(credential,Constants.BACKEND_URL);
+    public static Rede novaRede2(BackendServices service) throws BackendExpection {
         Usuario u = service.novoUsuario(UsuarioFixture.getRamonSetragni());
         return service.novaRede("Amigos da Praça" + Math.random(), EnderecoFixture.getEnderecoEscola());
     }

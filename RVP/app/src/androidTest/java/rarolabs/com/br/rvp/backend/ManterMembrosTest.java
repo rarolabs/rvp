@@ -34,13 +34,13 @@ public class ManterMembrosTest  extends ApplicationTestCase<Application> {
 
         admin = GoogleAccountCredential.usingAudience(getContext(), Constants.OAUTH_CLIENT_ID);
         admin.setSelectedAccountName("admin@rarolabs.com.br");
-        this.service = new BackendServices(rodrigoSol,Constants.BACKEND_URL);
+        this.service = new BackendServices(getContext(),rodrigoSol,Constants.BACKEND_URL);
     }
 
-    public void testTornarAdministrador() throws BackendExpection {
+    public void testTornarAdministrador() throws Exception {
         service.setCredential(rodrigoSol);
         service.cleanForTesting();
-        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(admin,rodrigoSol);
+        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(getContext(),admin,rodrigoSol);
         m = service.tornarAdministrador(m.getId());
         assertEquals(m.getStatus(), "ATIVO");
         assertEquals(m.getPapel(), "ADMIN");
@@ -48,10 +48,10 @@ public class ManterMembrosTest  extends ApplicationTestCase<Application> {
     }
 
 
-    public void testRetirarPermissaoAdministrador() throws BackendExpection, InterruptedException {
+    public void testRetirarPermissaoAdministrador() throws Exception {
         service.setCredential(rodrigoSol);
         service.cleanForTesting();
-        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(admin,rodrigoSol);
+        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(getContext(),admin,rodrigoSol);
         m = service.retirarPermissaoAdministrador(m.getId());
         assertEquals(m.getStatus(), "ATIVO");
         assertEquals(m.getPapel(), "VIVIZINHO");
@@ -59,10 +59,10 @@ public class ManterMembrosTest  extends ApplicationTestCase<Application> {
     }
 
 
-    public void testTornarAutoriadade() throws BackendExpection {
+    public void testTornarAutoriadade() throws Exception {
         service.setCredential(rodrigoSol);
         service.cleanForTesting();
-        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(admin,rodrigoSol);
+        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(getContext(),admin,rodrigoSol);
         m = service.tornarAutoridade(m.getId());
         assertEquals(m.getStatus(), "ATIVO");
         assertEquals(m.getPapel(), "AUTORIDADE");
@@ -70,10 +70,10 @@ public class ManterMembrosTest  extends ApplicationTestCase<Application> {
     }
 
 
-    public void testRetirarPermissaoAutoriadade() throws BackendExpection, InterruptedException {
+    public void testRetirarPermissaoAutoriadade() throws Exception {
         service.setCredential(rodrigoSol);
         service.cleanForTesting();
-        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(admin,rodrigoSol);
+        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(getContext(),admin,rodrigoSol);
         m = service.retirarPermissaoAutoridade(m.getId());
         assertEquals(m.getStatus(), "ATIVO");
         assertEquals(m.getPapel(), "VIVIZINHO");
@@ -81,10 +81,10 @@ public class ManterMembrosTest  extends ApplicationTestCase<Application> {
     }
 
 
-    public void testInativarVizinho() throws BackendExpection {
+    public void testInativarVizinho() throws Exception {
         service.setCredential(rodrigoSol);
         service.cleanForTesting();
-        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(admin,rodrigoSol);
+        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(getContext(),admin,rodrigoSol);
         m = service.inativarVizinho(m.getId());
         assertEquals(m.getStatus(), "INATIVO");
         assertEquals(m.getPapel(), "VIVIZINHO");
@@ -92,10 +92,10 @@ public class ManterMembrosTest  extends ApplicationTestCase<Application> {
     }
 
 
-    public void testAtivarVizinho() throws BackendExpection, InterruptedException {
+    public void testAtivarVizinho() throws Exception {
         service.setCredential(rodrigoSol);
         service.cleanForTesting();
-        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(admin,rodrigoSol);
+        Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(getContext(),admin,rodrigoSol);
         m = service.ativarVizinho(m.getId());
         assertEquals(m.getStatus(), "ATIVO");
         assertEquals(m.getPapel(), "VIVIZINHO");

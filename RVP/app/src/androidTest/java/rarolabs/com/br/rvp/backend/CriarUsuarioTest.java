@@ -28,11 +28,11 @@ public class CriarUsuarioTest extends ApplicationTestCase<Application> {
         super.setUp();
         GoogleAccountCredential credential = GoogleAccountCredential.usingAudience(getContext(), Constants.OAUTH_CLIENT_ID);
         credential.setSelectedAccountName("rodrigosol@gmail.com");
-        this.service = new BackendServices(credential,Constants.BACKEND_URL);
+        this.service = new BackendServices(getContext(),credential,Constants.BACKEND_URL);
     }
 
 
-    public void testNovoUsuario() {
+    public void testNovoUsuario() throws Exception{
         //service.cleanForTesting();
         try {
             Usuario u = UsuarioFixture.getRodrigoSol();
@@ -52,7 +52,7 @@ public class CriarUsuarioTest extends ApplicationTestCase<Application> {
     }
 
 
-    public void testeUsuarioDuplicado() throws InterruptedException {
+    public void testeUsuarioDuplicado() throws Exception {
         service.cleanForTesting();
         Usuario a = UsuarioFixture.getRodrigoSol();
         Usuario b = UsuarioFixture.getRodrigoSol();
@@ -64,18 +64,18 @@ public class CriarUsuarioTest extends ApplicationTestCase<Application> {
             service.novoUsuario(b);
             fail();
         } catch (BackendExpection e) {
-            assertEquals("e-mail já cadastrado", e.getMessage());
+            assertEquals("e-mail já cadastrado", e.getDescricao());
         }
 
     }
 
-    public void testUsuarioNaoEncontrado() {
+    public void testUsuarioNaoEncontrado() throws Exception{
         service.cleanForTesting();
         try {
             service.buscarUsuario("a@a.com");
             fail();
         } catch (BackendExpection e) {
-            assertEquals("Usuario a@a.com nao encontrado", e.getMessage());
+            assertEquals("Usuario a@a.com nao encontrado", e.getDescricao());
         }
 
     }

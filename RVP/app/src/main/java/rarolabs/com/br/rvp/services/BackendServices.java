@@ -3,6 +3,7 @@ package rarolabs.com.br.rvp.services;
 import android.accounts.Account;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.util.Log;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -14,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.SocketException;
 
 import br.com.rarolabs.rvp.api.rvpAPI.RvpAPI;
 import br.com.rarolabs.rvp.api.rvpAPI.RvpAPIRequest;
@@ -29,15 +31,18 @@ import static android.support.v4.app.ActivityCompat.startActivityForResult;
  * Created by rodrigosol on 12/31/14.
  */
 public class BackendServices {
+    private Context context;
     private GoogleAccountCredential credential;
     private RvpAPI service;
     private String url;
 
-    public BackendServices(GoogleAccountCredential credential){
+    public BackendServices(Context context, GoogleAccountCredential credential){
+        this.context = context;
         setCredential(credential);
     }
 
-    public BackendServices(GoogleAccountCredential credential, String url){
+    public BackendServices(Context context, GoogleAccountCredential credential, String url){
+        this.context = context;
         this.url = url;
         setCredential(credential);
     }
@@ -51,7 +56,7 @@ public class BackendServices {
         try {
             service.apagarRede(id).execute();
         } catch (IOException e) {
-            throw new BackendExpection(getExceptionMensage(e));
+            throw new BackendExpection(e);
         }
     }
 
@@ -59,7 +64,7 @@ public class BackendServices {
         try {
             return service.ativarVizinho(idMembro).execute();
         } catch (IOException e) {
-            throw new BackendExpection(getExceptionMensage(e));
+            throw new BackendExpection(e);
         }
     }
 
@@ -67,7 +72,7 @@ public class BackendServices {
         try {
             return service.buscarRede(idRede).execute();
         } catch (IOException e) {
-            throw new BackendExpection(getExceptionMensage(e));
+            throw new BackendExpection(e);
         }
     }
 
@@ -75,7 +80,7 @@ public class BackendServices {
         try {
             return service.buscarRedesProximas(latitude,longitude,distancia).execute();
         } catch (IOException e) {
-            throw new BackendExpection(getExceptionMensage(e));
+            throw new BackendExpection(e);
         }
     }
 
@@ -83,7 +88,7 @@ public class BackendServices {
         try {
             return service.buscarUsuario(idUsuario).execute();
         } catch (IOException e) {
-            throw new BackendExpection(getExceptionMensage(e));
+            throw new BackendExpection(e);
         }
     }
 
@@ -91,7 +96,7 @@ public class BackendServices {
         try {
             return service.inativarVizinho(idMembro).execute();
         } catch (IOException e) {
-            throw new BackendExpection(getExceptionMensage(e));
+            throw new BackendExpection(e);
         }
     }
 
@@ -99,7 +104,7 @@ public class BackendServices {
         try {
             return service.minhasRedes().execute();
         } catch (IOException e) {
-            throw new BackendExpection(getExceptionMensage(e));
+            throw new BackendExpection(e);
         }
     }
 
@@ -107,7 +112,7 @@ public class BackendServices {
         try {
             return service.novaRede(nome,endereco).execute();
         } catch (IOException e) {
-            throw new BackendExpection(getExceptionMensage(e));
+            throw new BackendExpection(e);
         }
     }
 
@@ -116,7 +121,7 @@ public class BackendServices {
             return service.novoUsuario(usuario).execute();
         } catch (IOException e) {
             e.printStackTrace();
-            throw new BackendExpection(getExceptionMensage(e));
+            throw new BackendExpection(e);
         }
     }
 
@@ -124,7 +129,7 @@ public class BackendServices {
         try {
             service.removerUsuario().execute();
         } catch (IOException e) {
-            throw new BackendExpection(getExceptionMensage(e));
+            throw new BackendExpection(e);
         }
     }
 
@@ -132,7 +137,7 @@ public class BackendServices {
         try {
             return service.aprovarAssociacao(idMembro).execute();
         } catch (IOException e) {
-            throw new BackendExpection(getExceptionMensage(e));
+            throw new BackendExpection(e);
         }
     }
 
@@ -140,7 +145,7 @@ public class BackendServices {
         try {
             return service.retirarPermissaoAdministrador(idMembro).execute();
         } catch (IOException e) {
-            throw new BackendExpection(getExceptionMensage(e));
+            throw new BackendExpection(e);
         }
     }
 
@@ -149,7 +154,7 @@ public class BackendServices {
         try {
             return service.retirarPermissaoAutoridade(idMembro).execute();
         } catch (IOException e) {
-            throw new BackendExpection(getExceptionMensage(e));
+            throw new BackendExpection(e);
         }
     }
 
@@ -158,7 +163,7 @@ public class BackendServices {
         try {
             return service.solicitacoesPendentes(idRede).execute();
         } catch (IOException e) {
-            throw new BackendExpection(getExceptionMensage(e));
+            throw new BackendExpection(e);
         }
     }
 
@@ -166,7 +171,7 @@ public class BackendServices {
         try {
             return service.reprovarAssociacao(idMembro).execute();
         } catch (IOException e) {
-            throw new BackendExpection(getExceptionMensage(e));
+            throw new BackendExpection(e);
         }
     }
 
@@ -174,7 +179,7 @@ public class BackendServices {
         try {
             return service.solicitarAssociacao(redeId,endereco).execute();
         } catch (IOException e) {
-            throw new BackendExpection(getExceptionMensage(e));
+            throw new BackendExpection(e);
         }
     }
 
@@ -183,7 +188,7 @@ public class BackendServices {
         try {
             return service.tornarAdministrador(idMembro).execute();
         } catch (IOException e) {
-            throw new BackendExpection(getExceptionMensage(e));
+            throw new BackendExpection(e);
         }
     }
 
@@ -191,7 +196,7 @@ public class BackendServices {
         try {
             return service.tornarAutoridade(idMembro).execute();
         } catch (IOException e) {
-            throw new BackendExpection(getExceptionMensage(e));
+            throw new BackendExpection(e);
         }
     }
 
@@ -200,7 +205,7 @@ public class BackendServices {
         try {
             return service.buscarDono(idRede).execute();
         } catch (IOException e) {
-            throw new BackendExpection(getExceptionMensage(e));
+            throw new BackendExpection(e);
         }
     }
 
@@ -208,7 +213,7 @@ public class BackendServices {
         try {
             return service.buscarMembros(idRede).execute();
         } catch (IOException e) {
-            throw new BackendExpection(getExceptionMensage(e));
+            throw new BackendExpection(e);
         }
     }
 
@@ -216,7 +221,7 @@ public class BackendServices {
         try {
             return service.buscarMembrosAtivos(idRede).execute();
         } catch (IOException e) {
-            throw new BackendExpection(getExceptionMensage(e));
+            throw new BackendExpection(e);
         }
     }
 
@@ -237,29 +242,15 @@ public class BackendServices {
 
     }
 
-    private static String getExceptionMensage(Exception e){
-
-
-            String msg = e.getMessage();
-            e.printStackTrace();
-
-            try {
-                JSONObject jObject = new JSONObject(msg.substring(msg.indexOf("{"), msg.lastIndexOf("}") + 1));
-
-                Log.d("PARSE", jObject.toString());
-                msg = jObject.getJSONArray("errors").getJSONObject(0).getString("message");
-                Log.d("PARSE",msg);
-            } catch (JSONException e2) {
-                e2.printStackTrace();
-            }
-        return msg;
-    }
-
     public  void cleanForTesting() {
         try {
             service.cleanDataBaseForTesting().execute();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isNetworkAvailable() {
+        return ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo() != null;
     }
 }

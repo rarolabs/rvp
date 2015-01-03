@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/LtRSZhmHFJ3ZhUfM3bLVXuB5l9U\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/EHjpDRrFBHVQRhiyMvaYDnA7hyY\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -66,8 +66,8 @@
  "auth": {
   "oauth2": {
    "scopes": {
-    "https://www.googleapis.com/auth/userinfo.email": {
-     "description": "View your email address"
+    "https://www.googleapis.com/auth/userinfo.profile": {
+     "description": "View your basic profile info"
     }
    }
   }
@@ -337,7 +337,7 @@
     "id"
    ],
    "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
+    "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
   "aprovarAssociacao": {
@@ -359,7 +359,7 @@
     "$ref": "Membro"
    },
    "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
+    "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
   "ativarVizinho": {
@@ -381,7 +381,7 @@
     "$ref": "Membro"
    },
    "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
+    "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
   "buscarDono": {
@@ -403,7 +403,7 @@
     "$ref": "Membro"
    },
    "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
+    "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
   "buscarMembros": {
@@ -425,7 +425,7 @@
     "$ref": "MembroCollection"
    },
    "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
+    "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
   "buscarMembrosAtivos": {
@@ -447,7 +447,7 @@
     "$ref": "MembroCollection"
    },
    "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
+    "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
   "buscarRede": {
@@ -469,7 +469,7 @@
     "$ref": "Rede"
    },
    "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
+    "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
   "buscarRedesProximas": {
@@ -505,7 +505,7 @@
     "$ref": "GeoqueryResponderCollection"
    },
    "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
+    "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
   "buscarUsuario": {
@@ -526,7 +526,7 @@
     "$ref": "Usuario"
    },
    "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
+    "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
   "cleanDataBaseForTesting": {
@@ -534,7 +534,7 @@
    "path": "cleanDataBaseForTesting",
    "httpMethod": "POST",
    "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
+    "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
   "inativarVizinho": {
@@ -556,7 +556,7 @@
     "$ref": "Membro"
    },
    "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
+    "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
   "minhasRedes": {
@@ -567,7 +567,7 @@
     "$ref": "MembroCollection"
    },
    "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
+    "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
   "novaRede": {
@@ -592,7 +592,7 @@
     "$ref": "Rede"
    },
    "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
+    "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
   "novoUsuario": {
@@ -607,7 +607,7 @@
     "$ref": "Usuario"
    },
    "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
+    "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
   "removerUsuario": {
@@ -615,7 +615,7 @@
    "path": "rusuario",
    "httpMethod": "DELETE",
    "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
+    "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
   "reprovarAssociacao": {
@@ -637,7 +637,7 @@
     "$ref": "Membro"
    },
    "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
+    "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
   "retirarPermissaoAdministrador": {
@@ -659,7 +659,7 @@
     "$ref": "Membro"
    },
    "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
+    "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
   "retirarPermissaoAutoridade": {
@@ -681,7 +681,7 @@
     "$ref": "Membro"
    },
    "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
+    "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
   "solicitacoesPendentes": {
@@ -703,7 +703,7 @@
     "$ref": "MembroCollection"
    },
    "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
+    "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
   "solicitarAssociacao": {
@@ -729,7 +729,7 @@
     "$ref": "Membro"
    },
    "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
+    "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
   "tornarAdministrador": {
@@ -751,7 +751,7 @@
     "$ref": "Membro"
    },
    "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
+    "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
   "tornarAutoridade": {
@@ -773,7 +773,7 @@
     "$ref": "Membro"
    },
    "scopes": [
-    "https://www.googleapis.com/auth/userinfo.email"
+    "https://www.googleapis.com/auth/userinfo.profile"
    ]
   }
  }

@@ -12,6 +12,7 @@ import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.ConflictException;
 import com.google.api.server.spi.response.ForbiddenException;
 import com.google.api.server.spi.response.NotFoundException;
+import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.appengine.api.users.User;
 
 
@@ -31,8 +32,8 @@ import br.com.rarolabs.rvp.api.models.Usuario;
 @Api(name = "rvpAPI", version = "v1",
      namespace = @ApiNamespace(ownerDomain = "api.rvp.rarolabs.com.br",
                                ownerName = "api.rvp.rarolabs.com.br", packagePath = ""),
-        scopes = {Constants.EMAIL_SCOPE},
-        clientIds = {Constants.WEB_CLIENT_ID, Constants.ANDROID_CLIENT_ID},
+        scopes = {Constants.PROFILE_SCOPE},
+        clientIds = {Constants.WEB_CLIENT_ID, Constants.ANDROID_CLIENT_ID,com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
         audiences = {Constants.ANDROID_AUDIENCE}
 )
 
@@ -49,8 +50,10 @@ public class MembrosAPI {
      * rede para o mesmo usuario
      */
     @ApiMethod(name = "solicitarAssociacao")
-    public Membro solicitarAssociacao(@Named("rede_id") Long redeId, Endereco endereco, User user) throws NotFoundException, ConflictException {
-
+    public Membro solicitarAssociacao(@Named("rede_id") Long redeId, Endereco endereco, User user) throws OAuthRequestException, NotFoundException, ConflictException {
+        if(user==null){
+            throw new OAuthRequestException("Usuário não autenticado");
+        }
         return Rede.solicitarAssociacao(redeId,user.getEmail(),endereco);
     }
 
@@ -62,7 +65,11 @@ public class MembrosAPI {
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "aprovarAssociacao")
-    public Membro aprovarAssociacao(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException {
+    public Membro aprovarAssociacao(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException, OAuthRequestException {
+        if(user==null){
+            throw new OAuthRequestException("Usuário não autenticado");
+        }
+
         return Membro.aprovarAssociacao(membroId);
     }
 
@@ -74,7 +81,10 @@ public class MembrosAPI {
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "reprovarAssociacao")
-    public Membro reprovarAssociacao(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException {
+    public Membro reprovarAssociacao(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException, OAuthRequestException {
+        if(user==null){
+            throw new OAuthRequestException("Usuário não autenticado");
+        }
         return Membro.reprovarAssociacao(membroId);
     }
 
@@ -86,7 +96,10 @@ public class MembrosAPI {
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "tornarAdministrador")
-    public Membro tornarAdministrador(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException {
+    public Membro tornarAdministrador(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException, OAuthRequestException {
+        if(user==null){
+            throw new OAuthRequestException("Usuário não autenticado");
+        }
         return Membro.tornarAdministrador(membroId);
     }
 
@@ -98,7 +111,10 @@ public class MembrosAPI {
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "retirarPermissaoAdministrador")
-    public Membro retirarPermissaoAdministrador(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException {
+    public Membro retirarPermissaoAdministrador(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException, OAuthRequestException {
+        if(user==null){
+            throw new OAuthRequestException("Usuário não autenticado");
+        }
         return Membro.retirarPermissaoAdministrador(membroId);
     }
 
@@ -110,7 +126,10 @@ public class MembrosAPI {
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "inativarVizinho")
-    public Membro inativarVizinho(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException {
+    public Membro inativarVizinho(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException, OAuthRequestException {
+        if(user==null){
+            throw new OAuthRequestException("Usuário não autenticado");
+        }
         return Membro.inativarVizinho(membroId);
     }
 
@@ -122,7 +141,10 @@ public class MembrosAPI {
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "ativarVizinho")
-    public Membro ativarVizinho(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException {
+    public Membro ativarVizinho(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException, OAuthRequestException {
+        if(user==null){
+            throw new OAuthRequestException("Usuário não autenticado");
+        }
         return Membro.ativarVizinho(membroId);
     }
 
@@ -134,7 +156,10 @@ public class MembrosAPI {
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "tornarAutoridade")
-    public Membro tornarAutoridade(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException {
+    public Membro tornarAutoridade(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException, OAuthRequestException {
+        if(user==null){
+            throw new OAuthRequestException("Usuário não autenticado");
+        }
         return Membro.tornarAutoridade(membroId);
     }
 
@@ -146,7 +171,11 @@ public class MembrosAPI {
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "retirarPermissaoAutoridade")
-    public Membro retirarPermissaoAutoridade(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException {
+    public Membro retirarPermissaoAutoridade(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException, OAuthRequestException {
+        if(user==null){
+            throw new OAuthRequestException("Usuário não autenticado");
+        }
+
        return Membro.retirarPermissaoAutoridade(membroId);
     }
 }

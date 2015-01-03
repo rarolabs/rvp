@@ -15,10 +15,10 @@ import rarolabs.com.br.rvp.services.BackendServices;
  * Created by rodrigosol on 12/31/14.
  */
 public class SolicitacaoFixture {
-    public static br.com.rarolabs.rvp.api.rvpAPI.model.MembroCollection criarSolicitacao(GoogleAccountCredential user,GoogleAccountCredential admin) throws BackendExpection {
-        BackendServices service = new BackendServices(admin);
-        Rede rede = RedeFixture.novaRede1(admin);
-        service = new BackendServices(user, Constants.BACKEND_URL);
+    public static br.com.rarolabs.rvp.api.rvpAPI.model.MembroCollection criarSolicitacao(Context context,GoogleAccountCredential user,GoogleAccountCredential admin) throws Exception {
+        BackendServices service = new BackendServices(context,admin);
+        Rede rede = RedeFixture.novaRede1(service);
+        service = new BackendServices(context,user, Constants.BACKEND_URL);
         Usuario lesio = service.novoUsuario(UsuarioFixture.getAdmin());
         service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoCasa());
         service.setCredential(admin);
@@ -26,9 +26,9 @@ public class SolicitacaoFixture {
 
     }
 
-    public static Membro criarSolicitacaoAprovada(GoogleAccountCredential user,GoogleAccountCredential admin ) throws BackendExpection {
-        BackendServices service = new BackendServices(admin,Constants.BACKEND_URL);
-        Rede rede = RedeFixture.novaRede1(admin);
+    public static Membro criarSolicitacaoAprovada(Context context,GoogleAccountCredential user,GoogleAccountCredential admin ) throws Exception {
+        BackendServices service = new BackendServices(context,admin,Constants.BACKEND_URL);
+        Rede rede = RedeFixture.novaRede1(service);
         service.setCredential(user);
         Usuario lesio = service.novoUsuario(UsuarioFixture.getAdmin());
         service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoCasa());
