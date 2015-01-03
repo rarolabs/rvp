@@ -225,6 +225,22 @@ public class BackendServices {
         }
     }
 
+    public  void registrarDispositivo(String idDispositivo,String so,String versao) throws BackendExpection {
+        try {
+            service.registrarDispositivo(idDispositivo,so,versao).execute();
+        } catch (IOException e) {
+            throw new BackendExpection(e);
+        }
+    }
+
+    public  void desregistrarDispositivo(String idDispositivo) throws BackendExpection {
+        try {
+            service.desregistrarDispositivo(idDispositivo).execute();
+        } catch (IOException e) {
+            throw new BackendExpection(e);
+        }
+    }
+
 
     private  void loadService(){
         RvpAPI.Builder builder = new RvpAPI.Builder(

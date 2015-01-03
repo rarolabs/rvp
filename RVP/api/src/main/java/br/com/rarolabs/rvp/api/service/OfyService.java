@@ -6,6 +6,7 @@ import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 
 import br.com.rarolabs.rvp.api.models.Alerta;
+import br.com.rarolabs.rvp.api.models.Dispositivo;
 import br.com.rarolabs.rvp.api.models.Endereco;
 import br.com.rarolabs.rvp.api.models.Membro;
 import br.com.rarolabs.rvp.api.models.Mensagem;
@@ -27,6 +28,7 @@ public class OfyService {
         ObjectifyService.register(Mensagem.class);
         ObjectifyService.register(Rede.class);
         ObjectifyService.register(Usuario.class);
+        ObjectifyService.register(Dispositivo.class);
     }
 
     public static Objectify ofy() {

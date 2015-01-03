@@ -38,6 +38,7 @@ dependencies {
     testCompile 'com.google.appengine:appengine-testing:1.9.14'
     testCompile 'com.google.appengine:appengine-api-stubs:1.9.14'
     testCompile 'com.google.appengine:appengine-api-labs:1.9.14'
+    compile 'com.ganyo:gcm-server:1.0.2'
 
 }
 

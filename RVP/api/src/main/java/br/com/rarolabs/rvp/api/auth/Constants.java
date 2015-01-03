@@ -8,5 +8,6 @@ public class Constants {
 
         public static final String EMAIL_SCOPE = "https://www.googleapis.com/auth/userinfo.email";
         public static final String PROFILE_SCOPE = "https://www.googleapis.com/auth/userinfo.profile";
+        public static final String GCM_API_KEY = "AIzaSyDQ4WooQJV83pQyYK91SsSdGDj5Gln-bDI";
 
 }

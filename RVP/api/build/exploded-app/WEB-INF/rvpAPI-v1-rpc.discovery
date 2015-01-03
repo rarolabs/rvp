@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/EHjpDRrFBHVQRhiyMvaYDnA7hyY\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/lnl5JVoppGLnavWEvjjPZ0pa21Y\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -504,6 +504,21 @@
     "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
+  "rvpAPI.desregistrarDispositivo": {
+   "id": "rvpAPI.desregistrarDispositivo",
+   "parameters": {
+    "id_dispositivo": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id_dispositivo"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
   "rvpAPI.inativarVizinho": {
    "id": "rvpAPI.inativarVizinho",
    "parameters": {
@@ -567,6 +582,31 @@
    "returns": {
     "$ref": "Usuario"
    },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "rvpAPI.registrarDispositivo": {
+   "id": "rvpAPI.registrarDispositivo",
+   "parameters": {
+    "id_dispositivo": {
+     "type": "string",
+     "required": true
+    },
+    "so": {
+     "type": "string",
+     "required": true
+    },
+    "versao": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id_dispositivo",
+    "so",
+    "versao"
+   ],
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.profile"
    ]

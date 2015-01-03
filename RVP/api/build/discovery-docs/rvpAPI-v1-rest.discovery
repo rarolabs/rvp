@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/EHjpDRrFBHVQRhiyMvaYDnA7hyY\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/lnl5JVoppGLnavWEvjjPZ0pa21Y\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -537,6 +537,24 @@
     "https://www.googleapis.com/auth/userinfo.profile"
    ]
   },
+  "desregistrarDispositivo": {
+   "id": "rvpAPI.desregistrarDispositivo",
+   "path": "desregistrarDispositivo/{id_dispositivo}",
+   "httpMethod": "POST",
+   "parameters": {
+    "id_dispositivo": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id_dispositivo"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
   "inativarVizinho": {
    "id": "rvpAPI.inativarVizinho",
    "path": "inativarVizinho/{membro_id}",
@@ -606,6 +624,36 @@
    "response": {
     "$ref": "Usuario"
    },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "registrarDispositivo": {
+   "id": "rvpAPI.registrarDispositivo",
+   "path": "registrarDispositivo/{id_dispositivo}/{so}/{versao}",
+   "httpMethod": "POST",
+   "parameters": {
+    "id_dispositivo": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    },
+    "so": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    },
+    "versao": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id_dispositivo",
+    "so",
+    "versao"
+   ],
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.profile"
    ]
