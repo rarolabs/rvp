@@ -8,6 +8,7 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
+import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.fixtures.EnderecoFixture;
 import rarolabs.com.br.rvp.fixtures.UsuarioFixture;
 import rarolabs.com.br.rvp.services.BackendExpection;
@@ -28,10 +29,9 @@ public class CriarRedeTest extends ApplicationTestCase<Application> {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        GoogleAccountCredential credential = GoogleAccountCredential.usingAudience(getContext(), "server:client_id:701949285974-83l9d3ibrmaerqboebi7fvpm3s3tcarc.apps.googleusercontent.com");
+        GoogleAccountCredential credential = GoogleAccountCredential.usingAudience(getContext(), Constants.OAUTH_CLIENT_ID);
         credential.setSelectedAccountName("rodrigosol@gmail.com");
-        this.service = new BackendServices(credential);
-
+        this.service = new BackendServices(credential,Constants.BACKEND_URL);
     }
 
     public void testNovaRede() throws BackendExpection {

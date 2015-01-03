@@ -11,6 +11,7 @@ import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
 import br.com.rarolabs.rvp.api.rvpAPI.model.MembroCollection;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
+import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.fixtures.EnderecoFixture;
 import rarolabs.com.br.rvp.fixtures.RedeFixture;
 import rarolabs.com.br.rvp.fixtures.SolicitacaoFixture;
@@ -36,26 +37,26 @@ public class SolicitarAcessoTest  extends ApplicationTestCase<Application> {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        rodrigoSol = GoogleAccountCredential.usingAudience(getContext(), "server:client_id:701949285974-83l9d3ibrmaerqboebi7fvpm3s3tcarc.apps.googleusercontent.com");
+        rodrigoSol = GoogleAccountCredential.usingAudience(getContext(), Constants.OAUTH_CLIENT_ID);
         rodrigoSol.setSelectedAccountName("rodrigosol@gmail.com");
 
-        admin = GoogleAccountCredential.usingAudience(getContext(), "server:client_id:701949285974-83l9d3ibrmaerqboebi7fvpm3s3tcarc.apps.googleusercontent.com");
+        admin = GoogleAccountCredential.usingAudience(getContext(), Constants.OAUTH_CLIENT_ID);
         admin.setSelectedAccountName("admin@rarolabs.com.br");
 
-        carol = GoogleAccountCredential.usingAudience(getContext(), "server:client_id:701949285974-83l9d3ibrmaerqboebi7fvpm3s3tcarc.apps.googleusercontent.com");
+        carol = GoogleAccountCredential.usingAudience(getContext(), Constants.OAUTH_CLIENT_ID);
         carol.setSelectedAccountName("acarolsm@gmail.com");
+        this.service = new BackendServices(rodrigoSol,Constants.BACKEND_URL);
 
     }
 
 
     public void testSolicitarAcesso() throws BackendExpection {
-        service = new BackendServices(rodrigoSol);
         service.cleanForTesting();
         Rede rede = RedeFixture.novaRede1(rodrigoSol);
-        service = new BackendServices(admin);
+        service.setCredential(admin);
         Usuario lesio = service.novoUsuario(UsuarioFixture.getAdmin());
         service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoCasa());
-        service = new BackendServices(rodrigoSol);
+        service.setCredential(rodrigoSol);
 
         MembroCollection solicitacoes = service.solicitacoesPendentes(rede.getId());
         assertEquals(1,solicitacoes.getItems().size());
@@ -65,11 +66,11 @@ public class SolicitarAcessoTest  extends ApplicationTestCase<Application> {
         assertEquals(m.getPapel(), "VIVIZINHO");
         assertEquals(m.getRedeId(),rede.getId());
 
-        service = new BackendServices(carol);
+        service.setCredential(carol);
         Usuario ramon = service.novoUsuario(UsuarioFixture.getRamonSetragni());
         service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoPraca());
 
-        service = new BackendServices(rodrigoSol);
+        service.setCredential(rodrigoSol);
         solicitacoes = service.solicitacoesPendentes(rede.getId());
         assertEquals(2, solicitacoes.getItems().size());
 
@@ -80,10 +81,9 @@ public class SolicitarAcessoTest  extends ApplicationTestCase<Application> {
     public void pedidoDuplicado(){
 
         try {
-            service = new BackendServices(rodrigoSol);
             service.cleanForTesting();
             Rede rede = RedeFixture.novaRede1(rodrigoSol);
-            service = new BackendServices(admin);
+            service.setCredential(admin);
             Usuario lesio = service.novoUsuario(UsuarioFixture.getAdmin());
             service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoCasa());
             service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoCasa());
@@ -98,19 +98,17 @@ public class SolicitarAcessoTest  extends ApplicationTestCase<Application> {
 
 
     public void testMembros() throws BackendExpection {
-
-        service = new BackendServices(rodrigoSol);
         service.cleanForTesting();
         Rede rede = RedeFixture.novaRede1(rodrigoSol);
-        service = new BackendServices(admin);
+        service.setCredential(admin);
         Usuario lesio = service.novoUsuario(UsuarioFixture.getAdmin());
         Membro solicitacao = service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoCasa());
-        service = new BackendServices(rodrigoSol);
+        service.setCredential(rodrigoSol);
         assertEquals(2,service.buscarMembros(rede.getId()).getItems().size());
         assertEquals(1,service.buscarMembrosAtivos(rede.getId()).getItems().size());
         service.aprovarAssociacao(solicitacao.getId());
         assertEquals(2,service.buscarMembros(rede.getId()).getItems().size());
-        assertEquals(2,service.buscarMembrosAtivos(rede.getId()).getItems().size());
+        assertEquals(2, service.buscarMembrosAtivos(rede.getId()).getItems().size());
     }
 
 

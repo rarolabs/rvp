@@ -6,6 +6,7 @@ import android.test.ApplicationTestCase;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
+import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.fixtures.SolicitacaoFixture;
 import rarolabs.com.br.rvp.services.BackendExpection;
 import rarolabs.com.br.rvp.services.BackendServices;
@@ -28,15 +29,16 @@ public class ManterMembrosTest  extends ApplicationTestCase<Application> {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        rodrigoSol = GoogleAccountCredential.usingAudience(getContext(), "server:client_id:701949285974-83l9d3ibrmaerqboebi7fvpm3s3tcarc.apps.googleusercontent.com");
+        rodrigoSol = GoogleAccountCredential.usingAudience(getContext(), Constants.OAUTH_CLIENT_ID);
         rodrigoSol.setSelectedAccountName("rodrigosol@gmail.com");
 
-        admin = GoogleAccountCredential.usingAudience(getContext(), "server:client_id:701949285974-83l9d3ibrmaerqboebi7fvpm3s3tcarc.apps.googleusercontent.com");
+        admin = GoogleAccountCredential.usingAudience(getContext(), Constants.OAUTH_CLIENT_ID);
         admin.setSelectedAccountName("admin@rarolabs.com.br");
+        this.service = new BackendServices(rodrigoSol,Constants.BACKEND_URL);
     }
 
     public void testTornarAdministrador() throws BackendExpection {
-        this.service = new BackendServices(rodrigoSol);
+        service.setCredential(rodrigoSol);
         service.cleanForTesting();
         Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(admin,rodrigoSol);
         m = service.tornarAdministrador(m.getId());
@@ -47,7 +49,7 @@ public class ManterMembrosTest  extends ApplicationTestCase<Application> {
 
 
     public void testRetirarPermissaoAdministrador() throws BackendExpection, InterruptedException {
-        this.service = new BackendServices(rodrigoSol);
+        service.setCredential(rodrigoSol);
         service.cleanForTesting();
         Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(admin,rodrigoSol);
         m = service.retirarPermissaoAdministrador(m.getId());
@@ -58,7 +60,7 @@ public class ManterMembrosTest  extends ApplicationTestCase<Application> {
 
 
     public void testTornarAutoriadade() throws BackendExpection {
-        this.service = new BackendServices(rodrigoSol);
+        service.setCredential(rodrigoSol);
         service.cleanForTesting();
         Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(admin,rodrigoSol);
         m = service.tornarAutoridade(m.getId());
@@ -69,7 +71,7 @@ public class ManterMembrosTest  extends ApplicationTestCase<Application> {
 
 
     public void testRetirarPermissaoAutoriadade() throws BackendExpection, InterruptedException {
-        this.service = new BackendServices(rodrigoSol);
+        service.setCredential(rodrigoSol);
         service.cleanForTesting();
         Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(admin,rodrigoSol);
         m = service.retirarPermissaoAutoridade(m.getId());
@@ -80,7 +82,7 @@ public class ManterMembrosTest  extends ApplicationTestCase<Application> {
 
 
     public void testInativarVizinho() throws BackendExpection {
-        this.service = new BackendServices(rodrigoSol);
+        service.setCredential(rodrigoSol);
         service.cleanForTesting();
         Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(admin,rodrigoSol);
         m = service.inativarVizinho(m.getId());
@@ -91,7 +93,7 @@ public class ManterMembrosTest  extends ApplicationTestCase<Application> {
 
 
     public void testAtivarVizinho() throws BackendExpection, InterruptedException {
-        this.service = new BackendServices(rodrigoSol);
+        service.setCredential(rodrigoSol);
         service.cleanForTesting();
         Membro m = SolicitacaoFixture.criarSolicitacaoAprovada(admin,rodrigoSol);
         m = service.ativarVizinho(m.getId());

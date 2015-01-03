@@ -13,6 +13,7 @@ import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
 import br.com.rarolabs.rvp.api.rvpAPI.model.MembroCollection;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
+import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.fixtures.EnderecoFixture;
 import rarolabs.com.br.rvp.fixtures.RedeFixture;
 import rarolabs.com.br.rvp.fixtures.UsuarioFixture;
@@ -37,36 +38,36 @@ public class LocalizarRedesTest  extends ApplicationTestCase<Application> {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        rodrigoSol = GoogleAccountCredential.usingAudience(getContext(), "server:client_id:701949285974-83l9d3ibrmaerqboebi7fvpm3s3tcarc.apps.googleusercontent.com");
+        rodrigoSol = GoogleAccountCredential.usingAudience(getContext(), Constants.OAUTH_CLIENT_ID);
         rodrigoSol.setSelectedAccountName("rodrigosol@gmail.com");
 
-        admin = GoogleAccountCredential.usingAudience(getContext(), "server:client_id:701949285974-83l9d3ibrmaerqboebi7fvpm3s3tcarc.apps.googleusercontent.com");
+        admin = GoogleAccountCredential.usingAudience(getContext(), Constants.OAUTH_CLIENT_ID);
         admin.setSelectedAccountName("admin@rarolabs.com.br");
 
-        carol = GoogleAccountCredential.usingAudience(getContext(), "server:client_id:701949285974-83l9d3ibrmaerqboebi7fvpm3s3tcarc.apps.googleusercontent.com");
+        carol = GoogleAccountCredential.usingAudience(getContext(), Constants.OAUTH_CLIENT_ID);
         carol.setSelectedAccountName("acarolsm@gmail.com");
+        this.service = new BackendServices(rodrigoSol,Constants.BACKEND_URL);
 
     }
 
 
     public void testMinhasRedes() throws BackendExpection {
-        service = new BackendServices(rodrigoSol);
         service.cleanForTesting();
         Usuario rodrigo = service.novoUsuario(UsuarioFixture.getRodrigoSol());
         Rede rede1 = service.novaRede("Amigos do Comiteco", EnderecoFixture.getEnderecoRaro());
         Rede rede2 = service.novaRede("Amigos do Nectar", EnderecoFixture.getEnderecoCasa());
 
-        service = new BackendServices(carol);
+        service.setCredential(carol);
         Usuario ramon = service.novoUsuario(UsuarioFixture.getRamonSetragni());
         Rede rede3 = service.novaRede("Amigos do Praça", EnderecoFixture.getEnderecoPraca());
 
-        service = new BackendServices(rodrigoSol);
+        service.setCredential(rodrigoSol);
         service.solicitarAssociacao(rede3.getId(), EnderecoFixture.getEnderecoPraca());
 
-        service = new BackendServices(carol);
+        service.setCredential(carol);
         service.aprovarAssociacao(service.solicitacoesPendentes(rede3.getId()).getItems().get(0).getId());
 
-        service = new BackendServices(rodrigoSol);
+        service.setCredential(rodrigoSol);
         MembroCollection minhasRedes = service.minhasRedes();
 
         assertEquals(3,minhasRedes.getItems().size());
@@ -74,7 +75,6 @@ public class LocalizarRedesTest  extends ApplicationTestCase<Application> {
 
 
     public void testBuscarRedesProximas() throws BackendExpection {
-        service = new BackendServices(rodrigoSol);
         service.cleanForTesting();
 
         Endereco raro = EnderecoFixture.getEnderecoRaro();

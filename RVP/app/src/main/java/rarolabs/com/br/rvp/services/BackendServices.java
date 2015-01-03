@@ -31,8 +31,14 @@ import static android.support.v4.app.ActivityCompat.startActivityForResult;
 public class BackendServices {
     private GoogleAccountCredential credential;
     private RvpAPI service;
+    private String url;
 
     public BackendServices(GoogleAccountCredential credential){
+        setCredential(credential);
+    }
+
+    public BackendServices(GoogleAccountCredential credential, String url){
+        this.url = url;
         setCredential(credential);
     }
 
@@ -218,7 +224,9 @@ public class BackendServices {
     private  void loadService(){
         RvpAPI.Builder builder = new RvpAPI.Builder(
                 AndroidHttp.newCompatibleTransport(),new AndroidJsonFactory(), credential);
-        builder.setRootUrl("http://10.0.0.102:8080/_ah/api");
+        if(this.url!=null) {
+            builder.setRootUrl(url);
+        }
         builder.setApplicationName("rvpAPI");
         builder.setGoogleClientRequestInitializer(new RvpAPIRequestInitializer() {
             protected void initializeRvpAPIRequest(RvpAPIRequest<?> request) {

@@ -6,6 +6,7 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
+import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.services.BackendExpection;
 import rarolabs.com.br.rvp.services.BackendServices;
 
@@ -14,13 +15,13 @@ import rarolabs.com.br.rvp.services.BackendServices;
  */
 public class RedeFixture {
     public static Rede novaRede1(GoogleAccountCredential credential) throws BackendExpection {
-        BackendServices service = new BackendServices(credential);
+        BackendServices service = new BackendServices(credential, Constants.BACKEND_URL);
         Usuario u = service.novoUsuario(UsuarioFixture.getRodrigoSol());
         return service.novaRede("Amigos do Comiteco" + Math.random(), EnderecoFixture.getEnderecoRaro());
     }
 
     public static Rede novaRede2(GoogleAccountCredential credential) throws BackendExpection {
-        BackendServices service = new BackendServices(credential);
+        BackendServices service = new BackendServices(credential,Constants.BACKEND_URL);
         Usuario u = service.novoUsuario(UsuarioFixture.getRamonSetragni());
         return service.novaRede("Amigos da Praça" + Math.random(), EnderecoFixture.getEnderecoEscola());
     }
