@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/lnl5JVoppGLnavWEvjjPZ0pa21Y\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/XRQHO5hM4PCQs515NirF5ykJmFE\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -13,9 +13,9 @@
   "x32": "http://www.google.com/images/icons/product/search-32.gif"
  },
  "protocol": "rest",
- "baseUrl": "https://myApplicationId.appspot.com/_ah/api/rvpAPI/v1/",
+ "baseUrl": "https://rede-vizinhos-projetegidos.appspot.com/_ah/api/rvpAPI/v1/",
  "basePath": "/_ah/api/rvpAPI/v1/",
- "rootUrl": "https://myApplicationId.appspot.com/_ah/api/",
+ "rootUrl": "https://rede-vizinhos-projetegidos.appspot.com/_ah/api/",
  "servicePath": "rvpAPI/v1/",
  "batchPath": "batch",
  "parameters": {

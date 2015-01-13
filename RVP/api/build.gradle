@@ -53,8 +53,11 @@ appengine {
         getClientLibsOnBuild = true
         getDiscoveryDocsOnBuild = true
     }
-
     appcfg {
+        oauth2 = true
+        noCookies = true
+        email = "admin@rarolabs.com.br"
+
         logs {
             severity = 0
             outputFile = file('/tmp/gae.txt')
