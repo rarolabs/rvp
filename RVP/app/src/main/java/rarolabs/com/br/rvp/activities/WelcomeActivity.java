@@ -1,6 +1,7 @@
 package rarolabs.com.br.rvp.activities;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -20,19 +21,24 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 
+import java.util.List;
+
+import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponder;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.services.BuscaRedesAsyncTask;
 
 
-public class WelcomeActivity extends Activity {
+public class WelcomeActivity extends Activity implements GeoqueryResponderFragment.OnFragmentInteractionListener {
     ImageView spinner;
     private Button buscarRede;
+    private GeoqueryResponderFragment buscaRedesFragment;
+    private View loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-
+        getActionBar().hide();
         SliderLayout sliderShow = (SliderLayout) findViewById(R.id.slider);
 
         DefaultSliderView defaultSliderView = new DefaultSliderView(this);
@@ -41,18 +47,28 @@ public class WelcomeActivity extends Activity {
 
         sliderShow.stopAutoCycle();
         sliderShow.addSlider(defaultSliderView);
+        loading = findViewById(R.id.loading);
         spinner = (ImageView) findViewById(R.id.spinner);
+
 
         spinner.startAnimation(
                 AnimationUtils.loadAnimation(this, R.anim.rotate_forever) );
 
+        buscaRedesFragment =
+                (GeoqueryResponderFragment) getFragmentManager().findFragmentById(R.id.geoquery_responder_fragment);
+        buscaRedesFragment.getView().setVisibility(View.GONE);
         buscarRede = (Button) findViewById(R.id.buscar_rede);
+        new BuscaRedesAsyncTask(WelcomeActivity.this).execute();
         buscarRede.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loading.setVisibility(View.VISIBLE);
+                buscaRedesFragment.getView().setVisibility(View.GONE);
                 new BuscaRedesAsyncTask(WelcomeActivity.this).execute();
             }
         });
+
+
 
 
     }
@@ -80,8 +96,19 @@ public class WelcomeActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void ok() {
-        Toast.makeText(this,"Ok",Toast.LENGTH_LONG);
+    public void ok(List<GeoqueryResponder> result) {
+        loading.setVisibility(View.GONE);
+        buscaRedesFragment.getView().setVisibility(View.VISIBLE);
+        buscaRedesFragment.getAdapter().addAll(result);
+    }
+
+    public void error(String msg) {
+        Toast.makeText(this,msg,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onFragmentInteraction(String id) {
+
     }
 
     /**
@@ -95,6 +122,7 @@ public class WelcomeActivity extends Activity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+
             View rootView = inflater.inflate(R.layout.fragment_welcome, container, false);
             return rootView;
         }

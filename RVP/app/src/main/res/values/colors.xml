@@ -4,5 +4,10 @@
     <color name="material_blue_700" >#1976D2</color>
     <color name="material_green_A200" >#69F0AE</color>
     <color name="material_green_500" >#4CAF50</color>
+    <color name="material_green_700" >#327533</color>
+    <color name="white">#ffffff</color>
+    <color name="fonte_busca_rede">#455A64</color>
+    <color name="fonte_busca_rede_bairro">#90A4AE</color>
+
 
 </resources>

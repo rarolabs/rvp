@@ -1,7 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/container"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    tools:context="rarolabs.com.br.rvp.activities.WelcomeActivity" tools:ignore="MergeRootFrame" >
+    tools:context="rarolabs.com.br.rvp.activities.WelcomeActivity" tools:ignore="MergeRootFrame"
+    android:statusBarColor="@android:color/transparent"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -44,8 +46,9 @@
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:id="@+id/loading"
             >
             <ImageView
                 android:layout_width="wrap_content"
@@ -53,7 +56,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="48dp"
                 android:id="@+id/spinner"
-                android:src="@drawable/load"/>
+                android:src="@drawable/ic_tutorial_loading"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -66,6 +69,14 @@
                 />
 
             </LinearLayout>
+        <!--android:paddingBottom="@dimen/activity_detail_vertical_margin"-->
+        <!--android:layout_below="@id/toolbar"-->
+
+            <fragment android:name="rarolabs.com.br.rvp.activities.GeoqueryResponderFragment"
+                android:id="@+id/geoquery_responder_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
 
     </LinearLayout>
 
