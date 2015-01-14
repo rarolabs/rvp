@@ -3,22 +3,23 @@ package rarolabs.com.br.rvp.activities;
 import android.app.Activity;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponder;
 import rarolabs.com.br.rvp.R;
 
-import rarolabs.com.br.rvp.activities.adapters.BuscaRedeAdapter;
+import rarolabs.com.br.rvp.adapters.BuscaRedeAdapter;
+import rarolabs.com.br.rvp.listeners.RecyclerItemClickListener;
 
 
 /**
@@ -53,6 +54,8 @@ public class GeoqueryResponderFragment extends Fragment implements AbsListView.O
      * Views.
      */
     private BuscaRedeAdapter mAdapter;
+    private RecyclerView mRecyclerView;
+    private LinearLayoutManager mLayoutManager;
 
     // TODO: Rename and change types of parameters
     public static GeoqueryResponderFragment newInstance(String param1, String param2) {
@@ -83,10 +86,9 @@ public class GeoqueryResponderFragment extends Fragment implements AbsListView.O
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+
         // TODO: Change Adapter to display your content
-        mAdapter = new BuscaRedeAdapter(getActivity(),
-                android.R.layout.simple_list_item_1, new ArrayList<GeoqueryResponder>());
-        mAdapter.setNotifyOnChange(true);
+        mAdapter = new BuscaRedeAdapter(new ArrayList<GeoqueryResponder>());
 
     }
 
@@ -95,12 +97,25 @@ public class GeoqueryResponderFragment extends Fragment implements AbsListView.O
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_geoqueryresponder, container, false);
 
-        // Set the adapter
-        mListView = (AbsListView) view.findViewById(android.R.id.list);
-        ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.lista_redes_recycler_view);
 
-        // Set OnItemClickListener so we can be notified on item clicks
-        mListView.setOnItemClickListener(this);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this.getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Toast.makeText(getActivity(),"Clicado:" + position,Toast.LENGTH_SHORT).show();
+                    }
+                })
+        );
+
+
 
         return view;
     }
@@ -125,7 +140,9 @@ public class GeoqueryResponderFragment extends Fragment implements AbsListView.O
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(getActivity(),"Clicado",Toast.LENGTH_SHORT).show();
         if (null != mListener) {
+            Toast.makeText(getActivity(),"Clicado",Toast.LENGTH_SHORT).show();
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
             //mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).getIdRede().toString());

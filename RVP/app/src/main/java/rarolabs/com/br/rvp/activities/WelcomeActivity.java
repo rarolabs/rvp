@@ -100,6 +100,7 @@ public class WelcomeActivity extends Activity implements GeoqueryResponderFragme
         loading.setVisibility(View.GONE);
         buscaRedesFragment.getView().setVisibility(View.VISIBLE);
         buscaRedesFragment.getAdapter().addAll(result);
+        buscaRedesFragment.getAdapter().notifyDataSetChanged();
     }
 
     public void error(String msg) {
