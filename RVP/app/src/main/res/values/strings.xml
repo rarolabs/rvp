@@ -21,5 +21,10 @@
     <string name="buscar_redes">Buscar Redes</string>
     <string name="criar_rede">Criar Rede</string>
     <string name="buscando_redes">Buscando redes mais próximas</string>
+    <string name="busca_redes_nao_encontradas">Nenhuma rede encontrada nas redondezas\n(toque para buscar novamente)</string>
+    <string name="title_activity_rede">RedeActivity</string>
+    <string name="administrador">Administrador</string>
+    <string name="ultima_atividade">Última atividade</string>
+    <string name="tamanho">Tamanho</string>
 
 </resources>

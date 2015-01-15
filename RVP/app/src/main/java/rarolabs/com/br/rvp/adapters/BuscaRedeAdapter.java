@@ -10,6 +10,7 @@ import java.util.List;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponder;
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.utils.Formarter;
 
 /**
  * Created by rodrigosol on 1/14/15.
@@ -41,7 +42,7 @@ public class BuscaRedeAdapter extends RecyclerView.Adapter<BuscaRedeAdapter.View
     @Override
     public void onBindViewHolder(BuscaRedeAdapter.ViewHolder holder, int position) {
         GeoqueryResponder geo = myDataset.get(position);
-        holder.distancia.setText(geo.getDistance().toString());
+        holder.distancia.setText(Formarter.distanciaHumana(geo.getDistance()));
         holder.nome.setText(geo.getNomeRede());
         holder.localizacao.setText("Mangabeiras, Belo Horizonte");
     }
@@ -64,29 +65,5 @@ public class BuscaRedeAdapter extends RecyclerView.Adapter<BuscaRedeAdapter.View
             super(itemView);
         }
     }
-
-
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//
-//        LayoutInflater inflater = (LayoutInflater) context
-//                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//
-//        View rowView = inflater.inflate(R.layout.busca_rede_item, parent, false);
-//
-//        TextView textView = (TextView) rowView.findViewById(R.id.title);
-//        //ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-//        textView.setText(objects.get(position).getNomeRede());
-//        // change the icon for Windows and iPhone
-////        String s = values[position];
-////        if (s.startsWith("iPhone")) {
-////            imageView.setImageResource(R.drawable.no);
-////        } else {
-////            imageView.setImageResource(R.drawable.ok);
-////        }
-//
-//        return rowView;
-//    }
-
 
 }

@@ -1,0 +1,157 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:id="@+id/container"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    tools:context="rarolabs.com.br.rvp.activities.RedeActivity" tools:ignore="MergeRootFrame"
+    android:statusBarColor="@android:color/transparent"
+    >
+    <ImageView
+        android:id="@+id/thumb"
+        android:layout_width="match_parent"
+        android:layout_height="270dp"
+        android:background="@color/primary_dark_material_light"
+        android:scaleType="fitXY"
+        />
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|top"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="240dp"
+        android:layout_marginBottom="30dp"
+        android:src="@drawable/ic_rede_entrar"
+        fab:fab_colorNormal="@color/material_lime_A400"
+        fab:fab_colorPressed="@color/material_green_A200"
+        fab:fab_colorRipple="@color/ripple" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" android:orientation="vertical"
+        android:layout_marginTop="290dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="74dp"
+        >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ipanema Kings"
+        android:fontFamily="Roboto-Bold"
+        android:textSize="20sp"
+        android:textColor="@color/titulo_rede"
+
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rua Vinicius de Morais, Impanema,\nRio de Janeiro, RJ, Brasil"
+        android:textColor="@color/fonte_busca_rede_bairro"
+        android:fontFamily="Roboto-Regular"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"
+        />
+        
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="28dp"
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:src="@drawable/ic_cadastro_foto_vazia"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="16dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/administrador"
+                android:textColor="@color/subtitles"
+                android:fontFamily="Roboto-Bold"
+                android:textSize="12sp"
+                android:layout_marginBottom="0dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Eva Labanca"
+                android:textColor="@color/value_subtitle"
+                android:fontFamily="Roboto-Medium"
+                android:textSize="16sp"
+                android:layout_marginTop="3dp"
+                />
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:src="@drawable/list_divider"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ultima_atividade"
+                    android:textColor="@color/subtitles"
+                    android:fontFamily="Roboto-Bold"
+                    android:textSize="12sp"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="22 de Janeiro de 2015"
+                    android:textColor="@color/value_subtitle"
+                    android:fontFamily="Roboto-Medium"
+                    android:textSize="16sp"
+                    android:layout_marginTop="3dp"
+                    />
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:src="@drawable/list_divider"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tamanho"
+                android:textColor="@color/subtitles"
+                android:fontFamily="Roboto-Bold"
+                android:textSize="12sp"
+                android:layout_marginBottom="0dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="88 vizinhos"
+                android:textColor="@color/value_subtitle"
+                android:fontFamily="Roboto-Medium"
+                android:textSize="16sp"
+                android:layout_marginTop="3dp"
+                />
+
+        </LinearLayout>
+        
+
+      </LinearLayout>    
+    
+    </LinearLayout>
+
+</FrameLayout>

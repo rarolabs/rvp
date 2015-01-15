@@ -1,7 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/container"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    tools:context="rarolabs.com.br.rvp.activities.WelcomeActivity" tools:ignore="MergeRootFrame" >
+    tools:context="rarolabs.com.br.rvp.activities.WelcomeActivity" tools:ignore="MergeRootFrame"
+    android:statusBarColor="@android:color/transparent"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,27 +20,67 @@
             android:orientation="horizontal"
             android:background="@color/material_green_500"
             android:elevation="2dp"
+            android:divider="@drawable/buttons_divider"
+            android:dividerPadding="6dip"
+            android:showDividers="middle"
             >
             <Button
+                android:id="@+id/buscar_rede"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/buscar_redes"
                 android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:textColor="@android:color/white"/>
+                android:background="?android:attr/selectableItemBackground"
+                android:textColor="@android:color/white"
+                />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/criar_rede"
                 android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:textColor="@android:color/white"/>
-
-
-        </LinearLayout>
+                android:background="?android:attr/selectableItemBackground"
+                android:textColor="@android:color/white"
+                />
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/loading"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="48dp"
+                android:id="@+id/spinner"
+                android:src="@drawable/ic_tutorial_loading"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/buscando_redes"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:singleLine="false"
+                android:textAlignment="center"
+                android:id="@+id/status_busca"
+                />
+
+            </LinearLayout>
+        <!--android:paddingBottom="@dimen/activity_detail_vertical_margin"-->
+        <!--android:layout_below="@id/toolbar"-->
+
+            <fragment android:name="rarolabs.com.br.rvp.activities.GeoqueryResponderFragment"
+                android:id="@+id/geoquery_responder_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+    </LinearLayout>
 
 
 </FrameLayout>

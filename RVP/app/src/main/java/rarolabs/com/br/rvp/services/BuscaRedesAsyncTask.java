@@ -36,7 +36,7 @@ public class BuscaRedesAsyncTask extends AsyncTask<Void, Void, List<GeoqueryResp
 
         try {
             Log.d("REDES", "Realizando chamada ao servico");
-            List<GeoqueryResponder> result = backendServices.buscarRedesProximas(1.0, 1.0, 100.0).getItems();
+            List<GeoqueryResponder> result = backendServices.buscarRedesProximas(1.0, 1.0, 20000.0).getItems();
             Log.d("REDES", "Realizando chamada ao servico");
             if (result != null){
                 Log.d("REDE", "Quantidade retornada:" + result.size());

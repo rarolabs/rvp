@@ -88,7 +88,7 @@ public class SearchService {
         SortOptions sortOptions = SortOptions.newBuilder()
                 .addSortExpression(SortExpression.newBuilder()
                         .setExpression("memberPosition")
-                        .setDirection(SortExpression.SortDirection.DESCENDING)
+                        .setDirection(SortExpression.SortDirection.ASCENDING)
                         .setDefaultValueNumeric(0))
                 .setLimit(1000)
                 .build();

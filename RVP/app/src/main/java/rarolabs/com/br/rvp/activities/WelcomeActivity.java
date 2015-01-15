@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import android.os.Build;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.slider.library.SliderLayout;
@@ -33,12 +35,16 @@ public class WelcomeActivity extends Activity implements GeoqueryResponderFragme
     private Button buscarRede;
     private GeoqueryResponderFragment buscaRedesFragment;
     private View loading;
+    private TextView statusBusca;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        getActionBar().hide();
+        if(getActionBar()!=null) {
+            getActionBar().hide();
+        }
+        statusBusca = (TextView) findViewById(R.id.status_busca);
         SliderLayout sliderShow = (SliderLayout) findViewById(R.id.slider);
 
         DefaultSliderView defaultSliderView = new DefaultSliderView(this);
@@ -50,21 +56,16 @@ public class WelcomeActivity extends Activity implements GeoqueryResponderFragme
         loading = findViewById(R.id.loading);
         spinner = (ImageView) findViewById(R.id.spinner);
 
-
-        spinner.startAnimation(
-                AnimationUtils.loadAnimation(this, R.anim.rotate_forever) );
-
         buscaRedesFragment =
                 (GeoqueryResponderFragment) getFragmentManager().findFragmentById(R.id.geoquery_responder_fragment);
         buscaRedesFragment.getView().setVisibility(View.GONE);
         buscarRede = (Button) findViewById(R.id.buscar_rede);
-        new BuscaRedesAsyncTask(WelcomeActivity.this).execute();
+        buscar();
+
         buscarRede.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loading.setVisibility(View.VISIBLE);
-                buscaRedesFragment.getView().setVisibility(View.GONE);
-                new BuscaRedesAsyncTask(WelcomeActivity.this).execute();
+                buscar();
             }
         });
 
@@ -101,10 +102,46 @@ public class WelcomeActivity extends Activity implements GeoqueryResponderFragme
         buscaRedesFragment.getView().setVisibility(View.VISIBLE);
         buscaRedesFragment.getAdapter().addAll(result);
         buscaRedesFragment.getAdapter().notifyDataSetChanged();
+
+        if(result.size() == 0){
+            notFound();
+        }
     }
 
     public void error(String msg) {
-        Toast.makeText(this,msg,Toast.LENGTH_LONG).show();
+        Log.i("BUSCA_REDE", "Erro ao buscar redes:" + msg);
+    }
+
+    public void notFound(){
+
+
+
+        spinner.clearAnimation();
+        spinner.setImageResource(R.drawable.ic_tutorial_empty);
+        statusBusca.setText(R.string.busca_redes_nao_encontradas);
+        loading.setVisibility(View.VISIBLE);
+        statusBusca.startAnimation(
+                AnimationUtils.loadAnimation(this, R.anim.bouce) );
+
+        loading.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buscar();
+            }
+        });
+    }
+
+    private void buscar() {
+
+        buscaRedesFragment.getView().setVisibility(View.GONE);
+        spinner.setImageResource(R.drawable.ic_tutorial_loading);
+        spinner.startAnimation(
+                AnimationUtils.loadAnimation(this, R.anim.rotate_forever) );
+
+        loading.setVisibility(View.VISIBLE);
+        loading.setOnClickListener(null);
+        new BuscaRedesAsyncTask(WelcomeActivity.this).execute();
+
     }
 
     @Override

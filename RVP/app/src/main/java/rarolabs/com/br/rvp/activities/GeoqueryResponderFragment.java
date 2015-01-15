@@ -1,6 +1,7 @@
 package rarolabs.com.br.rvp.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -110,6 +111,8 @@ public class GeoqueryResponderFragment extends Fragment implements AbsListView.O
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
+                        Intent i = new Intent(GeoqueryResponderFragment.this.getActivity(),RedeActivity.class);
+                        startActivity(i);
                         Toast.makeText(getActivity(),"Clicado:" + position,Toast.LENGTH_SHORT).show();
                     }
                 })
