@@ -9,6 +9,15 @@
         <item name="android:colorPrimaryDark">@color/material_green_700</item>
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="android:colorAccent">@color/material_green_700</item>
+
+        <item name="colorControlNormal">@color/color_control_normal</item>
+        <item name="colorControlActivated">@color/color_control_activated</item>
+        <item name="colorControlHighlight">@color/color_control_activated</item>
+
+        <item name="android:spinnerItemStyle">
+            @style/spinnerItemStyle
+        </item>
+
     </style>
 
 </resources>

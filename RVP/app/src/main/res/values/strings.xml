@@ -26,5 +26,17 @@
     <string name="administrador">Administrador</string>
     <string name="ultima_atividade">Última atividade</string>
     <string name="tamanho">Tamanho</string>
+    <string name="title_activity_cadastro">CadastroActivity</string>
+    <string name="hint_nome">Nome</string>
+    <string name="DDD">DDD</string>
+    <string name="telefone_fixo">Telefone fixo</string>
+    <string name="telefone_celular">Telefone celular</string>
+    <string name="quem_pode_ver_celular">Quem pode ver seu telefone celular</string>
+    <string name="quem_pode_ver_fixo">Quem pode ver seu telefone fixo</string>
+    <string name="todos_membros">Todo os membros da rede</string>
+    <string name="somente_autoridade_policial">Somente a autoridade policial</string>
+    <string name="ninguem">Ninguém</string>
+    <string name="endereco">Endereço</string>
+    <string name="quem_pode_ver_endereco">Quem pode ver seu endereço</string>
 
 </resources>

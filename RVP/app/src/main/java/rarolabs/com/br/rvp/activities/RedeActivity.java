@@ -1,13 +1,17 @@
 package rarolabs.com.br.rvp.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+
+import com.melnykov.fab.FloatingActionButton;
 
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.services.BuscaRedesAsyncTask;
@@ -16,16 +20,37 @@ import rarolabs.com.br.rvp.services.GoogleMapsThumbAsyncTask;
 public class RedeActivity extends Activity {
 
     private ImageView thumb;
+    private FloatingActionButton entrarNaRede;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(getActionBar()!=null) {
+            getActionBar().hide();
+        }
+
         setContentView(R.layout.activity_rede);
+        entrarNaRede  = (FloatingActionButton) findViewById(R.id.entrar_na_rede);
+        entrarNaRede.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                entrar();
+            }
+        });
+
         thumb = (ImageView) findViewById(R.id.thumb);
         Object[] params = {new Double("1.0"),new Double("1.0")};
         new GoogleMapsThumbAsyncTask(RedeActivity.this).execute(params);
 
 
+
+
+    }
+
+    private void entrar() {
+        Intent i = new Intent(RedeActivity.this,CadastroActivity.class);
+        startActivity(i);
     }
 
 

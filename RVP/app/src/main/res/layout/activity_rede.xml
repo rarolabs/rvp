@@ -14,7 +14,7 @@
         />
 
     <com.melnykov.fab.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/entrar_na_rede"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|top"

@@ -13,6 +13,12 @@
     <color name="titulo_rede">#43A047</color>
     <color name="subtitles">#78909C</color>
     <color name="value_subtitle">#434343</color>
+    <color name="fundo_image">#ECEFF1</color>
+    <color name="hint_color">#B0BEC5</color>
+    <color name="color_control_normal">#ebebeb</color>
+    <color name="color_control_activated">#43A047</color>
+    <color name="fonte_edit_text">#546E7A</color>
+    <color name="quem_pode">#90A4AE</color>
 
 
 </resources>
