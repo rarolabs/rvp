@@ -22,6 +22,7 @@ import com.googlecode.objectify.Objectify;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,6 +99,7 @@ public class SearchService {
                 .setLimit(10)
                 .setSortOptions(sortOptions)
                 .build();
+        System.out.println("Buscando por:" + latitude + "," + logitude);
 
         String queryString = "distance(memberPosition, geopoint("+ latitude +", "+ logitude +")) < " + distance;
         Results<ScoredDocument> results = index.search(queryString);
@@ -144,6 +146,9 @@ public class SearchService {
             geo.setLatitude(rede.getLatitude());
             geo.setLongitude(rede.getLongitude());
             geo.setCoordinators(rede.getMembros());
+            geo.setNomeAdministrador(rede.getDono().getUsuario().getNome());
+            geo.setQuantidadeMembros(rede.getMembros().size());
+            geo.setUltimaAtividade(new Date());
 
             results.add(geo);
 

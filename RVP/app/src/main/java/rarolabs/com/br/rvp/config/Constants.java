@@ -5,7 +5,7 @@ package rarolabs.com.br.rvp.config;
  */
 public class Constants {
     //public static final String BACKEND_URL = "http://192.168.0.22:8080/_ah/api";
-    public static final String BACKEND_URL = "http://192.168.25.21:8080/_ah/api";
+    public static final String BACKEND_URL = "http://10.0.0.106:8080/_ah/api";
     public static final String OAUTH_CLIENT_ID = "server:client_id:701949285974-83l9d3ibrmaerqboebi7fvpm3s3tcarc.apps.googleusercontent.com";
     public static final String PROJECT_NUMBER = "701949285974";
 

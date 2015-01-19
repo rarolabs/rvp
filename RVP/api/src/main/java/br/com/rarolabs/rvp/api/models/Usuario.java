@@ -145,12 +145,22 @@ public class Usuario {
         return OfyService.ofy().load().type(Membro.class).filter("usuario",u).list();
     }
 
-    public static Usuario novoUsuario(Usuario usuario) throws ConflictException {
+    public static Usuario novoUsuario(Usuario usuario) {
         Objectify ofy = OfyService.ofy();
-        if(ofy.load().type(Usuario.class).id(usuario.getEmail()).now() != null){
-            throw new ConflictException("e-mail já cadastrado");
+        Usuario recuperado = ofy.load().type(Usuario.class).id(usuario.getEmail()).now();
+
+        if(recuperado != null){
+            recuperado.setNome(usuario.getNome());
+            recuperado.setDddTelefoneCelular(usuario.getDddTelefoneCelular());
+            recuperado.setDddTelefoneFixo(usuario.getDddTelefoneFixo());
+            recuperado.setTelefoneCelular(usuario.getTelefoneCelular());
+            recuperado.setTelefoneFixo(usuario.getTelefoneFixo());
+            ofy.save().entity(recuperado).now();
+            usuario = recuperado;
+        }else{
+            ofy.save().entity(usuario).now();
         }
-        ofy.save().entity(usuario).now();
+
         return usuario;
 
     }

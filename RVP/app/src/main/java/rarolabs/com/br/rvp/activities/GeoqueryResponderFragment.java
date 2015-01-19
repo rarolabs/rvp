@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -111,7 +114,16 @@ public class GeoqueryResponderFragment extends Fragment implements AbsListView.O
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
+                        GeoqueryResponder geo = getAdapter().get(position);
                         Intent i = new Intent(GeoqueryResponderFragment.this.getActivity(),RedeActivity.class);
+                        i.putExtra(WelcomeActivity.EXTRA_ID_REDE,geo.getIdRede());
+                        i.putExtra(WelcomeActivity.EXTRA_NOME_REDE,geo.getNomeRede());
+                        i.putExtra(WelcomeActivity.EXTRA_ENDERECO_REDE,"Nao sei ainda");
+                        i.putExtra(WelcomeActivity.EXTRA_NOME_ADMIN,geo.getNomeAdministrador());
+                        i.putExtra(WelcomeActivity.EXTRA_ULTIMA_ATIVIDADE,geo.getUltimaAtividade().toString());
+                        i.putExtra(WelcomeActivity.EXTRA_QUANTIDADE_MEMBROS,geo.getQuantidadeMembros());
+                        i.putExtra(WelcomeActivity.EXTRA_LATITUDE,geo.getLatitude());
+                        i.putExtra(WelcomeActivity.EXTRA_LONGITUDE,geo.getLongitude());
                         startActivity(i);
                         Toast.makeText(getActivity(),"Clicado:" + position,Toast.LENGTH_SHORT).show();
                     }

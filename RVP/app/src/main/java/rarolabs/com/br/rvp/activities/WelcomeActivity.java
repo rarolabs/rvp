@@ -1,9 +1,7 @@
 package rarolabs.com.br.rvp.activities;
 
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
+import android.location.Location;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,36 +10,45 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
 
 import java.util.List;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponder;
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.listeners.GPSTracker;
 import rarolabs.com.br.rvp.services.BuscaRedesAsyncTask;
 
 
-public class WelcomeActivity extends Activity implements GeoqueryResponderFragment.OnFragmentInteractionListener {
+public class WelcomeActivity extends Activity implements
+        GeoqueryResponderFragment.OnFragmentInteractionListener, Locable {
+    public static final java.lang.String EXTRA_NOME_REDE = "nome_rede";
+    public static final java.lang.String EXTRA_ENDERECO_REDE = "endereco_rede";
+    public static final java.lang.String EXTRA_NOME_ADMIN = "nome_admin";
+    public static final java.lang.String EXTRA_ULTIMA_ATIVIDADE = "ultima_atividade";
+    public static final java.lang.String EXTRA_QUANTIDADE_MEMBROS = "quantidade_membros";
+    public static final java.lang.String EXTRA_LATITUDE = "latitude";
+    public static final java.lang.String EXTRA_LONGITUDE = "logintude";
+    public static final java.lang.String EXTRA_ID_REDE = "id";
+
     ImageView spinner;
     private Button buscarRede;
     private GeoqueryResponderFragment buscaRedesFragment;
     private View loading;
     private TextView statusBusca;
+    private GPSTracker gps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        if(getActionBar()!=null) {
+        if (getActionBar() != null) {
             getActionBar().hide();
         }
         statusBusca = (TextView) findViewById(R.id.status_busca);
@@ -60,18 +67,36 @@ public class WelcomeActivity extends Activity implements GeoqueryResponderFragme
                 (GeoqueryResponderFragment) getFragmentManager().findFragmentById(R.id.geoquery_responder_fragment);
         buscaRedesFragment.getView().setVisibility(View.GONE);
         buscarRede = (Button) findViewById(R.id.buscar_rede);
-        buscar();
-
         buscarRede.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buscar();
+                buscar(null);
             }
         });
 
+        if (gps == null) {
+            gps = new GPSTracker(WelcomeActivity.this);
+        }
+
+        // check if GPS enabled
+        if (!gps.canGetLocation()) {
+            gps.showSettingsAlert();
+        } else {
+            spinner.startAnimation(
+                    AnimationUtils.loadAnimation(this, R.anim.rotate_forever));
+
+            onLocationChange(gps.getLocation());
+        }
 
 
+    }
 
+    @Override
+    public void onLocationChange(Location location) {
+        if (location.getLatitude() != 0) {
+            gps.stopUsingGPS();
+            buscar(location);
+        }
     }
 
 
@@ -103,7 +128,7 @@ public class WelcomeActivity extends Activity implements GeoqueryResponderFragme
         buscaRedesFragment.getAdapter().addAll(result);
         buscaRedesFragment.getAdapter().notifyDataSetChanged();
 
-        if(result.size() == 0){
+        if (result.size() == 0) {
             notFound();
         }
     }
@@ -112,8 +137,7 @@ public class WelcomeActivity extends Activity implements GeoqueryResponderFragme
         Log.i("BUSCA_REDE", "Erro ao buscar redes:" + msg);
     }
 
-    public void notFound(){
-
+    public void notFound() {
 
 
         spinner.clearAnimation();
@@ -121,26 +145,32 @@ public class WelcomeActivity extends Activity implements GeoqueryResponderFragme
         statusBusca.setText(R.string.busca_redes_nao_encontradas);
         loading.setVisibility(View.VISIBLE);
         statusBusca.startAnimation(
-                AnimationUtils.loadAnimation(this, R.anim.bouce) );
+                AnimationUtils.loadAnimation(this, R.anim.bouce));
 
         loading.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buscar();
+                buscar(null);
             }
         });
     }
 
-    private void buscar() {
+    private void buscar(Location location) {
+
+        if (location == null) {
+            location = gps.getLocation();
+        }
+
 
         buscaRedesFragment.getView().setVisibility(View.GONE);
+        statusBusca.setText(R.string.buscando_redes);
         spinner.setImageResource(R.drawable.ic_tutorial_loading);
         spinner.startAnimation(
-                AnimationUtils.loadAnimation(this, R.anim.rotate_forever) );
+                AnimationUtils.loadAnimation(this, R.anim.rotate_forever));
 
         loading.setVisibility(View.VISIBLE);
         loading.setOnClickListener(null);
-        new BuscaRedesAsyncTask(WelcomeActivity.this).execute();
+        new BuscaRedesAsyncTask(WelcomeActivity.this).execute(location);
 
     }
 
@@ -148,6 +178,7 @@ public class WelcomeActivity extends Activity implements GeoqueryResponderFragme
     public void onFragmentInteraction(String id) {
 
     }
+
 
     /**
      * A placeholder fragment containing a simple view.

@@ -29,7 +29,7 @@ import rarolabs.com.br.rvp.activities.RedeActivity;
 import rarolabs.com.br.rvp.activities.WelcomeActivity;
 import rarolabs.com.br.rvp.config.Constants;
 
-public class GoogleMapsThumbAsyncTask extends AsyncTask<Object[], Void, Bitmap> {
+public class GoogleMapsThumbAsyncTask extends AsyncTask<Double, Void, Bitmap> {
 
     private final RedeActivity activity;
     private Context context;
@@ -41,7 +41,7 @@ public class GoogleMapsThumbAsyncTask extends AsyncTask<Object[], Void, Bitmap> 
 
 
     @Override
-    protected Bitmap doInBackground(Object[]... params) {
+    protected Bitmap doInBackground(Double... location) {
         //360x240
         Display display = activity.getWindowManager().getDefaultDisplay();
         DisplayMetrics outMetrics = new DisplayMetrics ();
@@ -49,10 +49,11 @@ public class GoogleMapsThumbAsyncTask extends AsyncTask<Object[], Void, Bitmap> 
 
         Float density  = activity.getResources().getDisplayMetrics().density;
 
-        String URL = "http://maps.google.com/maps/api/staticmap?center=" + 38.7755940 +
-                "," + -9.1353670 +
+
+        String URL = "http://maps.google.com/maps/api/staticmap?center=" + location[0] +
+                "," + location[1] +
                 "&zoom=15&size=360x270&scale="+ density.intValue() +"&sensor=false&"+
-                "&markers=color:red%7Clabel:S%7C38.7755940,-9.1353670";
+                "&markers=color:red%7Clabel:S%7C"+ location[0]+ ","+ location[1];
         Bitmap bmp = null;
         HttpClient httpclient = new DefaultHttpClient();
         HttpGet request = new HttpGet(URL);

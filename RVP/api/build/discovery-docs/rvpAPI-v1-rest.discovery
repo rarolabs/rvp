@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/XRQHO5hM4PCQs515NirF5ykJmFE\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/cUT-Gb6FYV58MrRvEHF_ZtZoDl4\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -143,12 +143,23 @@
      "type": "number",
      "format": "double"
     },
+    "nomeAdministrador": {
+     "type": "string"
+    },
     "nomeRede": {
      "type": "string"
+    },
+    "quantidadeMembros": {
+     "type": "integer",
+     "format": "int32"
     },
     "resultSize": {
      "type": "integer",
      "format": "int32"
+    },
+    "ultimaAtividade": {
+     "type": "string",
+     "format": "date-time"
     }
    }
   },

@@ -37,7 +37,6 @@ public class UsuariosAPI {
         }
 
         usuario.setId(user.getEmail());
-        usuario.setNome(user.getNickname());
         return Usuario.novoUsuario(usuario);
     }
 

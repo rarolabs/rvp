@@ -26,7 +26,7 @@
     <string name="administrador">Administrador</string>
     <string name="ultima_atividade">Última atividade</string>
     <string name="tamanho">Tamanho</string>
-    <string name="title_activity_cadastro">CadastroActivity</string>
+    <string name="title_activity_cadastro">Cadastro</string>
     <string name="hint_nome">Nome</string>
     <string name="DDD">DDD</string>
     <string name="telefone_fixo">Telefone fixo</string>
@@ -38,5 +38,14 @@
     <string name="ninguem">Ninguém</string>
     <string name="endereco">Endereço</string>
     <string name="quem_pode_ver_endereco">Quem pode ver seu endereço</string>
+    <string name="gps_title">GPS desabilitado</string>
+    <string name="gps_text">GPS não está habilitado. Deseja ativa-lo?</string>
+    <string name="settings">Configurações</string>
+    <string name="error_cadastro_nome">Informe seu nome</string>
+    <string name="error_ddd_fixo">DDD telefone fixo não pode ficar em branco</string>
+    <string name="error_tel_fixo">Telefone fixo não pode ficar em branco</string>
+    <string name="error_ddd_cel">DDD telefone celular não pode ficar em branco</string>
+    <string name="error_tel_cel">Telefone celular não pode ficar em branco</string>
+    <string name="action_confirmar">OK</string>
 
 </resources>

@@ -76,6 +76,7 @@
                         android:fontFamily="Roboto-Regular"
                         android:textSize="16sp"
                         android:textColor="@color/fonte_edit_text"
+                        android:id="@+id/cadastro_nome"
                         />
 
                 </LinearLayout>
@@ -102,6 +103,7 @@
                         android:fontFamily="Roboto-Regular"
                         android:textSize="16sp"
                         android:textColor="@color/fonte_edit_text"
+                        android:id="@+id/ddd_cel"
                         />
 
                     <EditText
@@ -112,6 +114,7 @@
                         android:fontFamily="Roboto-Regular"
                         android:textSize="16sp"
                         android:textColor="@color/fonte_edit_text"
+                        android:id="@+id/tel_cel"
 
                         />
 
@@ -176,6 +179,7 @@
                         android:fontFamily="Roboto-Regular"
                         android:textSize="16sp"
                         android:textColor="@color/fonte_edit_text"
+                        android:id="@+id/ddd_fixo"
 
                         />
 
@@ -187,6 +191,7 @@
                         android:fontFamily="Roboto-Regular"
                         android:textSize="16sp"
                         android:textColor="@color/fonte_edit_text"
+                        android:id="@+id/tel_fixo"
                         />
 
                 </LinearLayout>

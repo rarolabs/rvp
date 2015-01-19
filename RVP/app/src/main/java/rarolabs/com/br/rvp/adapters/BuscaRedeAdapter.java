@@ -56,6 +56,10 @@ public class BuscaRedeAdapter extends RecyclerView.Adapter<BuscaRedeAdapter.View
         myDataset.addAll(itens);
     }
 
+    public GeoqueryResponder get(int position) {
+        return myDataset.get(position);
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView distancia;
         public TextView nome;

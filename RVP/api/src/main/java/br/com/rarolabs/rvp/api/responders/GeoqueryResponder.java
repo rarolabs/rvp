@@ -2,6 +2,7 @@ package br.com.rarolabs.rvp.api.responders;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import br.com.rarolabs.rvp.api.models.Membro;
@@ -19,7 +20,33 @@ public class GeoqueryResponder {
     private Integer resultSize;
     private Double latitude;
     private Double longitude;
+    private String nomeAdministrador;
+    private Date ultimaAtividade;
+    private Integer quantidadeMembros;
 
+    public String getNomeAdministrador() {
+        return nomeAdministrador;
+    }
+
+    public void setNomeAdministrador(String nomeAdministrador) {
+        this.nomeAdministrador = nomeAdministrador;
+    }
+
+    public Date getUltimaAtividade() {
+        return ultimaAtividade;
+    }
+
+    public void setUltimaAtividade(Date ultimaAtividade) {
+        this.ultimaAtividade = ultimaAtividade;
+    }
+
+    public Integer getQuantidadeMembros() {
+        return quantidadeMembros;
+    }
+
+    public void setQuantidadeMembros(Integer quantidadeMembros) {
+        this.quantidadeMembros = quantidadeMembros;
+    }
 
     public Long getIdRede() {
         return idRede;

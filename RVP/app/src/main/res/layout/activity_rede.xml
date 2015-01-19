@@ -34,9 +34,9 @@
         android:layout_marginRight="74dp"
         >
     <TextView
+        android:id="@+id/nome_rede"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ipanema Kings"
         android:fontFamily="Roboto-Bold"
         android:textSize="20sp"
         android:textColor="@color/titulo_rede"
@@ -44,9 +44,9 @@
         />
 
     <TextView
+        android:id="@+id/endereco_rede"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Rua Vinicius de Morais, Impanema,\nRio de Janeiro, RJ, Brasil"
         android:textColor="@color/fonte_busca_rede_bairro"
         android:fontFamily="Roboto-Regular"
         android:textSize="16sp"
@@ -85,9 +85,9 @@
                 />
 
             <TextView
+                android:id="@+id/nome_administrador"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Eva Labanca"
                 android:textColor="@color/value_subtitle"
                 android:fontFamily="Roboto-Medium"
                 android:textSize="16sp"
@@ -112,9 +112,9 @@
                     />
 
                 <TextView
+                    android:id="@+id/ultima_atividade"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="22 de Janeiro de 2015"
                     android:textColor="@color/value_subtitle"
                     android:fontFamily="Roboto-Medium"
                     android:textSize="16sp"
@@ -138,9 +138,9 @@
                 />
 
             <TextView
+                android:id="@+id/quantidade_membros"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="88 vizinhos"
                 android:textColor="@color/value_subtitle"
                 android:fontFamily="Roboto-Medium"
                 android:textSize="16sp"

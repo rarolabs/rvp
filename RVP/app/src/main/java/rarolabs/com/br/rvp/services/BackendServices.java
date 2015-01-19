@@ -24,6 +24,7 @@ import br.com.rarolabs.rvp.api.rvpAPI.model.Endereco;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
+import rarolabs.com.br.rvp.config.Constants;
 
 import static android.support.v4.app.ActivityCompat.startActivityForResult;
 
@@ -41,11 +42,18 @@ public class BackendServices {
         setCredential(credential);
     }
 
-    public BackendServices(Context context, GoogleAccountCredential credential, String url){
+
+    public BackendServices(Context context, String email, String url) {
         this.context = context;
         this.url = url;
+        GoogleAccountCredential credential = null;
+        if (email != null){
+            credential = GoogleAccountCredential.usingAudience(context, Constants.OAUTH_CLIENT_ID);
+            credential.setSelectedAccountName(email);
+        }
         setCredential(credential);
     }
+
 
     public void setCredential(GoogleAccountCredential credential){
         this.credential = credential;

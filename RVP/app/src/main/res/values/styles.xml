@@ -9,15 +9,11 @@
         <item name="colorControlActivated">@color/color_control_activated</item>
         <item name="colorControlHighlight">@color/color_control_activated</item>
 
-        <item name="android:spinnerItemStyle">
-            @style/spinnerItemStyle
-        </item>
-
+        <item name="android:actionModeBackground">@color/material_blue_500</item>
 
     </style>
 
     <style name="Theme.MyAppCompact" parent="Theme.AppCompat.Light"></style>
-
 
 
 </resources>
