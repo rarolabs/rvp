@@ -50,21 +50,21 @@ public class VisualizarMembrosTest {
         Rede rede = Rede.novaRede("Amigos do Comiteco",rodrigo.getId(), EnderecoFixture.getEnderecoRaro());
 
         Usuario lesio = Usuario.novoUsuario(UsuarioFixture.getLesioPinheiro());
-        Rede.solicitarAssociacao(rede.getId(), lesio.getId(), EnderecoFixture.getEnderecoCasa());
+        Rede.solicitarAssociacao(rede.getId(), lesio.getId(), EnderecoFixture.getEnderecoCasa(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
 
         Membro lesioMembro = rede.solicitacoesPendentes().iterator().next();
         Membro.aprovarAssociacao(lesioMembro.getId());
 
 
         Usuario ramon = Usuario.novoUsuario(UsuarioFixture.getRamonSetragni());
-        Rede.solicitarAssociacao(rede.getId(), ramon.getId(), EnderecoFixture.getEnderecoPraca());
+        Rede.solicitarAssociacao(rede.getId(), ramon.getId(), EnderecoFixture.getEnderecoPraca(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
 
         Membro ramonMembro = rede.solicitacoesPendentes().iterator().next();
         Membro.aprovarAssociacao(ramonMembro.getId());
 
 
         Usuario leo = Usuario.novoUsuario(UsuarioFixture.getLeonardoHerbert());
-        Rede.solicitarAssociacao(rede.getId(), leo.getId(), EnderecoFixture.getEnderecoEscola());
+        Rede.solicitarAssociacao(rede.getId(), leo.getId(), EnderecoFixture.getEnderecoEscola(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
 
 
         Collection<Membro> membrosAtivos = Rede.membrosAtivos(rede.getId());

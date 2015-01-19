@@ -2,9 +2,12 @@ package rarolabs.com.br.rvp.activities;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -97,6 +100,16 @@ public class RedeActivity extends Activity {
             pickUserAccount();
         }else{
             Intent i = new Intent(RedeActivity.this,CadastroActivity.class);
+            PendingIntent pendingIntent =
+                    TaskStackBuilder.create(this)
+                            // add all of DetailsActivity's parents to the stack,
+                            // followed by DetailsActivity itself
+                            .addNextIntentWithParentStack(i)
+                            .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+            builder.setContentIntent(pendingIntent);
+            
             Log.d("Rede", "Enviando email:" + account);
             i.putExtra(PREF_ACCOUNT_NAME, account);
             i.putExtra(WelcomeActivity.EXTRA_ID_REDE,redeId);

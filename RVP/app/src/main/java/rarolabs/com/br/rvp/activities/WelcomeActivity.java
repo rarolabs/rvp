@@ -1,6 +1,7 @@
 package rarolabs.com.br.rvp.activities;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -43,6 +44,8 @@ public class WelcomeActivity extends Activity implements
     private View loading;
     private TextView statusBusca;
     private GPSTracker gps;
+    private double userLatitude;
+    private double userLongitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,6 +159,11 @@ public class WelcomeActivity extends Activity implements
     }
 
     private void buscar(Location location) {
+        SharedPreferences settings = getSharedPreferences("RVP", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("USER_LATITUDE",String.valueOf(location.getLatitude()));
+        editor.putString("USER_LONGITUDE",String.valueOf(location.getLongitude()));
+        editor.commit();
 
         if (location == null) {
             location = gps.getLocation();

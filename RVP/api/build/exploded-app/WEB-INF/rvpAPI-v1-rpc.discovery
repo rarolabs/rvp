@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/cUT-Gb6FYV58MrRvEHF_ZtZoDl4\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/BT2PjHQokiqw9V1zd9psp0z3CJU\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -314,15 +314,11 @@
    "id": "Visibilidade",
    "type": "string",
    "enum": [
-    "COM_AUTORIDADE_E_ADMINISTRADOR",
     "PRIVADO",
     "PUBLICO",
-    "SOMENTE_COM_ADMIN",
     "SOMENTE_COM_AUTORIDADE"
    ],
    "enumDescriptions": [
-    "",
-    "",
     "",
     "",
     ""
@@ -714,11 +710,56 @@
     },
     "resource": {
      "$ref": "Endereco"
+    },
+    "visibilidadeCel": {
+     "type": "string",
+     "required": true,
+     "enum": [
+      "PRIVADO",
+      "PUBLICO",
+      "SOMENTE_COM_AUTORIDADE"
+     ],
+     "enumDescriptions": [
+      "",
+      "",
+      ""
+     ]
+    },
+    "visibilidadeEndereco": {
+     "type": "string",
+     "required": true,
+     "enum": [
+      "PRIVADO",
+      "PUBLICO",
+      "SOMENTE_COM_AUTORIDADE"
+     ],
+     "enumDescriptions": [
+      "",
+      "",
+      ""
+     ]
+    },
+    "visibilidadeFixo": {
+     "type": "string",
+     "required": true,
+     "enum": [
+      "PRIVADO",
+      "PUBLICO",
+      "SOMENTE_COM_AUTORIDADE"
+     ],
+     "enumDescriptions": [
+      "",
+      "",
+      ""
+     ]
     }
    },
    "parameterOrder": [
     "resource",
-    "rede_id"
+    "rede_id",
+    "visibilidadeFixo",
+    "visibilidadeCel",
+    "visibilidadeEndereco"
    ],
    "returns": {
     "$ref": "Membro"

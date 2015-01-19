@@ -55,7 +55,7 @@ public class LocalizarRedesTest {
         Rede rede2 = Rede.novaRede("Amigos do Nectar",rodrigo.getId(), EnderecoFixture.getEnderecoCasa());
         Usuario ramon = Usuario.novoUsuario(UsuarioFixture.getRamonSetragni());
         Rede rede3 = Rede.novaRede("Amigos do Praça",ramon.getId(), EnderecoFixture.getEnderecoPraca());
-        Rede.solicitarAssociacao(rede3.getId(),rodrigo.getId(), EnderecoFixture.getEnderecoPraca());
+        Rede.solicitarAssociacao(rede3.getId(),rodrigo.getId(), EnderecoFixture.getEnderecoPraca(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
         Membro.aprovarAssociacao(rede3.solicitacoesPendentes().iterator().next().getId());
         Collection<Membro> minhasRedes = Usuario.minhasRedes(rodrigo.getId());
 
@@ -114,7 +114,7 @@ public class LocalizarRedesTest {
         assertEquals(0,result.size());
 
         Usuario lesio = Usuario.novoUsuario(UsuarioFixture.getLesioPinheiro());
-        Rede.solicitarAssociacao(rede1.getId(),lesio.getId(),EnderecoFixture.getEnderecoCasa());
+        Rede.solicitarAssociacao(rede1.getId(),lesio.getId(),EnderecoFixture.getEnderecoCasa(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
         Membro lesioMembro = rede1.solicitacoesPendentes().iterator().next();
         Membro.aprovarAssociacao(lesioMembro.getId());
 

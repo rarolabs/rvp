@@ -29,7 +29,7 @@ public class Membro {
 
     public enum Papel { SYSADMIN, CRIADOR, ADMIN, AUTORIDADE, VIVIZINHO}
     public enum Status {ATIVO, INATIVO,AGUARDANDO_APROVACAO,REPROVADO}
-    public enum Visibilidade {PUBLICO,PRIVADO, SOMENTE_COM_AUTORIDADE, SOMENTE_COM_ADMIN, COM_AUTORIDADE_E_ADMINISTRADOR}
+    public enum Visibilidade {PUBLICO,PRIVADO, SOMENTE_COM_AUTORIDADE}
 
     private Papel papel = Papel.VIVIZINHO;
     private Status status = Status.ATIVO;

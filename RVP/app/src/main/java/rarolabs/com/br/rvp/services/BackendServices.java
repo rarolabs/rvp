@@ -183,9 +183,9 @@ public class BackendServices {
         }
     }
 
-    public  Membro solicitarAssociacao(Long redeId, Endereco endereco) throws BackendExpection {
+    public  Membro solicitarAssociacao(Long redeId, Endereco endereco, String visCel, String visTel, String visEnd) throws BackendExpection {
         try {
-            return service.solicitarAssociacao(redeId,endereco).execute();
+            return service.solicitarAssociacao(redeId,visCel,visTel,visEnd,endereco).execute();
         } catch (IOException e) {
             throw new BackendExpection(e);
         }

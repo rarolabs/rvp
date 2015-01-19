@@ -28,12 +28,11 @@ public class Endereco {
     @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
     private Ref<Usuario> usuario;
 
-    private String identificacao;
+
     private Double latitude;
     private Double Longitude;
     private String descricao;
-    private String CEP;
-    private String localidade;
+
 
     public Long getId() {
         return id;
@@ -49,14 +48,6 @@ public class Endereco {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = Ref.create(usuario);
-    }
-
-    public String getIdentificacao() {
-        return identificacao;
-    }
-
-    public void setIdentificacao(String identificacao) {
-        this.identificacao = identificacao;
     }
 
     public Double getLatitude() {
@@ -81,22 +72,6 @@ public class Endereco {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public String getCEP() {
-        return CEP;
-    }
-
-    public void setCEP(String CEP) {
-        this.CEP = CEP;
-    }
-
-    public String getLocalidade() {
-        return localidade;
-    }
-
-    public void setLocalidade(String localidade) {
-        this.localidade = localidade;
     }
 
 }

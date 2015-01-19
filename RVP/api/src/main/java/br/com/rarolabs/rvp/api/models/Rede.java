@@ -154,7 +154,7 @@ public class Rede {
         return rede;
     }
 
-    public static Membro solicitarAssociacao(Long id, String usuarioId, final Endereco endereco) throws NotFoundException, ConflictException {
+    public static Membro solicitarAssociacao(Long id, String usuarioId, final Endereco endereco, Membro.Visibilidade visibilidadeFixo, Membro.Visibilidade visibilidadeCel, Membro.Visibilidade visibilidadeEndereco) throws NotFoundException, ConflictException {
 
 
 
@@ -185,10 +185,14 @@ public class Rede {
         m.setPapel(Membro.Papel.VIVIZINHO);
         m.setEndereco(endereco);
 
-        m.setVisibilidadeEndereco(Membro.Visibilidade.COM_AUTORIDADE_E_ADMINISTRADOR);
-        m.setVisibilidadeEmail(Membro.Visibilidade.COM_AUTORIDADE_E_ADMINISTRADOR);
-        m.setVisibilidadeTelefoneCelular(Membro.Visibilidade.COM_AUTORIDADE_E_ADMINISTRADOR);
-        m.setVisibilidadeTelefoneFixo(Membro.Visibilidade.COM_AUTORIDADE_E_ADMINISTRADOR);
+        System.out.println("VisibilidadeEnd:" + visibilidadeEndereco);
+        System.out.println("VisibilidadeFixo:" + visibilidadeFixo);
+        System.out.println("VisibilidadeCel:" + visibilidadeCel);
+
+        m.setVisibilidadeEndereco(visibilidadeEndereco);
+        m.setVisibilidadeEmail(Membro.Visibilidade.PRIVADO);
+        m.setVisibilidadeTelefoneCelular(visibilidadeCel);
+        m.setVisibilidadeTelefoneFixo(visibilidadeFixo);
 
         ofy.transact(new VoidWork() {
             @Override
@@ -207,7 +211,7 @@ public class Rede {
         return Collections2.filter(rede.getMembros(), new com.google.common.base.Predicate<Membro>() {
             @Override
             public boolean apply(@Nullable Membro input) {
-                return input.getUsuario().getId() == usuario.getId();
+                return input.getUsuarioId() == usuario.getId();
             }
         }).size() != 0;
 

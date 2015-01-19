@@ -5,11 +5,8 @@ import android.test.ApplicationTestCase;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
-import java.util.TreeSet;
-
 import br.com.rarolabs.rvp.api.rvpAPI.model.Endereco;
 import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponderCollection;
-import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
 import br.com.rarolabs.rvp.api.rvpAPI.model.MembroCollection;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
@@ -17,7 +14,6 @@ import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.fixtures.EnderecoFixture;
 import rarolabs.com.br.rvp.fixtures.RedeFixture;
 import rarolabs.com.br.rvp.fixtures.UsuarioFixture;
-import rarolabs.com.br.rvp.services.BackendExpection;
 import rarolabs.com.br.rvp.services.BackendServices;
 
 /**
@@ -62,7 +58,7 @@ public class LocalizarRedesTest  extends ApplicationTestCase<Application> {
         Rede rede3 = service.novaRede("Amigos do Praça", EnderecoFixture.getEnderecoPraca());
 
         service.setCredential(rodrigoSol);
-        service.solicitarAssociacao(rede3.getId(), EnderecoFixture.getEnderecoPraca());
+        service.solicitarAssociacao(rede3.getId(), EnderecoFixture.getEnderecoPraca(), null, null, null);
 
         service.setCredential(carol);
         service.aprovarAssociacao(service.solicitacoesPendentes(rede3.getId()).getItems().get(0).getId());

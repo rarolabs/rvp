@@ -50,11 +50,15 @@ public class MembrosAPI {
      * rede para o mesmo usuario
      */
     @ApiMethod(name = "solicitarAssociacao")
-    public Membro solicitarAssociacao(@Named("rede_id") Long redeId, Endereco endereco, User user) throws OAuthRequestException, NotFoundException, ConflictException {
+    public Membro solicitarAssociacao(@Named("rede_id") Long redeId,
+                                      @Named("visibilidadeFixo") Membro.Visibilidade visibilidadeFixo,
+                                      @Named("visibilidadeCel") Membro.Visibilidade visibilidadeCel,
+                                      @Named("visibilidadeEndereco") Membro.Visibilidade visibilidadeEndereco,
+                                      Endereco endereco, User user) throws OAuthRequestException, NotFoundException, ConflictException {
         if(user==null){
             throw new OAuthRequestException("Usuário não autenticado");
         }
-        return Rede.solicitarAssociacao(redeId,user.getEmail(),endereco);
+        return Rede.solicitarAssociacao(redeId,user.getEmail(),endereco,visibilidadeFixo,visibilidadeCel,visibilidadeEndereco);
     }
 
     /**

@@ -2,6 +2,8 @@ package rarolabs.com.br.rvp.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Checkable;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,10 +21,13 @@ import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.Endereco;
 import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponder;
+import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
 import rarolabs.com.br.rvp.R;
@@ -53,9 +59,19 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
     @NotEmpty(messageResId = R.string.error_tel_cel)
     private EditText telCel;
 
+    @NotEmpty(messageResId = R.string.error_endereco)
+    private EditText endereco;
 
     private Validator validator;
     private Long idRede;
+    private Spinner visibilidadeFixo;
+    private Spinner visibilidadeCel;
+    private Spinner visibilidadeEndereco;
+    private double userLatitude;
+    private double userLongitute;
+    private double latitude;
+    private double longitude;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +89,7 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
         Intent i = getIntent();
         Log.d("Cadastro", "Email:" + i.getExtras().getString(RedeActivity.PREF_ACCOUNT_NAME));
         Log.d("Cadastro", "RedeID:" + i.getExtras().getLong(WelcomeActivity.EXTRA_ID_REDE));
+
         account = i.getExtras().getString(RedeActivity.PREF_ACCOUNT_NAME);
         idRede = i.getExtras().getLong(WelcomeActivity.EXTRA_ID_REDE);
 
@@ -81,10 +98,55 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
         telFixo = ((EditText)findViewById(R.id.tel_fixo));
         dddCel = ((EditText)findViewById(R.id.ddd_cel));
         telCel = ((EditText)findViewById(R.id.tel_cel));
+        endereco = ((EditText)findViewById(R.id.cadastro_endereco));
+
+        visibilidadeFixo = (Spinner) findViewById(R.id.visibilidade_fixo);
+        visibilidadeCel = (Spinner) findViewById(R.id.visibilidade_fixo);
+        visibilidadeEndereco = (Spinner) findViewById(R.id.visibilidade_fixo);
+
 
 
         settings = getSharedPreferences("RVP", 0);
         loadFromPrefs();
+        loadAddress();
+
+    }
+
+    private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
+        String strAdd = "";
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
+            if (addresses != null) {
+                Address returnedAddress = addresses.get(0);
+                StringBuilder strReturnedAddress = new StringBuilder("");
+
+                for (int i = 0; i < returnedAddress.getMaxAddressLineIndex(); i++) {
+                    strReturnedAddress.append(returnedAddress.getAddressLine(i)).append(", ");
+                }
+                strAdd = strReturnedAddress.toString();
+                Log.w("My Current loction address", "" + strReturnedAddress.toString());
+            } else {
+                Log.w("My Current loction address", "No Address returned!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.w("My Current loction address", "Canont get Address!");
+        }
+        return strAdd;
+    }
+
+    private void loadAddress() {
+        settings = getSharedPreferences("RVP",0);
+        latitude = Double.parseDouble(settings.getString("USER_LATITUDE", "0"));
+        longitude = Double.parseDouble(settings.getString("USER_LONGITUDE", "0"));
+        Log.d("ADDR","Latitude:" + latitude);
+        Log.d("ADDR","Longitude:" + longitude);
+        String addr = getCompleteAddressString(latitude,longitude);
+        Log.d("ADDR", "Add:" + addr);
+        endereco.setText(addr);
+
+
     }
 
     private void loadFromPrefs() {
@@ -121,15 +183,21 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        switch (id){
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_confirmar) {
-            Toast.makeText(this,"Vou validar!",Toast.LENGTH_LONG).show();
-            validator.validate();
-            return true;
+            case  R.id.action_confirmar:
+                Toast.makeText(this,"Enviando solicitação",Toast.LENGTH_LONG).show();
+                validator.validate();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Toast.makeText(this,"Back",Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -143,13 +211,46 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
         u.setTelefoneFixo(telFixo.getText().toString());
         u.setEmail(account);
 
+
         Endereco e = new Endereco();
-        e.setLatitude(1.0);
-        e.setLongitude(1.0);
-        Object[] params = {u,e,idRede};
+        e.setLatitude(latitude);
+        e.setLongitude(longitude);
+        e.setDescricao(endereco.getText().toString());
+
+
+        Object[] params = {u,e,idRede,getVisibilidade()};
+
+
 
         new TornarMembroAsyncTask(CadastroActivity.this).execute(params);
 
+
+    }
+
+    private String[] getVisibilidade() {
+        String[] v = new String[3];
+        v[0] = parseVisibilidade(visibilidadeFixo);
+        v[1] = parseVisibilidade(visibilidadeCel);
+        v[2] = parseVisibilidade(visibilidadeEndereco);
+
+        Log.d("Visibilidade", "Vi:" + v[0]);
+        Log.d("Visibilidade", "Vi:" + v[1]);
+        Log.d("Visibilidade", "Vi:" + v[2]);
+        return v;
+
+    }
+
+    private String parseVisibilidade(Spinner visibilidade) {
+        Log.d("Visibilidade","Spinner:" + visibilidade.getSelectedItem().toString());
+        String current = (String) visibilidade.getSelectedItem();
+        if(current.equals(getResources().getString(R.string.todos_membros))){
+            return "PUBLICO";
+        }else if(current.equals(getResources().getString(R.string.somente_autoridade_policial))){
+                return "SOMENTE_COM_AUTORIDADE";
+        }else if(current.equals(getResources().getString(R.string.ninguem))){
+            return "PRIVADO";
+        }
+        return null;
 
     }
 

@@ -17,7 +17,7 @@ public class SolicitacaoFixture {
     public static Membro criarSolicitacao() throws ConflictException, NotFoundException {
         Rede rede = RedeFixture.novaRede1();
         Usuario lesio = Usuario.novoUsuario(UsuarioFixture.getLesioPinheiro());
-        Rede.solicitarAssociacao(rede.getId(), lesio.getId(), EnderecoFixture.getEnderecoCasa());
+        Rede.solicitarAssociacao(rede.getId(), lesio.getId(), EnderecoFixture.getEnderecoCasa(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
 
         return rede.solicitacoesPendentes().iterator().next();
 
@@ -26,7 +26,7 @@ public class SolicitacaoFixture {
     public static Membro criarSolicitacaoAprovada() throws ConflictException, NotFoundException, ForbiddenException {
         Rede rede = RedeFixture.novaRede1();
         Usuario lesio = Usuario.novoUsuario(UsuarioFixture.getLesioPinheiro());
-        Rede.solicitarAssociacao(rede.getId(), lesio.getId(), EnderecoFixture.getEnderecoCasa());
+        Rede.solicitarAssociacao(rede.getId(), lesio.getId(), EnderecoFixture.getEnderecoCasa(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
 
         Membro m = rede.solicitacoesPendentes().iterator().next();
         Membro.aprovarAssociacao(m.getId());

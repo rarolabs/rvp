@@ -8,7 +8,6 @@ import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
 import rarolabs.com.br.rvp.config.Constants;
-import rarolabs.com.br.rvp.services.BackendExpection;
 import rarolabs.com.br.rvp.services.BackendServices;
 
 /**
@@ -20,7 +19,7 @@ public class SolicitacaoFixture {
         Rede rede = RedeFixture.novaRede1(service);
         service = new BackendServices(context,user, Constants.BACKEND_URL);
         Usuario lesio = service.novoUsuario(UsuarioFixture.getAdmin());
-        service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoCasa());
+        service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoCasa(), null, null, null);
         service.setCredential(admin);
         return service.solicitacoesPendentes(rede.getId());
 
@@ -31,7 +30,7 @@ public class SolicitacaoFixture {
         Rede rede = RedeFixture.novaRede1(service);
         service.setCredential(user);
         Usuario lesio = service.novoUsuario(UsuarioFixture.getAdmin());
-        service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoCasa());
+        service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoCasa(), null, null, null);
         service.setCredential(admin);
         Membro m = service.solicitacoesPendentes(rede.getId()).getItems().get(0);
         service.aprovarAssociacao(m.getId());

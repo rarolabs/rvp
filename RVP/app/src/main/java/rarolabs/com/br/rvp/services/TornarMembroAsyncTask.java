@@ -41,6 +41,7 @@ public class TornarMembroAsyncTask extends AsyncTask<Object, Void, Void> {
         Usuario usuario = (Usuario) params[0];
         Endereco endereco = (Endereco) params[1];
         Long redeId = (Long) params[2];
+        String[] visibilidade = (String[]) params[3];
 
         settings = context.getSharedPreferences("RVP", 0);
 
@@ -52,31 +53,19 @@ public class TornarMembroAsyncTask extends AsyncTask<Object, Void, Void> {
         //Tenta criar o usuario
         //Torna-se membro da rede
         try {
-
-            if(settings.getString("USUARIO_ADICIONADO", null) == null){
                 Log.d("Membro", "Adicionando usuario");
                 backendServices.novoUsuario(usuario);
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putString("USUARIO_ADICIONADO", usuario.getEmail());
-                editor.commit();
                 Log.d("Membro", "Usuario adicionado");
 
-            }
-
-            if(!settings.getBoolean("DISPOSITIVO_ADICIONADO",false)){
                 Log.d("Membro", "Adicionando dispositivo");
                 GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(context);
                 String regId = gcm.register(Constants.PROJECT_NUMBER);
                 backendServices.registrarDispositivo(regId,"Android", String.valueOf(Build.VERSION.SDK_INT));
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putBoolean("DISPOSITIVO_ADICIONADO", true);
-                editor.commit();
-                Log.d("Membro", "Dispositivo adicionado");
-            }
 
-            Log.d("memebro","Solicitando associacao");
-            backendServices.solicitarAssociacao(redeId,endereco);
-            Log.d("memebro","Solicitado");
+
+            Log.d("membro","Solicitando associacao");
+            backendServices.solicitarAssociacao(redeId,endereco,visibilidade[0],visibilidade[1],visibilidade[2]);
+            Log.d("membro","Solicitado");
 
             MembroCollection pendentes = backendServices.solicitacoesPendentes(redeId);
             Log.d("Membro", "Quantidade:" + pendentes.getItems().size());

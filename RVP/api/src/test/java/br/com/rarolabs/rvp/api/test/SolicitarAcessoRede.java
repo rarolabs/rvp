@@ -43,7 +43,7 @@ public class SolicitarAcessoRede {
     public void solicitarAcesso() throws ConflictException, NotFoundException {
         Rede rede = RedeFixture.novaRede1();
         Usuario lesio = Usuario.novoUsuario(UsuarioFixture.getLesioPinheiro());
-        Rede.solicitarAssociacao(rede.getId(),lesio.getId(), EnderecoFixture.getEnderecoCasa());
+        Rede.solicitarAssociacao(rede.getId(),lesio.getId(), EnderecoFixture.getEnderecoCasa(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
 
         Collection<Membro> solicitacoes = rede.solicitacoesPendentes();
         assertEquals(1,solicitacoes.size());
@@ -54,7 +54,7 @@ public class SolicitarAcessoRede {
         assertEquals(m.getRede().getId(),rede.getId());
 
         Usuario ramon = Usuario.novoUsuario(UsuarioFixture.getRamonSetragni());
-        Rede.solicitarAssociacao(rede.getId(),ramon.getId(), EnderecoFixture.getEnderecoPraca());
+        Rede.solicitarAssociacao(rede.getId(),ramon.getId(), EnderecoFixture.getEnderecoPraca(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
 
         solicitacoes = rede.solicitacoesPendentes();
         assertEquals(2,solicitacoes.size());
@@ -68,7 +68,7 @@ public class SolicitarAcessoRede {
         try {
             rede = RedeFixture.novaRede1();
             Usuario lesio = Usuario.novoUsuario(UsuarioFixture.getLesioPinheiro());
-            Rede.solicitarAssociacao(rede.getId(),lesio.getId(), EnderecoFixture.getEnderecoCasa());
+            Rede.solicitarAssociacao(rede.getId(),lesio.getId(), EnderecoFixture.getEnderecoCasa(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
 
             Collection<Membro> solicitacoes = rede.solicitacoesPendentes();
             assertEquals(1,solicitacoes.size());
@@ -79,7 +79,7 @@ public class SolicitarAcessoRede {
             assertEquals(m.getRede().getId(),rede.getId());
 
             Usuario ramon = Usuario.novoUsuario(UsuarioFixture.getRamonSetragni());
-            Rede.solicitarAssociacao(rede.getId(),lesio.getId(), EnderecoFixture.getEnderecoPraca());
+            Rede.solicitarAssociacao(rede.getId(),lesio.getId(), EnderecoFixture.getEnderecoPraca(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
 
             fail();
         } catch (ConflictException e) {

@@ -5,8 +5,6 @@ import android.test.ApplicationTestCase;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
-import java.util.Collection;
-
 import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
 import br.com.rarolabs.rvp.api.rvpAPI.model.MembroCollection;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
@@ -14,7 +12,6 @@ import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.fixtures.EnderecoFixture;
 import rarolabs.com.br.rvp.fixtures.RedeFixture;
-import rarolabs.com.br.rvp.fixtures.SolicitacaoFixture;
 import rarolabs.com.br.rvp.fixtures.UsuarioFixture;
 import rarolabs.com.br.rvp.services.BackendExpection;
 import rarolabs.com.br.rvp.services.BackendServices;
@@ -55,7 +52,7 @@ public class SolicitarAcessoTest  extends ApplicationTestCase<Application> {
         Rede rede = RedeFixture.novaRede1(service);
         service.setCredential(admin);
         Usuario lesio = service.novoUsuario(UsuarioFixture.getAdmin());
-        service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoCasa());
+        service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoCasa(), null, null, null);
         service.setCredential(rodrigoSol);
 
         MembroCollection solicitacoes = service.solicitacoesPendentes(rede.getId());
@@ -68,7 +65,7 @@ public class SolicitarAcessoTest  extends ApplicationTestCase<Application> {
 
         service.setCredential(carol);
         Usuario ramon = service.novoUsuario(UsuarioFixture.getRamonSetragni());
-        service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoPraca());
+        service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoPraca(), null, null, null);
 
         service.setCredential(rodrigoSol);
         solicitacoes = service.solicitacoesPendentes(rede.getId());
@@ -85,8 +82,8 @@ public class SolicitarAcessoTest  extends ApplicationTestCase<Application> {
             Rede rede = RedeFixture.novaRede1(service);
             service.setCredential(admin);
             Usuario lesio = service.novoUsuario(UsuarioFixture.getAdmin());
-            service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoCasa());
-            service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoCasa());
+            service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoCasa(), null, null, null);
+            service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoCasa(), null, null, null);
 
             fail();
         } catch (BackendExpection e) {
@@ -102,7 +99,7 @@ public class SolicitarAcessoTest  extends ApplicationTestCase<Application> {
         Rede rede = RedeFixture.novaRede1(service);
         service.setCredential(admin);
         Usuario lesio = service.novoUsuario(UsuarioFixture.getAdmin());
-        Membro solicitacao = service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoCasa());
+        Membro solicitacao = service.solicitarAssociacao(rede.getId(), EnderecoFixture.getEnderecoCasa(), null, null, null);
         service.setCredential(rodrigoSol);
         assertEquals(2,service.buscarMembros(rede.getId()).getItems().size());
         assertEquals(1,service.buscarMembrosAtivos(rede.getId()).getItems().size());
