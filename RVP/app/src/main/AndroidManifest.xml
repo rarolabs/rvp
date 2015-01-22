@@ -60,6 +60,7 @@
         <activity
             android:name=".activities.CadastroActivity"
             android:label="@string/title_activity_cadastro"
+            android:theme="@style/Theme.MyAppCompact"
 
             android:parentActivityName=".activities.RedeActivity" >
             <!-- Parent activity meta-data to support 4.0 and lower -->

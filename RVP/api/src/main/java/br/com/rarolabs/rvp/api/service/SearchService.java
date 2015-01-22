@@ -142,6 +142,7 @@ public class SearchService {
             System.out.println(rede);
             geo.setIdRede(id);
             geo.setDistance(redes.get(id));
+            System.out.println("REDE:" + rede.getDono());
             geo.setNomeRede(rede.getNome());
             geo.setLatitude(rede.getLatitude());
             geo.setLongitude(rede.getLongitude());

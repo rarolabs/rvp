@@ -2,38 +2,43 @@ package rarolabs.com.br.rvp.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Checkable;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mobsandgeeks.saripaar.Rule;
+import com.melnykov.fab.FloatingActionButton;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
-import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.Endereco;
-import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponder;
-import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
-import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.services.TornarMembroAsyncTask;
+import rarolabs.com.br.rvp.utils.ImageUtil;
 
 public class CadastroActivity extends ActionBarActivity implements Validator.ValidationListener {
+    private static final int SELECT_PHOTO = 100;
 
     private static final String NOME = "cadastro_nome";
     private static final String DDD_FIXO = "cadastro_ddd_fixo";
@@ -71,6 +76,7 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
     private double userLongitute;
     private double latitude;
     private double longitude;
+    private ImageView profile;
 
 
     @Override
@@ -104,13 +110,60 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
         visibilidadeCel = (Spinner) findViewById(R.id.visibilidade_fixo);
         visibilidadeEndereco = (Spinner) findViewById(R.id.visibilidade_fixo);
 
+        ((FloatingActionButton) findViewById(R.id.trocar_foto)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                trocarFoto();
+            }
+        });
 
+        profile = (ImageView) findViewById(R.id.profile_image);
 
         settings = getSharedPreferences("RVP", 0);
         loadFromPrefs();
         loadAddress();
 
     }
+
+    private void trocarFoto() {
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+
+        switch(requestCode) {
+            case SELECT_PHOTO:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    InputStream imageStream = null;
+                    try {
+                        Bitmap profileImage = ImageUtil.decodeUri(this,selectedImage);
+                        profile.setImageBitmap(profileImage);
+
+                        Bitmap blur = ImageUtil.fastblur(profileImage, 30);
+                        ((LinearLayout) findViewById(R.id.profile_image_bg)).setBackgroundDrawable(new BitmapDrawable(getResources(), blur));
+
+                        ImageUtil.saveToInternalSorage(this,profileImage,"profile.jpg");
+                        ImageUtil.saveToInternalSorage(this,blur,"profile_blur.jpg");
+
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putBoolean("PROFILE_IMAGE",true);
+                        editor.commit();
+
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+        }
+    }
+
 
     private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
         String strAdd = "";
@@ -156,6 +209,13 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
         telFixo.setText(settings.getString(TEL_FIXO, null));
         dddCel.setText(settings.getString(DDD_CEL, null));
         telCel.setText(settings.getString(TEL_CEL, null));
+
+
+        if(settings.getBoolean("PROFILE_IMAGE",false)){
+            Log.d("Image Profile", "Carregando das preferencias" );
+            profile.setImageBitmap(ImageUtil.loadImageFromStorage(this,"profile.jpg"));
+            ((LinearLayout) findViewById(R.id.profile_image_bg)).setBackgroundDrawable(new BitmapDrawable(getResources(), ImageUtil.loadImageFromStorage(this,"profile_blur.jpg")));
+        }
     }
 
     private void saveFromPrefs() {
@@ -273,4 +333,6 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
         saveFromPrefs();
 
     }
+
+
 }

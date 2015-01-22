@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/BT2PjHQokiqw9V1zd9psp0z3CJU\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/Q-6nLyosAyxGLJKn38NLCFZMQnE\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -91,9 +91,6 @@
    "id": "Endereco",
    "type": "object",
    "properties": {
-    "cep": {
-     "type": "string"
-    },
     "descricao": {
      "type": "string"
     },
@@ -101,15 +98,9 @@
      "type": "string",
      "format": "int64"
     },
-    "identificacao": {
-     "type": "string"
-    },
     "latitude": {
      "type": "number",
      "format": "double"
-    },
-    "localidade": {
-     "type": "string"
     },
     "longitude": {
      "type": "number",

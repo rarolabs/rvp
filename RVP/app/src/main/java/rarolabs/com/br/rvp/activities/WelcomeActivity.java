@@ -159,15 +159,16 @@ public class WelcomeActivity extends Activity implements
     }
 
     private void buscar(Location location) {
+
+        if (location == null) {
+            location = gps.getLocation();
+        }
+
         SharedPreferences settings = getSharedPreferences("RVP", 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString("USER_LATITUDE",String.valueOf(location.getLatitude()));
         editor.putString("USER_LONGITUDE",String.valueOf(location.getLongitude()));
         editor.commit();
-
-        if (location == null) {
-            location = gps.getLocation();
-        }
 
 
         buscaRedesFragment.getView().setVisibility(View.GONE);

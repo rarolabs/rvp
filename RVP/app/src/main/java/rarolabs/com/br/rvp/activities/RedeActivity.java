@@ -109,7 +109,7 @@ public class RedeActivity extends Activity {
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
             builder.setContentIntent(pendingIntent);
-            
+
             Log.d("Rede", "Enviando email:" + account);
             i.putExtra(PREF_ACCOUNT_NAME, account);
             i.putExtra(WelcomeActivity.EXTRA_ID_REDE,redeId);

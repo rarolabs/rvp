@@ -20,21 +20,26 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="216dp"
-                android:background="@color/fundo_image"
                 android:elevation="1dp"
                 android:orientation="vertical"
-                android:padding="27dp">
+                android:padding="27dp"
+                android:background="@color/fundo_image"
+                android:id="@+id/profile_image_bg"
+                >
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/profile_image"
+                    android:layout_width="164dp"
+                    android:layout_height="164dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_cadastro_foto_vazia" />
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_cadastro_foto_vazia"
+                    />
 
             </LinearLayout>
 
             <com.melnykov.fab.FloatingActionButton xmlns:fab="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/entrar_na_rede"
+                android:id="@+id/trocar_foto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|top"
@@ -96,7 +101,7 @@
                         android:id="@+id/icon_tel_fixo"/>
 
                     <EditText
-                        android:layout_width="50dp"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:hint="@string/DDD"
                         android:textColorHint="@color/hint_color"
@@ -139,7 +144,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:entries="@array/permissoes"
-                        android:layout_marginLeft="60dp"
+                        android:layout_marginLeft="50dp"
                         android:textColorHint="@color/hint_color"
                         android:fontFamily="Roboto-Regular"
                         android:textSize="16sp"
@@ -173,7 +178,7 @@
                         android:layout_gravity="center_vertical"/>
 
                     <EditText
-                        android:layout_width="50dp"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:hint="@string/DDD"
                         android:textColorHint="@color/hint_color"
@@ -217,7 +222,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:entries="@array/permissoes"
-                        android:layout_marginLeft="60dp"
+                        android:layout_marginLeft="50dp"
                         android:textColorHint="@color/hint_color"
                         android:fontFamily="Roboto-Regular"
                         android:textSize="16sp"
