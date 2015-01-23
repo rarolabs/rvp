@@ -49,5 +49,11 @@
     <string name="action_confirmar">OK</string>
     <string name="error_endereco">Informe o endereço</string>
     <string name="hint_nome_da_rede">Nome da Rede</string>
+    <string name="openDrawer">aberto</string>
+    <string name="closeDrawer">fechado</string>
+    <string name="drawer_redes">Redes de Vizinhos</string>
+    <string name="drawer_alertas">Alertas</string>
+    <string name="drawer_notificacoes">Notificações</string>
+    <string name="drawer_perfil">Perfil</string>
 
 </resources>

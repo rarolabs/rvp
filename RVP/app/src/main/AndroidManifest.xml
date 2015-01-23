@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="rarolabs.com.br.rvp" >
 
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -60,14 +59,18 @@
         <activity
             android:name=".activities.CadastroActivity"
             android:label="@string/title_activity_cadastro"
-            android:theme="@style/Theme.MyAppCompact"
+            android:parentActivityName=".activities.RedeActivity"
+            android:theme="@style/Theme.MyAppCompact" >
 
-            android:parentActivityName=".activities.RedeActivity" >
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.RedeActivity" />
             >
+        </activity>
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/title_activity_home" >
         </activity>
     </application>
 

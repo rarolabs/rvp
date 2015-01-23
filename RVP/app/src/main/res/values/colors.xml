@@ -19,6 +19,9 @@
     <color name="color_control_activated">#43A047</color>
     <color name="fonte_edit_text">#546E7A</color>
     <color name="quem_pode">#90A4AE</color>
+    <color name="drawer_item_color_selected">#43a047</color>
+    <color name="drawer_item_color">#4d4d4d</color>
+    <color name="drawer_item_bg">#eceff1</color>
 
 
 </resources>

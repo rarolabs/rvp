@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,10 +21,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.adapters.DrawerAdapter;
+import rarolabs.com.br.rvp.config.Constants;
+import rarolabs.com.br.rvp.models.DrawerItem;
+import rarolabs.com.br.rvp.utils.ImageUtil;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -61,6 +67,8 @@ public class NavigationDrawerFragment extends Fragment {
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
+    private DrawerAdapter mAdapter;
+    private SharedPreferences settings;
 
     public NavigationDrawerFragment() {
     }
@@ -94,26 +102,28 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mDrawerListView = (ListView) inflater.inflate(
-                R.layout.fragment_navigation_drawer, container, false);
+        View view = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        mDrawerListView = (ListView) view.findViewById(R.id.menu_list);
+
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                new String[]{
-                        getString(R.string.menu_rede_de_vizinhos),
-                        getString(R.string.menu_alertas),
-                        getString(R.string.menu_notificacoes),
-                        getString(R.string.menu_sobre)
-                }));
+
+        mAdapter = new DrawerAdapter(getActivity(), DrawerItem.getDrawerItens());
+
+        mDrawerListView.setAdapter((android.widget.ListAdapter) mAdapter);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-        return mDrawerListView;
+        settings = getActivity().getSharedPreferences("RVP",0);
+        if(settings.getBoolean("PROFILE_IMAGE",false)){
+            ((ImageView) view.findViewById(R.id.profile_image)).setImageBitmap(ImageUtil.loadImageFromStorage(getActivity(),"profile.jpg"));
+        }
+        if(settings.getString(Constants.NOME, "")){
+
+        }
+        return view;
     }
 
     public boolean isDrawerOpen() {
@@ -198,6 +208,7 @@ public class NavigationDrawerFragment extends Fragment {
         mCurrentSelectedPosition = position;
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
+            DrawerItem.check(position);
         }
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);

@@ -37,18 +37,13 @@ import java.util.Locale;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Endereco;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.services.tasks.CriarNovaRedeAsyncTask;
 import rarolabs.com.br.rvp.services.tasks.TornarMembroAsyncTask;
 import rarolabs.com.br.rvp.utils.ImageUtil;
 
 public class CadastroActivity extends ActionBarActivity implements Validator.ValidationListener {
     private static final int SELECT_PHOTO = 100;
-
-    private static final String NOME = "cadastro_nome";
-    private static final String DDD_FIXO = "cadastro_ddd_fixo";
-    private static final String TEL_FIXO = "cadastro_fone_fixo";
-    private static final String DDD_CEL = "cadastro_ddd_cel";
-    private static final String TEL_CEL = "cadastro_fone_cel";
 
     private String account;
     private SharedPreferences settings;
@@ -260,11 +255,11 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
 
     private void loadFromPrefs() {
 
-        nome.setText(settings.getString(NOME, null));
-        dddFixo.setText(settings.getString(DDD_FIXO, null));
-        telFixo.setText(settings.getString(TEL_FIXO, null));
-        dddCel.setText(settings.getString(DDD_CEL, null));
-        telCel.setText(settings.getString(TEL_CEL, null));
+        nome.setText(settings.getString(Constants.NOME, null));
+        dddFixo.setText(settings.getString(Constants.DDD_FIXO, null));
+        telFixo.setText(settings.getString(Constants.TEL_FIXO, null));
+        dddCel.setText(settings.getString(Constants.DDD_CEL, null));
+        telCel.setText(settings.getString(Constants.TEL_CEL, null));
 
 
         if(settings.getBoolean("PROFILE_IMAGE", false)){
@@ -276,11 +271,11 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
 
     private void saveFromPrefs() {
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(NOME, nome.getText().toString());
-        editor.putString(DDD_FIXO, dddFixo.getText().toString());
-        editor.putString(TEL_FIXO, telFixo.getText().toString());
-        editor.putString(DDD_CEL, dddCel.getText().toString());
-        editor.putString(TEL_CEL, telCel.getText().toString());
+        editor.putString(Constants.NOME, nome.getText().toString());
+        editor.putString(Constants.DDD_FIXO, dddFixo.getText().toString());
+        editor.putString(Constants.TEL_FIXO, telFixo.getText().toString());
+        editor.putString(Constants.DDD_CEL, dddCel.getText().toString());
+        editor.putString(Constants.TEL_CEL, telCel.getText().toString());
         editor.commit();
     }
 
