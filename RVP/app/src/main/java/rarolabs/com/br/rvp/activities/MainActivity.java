@@ -53,10 +53,10 @@ public class MainActivity extends ActionBarActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        if(sp.getBoolean(PREF_NEW_USER,true)){
-            Intent intent = new Intent(this, WelcomeActivity.class);
-            startActivity(intent);
-        }
+//        if(sp.getBoolean(PREF_NEW_USER,true)){
+//            Intent intent = new Intent(this, WelcomeActivity.class);
+//            startActivity(intent);
+//        }
 
     }
 

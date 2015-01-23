@@ -41,7 +41,7 @@ public class CriarRedesTest {
     @Test
     public void novaRede() throws ConflictException {
         Usuario u = Usuario.novoUsuario(UsuarioFixture.getRodrigoSol());
-        Rede r = Rede.novaRede("Amigos do Comiteco",u.getId(), EnderecoFixture.getEnderecoRaro());
+        Rede r = Rede.novaRede("Amigos do Comiteco",u.getId(), EnderecoFixture.getEnderecoRaro(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
         assertNotNull(r.getId());
         assertEquals(r.getDono().getUsuario().getId(),u.getId());
         Membro dono = r.getMembros().iterator().next();
@@ -60,8 +60,8 @@ public class CriarRedesTest {
         Usuario u = null;
         try {
             u = Usuario.novoUsuario(UsuarioFixture.getRodrigoSol());
-            Rede r = Rede.novaRede("Amigos do Comiteco",u.getId(), EnderecoFixture.getEnderecoRaro());
-            Rede r1 = Rede.novaRede("Amigos do Comiteco",u.getId(), EnderecoFixture.getEnderecoRaro());
+            Rede r = Rede.novaRede("Amigos do Comiteco",u.getId(), EnderecoFixture.getEnderecoRaro(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
+            Rede r1 = Rede.novaRede("Amigos do Comiteco",u.getId(), EnderecoFixture.getEnderecoRaro(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
             fail();
         } catch (ConflictException e) {
             assertEquals("Já existe uma rede com o nome:Amigos do Comiteco", e.getMessage());

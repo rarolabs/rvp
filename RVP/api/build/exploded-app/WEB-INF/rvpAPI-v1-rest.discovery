@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/Q-6nLyosAyxGLJKn38NLCFZMQnE\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/scGW9N8t4LWeqdHNHZjBSk7rrj8\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -588,17 +588,65 @@
   },
   "novaRede": {
    "id": "rvpAPI.novaRede",
-   "path": "novaRede/{nome}",
+   "path": "novaRede/{nome}/{visibilidadeFixo}/{visibilidadeCel}/{visibilidadeEndereco}",
    "httpMethod": "POST",
    "parameters": {
     "nome": {
      "type": "string",
      "required": true,
      "location": "path"
+    },
+    "visibilidadeCel": {
+     "type": "string",
+     "required": true,
+     "enum": [
+      "PRIVADO",
+      "PUBLICO",
+      "SOMENTE_COM_AUTORIDADE"
+     ],
+     "enumDescriptions": [
+      "",
+      "",
+      ""
+     ],
+     "location": "path"
+    },
+    "visibilidadeEndereco": {
+     "type": "string",
+     "required": true,
+     "enum": [
+      "PRIVADO",
+      "PUBLICO",
+      "SOMENTE_COM_AUTORIDADE"
+     ],
+     "enumDescriptions": [
+      "",
+      "",
+      ""
+     ],
+     "location": "path"
+    },
+    "visibilidadeFixo": {
+     "type": "string",
+     "required": true,
+     "enum": [
+      "PRIVADO",
+      "PUBLICO",
+      "SOMENTE_COM_AUTORIDADE"
+     ],
+     "enumDescriptions": [
+      "",
+      "",
+      ""
+     ],
+     "location": "path"
     }
    },
    "parameterOrder": [
-    "nome"
+    "nome",
+    "visibilidadeFixo",
+    "visibilidadeCel",
+    "visibilidadeEndereco"
    ],
    "request": {
     "$ref": "Endereco",

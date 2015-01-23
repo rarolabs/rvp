@@ -11,12 +11,12 @@ import br.com.rarolabs.rvp.api.models.Usuario;
 public class RedeFixture {
     public static Rede novaRede1() throws ConflictException {
         Usuario u = Usuario.novoUsuario(UsuarioFixture.getRodrigoSol());
-        return Rede.novaRede("Amigos do Comiteco",u.getId(), EnderecoFixture.getEnderecoRaro());
+        return Rede.novaRede("Amigos do Comiteco",u.getId(), EnderecoFixture.getEnderecoRaro(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
     }
 
     public static Rede novaRede2() throws ConflictException {
         Usuario u = Usuario.novoUsuario(UsuarioFixture.getRamonSetragni());
-        return Rede.novaRede("Amigos da Praça",u.getId(), EnderecoFixture.getEnderecoEscola());
+        return Rede.novaRede("Amigos da Praça",u.getId(), EnderecoFixture.getEnderecoEscola(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
     }
 
 }

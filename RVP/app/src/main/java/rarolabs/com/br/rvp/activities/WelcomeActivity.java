@@ -1,6 +1,7 @@
 package rarolabs.com.br.rvp.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
@@ -24,7 +26,7 @@ import java.util.List;
 import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponder;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.listeners.GPSTracker;
-import rarolabs.com.br.rvp.services.BuscaRedesAsyncTask;
+import rarolabs.com.br.rvp.services.tasks.BuscaRedesAsyncTask;
 
 
 public class WelcomeActivity extends Activity implements
@@ -46,6 +48,7 @@ public class WelcomeActivity extends Activity implements
     private GPSTracker gps;
     private double userLatitude;
     private double userLongitude;
+    private Button novaRede;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +79,14 @@ public class WelcomeActivity extends Activity implements
                 buscar(null);
             }
         });
+        novaRede = (Button) findViewById(R.id.nova_rede);
+        novaRede.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                criarNovaRede();
+            }
+        });
+
 
         if (gps == null) {
             gps = new GPSTracker(WelcomeActivity.this);
@@ -182,6 +193,20 @@ public class WelcomeActivity extends Activity implements
         new BuscaRedesAsyncTask(WelcomeActivity.this).execute(location);
 
     }
+
+    public void criarNovaRede(){
+        Location loc = gps.getLocation();
+        if(loc!=null && loc.getLatitude()!=0.0){
+
+            Intent i = new Intent(WelcomeActivity.this,CadastroActivity.class);
+            i.putExtra("NOVA_REDE",true);
+            startActivity(i);
+
+        }else{
+            Toast.makeText(this,"Não é possível iniciar a criação de uma nova rede. Habilite o GPS antes de continuar",Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     @Override
     public void onFragmentInteraction(String id) {

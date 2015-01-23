@@ -48,5 +48,6 @@
     <string name="error_tel_cel">Telefone celular não pode ficar em branco</string>
     <string name="action_confirmar">OK</string>
     <string name="error_endereco">Informe o endereço</string>
+    <string name="hint_nome_da_rede">Nome da Rede</string>
 
 </resources>

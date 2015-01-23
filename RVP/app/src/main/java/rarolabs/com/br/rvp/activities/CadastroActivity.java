@@ -1,9 +1,10 @@
 package rarolabs.com.br.rvp.activities;
 
+import android.accounts.AccountManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -21,7 +22,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.AccountPicker;
 import com.melnykov.fab.FloatingActionButton;
+import com.mobsandgeeks.saripaar.QuickRule;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
@@ -34,7 +37,8 @@ import java.util.Locale;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Endereco;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
 import rarolabs.com.br.rvp.R;
-import rarolabs.com.br.rvp.services.TornarMembroAsyncTask;
+import rarolabs.com.br.rvp.services.tasks.CriarNovaRedeAsyncTask;
+import rarolabs.com.br.rvp.services.tasks.TornarMembroAsyncTask;
 import rarolabs.com.br.rvp.utils.ImageUtil;
 
 public class CadastroActivity extends ActionBarActivity implements Validator.ValidationListener {
@@ -77,6 +81,9 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
     private double latitude;
     private double longitude;
     private ImageView profile;
+    private String email;
+    private EditText nomeRede;
+    private boolean novaRede;
 
 
     @Override
@@ -88,6 +95,9 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
         }else{
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        settings = getSharedPreferences("RVP", 0);
+
 
         validator = new Validator(this);
         validator.setValidationListener(this);
@@ -110,6 +120,31 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
         visibilidadeCel = (Spinner) findViewById(R.id.visibilidade_fixo);
         visibilidadeEndereco = (Spinner) findViewById(R.id.visibilidade_fixo);
 
+        nomeRede = (EditText) findViewById(R.id.nome_rede);
+        novaRede = i.getExtras().getBoolean("NOVA_REDE",false);
+        if(novaRede){
+            nomeRede.setVisibility(View.VISIBLE);
+            validator.put(nomeRede, new QuickRule() {
+                @Override
+                public boolean isValid(View view) {
+                    return !((EditText)view).getText().equals("");
+                }
+
+                @Override
+                public boolean isValid(Object o) {
+                    return isValid((View)o);
+                }
+
+                @Override
+                public String getMessage(Context context) {
+                    return "Informe o nome da rede";
+                }
+            });
+            }else{
+            nomeRede.setVisibility(View.GONE);
+        }
+
+
         ((FloatingActionButton) findViewById(R.id.trocar_foto)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,10 +154,17 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
 
         profile = (ImageView) findViewById(R.id.profile_image);
 
-        settings = getSharedPreferences("RVP", 0);
+        loadAccount();
         loadFromPrefs();
         loadAddress();
 
+    }
+
+    private void loadAccount() {
+        String account = settings.getString("account", null);
+        if(account == null){
+            pickUserAccount();
+        }
     }
 
     private void trocarFoto() {
@@ -133,16 +175,30 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
-        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
         switch(requestCode) {
+            case  REQUEST_CODE_PICK_ACCOUNT:
+                // Receiving a result from the AccountPicker
+                if (resultCode == RESULT_OK) {
+                    email = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+                    // With the account name acquired, go get the auth token
+                    setSelectedAccountName(email);
+                } else if (resultCode == RESULT_CANCELED) {
+                    // The account picker dialog closed without selecting an account.
+                    // Notify users that they must pick an account to proceed.
+                    Toast.makeText(this, "Você precisa selecionar uma conta antes de continuar", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+
+
             case SELECT_PHOTO:
                 if(resultCode == RESULT_OK){
-                    Uri selectedImage = imageReturnedIntent.getData();
+                    Uri selectedImage = data.getData();
                     InputStream imageStream = null;
                     try {
-                        Bitmap profileImage = ImageUtil.decodeUri(this,selectedImage);
+                        Bitmap profileImage = ImageUtil.decodeUri(this, selectedImage);
                         profile.setImageBitmap(profileImage);
 
                         Bitmap blur = ImageUtil.fastblur(profileImage, 30);
@@ -152,7 +208,7 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
                         ImageUtil.saveToInternalSorage(this,blur,"profile_blur.jpg");
 
                         SharedPreferences.Editor editor = settings.edit();
-                        editor.putBoolean("PROFILE_IMAGE",true);
+                        editor.putBoolean("PROFILE_IMAGE", true);
                         editor.commit();
 
 
@@ -211,7 +267,7 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
         telCel.setText(settings.getString(TEL_CEL, null));
 
 
-        if(settings.getBoolean("PROFILE_IMAGE",false)){
+        if(settings.getBoolean("PROFILE_IMAGE", false)){
             Log.d("Image Profile", "Carregando das preferencias" );
             profile.setImageBitmap(ImageUtil.loadImageFromStorage(this,"profile.jpg"));
             ((LinearLayout) findViewById(R.id.profile_image_bg)).setBackgroundDrawable(new BitmapDrawable(getResources(), ImageUtil.loadImageFromStorage(this,"profile_blur.jpg")));
@@ -278,11 +334,13 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
         e.setDescricao(endereco.getText().toString());
 
 
-        Object[] params = {u,e,idRede,getVisibilidade()};
-
-
-
-        new TornarMembroAsyncTask(CadastroActivity.this).execute(params);
+        if(novaRede) {
+            Object[] params = {u,e,nomeRede.getText().toString(),getVisibilidade()};
+            new CriarNovaRedeAsyncTask(CadastroActivity.this).execute(params);
+        }else{
+            Object[] params = {u,e,idRede,getVisibilidade()};
+            new TornarMembroAsyncTask(CadastroActivity.this).execute(params);
+        }
 
 
     }
@@ -329,9 +387,26 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
     }
 
     public void ok() {
+
         Toast.makeText(this,"Sua solicitação foi enviada com sucesso!",Toast.LENGTH_SHORT).show();
         saveFromPrefs();
 
+    }
+
+    static final int REQUEST_CODE_PICK_ACCOUNT = 1000;
+
+    private void pickUserAccount() {
+        String[] accountTypes = new String[]{"com.google"};
+        Intent intent = AccountPicker.newChooseAccountIntent(null, null,
+                accountTypes, false, null, null, null, null);
+        startActivityForResult(intent, REQUEST_CODE_PICK_ACCOUNT);
+    }
+
+
+    private void setSelectedAccountName(String accountName) {
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("account", accountName);
+        editor.commit();
     }
 
 

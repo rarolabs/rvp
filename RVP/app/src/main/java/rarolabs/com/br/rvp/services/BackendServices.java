@@ -116,9 +116,9 @@ public class BackendServices {
         }
     }
 
-    public  Rede novaRede(String nome, Endereco endereco) throws BackendExpection {
+    public  Rede novaRede(String nome, Endereco endereco,String visCel, String visTel, String visEnd) throws BackendExpection {
         try {
-            return service.novaRede(nome,endereco).execute();
+            return service.novaRede(nome, visCel, visTel,  visEnd, endereco).execute();
         } catch (IOException e) {
             throw new BackendExpection(e);
         }

@@ -47,7 +47,7 @@ public class VisualizarMembrosTest {
     public void visualizarMembros() throws ConflictException, NotFoundException, ForbiddenException {
 
         Usuario rodrigo = Usuario.novoUsuario(UsuarioFixture.getRodrigoSol());
-        Rede rede = Rede.novaRede("Amigos do Comiteco",rodrigo.getId(), EnderecoFixture.getEnderecoRaro());
+        Rede rede = Rede.novaRede("Amigos do Comiteco",rodrigo.getId(), EnderecoFixture.getEnderecoRaro(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
 
         Usuario lesio = Usuario.novoUsuario(UsuarioFixture.getLesioPinheiro());
         Rede.solicitarAssociacao(rede.getId(), lesio.getId(), EnderecoFixture.getEnderecoCasa(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);

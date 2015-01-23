@@ -105,7 +105,7 @@ public class Rede {
     }
 
 
-    public static Rede novaRede(final String nome, final String usuarioId,  final Endereco endereco) throws ConflictException {
+    public static Rede novaRede(final String nome, final String usuarioId, final Endereco endereco, Membro.Visibilidade visibilidadeFixo, Membro.Visibilidade visibilidadeCel, Membro.Visibilidade visibilidadeEndereco) throws ConflictException {
         final Objectify ofy = OfyService.ofy();
         if(ofy.load().type(Rede.class).filter("nome", nome).first().now() != null){
             throw new ConflictException("Já existe uma rede com o nome:" + nome);
@@ -124,10 +124,10 @@ public class Rede {
 
         m.setPapel(Membro.Papel.CRIADOR);
         m.setStatus(Membro.Status.ATIVO);
-        m.setVisibilidadeEndereco(Membro.Visibilidade.PUBLICO);
+        m.setVisibilidadeEndereco(visibilidadeEndereco);
         m.setVisibilidadeEmail(Membro.Visibilidade.PUBLICO);
-        m.setVisibilidadeTelefoneFixo(Membro.Visibilidade.PUBLICO);
-        m.setVisibilidadeTelefoneCelular(Membro.Visibilidade.PUBLICO);
+        m.setVisibilidadeTelefoneFixo(visibilidadeFixo);
+        m.setVisibilidadeTelefoneCelular(visibilidadeCel);
 
 
         ofy.transact(new VoidWork() {

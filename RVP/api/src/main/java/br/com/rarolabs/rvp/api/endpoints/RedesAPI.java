@@ -42,12 +42,15 @@ public class RedesAPI {
     @ApiMethod(name ="novaRede")
     public Rede novaRede(
             @Named("nome") String nome,
+            @Named("visibilidadeFixo") Membro.Visibilidade visibilidadeFixo,
+            @Named("visibilidadeCel") Membro.Visibilidade visibilidadeCel,
+            @Named("visibilidadeEndereco") Membro.Visibilidade visibilidadeEndereco,
             Endereco endereco,User user) throws ConflictException, OAuthRequestException {
         if(user==null){
             throw new OAuthRequestException("Usuário não autenticado");
         }
 
-        return Rede.novaRede(nome,user.getEmail(),endereco);
+        return Rede.novaRede(nome,user.getEmail(),endereco,visibilidadeFixo,visibilidadeCel,visibilidadeEndereco);
     }
 
     /**

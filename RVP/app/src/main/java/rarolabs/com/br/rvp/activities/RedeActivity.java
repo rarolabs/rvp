@@ -1,6 +1,5 @@
 package rarolabs.com.br.rvp.activities;
 
-import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -8,27 +7,18 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.common.AccountPicker;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.gson.Gson;
 import com.melnykov.fab.FloatingActionButton;
 
-import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponder;
 import rarolabs.com.br.rvp.R;
-import rarolabs.com.br.rvp.config.Constants;
-import rarolabs.com.br.rvp.services.BuscaRedesAsyncTask;
-import rarolabs.com.br.rvp.services.GoogleMapsThumbAsyncTask;
+import rarolabs.com.br.rvp.services.tasks.GoogleMapsThumbAsyncTask;
 
 public class RedeActivity extends Activity {
 
@@ -95,61 +85,19 @@ public class RedeActivity extends Activity {
     }
 
     private void entrar() {
-        String account = settings.getString(PREF_ACCOUNT_NAME, null);
-        if(account == null){
-            pickUserAccount();
-        }else{
-            Intent i = new Intent(RedeActivity.this,CadastroActivity.class);
-            PendingIntent pendingIntent =
-                    TaskStackBuilder.create(this)
-                            // add all of DetailsActivity's parents to the stack,
-                            // followed by DetailsActivity itself
-                            .addNextIntentWithParentStack(i)
-                            .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent i = new Intent(RedeActivity.this,CadastroActivity.class);
+        PendingIntent pendingIntent =
+                TaskStackBuilder.create(this)
+                        // add all of DetailsActivity's parents to the stack,
+                        // followed by DetailsActivity itself
+                        .addNextIntentWithParentStack(i)
+                        .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-            builder.setContentIntent(pendingIntent);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setContentIntent(pendingIntent);
+        i.putExtra(WelcomeActivity.EXTRA_ID_REDE,redeId);
+        startActivity(i);
 
-            Log.d("Rede", "Enviando email:" + account);
-            i.putExtra(PREF_ACCOUNT_NAME, account);
-            i.putExtra(WelcomeActivity.EXTRA_ID_REDE,redeId);
-            startActivity(i);
-
-        }
-
-    }
-
-    static final int REQUEST_CODE_PICK_ACCOUNT = 1000;
-
-    private void pickUserAccount() {
-        String[] accountTypes = new String[]{"com.google"};
-        Intent intent = AccountPicker.newChooseAccountIntent(null, null,
-                accountTypes, false, null, null, null, null);
-        startActivityForResult(intent, REQUEST_CODE_PICK_ACCOUNT);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE_PICK_ACCOUNT) {
-            // Receiving a result from the AccountPicker
-            if (resultCode == RESULT_OK) {
-                email = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                // With the account name acquired, go get the auth token
-                setSelectedAccountName(email);
-            } else if (resultCode == RESULT_CANCELED) {
-                // The account picker dialog closed without selecting an account.
-                // Notify users that they must pick an account to proceed.
-                Toast.makeText(this, "Você precisa selecionar uma conta antes de continuar", Toast.LENGTH_SHORT).show();
-            }
-        }
-        // Later, more code will go here to handle the result from some exceptions...
-    }
-
-    private void setSelectedAccountName(String accountName) {
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(PREF_ACCOUNT_NAME, accountName);
-        editor.commit();
-        entrar();
     }
 
     @Override

@@ -51,10 +51,10 @@ public class LocalizarRedesTest {
     @Test
     public void minhasRedes() throws ConflictException, NotFoundException, ForbiddenException {
         Usuario rodrigo = Usuario.novoUsuario(UsuarioFixture.getRodrigoSol());
-        Rede rede1 = Rede.novaRede("Amigos do Comiteco",rodrigo.getId(), EnderecoFixture.getEnderecoRaro());
-        Rede rede2 = Rede.novaRede("Amigos do Nectar",rodrigo.getId(), EnderecoFixture.getEnderecoCasa());
+        Rede rede1 = Rede.novaRede("Amigos do Comiteco",rodrigo.getId(), EnderecoFixture.getEnderecoRaro(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
+        Rede rede2 = Rede.novaRede("Amigos do Nectar",rodrigo.getId(), EnderecoFixture.getEnderecoCasa(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
         Usuario ramon = Usuario.novoUsuario(UsuarioFixture.getRamonSetragni());
-        Rede rede3 = Rede.novaRede("Amigos do Praça",ramon.getId(), EnderecoFixture.getEnderecoPraca());
+        Rede rede3 = Rede.novaRede("Amigos do Praça",ramon.getId(), EnderecoFixture.getEnderecoPraca(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
         Rede.solicitarAssociacao(rede3.getId(),rodrigo.getId(), EnderecoFixture.getEnderecoPraca(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
         Membro.aprovarAssociacao(rede3.solicitacoesPendentes().iterator().next().getId());
         Collection<Membro> minhasRedes = Usuario.minhasRedes(rodrigo.getId());

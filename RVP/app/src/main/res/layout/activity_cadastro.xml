@@ -64,6 +64,26 @@
                     android:layout_marginBottom="25dp"
                     android:orientation="horizontal">
 
+
+                    <EditText
+                        xmlns:custom="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_nome_da_rede"
+                        android:textColorHint="@color/hint_color"
+                        android:fontFamily="Roboto-Regular"
+                        android:textSize="20sp"
+                        android:textColor="@color/fonte_edit_text"
+                        android:id="@+id/nome_rede"
+                        />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dp"
+                    android:orientation="horizontal">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
