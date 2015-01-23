@@ -16,4 +16,5 @@ public class Constants {
     public static final String TEL_CEL = "cadastro_fone_cel";
 
 
+    public static final String ACCOUNT = "account";
 }

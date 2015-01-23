@@ -98,10 +98,10 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
         validator.setValidationListener(this);
 
         Intent i = getIntent();
-        Log.d("Cadastro", "Email:" + i.getExtras().getString(RedeActivity.PREF_ACCOUNT_NAME));
+        Log.d("Cadastro", "Email:" + i.getExtras().getString(Constants.ACCOUNT));
         Log.d("Cadastro", "RedeID:" + i.getExtras().getLong(WelcomeActivity.EXTRA_ID_REDE));
 
-        account = i.getExtras().getString(RedeActivity.PREF_ACCOUNT_NAME);
+        account = i.getExtras().getString(Constants.ACCOUNT);
         idRede = i.getExtras().getLong(WelcomeActivity.EXTRA_ID_REDE);
 
         nome = ((EditText)findViewById(R.id.cadastro_nome));

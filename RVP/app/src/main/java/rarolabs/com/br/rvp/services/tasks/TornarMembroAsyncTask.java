@@ -49,7 +49,7 @@ public class TornarMembroAsyncTask extends AsyncTask<Object, Void, Void> {
 
         if(backendServices == null) { // Only do this once
             GoogleAccountCredential credential = GoogleAccountCredential.usingAudience(context, Constants.OAUTH_CLIENT_ID);
-            backendServices= new BackendServices(context,settings.getString(RedeActivity.PREF_ACCOUNT_NAME,null),Constants.BACKEND_URL);
+            backendServices= new BackendServices(context,settings.getString(Constants.ACCOUNT,null),Constants.BACKEND_URL);
         }
         //Verifica se o dispositivo existe
         //Tenta criar o usuario

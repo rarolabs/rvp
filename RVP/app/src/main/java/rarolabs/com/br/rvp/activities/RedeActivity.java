@@ -22,7 +22,7 @@ import rarolabs.com.br.rvp.services.tasks.GoogleMapsThumbAsyncTask;
 
 public class RedeActivity extends Activity {
 
-    public static final String PREF_ACCOUNT_NAME = "account" ;
+
     private ImageView thumb;
     private FloatingActionButton entrarNaRede;
     private SharedPreferences settings;

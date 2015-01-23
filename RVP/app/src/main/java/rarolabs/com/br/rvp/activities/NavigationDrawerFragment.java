@@ -23,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import rarolabs.com.br.rvp.R;
@@ -120,10 +121,18 @@ public class NavigationDrawerFragment extends Fragment {
         if(settings.getBoolean("PROFILE_IMAGE",false)){
             ((ImageView) view.findViewById(R.id.profile_image)).setImageBitmap(ImageUtil.loadImageFromStorage(getActivity(),"profile.jpg"));
         }
-        if(settings.getString(Constants.NOME, "")){
-
+        String nome = settings.getString(Constants.NOME, "");
+        if(!nome.equals("")){
+            ((TextView) view.findViewById(R.id.profile_name)).setText(nome);
         }
+        String email = settings.getString(Constants.ACCOUNT, "");
+        if(!email.equals("")){
+            ((TextView) view.findViewById(R.id.profile_email)).setText(email);
+        }
+
+
         return view;
+
     }
 
     public boolean isDrawerOpen() {
