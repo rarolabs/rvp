@@ -11,6 +11,7 @@ import android.location.Geocoder;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +29,7 @@ import com.mobsandgeeks.saripaar.QuickRule;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -85,11 +87,15 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
-        if(getActionBar()!= null) {
-            getActionBar().setDisplayHomeAsUpEnabled(true);
-        }else{
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+
+
+        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        // enable status bar tint
+        tintManager.setStatusBarTintEnabled(true);
+        // enable navigation bar tint
+        tintManager.setNavigationBarTintEnabled(true);
+        tintManager.setTintColor(getResources().getColor(R.color.material_green_700));
+
 
         settings = getSharedPreferences("RVP", 0);
 
@@ -99,10 +105,10 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
 
         Intent i = getIntent();
         Log.d("Cadastro", "Email:" + i.getExtras().getString(Constants.ACCOUNT));
-        Log.d("Cadastro", "RedeID:" + i.getExtras().getLong(WelcomeActivity.EXTRA_ID_REDE));
+        Log.d("Cadastro", "RedeID:" + i.getExtras().getLong(Constants.EXTRA_ID_REDE));
 
         account = i.getExtras().getString(Constants.ACCOUNT);
-        idRede = i.getExtras().getLong(WelcomeActivity.EXTRA_ID_REDE);
+        idRede = i.getExtras().getLong(Constants.EXTRA_ID_REDE);
 
         nome = ((EditText)findViewById(R.id.cadastro_nome));
         dddFixo = ((EditText)findViewById(R.id.ddd_fixo));

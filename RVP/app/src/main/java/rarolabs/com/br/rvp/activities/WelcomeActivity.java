@@ -2,53 +2,31 @@ package rarolabs.com.br.rvp.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.location.Location;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 
-import java.util.List;
-
-import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponder;
 import rarolabs.com.br.rvp.R;
-import rarolabs.com.br.rvp.listeners.GPSTracker;
-import rarolabs.com.br.rvp.services.tasks.BuscaRedesAsyncTask;
+import rarolabs.com.br.rvp.fragments.BuscaRedeFragment;
+import rarolabs.com.br.rvp.fragments.GeoqueryResponderFragment;
 
 
 public class WelcomeActivity extends Activity implements
-        GeoqueryResponderFragment.OnFragmentInteractionListener, Locable {
-    public static final java.lang.String EXTRA_NOME_REDE = "nome_rede";
-    public static final java.lang.String EXTRA_ENDERECO_REDE = "endereco_rede";
-    public static final java.lang.String EXTRA_NOME_ADMIN = "nome_admin";
-    public static final java.lang.String EXTRA_ULTIMA_ATIVIDADE = "ultima_atividade";
-    public static final java.lang.String EXTRA_QUANTIDADE_MEMBROS = "quantidade_membros";
-    public static final java.lang.String EXTRA_LATITUDE = "latitude";
-    public static final java.lang.String EXTRA_LONGITUDE = "logintude";
-    public static final java.lang.String EXTRA_ID_REDE = "id";
+        GeoqueryResponderFragment.OnFragmentInteractionListener,
+        BuscaRedeFragment.OnFragmentInteractionListener {
 
-    ImageView spinner;
     private Button buscarRede;
-    private GeoqueryResponderFragment buscaRedesFragment;
-    private View loading;
-    private TextView statusBusca;
-    private GPSTracker gps;
-    private double userLatitude;
-    private double userLongitude;
     private Button novaRede;
+    private BuscaRedeFragment buscaRedeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +35,7 @@ public class WelcomeActivity extends Activity implements
         if (getActionBar() != null) {
             getActionBar().hide();
         }
-        statusBusca = (TextView) findViewById(R.id.status_busca);
+
         SliderLayout sliderShow = (SliderLayout) findViewById(R.id.slider);
 
         DefaultSliderView defaultSliderView = new DefaultSliderView(this);
@@ -66,19 +44,8 @@ public class WelcomeActivity extends Activity implements
 
         sliderShow.stopAutoCycle();
         sliderShow.addSlider(defaultSliderView);
-        loading = findViewById(R.id.loading);
-        spinner = (ImageView) findViewById(R.id.spinner);
 
-        buscaRedesFragment =
-                (GeoqueryResponderFragment) getFragmentManager().findFragmentById(R.id.geoquery_responder_fragment);
-        buscaRedesFragment.getView().setVisibility(View.GONE);
         buscarRede = (Button) findViewById(R.id.buscar_rede);
-        buscarRede.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                buscar(null);
-            }
-        });
         novaRede = (Button) findViewById(R.id.nova_rede);
         novaRede.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,30 +55,10 @@ public class WelcomeActivity extends Activity implements
         });
 
 
-        if (gps == null) {
-            gps = new GPSTracker(WelcomeActivity.this);
-        }
-
-        // check if GPS enabled
-        if (!gps.canGetLocation()) {
-            gps.showSettingsAlert();
-        } else {
-            spinner.startAnimation(
-                    AnimationUtils.loadAnimation(this, R.anim.rotate_forever));
-
-            onLocationChange(gps.getLocation());
-        }
-
+        buscaRedeFragment = (BuscaRedeFragment) getFragmentManager().findFragmentById(R.id.busca_rede_fragment);
 
     }
 
-    @Override
-    public void onLocationChange(Location location) {
-        if (location.getLatitude() != 0) {
-            gps.stopUsingGPS();
-            buscar(location);
-        }
-    }
 
 
     @Override
@@ -136,79 +83,19 @@ public class WelcomeActivity extends Activity implements
         return super.onOptionsItemSelected(item);
     }
 
-    public void ok(List<GeoqueryResponder> result) {
-        loading.setVisibility(View.GONE);
-        buscaRedesFragment.getView().setVisibility(View.VISIBLE);
-        buscaRedesFragment.getAdapter().addAll(result);
-        buscaRedesFragment.getAdapter().notifyDataSetChanged();
-
-        if (result.size() == 0) {
-            notFound();
-        }
-    }
-
-    public void error(String msg) {
-        Log.i("BUSCA_REDE", "Erro ao buscar redes:" + msg);
-    }
-
-    public void notFound() {
-
-
-        spinner.clearAnimation();
-        spinner.setImageResource(R.drawable.ic_tutorial_empty);
-        statusBusca.setText(R.string.busca_redes_nao_encontradas);
-        loading.setVisibility(View.VISIBLE);
-        statusBusca.startAnimation(
-                AnimationUtils.loadAnimation(this, R.anim.bouce));
-
-        loading.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                buscar(null);
-            }
-        });
-    }
-
-    private void buscar(Location location) {
-
-        if (location == null) {
-            location = gps.getLocation();
-        }
-
-        SharedPreferences settings = getSharedPreferences("RVP", 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("USER_LATITUDE",String.valueOf(location.getLatitude()));
-        editor.putString("USER_LONGITUDE",String.valueOf(location.getLongitude()));
-        editor.commit();
-
-
-        buscaRedesFragment.getView().setVisibility(View.GONE);
-        statusBusca.setText(R.string.buscando_redes);
-        spinner.setImageResource(R.drawable.ic_tutorial_loading);
-        spinner.startAnimation(
-                AnimationUtils.loadAnimation(this, R.anim.rotate_forever));
-
-        loading.setVisibility(View.VISIBLE);
-        loading.setOnClickListener(null);
-        new BuscaRedesAsyncTask(WelcomeActivity.this).execute(location);
-
-    }
 
     public void criarNovaRede(){
-        Location loc = gps.getLocation();
-        if(loc!=null && loc.getLatitude()!=0.0){
 
             Intent i = new Intent(WelcomeActivity.this,CadastroActivity.class);
             i.putExtra("NOVA_REDE",true);
             startActivity(i);
 
-        }else{
-            Toast.makeText(this,"Não é possível iniciar a criação de uma nova rede. Habilite o GPS antes de continuar",Toast.LENGTH_SHORT).show();
-        }
     }
 
-
     @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
     public void onFragmentInteraction(String id) {
 
     }

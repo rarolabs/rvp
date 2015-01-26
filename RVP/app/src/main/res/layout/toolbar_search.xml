@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<android.support.v7.widget.Toolbar-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:id="@+id/toolbar"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:minHeight="?attr/actionBarSize"-->
+    <!--android:background="?attr/colorPrimary" />-->
+
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_height="128dp"
+    android:layout_width="match_parent"
+    android:minHeight="?android:attr/actionBarSize"
+    android:gravity="bottom"
+    android:background="@color/material_green_500"
+    app:theme="@style/RVPToolbar"
+    app:popupTheme="@style/Theme.MyTheme"
+    android:navigationIcon="@drawable/ic_drawer"
+    android:layout_marginTop="@dimen/toolbar_margin_top"
+    />

@@ -5,7 +5,8 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="rarolabs.com.br.rvp.activities.MainActivity">
+    tools:context="rarolabs.com.br.rvp.activities.MainActivity"
+    android:background="@color/white">
 
     <!-- As the main content view, the view below consumes the entire
          space available using match_parent in both dimensions. -->
@@ -38,7 +39,7 @@
     <fragment android:id="@+id/navigation_drawer"
         android:layout_width="300dp" android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:name="rarolabs.com.br.rvp.activities.NavigationDrawerFragment"
+        android:name="rarolabs.com.br.rvp.fragments.NavigationDrawerFragment"
         tools:layout="@layout/fragment_navigation_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

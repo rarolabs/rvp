@@ -3,10 +3,11 @@
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="rarolabs.com.br.rvp.fragments.RedesFragment">
+    tools:context="rarolabs.com.br.rvp.fragments.RedesFragment"
+    android:id="@+id/fragment_redes">
 
     <com.melnykov.fab.FloatingActionButton
-        android:id="@+id/entrar_na_rede"
+        android:id="@+id/nova_rede"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|top"
@@ -17,5 +18,14 @@
         fab:fab_colorNormal="@color/material_lime_A400"
         fab:fab_colorPressed="@color/material_green_A200"
         fab:fab_colorRipple="@color/ripple" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal"
+        android:id="@+id/busca_rede_container"
+        android:layout_marginTop="45dp"
+        >
+    </LinearLayout>
 
 </FrameLayout>

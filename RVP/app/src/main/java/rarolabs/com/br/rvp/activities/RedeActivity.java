@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.melnykov.fab.FloatingActionButton;
 
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.services.tasks.GoogleMapsThumbAsyncTask;
 
 public class RedeActivity extends Activity {
@@ -42,21 +43,21 @@ public class RedeActivity extends Activity {
         Bundle extras = i.getExtras();
 
 
-        Log.d("Rede", "NomeRede:" + extras.getString(WelcomeActivity.EXTRA_NOME_REDE) );
-        Log.d("Rede", "Endereco:" + extras.getString(WelcomeActivity.EXTRA_ENDERECO_REDE) );
-        Log.d("Rede", "NomeAdmin:" + extras.getString(WelcomeActivity.EXTRA_NOME_ADMIN) );
-        Log.d("Rede", "UltimaAtividade:" + extras.getString(WelcomeActivity.EXTRA_ULTIMA_ATIVIDADE) );
-        Log.d("Rede", "Quantidade:" + extras.getInt(WelcomeActivity.EXTRA_QUANTIDADE_MEMBROS) );
-        Log.d("Rede", "Latitude:" + extras.getDouble(WelcomeActivity.EXTRA_LATITUDE) );
-        Log.d("Rede", "Longitude:" + extras.getDouble(WelcomeActivity.EXTRA_LONGITUDE) );
+        Log.d("Rede", "NomeRede:" + extras.getString(Constants.EXTRA_NOME_REDE) );
+        Log.d("Rede", "Endereco:" + extras.getString(Constants.EXTRA_ENDERECO_REDE) );
+        Log.d("Rede", "NomeAdmin:" + extras.getString(Constants.EXTRA_NOME_ADMIN) );
+        Log.d("Rede", "UltimaAtividade:" + extras.getString(Constants.EXTRA_ULTIMA_ATIVIDADE) );
+        Log.d("Rede", "Quantidade:" + extras.getInt(Constants.EXTRA_QUANTIDADE_MEMBROS) );
+        Log.d("Rede", "Latitude:" + extras.getDouble(Constants.EXTRA_LATITUDE) );
+        Log.d("Rede", "Longitude:" + extras.getDouble(Constants.EXTRA_LONGITUDE) );
 
-        ((TextView) findViewById(R.id.nome_rede)).setText(extras.getString(WelcomeActivity.EXTRA_NOME_REDE));
-        ((TextView) findViewById(R.id.endereco_rede)).setText(extras.getString(WelcomeActivity.EXTRA_ENDERECO_REDE));
-        ((TextView) findViewById(R.id.nome_administrador)).setText(extras.getString(WelcomeActivity.EXTRA_NOME_ADMIN));
-        ((TextView) findViewById(R.id.ultima_atividade)).setText(extras.getString(WelcomeActivity.EXTRA_ULTIMA_ATIVIDADE));
-        ((TextView) findViewById(R.id.quantidade_membros)).setText(extras.getInt(WelcomeActivity.EXTRA_QUANTIDADE_MEMBROS) + " membros");
+        ((TextView) findViewById(R.id.nome_rede)).setText(extras.getString(Constants.EXTRA_NOME_REDE));
+        ((TextView) findViewById(R.id.endereco_rede)).setText(extras.getString(Constants.EXTRA_ENDERECO_REDE));
+        ((TextView) findViewById(R.id.nome_administrador)).setText(extras.getString(Constants.EXTRA_NOME_ADMIN));
+        ((TextView) findViewById(R.id.ultima_atividade)).setText(extras.getString(Constants.EXTRA_ULTIMA_ATIVIDADE));
+        ((TextView) findViewById(R.id.quantidade_membros)).setText(extras.getInt(Constants.EXTRA_QUANTIDADE_MEMBROS) + " membros");
 
-        redeId = extras.getLong(WelcomeActivity.EXTRA_ID_REDE,0l);
+        redeId = extras.getLong(Constants.EXTRA_ID_REDE,0l);
 
 
 
@@ -71,8 +72,8 @@ public class RedeActivity extends Activity {
         thumb = (ImageView) findViewById(R.id.thumb);
 
         Double[] location = new Double[2];
-        location[0] = extras.getDouble(WelcomeActivity.EXTRA_LATITUDE);
-        location[1] = extras.getDouble(WelcomeActivity.EXTRA_LONGITUDE);
+        location[0] = extras.getDouble(Constants.EXTRA_LATITUDE);
+        location[1] = extras.getDouble(Constants.EXTRA_LONGITUDE);
         new GoogleMapsThumbAsyncTask(RedeActivity.this).execute(location);
 
         settings = getSharedPreferences("RVP", 0);
@@ -95,7 +96,7 @@ public class RedeActivity extends Activity {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setContentIntent(pendingIntent);
-        i.putExtra(WelcomeActivity.EXTRA_ID_REDE,redeId);
+        i.putExtra(Constants.EXTRA_ID_REDE,redeId);
         startActivity(i);
 
     }

@@ -1,39 +1,37 @@
 package rarolabs.com.br.rvp.activities;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.fragments.AlertasFragment;
+import rarolabs.com.br.rvp.fragments.BuscaRedeFragment;
+import rarolabs.com.br.rvp.fragments.GeoqueryResponderFragment;
+import rarolabs.com.br.rvp.fragments.NavigationDrawerFragment;
 import rarolabs.com.br.rvp.fragments.NotificacoesFragment;
 import rarolabs.com.br.rvp.fragments.RedesFragment;
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks,
+                   GeoqueryResponderFragment.OnFragmentInteractionListener,
+                   BuscaRedeFragment.OnFragmentInteractionListener{
 
+    private static final int SECTION_REDE_DE_VIZINHOS = 0;
+    private static final int SECTION_ALERTAS = 1;
+    private static final int SECTION_NOTIFICACOES = 2;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -45,6 +43,7 @@ public class MainActivity extends ActionBarActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+    private int sectionNumer = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,34 +83,44 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
             Fragment fragment;
-            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentManager fragmentManager = getFragmentManager();
             switch(position) {
                 default:
                 case 0:
+                    sectionNumer = 0;
                     fragment = new RedesFragment();
                     break;
                 case 1:
                     fragment = new AlertasFragment();
+                    sectionNumer = 1;
                     break;
                 case 2:
                     fragment = new NotificacoesFragment();
+                    sectionNumer = 2;
                     break;
 
             }
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, fragment)
+                    .replace(R.id.container, fragment,"MAIN_FRAGMENT_" + sectionNumer )
                     .commit();
 
     }
 
     public void onSectionAttached(Fragment fragment) {
+        
         if (fragment instanceof RedesFragment) {
             mTitle = getString(R.string.title_rede_de_vizinhos);
+            this.sectionNumer = SECTION_REDE_DE_VIZINHOS ;
         } else if (fragment instanceof AlertasFragment) {
             mTitle = getString(R.string.title_alertas);
+            this.sectionNumer = SECTION_ALERTAS;
         } else if (fragment instanceof NotificacoesFragment) {
-            mTitle = getString(R.string.title_alertas);
+            mTitle = getString(R.string.title_notificacoes);
+            this.sectionNumer = SECTION_NOTIFICACOES;
         }
+
+        invalidateOptionsMenu();
+
     }
 
     public void restoreActionBar() {
@@ -136,6 +145,30 @@ public class MainActivity extends ActionBarActivity
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.clear();
+        int menu_itens = 0;
+        switch (sectionNumer){
+            default:
+            case 0:
+                menu_itens = R.menu.menu_fragment_redes;
+                break;
+            case 1:
+                menu_itens = R.menu.menu_fragment_alertas;
+                break;
+            case 2:
+                menu_itens = R.menu.menu_fragment_notificacoes;
+                break;
+        }
+
+        getMenuInflater().inflate(menu_itens, menu);
+        restoreActionBar();
+
+        return super.onPrepareOptionsMenu(menu);
+
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -146,8 +179,37 @@ public class MainActivity extends ActionBarActivity
         if (id == R.id.action_settings) {
             return true;
         }
+        switch (id) {
+            case R.id.action_buscar_rede:
+
+                Fragment fragment;
+                FragmentManager fragmentManager = getFragmentManager();
+                Fragment f = getFragmentManager().findFragmentByTag("BUSCA_REDE");
+
+                if (f == null) {
+                    f = new BuscaRedeFragment();
+                }
+
+
+                fragmentManager.beginTransaction()
+                        .replace(R.id.busca_rede_container, f, "BUSCA_REDE")
+                        .commit();
+
+                break;
+
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFragmentInteraction(String id) {
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 
     /**

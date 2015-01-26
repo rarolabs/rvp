@@ -1,14 +1,20 @@
 package rarolabs.com.br.rvp.fragments;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.support.v7.widget.Toolbar;
+
+import com.melnykov.fab.FloatingActionButton;
 
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.activities.CadastroActivity;
 import rarolabs.com.br.rvp.activities.MainActivity;
 
 /**
@@ -65,8 +71,24 @@ public class RedesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_redes, container, false);
+
+        View v = inflater.inflate(R.layout.fragment_redes, container, false);
+        FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.nova_rede);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                novaRede();
+            }
+        });
+        return v;
+
+    }
+
+    private void novaRede() {
+        Intent i = new Intent(getActivity(),CadastroActivity.class);
+        i.putExtra("NOVA_REDE",true);
+        startActivity(i);
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -86,6 +108,16 @@ public class RedesFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void buscar() {
+            FragmentTransaction fragTrans = getFragmentManager().beginTransaction();
+
+            BuscaRedeFragment myFragment = new BuscaRedeFragment();//my custom fragment
+            fragTrans.replace(R.id.busca_rede_container, myFragment);
+            fragTrans.addToBackStack("BUSCA_REDE");
+            fragTrans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            fragTrans.commit();
     }
 
     /**

@@ -1,8 +1,10 @@
 package rarolabs.com.br.rvp.services.tasks;
 
+import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
 import android.os.AsyncTask;
+import android.app.Fragment;
 import android.util.Log;
 import android.widget.ListAdapter;
 import android.widget.Toast;
@@ -17,17 +19,20 @@ import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponder;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import rarolabs.com.br.rvp.activities.WelcomeActivity;
 import rarolabs.com.br.rvp.config.Constants;
+import rarolabs.com.br.rvp.fragments.BuscaRedeFragment;
 import rarolabs.com.br.rvp.services.BackendExpection;
 import rarolabs.com.br.rvp.services.BackendServices;
 
 public class BuscaRedesAsyncTask extends AsyncTask<Location, Void, List<GeoqueryResponder>> {
     private static BackendServices backendServices = null;
-    private final WelcomeActivity activity;
+    private final Activity activity;
+    private final Fragment fragment;
     private Context context;
 
-    public BuscaRedesAsyncTask(Context context) {
-        this.context = context;
-        this.activity = (WelcomeActivity) context;
+    public BuscaRedesAsyncTask(Fragment fragment) {
+        this.fragment = fragment;
+        this.context = fragment.getActivity();
+        this.activity = (Activity) context;
     }
 
     @Override
@@ -52,7 +57,7 @@ public class BuscaRedesAsyncTask extends AsyncTask<Location, Void, List<Geoquery
             Log.e("BuscaRedes", e.getDescricao());
             activity.runOnUiThread(new Runnable() {
                 public void run() {
-                    activity.error(e.getDescricao());
+                    ((BuscaRedeFragment)fragment).error(e.getDescricao());
                 }
             });
             return Collections.EMPTY_LIST;
@@ -64,7 +69,7 @@ public class BuscaRedesAsyncTask extends AsyncTask<Location, Void, List<Geoquery
     protected void onPostExecute(final List<GeoqueryResponder> result) {
         activity.runOnUiThread(new Runnable() {
             public void run() {
-                activity.ok(result);
+                ((BuscaRedeFragment)fragment).ok(result);
             }
         });
     }
