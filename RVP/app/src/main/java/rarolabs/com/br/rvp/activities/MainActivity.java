@@ -16,10 +16,12 @@ import android.support.v4.widget.DrawerLayout;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
+import br.com.rarolabs.rvp.api.rvpAPI.RvpAPI;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.fragments.AlertasFragment;
 import rarolabs.com.br.rvp.fragments.BuscaRedeFragment;
 import rarolabs.com.br.rvp.fragments.GeoqueryResponderFragment;
+import rarolabs.com.br.rvp.fragments.MinhasRedesFragment;
 import rarolabs.com.br.rvp.fragments.NavigationDrawerFragment;
 import rarolabs.com.br.rvp.fragments.NotificacoesFragment;
 import rarolabs.com.br.rvp.fragments.RedesFragment;
@@ -27,7 +29,8 @@ import rarolabs.com.br.rvp.fragments.RedesFragment;
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
                    GeoqueryResponderFragment.OnFragmentInteractionListener,
-                   BuscaRedeFragment.OnFragmentInteractionListener{
+                   BuscaRedeFragment.OnFragmentInteractionListener,
+                   MinhasRedesFragment.OnFragmentInteractionListener{
 
     private static final int SECTION_REDE_DE_VIZINHOS = 0;
     private static final int SECTION_ALERTAS = 1;
@@ -50,8 +53,9 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        Log.d("toolbar", "toobar:" + toolbar.toString());
+        toolbar.setNavigationIcon(R.drawable.ic_actionbar_menu);
         setSupportActionBar(toolbar);
+
 
         SystemBarTintManager tintManager = new SystemBarTintManager(this);
         // enable status bar tint

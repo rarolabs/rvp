@@ -72,6 +72,11 @@ public class Membro {
         return status;
     }
 
+    @ApiResourceProperty
+    public String getNomeRede() {
+        return getRede().getNome();
+    }
+
     public void setStatus(Status status) {
         this.status = status;
     }

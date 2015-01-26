@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/scGW9N8t4LWeqdHNHZjBSk7rrj8\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/E4yl82yyMv_jU2dJNJR7N8Ou4Hs\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -181,6 +181,9 @@
     "id": {
      "type": "string",
      "format": "int64"
+    },
+    "nomeRede": {
+     "type": "string"
     },
     "papel": {
      "$ref": "Papel"

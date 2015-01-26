@@ -135,7 +135,6 @@ public class Rede {
             public void vrun() {
                 m.setUsuario(u);
                 m.setEndereco(endereco);
-
                 ofy.save().entity(m).now();
                 u.add(m);
                 rede.setNome(nome);
@@ -148,7 +147,7 @@ public class Rede {
 
         ofy.save().entity(rede).now();
         m.setRede(rede);
-
+        ofy.save().entity(m).now();
         SearchService.createDocument(m);
 
         return rede;

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    <LinearLayout
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        >
+
+        <ImageView
+            android:layout_margin="16dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:id="@+id/icon"
+            android:src="@drawable/ic_redes_perfil_pendente"
+
+            />
+
+
+
+        <LinearLayout android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:clickable="false"
+            >
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:clickable="false"
+                    android:id="@+id/nome"
+                    android:layout_width="wrap_content"
+                    android:gravity="center_vertical"
+
+
+                    android:layout_margin="0dp"
+
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:maxLines="1"
+                    android:fontFamily="Roboto-Medium"
+                    android:textColor="@color/fonte_busca_rede"
+                    android:lines="2"
+
+                    />
+
+                <TextView
+                    android:clickable="false"
+                    android:id="@+id/status"
+                    android:layout_width="match_parent"
+                    android:gravity="center_vertical|right"
+
+
+                    android:layout_marginBottom="4dp"
+
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:maxLines="1"
+                    android:fontFamily="Roboto-Medium"
+                    android:textColor="@color/fonte_status"
+                    android:lines="2"
+
+                    />
+
+
+            </LinearLayout>
+
+
+            <TextView
+                android:clickable="false"
+                android:id="@+id/localizacao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:textSize="14sp"
+                android:maxLines="20"
+                android:text="Mangabeiras, Belo Horizonte"
+                android:fontFamily="Roboto-Medium"
+                android:textColor="@color/fonte_busca_rede_bairro"
+                >
+            </TextView>
+            <ImageView
+                android:clickable="false"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@drawable/list_divider"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

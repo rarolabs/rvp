@@ -105,7 +105,10 @@ public class RedesAPI {
             throw new OAuthRequestException("Usuário não autenticado");
         }
 
-        return Usuario.minhasRedes(user.getEmail());
+        System.out.println("Minhas redes chamado");
+        Collection<Membro> redes = Usuario.minhasRedes(user.getEmail());
+        System.out.println("redes encontradas:" + redes.size() );
+        return redes;
     }
 
     /**

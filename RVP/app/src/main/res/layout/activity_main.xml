@@ -21,8 +21,10 @@
         android:background="@color/material_green_500"
         app:theme="@style/RVPToolbar"
         app:popupTheme="@style/Theme.MyTheme"
-        android:navigationIcon="@drawable/ic_drawer"
         android:layout_marginTop="@dimen/toolbar_margin_top"
+        app:navigationIcon="@drawable/ic_actionbar_menu"
+        android:paddingBottom="26dp"
+
         />
 
     </FrameLayout>
