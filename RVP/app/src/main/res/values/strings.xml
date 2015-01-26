@@ -55,5 +55,10 @@
     <string name="drawer_alertas">Alertas</string>
     <string name="drawer_notificacoes">Notificações</string>
     <string name="drawer_perfil">Perfil</string>
+    <string name="title_rede_de_vizinhos">Redes de Vizinhos</string>
+    <string name="title_alertas">Todos os alertas</string>
+    <string name="title_notificacoes">Notificações</string>
+    <string name="title_perfil">Perfil</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

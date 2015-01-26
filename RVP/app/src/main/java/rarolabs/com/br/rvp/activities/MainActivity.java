@@ -11,6 +11,9 @@ import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,7 +24,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.readystatesoftware.systembartint.SystemBarTintManager;
+
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.fragments.AlertasFragment;
+import rarolabs.com.br.rvp.fragments.NotificacoesFragment;
+import rarolabs.com.br.rvp.fragments.RedesFragment;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -42,6 +50,17 @@ public class MainActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Log.d("toolbar", "toobar:" + toolbar.toString());
+        setSupportActionBar(toolbar);
+
+        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        // enable status bar tint
+        tintManager.setStatusBarTintEnabled(true);
+        // enable navigation bar tint
+        tintManager.setNavigationBarTintEnabled(true);
+        tintManager.setTintColor(getResources().getColor(R.color.material_green_700));
+
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -53,6 +72,7 @@ public class MainActivity extends ActionBarActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+
 //        if(sp.getBoolean(PREF_NEW_USER,true)){
 //            Intent intent = new Intent(this, WelcomeActivity.class);
 //            startActivity(intent);
@@ -60,26 +80,37 @@ public class MainActivity extends ActionBarActivity
 
     }
 
+
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
+            Fragment fragment;
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            switch(position) {
+                default:
+                case 0:
+                    fragment = new RedesFragment();
+                    break;
+                case 1:
+                    fragment = new AlertasFragment();
+                    break;
+                case 2:
+                    fragment = new NotificacoesFragment();
+                    break;
+
+            }
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, fragment)
+                    .commit();
+
     }
 
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
+    public void onSectionAttached(Fragment fragment) {
+        if (fragment instanceof RedesFragment) {
+            mTitle = getString(R.string.title_rede_de_vizinhos);
+        } else if (fragment instanceof AlertasFragment) {
+            mTitle = getString(R.string.title_alertas);
+        } else if (fragment instanceof NotificacoesFragment) {
+            mTitle = getString(R.string.title_alertas);
         }
     }
 
@@ -122,41 +153,4 @@ public class MainActivity extends ActionBarActivity
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-        }
-    }
-
 }

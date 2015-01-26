@@ -1,19 +1,35 @@
 <resources>
+    <style name="AppTheme" parent="AppTheme.Base"></style>
 
-    <style name="Theme.MyTheme" parent="Theme.AppCompat.Light">
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- customize the color palette -->
-        <item name="colorPrimary">@color/material_blue_500</item>
-        <item name="colorPrimaryDark">@color/material_blue_700</item>
+        <item name="colorPrimary">@color/material_green_500</item>
+        <item name="colorPrimaryDark">@color/material_green_700</item>
         <item name="colorAccent">@color/material_green_A200</item>
         <item name="colorControlNormal">@color/color_control_normal</item>
         <item name="colorControlActivated">@color/color_control_activated</item>
         <item name="colorControlHighlight">@color/color_control_activated</item>
+        <!--<item name="android:windowActionBar">false</item>-->
+        <!--<item name="windowActionBar">false</item>-->
+    </style>
 
-        <item name="android:actionModeBackground">@color/material_blue_500</item>
+
+    <style name="RVPToolbar" parent="Theme.AppCompat.Light">
+        <!-- android:textColorPrimary is the  color of the title text
+             in the Toolbar, in the Theme.AppCompat theme:  -->
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="actionMenuTextColor">@color/white</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingBottom">8dp</item>
+
+
 
     </style>
 
-    <style name="Theme.MyAppCompact" parent="Theme.AppCompat.Light"></style>
-
 
 </resources>
+
+

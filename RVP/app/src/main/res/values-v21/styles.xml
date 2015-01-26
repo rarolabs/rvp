@@ -14,6 +14,7 @@
         <item name="colorControlActivated">@color/color_control_activated</item>
         <item name="colorControlHighlight">@color/color_control_activated</item>
 
+
         <item name="android:actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
 
         <item name="android:spinnerItemStyle">

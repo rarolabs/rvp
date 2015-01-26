@@ -10,5 +10,6 @@
     <dimen name="elevation_high">4dp</dimen>
     <dimen name="add_button_margin">16dp</dimen>
     <dimen name="round_button_diameter">48dp</dimen>
+    <dimen name="toolbar_margin_top">24dp</dimen>
 
 </resources>
