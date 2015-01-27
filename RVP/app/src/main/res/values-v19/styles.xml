@@ -2,13 +2,13 @@
 <resources>
     <style name="AppTheme" parent="AppTheme.Base">
         <!-- customize the color palette -->
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:fitsSystemWindows">true</item>
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+        <!--<item name="android:fitsSystemWindows">true</item>-->
     </style>
     <style name="AppThemeLight" parent="AppTheme.Base.ActionBar">
         <!-- customize the color palette -->
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:fitsSystemWindows">true</item>
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+        <!--<item name="android:fitsSystemWindows">true</item>-->
     </style>
 
 </resources>

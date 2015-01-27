@@ -4,19 +4,27 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
+import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.activities.MainActivity;
 import rarolabs.com.br.rvp.adapters.MinhasRedesAdapter;
 import rarolabs.com.br.rvp.services.tasks.MinhasRedesAsyncTask;
+import rarolabs.com.br.rvp.views.Loading;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,9 +37,11 @@ import rarolabs.com.br.rvp.services.tasks.MinhasRedesAsyncTask;
 public class MinhasRedesFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-    private RecyclerView mRecyclerView;
+    private ObservableRecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private MinhasRedesAdapter mAdapter;
+    private Loading loading;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     // TODO: Rename and change types and number of parameters
     public static MinhasRedesFragment newInstance(String param1, String param2) {
@@ -49,16 +59,28 @@ public class MinhasRedesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAdapter = new MinhasRedesAdapter(new ArrayList<Membro>());
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_minhas_redes, container, false);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.lista_minhas_redes_recycler_view);
+        mRecyclerView = (ObservableRecyclerView) view.findViewById(R.id.lista_minhas_redes_recycler_view);
+        MainActivity activity = (MainActivity) getActivity();
+        activity.setRecycleView(mRecyclerView);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.minhas_redes_swipe_refresh_layout);
+        mSwipeRefreshLayout.setProgressViewOffset(false,145,185);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                                                     @Override
+                                                     public void onRefresh() {
+                                                         refreshContent();
+                                                     }
+                                                 });
 
+        mSwipeRefreshLayout.setColorSchemeResources(
+                R.color.material_green_500,
+                R.color.material_green_700,
+                R.color.material_green_A200);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
@@ -86,9 +108,45 @@ public class MinhasRedesFragment extends Fragment {
 //                })
 //        );
 
-        new MinhasRedesAsyncTask(this).execute();
+
+
+        //new MinhasRedesAsyncTask(this).execute();
+        List<Membro> redes = new ArrayList<Membro>();
+        for(int i=0; i <10; i++){
+           Membro m = new Membro();
+           m.setNomeRede("Rede " + i);
+           m.setStatus("ATIVO");
+            redes.add(m);
+
+        }
+
+        mAdapter.addAll(redes);
+        mAdapter.notifyDataSetChanged();
 
         return view;
+
+    }
+
+    private void refreshContent() {
+        Log.d("Scroll","Reflesh iniciado");
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                List<Membro> redes = new ArrayList<Membro>();
+                for (int i = 0; i < 10; i++) {
+                    Membro m = new Membro();
+                    m.setNomeRede("Rede " + i);
+                    m.setStatus("ATIVO");
+                    redes.add(m);
+
+                }
+
+                mAdapter.addAll(redes);
+                mAdapter.notifyDataSetChanged();
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        }, 5000l);
 
     }
 

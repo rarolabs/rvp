@@ -5,4 +5,13 @@
         <attr name="focusIcon" format="integer"/>
         <attr name="target" format="reference"/>
     </declare-styleable>
+
+    <declare-styleable name="Loading">
+        <attr name="iconLoading"  format="integer" />
+        <attr name="iconError"    format="integer"/>
+        <attr name="textLoading"  format="string"/>
+        <attr name="textError"    format="string"/>
+        <attr name="viewTarget"       format="reference"/>
+    </declare-styleable>
+
 </resources>
