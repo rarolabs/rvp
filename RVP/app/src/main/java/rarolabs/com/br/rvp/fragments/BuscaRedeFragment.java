@@ -74,8 +74,6 @@ public class BuscaRedeFragment extends Fragment
         ft.replace(R.id.fragment_content, resultFragment);
         ft.commit();
 
-
-
     }
 
 
@@ -106,6 +104,7 @@ public class BuscaRedeFragment extends Fragment
 
             onLocationChange(gps.getLocation());
         }
+
         return view;
     }
 
@@ -208,8 +207,10 @@ public class BuscaRedeFragment extends Fragment
         spinner.setImageResource(R.drawable.ic_tutorial_empty);
         statusBusca.setText(R.string.busca_redes_nao_encontradas);
         loading.setVisibility(View.VISIBLE);
-        statusBusca.startAnimation(
-                AnimationUtils.loadAnimation(getActivity(), R.anim.bouce));
+        if(this.isVisible()) {
+            statusBusca.startAnimation(
+                    AnimationUtils.loadAnimation(getActivity(), R.anim.bouce));
+        }
 
         loading.setOnClickListener(new View.OnClickListener() {
             @Override

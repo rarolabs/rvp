@@ -18,7 +18,6 @@ import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.fragments.BuscaRedeFragment;
 import rarolabs.com.br.rvp.fragments.MinhasRedesFragment;
-import rarolabs.com.br.rvp.fragments.RedesFragment;
 import rarolabs.com.br.rvp.services.BackendExpection;
 import rarolabs.com.br.rvp.services.BackendServices;
 
@@ -56,7 +55,7 @@ public class MinhasRedesAsyncTask extends AsyncTask<Location, Void, List<Membro>
                     ((MinhasRedesFragment)fragment).error(e.getDescricao());
                 }
             });
-            return Collections.EMPTY_LIST;
+            return null;
 
         }
     }

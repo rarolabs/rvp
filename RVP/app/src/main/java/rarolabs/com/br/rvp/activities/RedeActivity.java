@@ -19,6 +19,7 @@ import com.melnykov.fab.FloatingActionButton;
 
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.config.Constants;
+import rarolabs.com.br.rvp.config.GlobalValues;
 import rarolabs.com.br.rvp.services.tasks.GoogleMapsThumbAsyncTask;
 
 public class RedeActivity extends Activity {
@@ -29,18 +30,23 @@ public class RedeActivity extends Activity {
     private SharedPreferences settings;
     private String email;
     private long redeId;
+    private Bundle extras;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("REDE","onCreate:" + (savedInstanceState == null));
         setContentView(R.layout.activity_rede);
 
         if(getActionBar()!=null) {
             getActionBar().hide();
         }
         Intent i = getIntent();
-        Bundle extras = i.getExtras();
+        extras = i.getExtras();
+        if(extras == null){
+            extras = ((GlobalValues)getApplicationContext()).getUltimaRede();
+        }
 
 
         Log.d("Rede", "NomeRede:" + extras.getString(Constants.EXTRA_NOME_REDE) );
@@ -78,12 +84,9 @@ public class RedeActivity extends Activity {
 
         settings = getSharedPreferences("RVP", 0);
 
-
-
-
-
-
     }
+
+
 
     private void entrar() {
         Intent i = new Intent(RedeActivity.this,CadastroActivity.class);
@@ -97,6 +100,8 @@ public class RedeActivity extends Activity {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setContentIntent(pendingIntent);
         i.putExtra(Constants.EXTRA_ID_REDE,redeId);
+
+        ((GlobalValues)getApplicationContext()).setUltimaRede(extras);
         startActivity(i);
 
     }

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 
@@ -23,6 +24,7 @@ import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.activities.MainActivity;
 import rarolabs.com.br.rvp.adapters.MinhasRedesAdapter;
+import rarolabs.com.br.rvp.services.tasks.BuscaRedesAsyncTask;
 import rarolabs.com.br.rvp.services.tasks.MinhasRedesAsyncTask;
 import rarolabs.com.br.rvp.views.Loading;
 
@@ -109,45 +111,20 @@ public class MinhasRedesFragment extends Fragment {
 //        );
 
 
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+        });
 
-        //new MinhasRedesAsyncTask(this).execute();
-        List<Membro> redes = new ArrayList<Membro>();
-        for(int i=0; i <10; i++){
-           Membro m = new Membro();
-           m.setNomeRede("Rede " + i);
-           m.setStatus("ATIVO");
-            redes.add(m);
-
-        }
-
-        mAdapter.addAll(redes);
-        mAdapter.notifyDataSetChanged();
+        new MinhasRedesAsyncTask(this).execute();
 
         return view;
 
     }
 
     private void refreshContent() {
-        Log.d("Scroll","Reflesh iniciado");
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                List<Membro> redes = new ArrayList<Membro>();
-                for (int i = 0; i < 10; i++) {
-                    Membro m = new Membro();
-                    m.setNomeRede("Rede " + i);
-                    m.setStatus("ATIVO");
-                    redes.add(m);
-
-                }
-
-                mAdapter.addAll(redes);
-                mAdapter.notifyDataSetChanged();
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        }, 5000l);
-
+        new MinhasRedesAsyncTask(this).execute();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -175,16 +152,21 @@ public class MinhasRedesFragment extends Fragment {
     }
 
     public void error(String descricao) {
-
+        Toast.makeText(getActivity(),descricao,Toast.LENGTH_SHORT).show();
     }
 
     public void ok(List<Membro> result) {
+        mSwipeRefreshLayout.setRefreshing(false);
+        if(result!=null){
+            if(result.size()==0){
+                Toast.makeText(getActivity(), "Você ainda não pertence a nenhuma rede", Toast.LENGTH_SHORT).show();
+            }else{
+                mAdapter.clear();
+                mAdapter.addAll(result);
+                mAdapter.notifyDataSetChanged();
+            }
+        }
 
-        mAdapter.addAll(result);
-        mAdapter.notifyDataSetChanged();
-
-//        if (result.size() == 0) {
-//            notFound();
     }
     /**
      * This interface must be implemented by activities that contain this

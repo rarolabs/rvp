@@ -60,5 +60,7 @@
     <string name="title_notificacoes">Notificações</string>
     <string name="title_perfil">Perfil</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_voltar">Voltar</string>
+    <string name="title_busca_redes">Encontre novas redes</string>
 
 </resources>

@@ -117,6 +117,7 @@ public class GeoqueryResponderFragment extends Fragment implements AbsListView.O
                     @Override public void onItemClick(View view, int position) {
                         GeoqueryResponder geo = getAdapter().get(position);
                         Intent i = new Intent(GeoqueryResponderFragment.this.getActivity(),RedeActivity.class);
+
                         i.putExtra(Constants.EXTRA_ID_REDE,geo.getIdRede());
                         i.putExtra(Constants.EXTRA_NOME_REDE,geo.getNomeRede());
                         i.putExtra(Constants.EXTRA_ENDERECO_REDE,"Nao sei ainda");

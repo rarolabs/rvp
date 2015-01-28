@@ -86,16 +86,8 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("Cadastro Actitivity", "OnCreate");
         setContentView(R.layout.activity_cadastro);
-
-
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        // enable status bar tint
-        tintManager.setStatusBarTintEnabled(true);
-        // enable navigation bar tint
-        tintManager.setNavigationBarTintEnabled(true);
-        tintManager.setTintColor(getResources().getColor(R.color.material_green_700));
-
 
         settings = getSharedPreferences("RVP", 0);
 
@@ -104,8 +96,11 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
         validator.setValidationListener(this);
 
         Intent i = getIntent();
+
         Log.d("Cadastro", "Email:" + i.getExtras().getString(Constants.ACCOUNT));
         Log.d("Cadastro", "RedeID:" + i.getExtras().getLong(Constants.EXTRA_ID_REDE));
+
+
 
         account = i.getExtras().getString(Constants.ACCOUNT);
         idRede = i.getExtras().getLong(Constants.EXTRA_ID_REDE);

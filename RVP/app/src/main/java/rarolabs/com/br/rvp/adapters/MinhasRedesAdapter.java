@@ -97,6 +97,10 @@ public class MinhasRedesAdapter extends RecyclerView.Adapter<MinhasRedesAdapter.
         return myDataset.get(position);
     }
 
+    public void clear() {
+        myDataset.clear();
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(View itemView) {
             super(itemView);

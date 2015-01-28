@@ -2,6 +2,7 @@ package rarolabs.com.br.rvp.activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
@@ -28,9 +29,7 @@ import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-import br.com.rarolabs.rvp.api.rvpAPI.RvpAPI;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.fragments.AlertasFragment;
 import rarolabs.com.br.rvp.fragments.BuscaRedeFragment;
@@ -38,8 +37,8 @@ import rarolabs.com.br.rvp.fragments.GeoqueryResponderFragment;
 import rarolabs.com.br.rvp.fragments.MinhasRedesFragment;
 import rarolabs.com.br.rvp.fragments.NavigationDrawerFragment;
 import rarolabs.com.br.rvp.fragments.NotificacoesFragment;
-import rarolabs.com.br.rvp.fragments.RedesFragment;
-import rarolabs.com.br.rvp.views.Loading;
+
+
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
@@ -49,14 +48,17 @@ public class MainActivity extends ActionBarActivity
                    ObservableScrollViewCallbacks {
 
 
+
     private View mFlexibleSpaceView;
     private View mToolbarView;
     private TextView mTitleView;
     private int mFlexibleSpaceHeight;
 
-    private static final int SECTION_REDE_DE_VIZINHOS = 0;
+    private static final int SECTION_MINHAS_REDES = 0;
     private static final int SECTION_ALERTAS = 1;
     private static final int SECTION_NOTIFICACOES = 2;
+    private static final int SECTION_BUSCA_REDES = 3;
+
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -72,6 +74,10 @@ public class MainActivity extends ActionBarActivity
     private View mFab;
     private int mFabMargin;
     private boolean mFabIsShown;
+    private MinhasRedesFragment minhasRedesFragment;
+    private AlertasFragment alertasFragment;
+    private NotificacoesFragment notificacoesFragment;
+    private BuscaRedeFragment buscaRedeFragment;
 
 
     @Override
@@ -93,6 +99,12 @@ public class MainActivity extends ActionBarActivity
         mFabMargin = getResources().getDimensionPixelSize(R.dimen.margin_standard);
         ViewHelper.setScaleX(mFab, 1);
         ViewHelper.setScaleY(mFab, 1);
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fabClick();
+            }
+        });
 
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -115,38 +127,71 @@ public class MainActivity extends ActionBarActivity
 
     }
 
+    private void fabClick() {
+        switch (sectionNumer){
+            case SECTION_MINHAS_REDES:
+            case SECTION_BUSCA_REDES:
+                novaRede();
+                break;
+        }
+    }
+
+    private void novaRede() {
+        Intent i = new Intent(MainActivity.this,CadastroActivity.class);
+        i.putExtra("NOVA_REDE",true);
+        startActivity(i);
+    }
+
+    public Fragment getFragmentBySection(int sectionNumer){
+        switch (sectionNumer){
+            case SECTION_MINHAS_REDES:
+                if(minhasRedesFragment == null){
+                    minhasRedesFragment = new MinhasRedesFragment();
+                }
+                return minhasRedesFragment;
+
+            case SECTION_BUSCA_REDES:
+                if(buscaRedeFragment == null){
+                    buscaRedeFragment = new BuscaRedeFragment();
+                }
+                return buscaRedeFragment;
+            case SECTION_ALERTAS:
+                if(alertasFragment == null){
+                    alertasFragment = new AlertasFragment();
+                }
+                return alertasFragment;
+
+            case SECTION_NOTIFICACOES:
+                if(notificacoesFragment == null){
+                    notificacoesFragment = new NotificacoesFragment();
+                }
+                return notificacoesFragment;
+        }
+
+        return null;
+    }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-            Fragment fragment;
-            FragmentManager fragmentManager = getFragmentManager();
-            switch(position) {
-                default:
-                case 0:
-                    sectionNumer = 0;
-                    fragment = new MinhasRedesFragment();
-                    break;
-                case 1:
-                    fragment = new AlertasFragment();
-                    sectionNumer = 1;
-                    break;
-                case 2:
-                    fragment = new NotificacoesFragment();
-                    sectionNumer = 2;
-                    break;
+            sectionNumer = position;
 
-            }
+            Fragment fragment = getFragmentBySection(sectionNumer);
+            FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, fragment,"MAIN_FRAGMENT_" + sectionNumer )
+                    .replace(R.id.container, fragment, "MAIN_FRAGMENT_" + sectionNumer)
                     .commit();
 
     }
 
     public void onSectionAttached(Fragment fragment) {
         
-        if (fragment instanceof BuscaRedeFragment) {
+
+        if (fragment instanceof MinhasRedesFragment) {
             mTitleView.setText(getString(R.string.title_rede_de_vizinhos));
-            this.sectionNumer = SECTION_REDE_DE_VIZINHOS ;
+            this.sectionNumer = SECTION_MINHAS_REDES ;
+        } else if (fragment instanceof BuscaRedeFragment) {
+            mTitleView.setText(getString(R.string.title_busca_redes));
+            this.sectionNumer = SECTION_BUSCA_REDES;
         } else if (fragment instanceof AlertasFragment) {
             mTitleView.setText(getString(R.string.title_alertas));
             this.sectionNumer = SECTION_ALERTAS;
@@ -195,6 +240,10 @@ public class MainActivity extends ActionBarActivity
             case 2:
                 menu_itens = R.menu.menu_fragment_notificacoes;
                 break;
+            case 3:
+                Log.d("Menu","Carregando menu");
+                menu_itens = R.menu.menu_fragment_busca_redes;
+                break;
         }
 
         getMenuInflater().inflate(menu_itens, menu);
@@ -215,22 +264,25 @@ public class MainActivity extends ActionBarActivity
         if (id == R.id.action_settings) {
             return true;
         }
+        FragmentManager fragmentManager = getFragmentManager();
+        Fragment fragment = null;
         switch (id) {
             case R.id.action_buscar_rede:
 
-                Fragment fragment;
-                FragmentManager fragmentManager = getFragmentManager();
-                Fragment f = getFragmentManager().findFragmentByTag("BUSCA_REDE");
-
-                if (f == null) {
-                    f = new BuscaRedeFragment();
-                }
-
-
+                fragment = getFragmentBySection(SECTION_BUSCA_REDES);
+                sectionNumer = SECTION_BUSCA_REDES;
                 fragmentManager.beginTransaction()
-                        .replace(R.id.busca_rede_container, f, "BUSCA_REDE")
+                        .replace(R.id.container, fragment, "MAIN_FRAGMENT_" + SECTION_BUSCA_REDES)
                         .commit();
+                onSectionAttached(fragment);
+                break;
 
+            case R.id.action_voltar:
+                fragment = getFragmentBySection(SECTION_MINHAS_REDES);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, fragment, "MAIN_FRAGMENT_" + SECTION_MINHAS_REDES)
+                        .commit();
+                onSectionAttached(fragment);
                 break;
 
         }
@@ -280,18 +332,13 @@ public class MainActivity extends ActionBarActivity
         int maxTitleTranslationY = mToolbarView.getHeight() + mFlexibleSpaceHeight - (int) (mTitleView.getHeight() * (1 + scale));
         int titleTranslationY = (int) (maxTitleTranslationY * ((float) mFlexibleSpaceHeight - adjustedScrollY) / mFlexibleSpaceHeight);
         ViewHelper.setTranslationY(mTitleView, titleTranslationY);
-        Log.d("Translate","Scroll:" + scrollY);
         int[] location = {0,0};
         Rect rect = new Rect();
         mFab.getLocalVisibleRect(rect);
 
-        Log.d("Center Y             :", String.valueOf(rect.centerY()));
-        Log.d("Center X             :", String.valueOf(rect.centerX()));
         int mFabTranslateY =  ((rect.centerY()  - adjustedScrollY) - (mFab.getHeight() /2));
-        Log.d("STY           :", String.valueOf(mFabTranslateY));
-        //ViewHelper.setTranslationX(mFab,  mFabMargin - mFab.getWidth());
         ViewHelper.setTranslationY(mFab, mFabTranslateY);
-        Log.d("GTY           :", String.valueOf(ViewHelper.getTranslationY(mFab)));
+
         // Show/hide FAB
         if (scrollY > 80) {
             hideFab();
