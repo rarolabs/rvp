@@ -200,6 +200,8 @@ public class Rede {
                 ofy.save().entity(rede).now();
                 m.setRede(rede);
                 rede.addMembro(m);
+                ofy.save().entity(rede);
+                ofy.save().entity(m);
             }
         });
 
@@ -242,12 +244,22 @@ public class Rede {
 
 
     public Collection<Membro> membrosAtivos() {
-        return Collections2.filter(getMembros(), new com.google.common.base.Predicate<Membro>() {
+        Collection<Membro> membros =  getMembros();
+        System.out.println("Membros ativos:" + membros.size());
+        Collection<Membro> filteredMembros =  Collections2.filter(membros, new com.google.common.base.Predicate<Membro>() {
             @Override
             public boolean apply(@Nullable Membro input) {
-                return input.getStatus() == Membro.Status.ATIVO;
+                System.out.println("Membro:" + input.getId());
+                System.out.println("Membro:" + input.getStatus());
+                System.out.println("Membro:" + input.getStatus().equals(Membro.Status.ATIVO));
+                System.out.println("Membro:" + (input.getStatus() == Membro.Status.ATIVO));
+
+                return input.getStatus().equals(Membro.Status.ATIVO);
             }
         });
+
+        System.out.println("Quantidade de elementos filtrados..." + filteredMembros.size());
+        return filteredMembros;
     }
 
     public static Rede buscar(Long id) throws NotFoundException {

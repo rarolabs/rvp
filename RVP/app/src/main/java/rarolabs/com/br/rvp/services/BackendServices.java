@@ -23,6 +23,7 @@ import br.com.rarolabs.rvp.api.rvpAPI.RvpAPIRequestInitializer;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Endereco;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
+import br.com.rarolabs.rvp.api.rvpAPI.model.RedeDetalhadaCollection;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
 import rarolabs.com.br.rvp.config.Constants;
 
@@ -108,7 +109,7 @@ public class BackendServices {
         }
     }
 
-    public  br.com.rarolabs.rvp.api.rvpAPI.model.MembroCollection minhasRedes() throws BackendExpection {
+    public  RedeDetalhadaCollection minhasRedes() throws BackendExpection {
         try {
             return service.minhasRedes().execute();
         } catch (IOException e) {

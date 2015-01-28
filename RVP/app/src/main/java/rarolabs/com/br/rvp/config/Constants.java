@@ -28,4 +28,5 @@ public class Constants {
     public static final java.lang.String EXTRA_LONGITUDE = "logintude";
     public static final java.lang.String EXTRA_ID_REDE = "id";
 
+    public static final String EXTRA_MEMBRO = "membro";
 }

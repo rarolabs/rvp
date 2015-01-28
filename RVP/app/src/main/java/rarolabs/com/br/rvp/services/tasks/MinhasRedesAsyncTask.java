@@ -15,13 +15,14 @@ import java.util.List;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponder;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
+import br.com.rarolabs.rvp.api.rvpAPI.model.RedeDetalhada;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.fragments.BuscaRedeFragment;
 import rarolabs.com.br.rvp.fragments.MinhasRedesFragment;
 import rarolabs.com.br.rvp.services.BackendExpection;
 import rarolabs.com.br.rvp.services.BackendServices;
 
-public class MinhasRedesAsyncTask extends AsyncTask<Location, Void, List<Membro>> {
+public class MinhasRedesAsyncTask extends AsyncTask<Location, Void, List<RedeDetalhada>> {
     private static BackendServices backendServices = null;
     private final Activity activity;
     private final Fragment fragment;
@@ -35,7 +36,7 @@ public class MinhasRedesAsyncTask extends AsyncTask<Location, Void, List<Membro>
     }
 
     @Override
-    protected List<Membro> doInBackground(Location... params) {
+    protected List<RedeDetalhada> doInBackground(Location... params) {
         settings = context.getSharedPreferences("RVP", 0);
 
         if(backendServices == null) { // Only do this once
@@ -44,7 +45,7 @@ public class MinhasRedesAsyncTask extends AsyncTask<Location, Void, List<Membro>
         }
 
         try {
-            List<Membro> result = backendServices.minhasRedes().getItems();
+            List<RedeDetalhada> result = backendServices.minhasRedes().getItems();
             return result;
         } catch (final BackendExpection e) {
             Log.d("REDE", "Deu erro");
@@ -61,7 +62,7 @@ public class MinhasRedesAsyncTask extends AsyncTask<Location, Void, List<Membro>
     }
 
     @Override
-    protected void onPostExecute(final List<Membro> result) {
+    protected void onPostExecute(final List<RedeDetalhada> result) {
         activity.runOnUiThread(new Runnable() {
             public void run() {
                 ((MinhasRedesFragment)fragment).ok(result);

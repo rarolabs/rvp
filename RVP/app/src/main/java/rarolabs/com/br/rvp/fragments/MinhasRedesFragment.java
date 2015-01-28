@@ -1,6 +1,7 @@
 package rarolabs.com.br.rvp.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -21,9 +22,13 @@ import java.util.List;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
+import br.com.rarolabs.rvp.api.rvpAPI.model.RedeDetalhada;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.activities.MainActivity;
+import rarolabs.com.br.rvp.activities.RedeActivity;
 import rarolabs.com.br.rvp.adapters.MinhasRedesAdapter;
+import rarolabs.com.br.rvp.config.Constants;
+import rarolabs.com.br.rvp.listeners.RecyclerItemClickListener;
 import rarolabs.com.br.rvp.services.tasks.BuscaRedesAsyncTask;
 import rarolabs.com.br.rvp.services.tasks.MinhasRedesAsyncTask;
 import rarolabs.com.br.rvp.views.Loading;
@@ -60,7 +65,7 @@ public class MinhasRedesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new MinhasRedesAdapter(new ArrayList<Membro>());
+        mAdapter = new MinhasRedesAdapter(new ArrayList<RedeDetalhada>());
     }
 
     @Override
@@ -91,24 +96,32 @@ public class MinhasRedesFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(this.getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-//        mRecyclerView.addOnItemTouchListener(
-//                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-//                    @Override public void onItemClick(View view, int position) {
-//                        GeoqueryResponder geo = getAdapter().get(position);
-//                        Intent i = new Intent(GeoqueryResponderFragment.this.getActivity(),RedeActivity.class);
-//                        i.putExtra(Constants.EXTRA_ID_REDE,geo.getIdRede());
-//                        i.putExtra(Constants.EXTRA_NOME_REDE,geo.getNomeRede());
-//                        i.putExtra(Constants.EXTRA_ENDERECO_REDE,"Nao sei ainda");
-//                        i.putExtra(Constants.EXTRA_NOME_ADMIN,geo.getNomeAdministrador());
-//                        i.putExtra(Constants.EXTRA_ULTIMA_ATIVIDADE,geo.getUltimaAtividade().toString());
-//                        i.putExtra(Constants.EXTRA_QUANTIDADE_MEMBROS,geo.getQuantidadeMembros());
-//                        i.putExtra(Constants.EXTRA_LATITUDE,geo.getLatitude());
-//                        i.putExtra(Constants.EXTRA_LONGITUDE,geo.getLongitude());
-//                        startActivity(i);
-//                        Toast.makeText(getActivity(), "Clicado:" + position, Toast.LENGTH_SHORT).show();
-//                    }
-//                })
-//        );
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        if(position > 0) {
+                            RedeDetalhada rede = mAdapter.get(position - 1);
+                            Intent i = new Intent(MinhasRedesFragment.this.getActivity(), RedeActivity.class);
+                            i.putExtra(Constants.EXTRA_MEMBRO,true);
+                            i.putExtra(Constants.EXTRA_ID_REDE, rede.getRedeId());
+                            i.putExtra(Constants.EXTRA_NOME_REDE, rede.getNomeRede());
+                            i.putExtra(Constants.EXTRA_ENDERECO_REDE, "Nao sei ainda");
+                            i.putExtra(Constants.EXTRA_NOME_ADMIN, rede.getNomeAdministrador());
+                            i.putExtra(Constants.EXTRA_ULTIMA_ATIVIDADE, rede.getUltimaAtividade().toString());
+                            i.putExtra(Constants.EXTRA_QUANTIDADE_MEMBROS, rede.getQuantidadeMembros());
+                            int pos = 0;
+                            for(Membro m : rede.getMembros()){
+                                i.putExtra("latitude_" + pos,m.getLatitude());
+                                i.putExtra("longitude_" + pos,m.getLongitude());
+                                pos++;
+                            }
+                            startActivity(i);
+
+                        }
+
+                    }
+                })
+        );
 
 
         mSwipeRefreshLayout.post(new Runnable() {
@@ -155,13 +168,13 @@ public class MinhasRedesFragment extends Fragment {
         Toast.makeText(getActivity(),descricao,Toast.LENGTH_SHORT).show();
     }
 
-    public void ok(List<Membro> result) {
+    public void ok(List<RedeDetalhada> result) {
         mSwipeRefreshLayout.setRefreshing(false);
         if(result!=null){
             if(result.size()==0){
                 Toast.makeText(getActivity(), "Você ainda não pertence a nenhuma rede", Toast.LENGTH_SHORT).show();
             }else{
-                //mAdapter.clear();
+                mAdapter.clear();
                 mAdapter.addAll(result);
                 mAdapter.notifyDataSetChanged();
             }

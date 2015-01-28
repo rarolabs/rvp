@@ -31,6 +31,8 @@ public class RedeActivity extends Activity {
     private String email;
     private long redeId;
     private Bundle extras;
+    private boolean membro;
+    private int quantidadeMembros;
 
 
     @Override
@@ -48,20 +50,17 @@ public class RedeActivity extends Activity {
             extras = ((GlobalValues)getApplicationContext()).getUltimaRede();
         }
 
+        membro = extras.getBoolean(Constants.EXTRA_MEMBRO,false);
 
-        Log.d("Rede", "NomeRede:" + extras.getString(Constants.EXTRA_NOME_REDE) );
-        Log.d("Rede", "Endereco:" + extras.getString(Constants.EXTRA_ENDERECO_REDE) );
-        Log.d("Rede", "NomeAdmin:" + extras.getString(Constants.EXTRA_NOME_ADMIN) );
-        Log.d("Rede", "UltimaAtividade:" + extras.getString(Constants.EXTRA_ULTIMA_ATIVIDADE) );
-        Log.d("Rede", "Quantidade:" + extras.getInt(Constants.EXTRA_QUANTIDADE_MEMBROS) );
-        Log.d("Rede", "Latitude:" + extras.getDouble(Constants.EXTRA_LATITUDE) );
-        Log.d("Rede", "Longitude:" + extras.getDouble(Constants.EXTRA_LONGITUDE) );
+
 
         ((TextView) findViewById(R.id.nome_rede)).setText(extras.getString(Constants.EXTRA_NOME_REDE));
         ((TextView) findViewById(R.id.endereco_rede)).setText(extras.getString(Constants.EXTRA_ENDERECO_REDE));
         ((TextView) findViewById(R.id.nome_administrador)).setText(extras.getString(Constants.EXTRA_NOME_ADMIN));
         ((TextView) findViewById(R.id.ultima_atividade)).setText(extras.getString(Constants.EXTRA_ULTIMA_ATIVIDADE));
-        ((TextView) findViewById(R.id.quantidade_membros)).setText(extras.getInt(Constants.EXTRA_QUANTIDADE_MEMBROS) + " membros");
+        quantidadeMembros = extras.getInt(Constants.EXTRA_QUANTIDADE_MEMBROS);
+
+        ((TextView) findViewById(R.id.quantidade_membros)).setText(quantidadeMembros + " membros");
 
         redeId = extras.getLong(Constants.EXTRA_ID_REDE,0l);
 
@@ -76,10 +75,20 @@ public class RedeActivity extends Activity {
         });
 
         thumb = (ImageView) findViewById(R.id.thumb);
+        Double[] location = null;
+        if(membro){
+            location = new Double[quantidadeMembros * 2];
+            int locationIndex = 0;
+            for(int membroCount = 0; membroCount < quantidadeMembros; membroCount++){
+                location[locationIndex++] = extras.getDouble("latitude_" + membroCount);
+                location[locationIndex++] = extras.getDouble("longitude_" + membroCount);
+            }
+        }else {
+            location = new Double[2];
+            location[0] = extras.getDouble(Constants.EXTRA_LATITUDE);
+            location[1] = extras.getDouble(Constants.EXTRA_LONGITUDE);
+        }
 
-        Double[] location = new Double[2];
-        location[0] = extras.getDouble(Constants.EXTRA_LATITUDE);
-        location[1] = extras.getDouble(Constants.EXTRA_LONGITUDE);
         new GoogleMapsThumbAsyncTask(RedeActivity.this).execute(location);
 
         settings = getSharedPreferences("RVP", 0);

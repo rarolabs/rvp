@@ -77,6 +77,16 @@ public class Membro {
         return getRede().getNome();
     }
 
+    @ApiResourceProperty
+    public Double getLatitude(){
+        return getEndereco().getLatitude();
+    }
+
+    @ApiResourceProperty
+    public Double getLongitude(){
+        return getEndereco().getLongitude();
+    }
+
     public void setStatus(Status status) {
         this.status = status;
     }
@@ -247,6 +257,20 @@ public class Membro {
         return m;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Membro{" +
+                "id=" + id +
+                ", papel=" + papel +
+                ", status=" + status +
+                ", dataAssociacao=" + dataAssociacao +
+                ", visibilidadeEmail=" + visibilidadeEmail +
+                ", visibilidadeEndereco=" + visibilidadeEndereco +
+                ", visibilidadeTelefoneFixo=" + visibilidadeTelefoneFixo +
+                ", visibilidadeTelefoneCelular=" + visibilidadeTelefoneCelular +
+                ", rede=" + rede +
+                ", usuario=" + usuario +
+                ", endereco=" + endereco +
+                '}';
+    }
 }

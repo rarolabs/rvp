@@ -12,6 +12,7 @@ import java.util.List;
 import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponder;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
+import br.com.rarolabs.rvp.api.rvpAPI.model.RedeDetalhada;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.utils.Formarter;
 
@@ -22,10 +23,10 @@ public class MinhasRedesAdapter extends RecyclerView.Adapter<MinhasRedesAdapter.
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
 
-    private final List<Membro> myDataset;
+    private final List<RedeDetalhada> myDataset;
     private View.OnClickListener mOnClickListener;
 
-    public MinhasRedesAdapter(List<Membro> myDataset) {
+    public MinhasRedesAdapter(List<RedeDetalhada> myDataset) {
         this.myDataset = myDataset;
     }
 
@@ -70,12 +71,13 @@ public class MinhasRedesAdapter extends RecyclerView.Adapter<MinhasRedesAdapter.
     @Override
     public void onBindViewHolder(MinhasRedesAdapter.ViewHolder holder, int position) {
         if (holder instanceof VHItem) {
-            Membro membro = myDataset.get(position - 1);
+            RedeDetalhada membro = myDataset.get(position - 1);
             ((VHItem)holder).nome.setText(membro.getNomeRede());
             ((VHItem)holder).localizacao.setText("Mangabeiras, Belo Horizonte");
 
             if(membro.getStatus().equals("ATIVO")){
                 ((VHItem)holder).icone.setImageResource(R.drawable.ic_redes_perfil_aprovada);
+                ((VHItem)holder).status.setText("");
             }else{
                 ((VHItem)holder).icone.setImageResource(R.drawable.ic_redes_perfil_pendente);
                 ((VHItem)holder).status.setText("PENDENTE");
@@ -89,11 +91,11 @@ public class MinhasRedesAdapter extends RecyclerView.Adapter<MinhasRedesAdapter.
         return myDataset.size() + 1;
     }
 
-    public void addAll(List<Membro> itens){
+    public void addAll(List<RedeDetalhada> itens){
         myDataset.addAll(itens);
     }
 
-    public Membro get(int position) {
+    public RedeDetalhada get(int position) {
         return myDataset.get(position);
     }
 

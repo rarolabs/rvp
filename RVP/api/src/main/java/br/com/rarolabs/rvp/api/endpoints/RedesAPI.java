@@ -20,6 +20,7 @@ import br.com.rarolabs.rvp.api.models.Membro;
 import br.com.rarolabs.rvp.api.models.Rede;
 import br.com.rarolabs.rvp.api.models.Usuario;
 import br.com.rarolabs.rvp.api.responders.GeoqueryResponder;
+import br.com.rarolabs.rvp.api.responders.RedeDetalhada;
 import br.com.rarolabs.rvp.api.service.SearchService;
 
 
@@ -100,13 +101,13 @@ public class RedesAPI {
      * @return Coleção das redes do usuário
      */
     @ApiMethod(name = "minhasRedes")
-    public Collection<Membro> minhasRedes(User user) throws OAuthRequestException {
+    public Collection<RedeDetalhada> minhasRedes(User user) throws OAuthRequestException {
         if(user==null){
             throw new OAuthRequestException("Usuário não autenticado");
         }
 
         System.out.println("Minhas redes chamado");
-        Collection<Membro> redes = Usuario.minhasRedes(user.getEmail());
+        Collection<RedeDetalhada> redes = Usuario.minhasRedes(user.getEmail());
         System.out.println("redes encontradas:" + redes.size() );
         return redes;
     }

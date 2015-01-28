@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import br.com.rarolabs.rvp.api.responders.RedeDetalhada;
 import br.com.rarolabs.rvp.api.service.OfyService;
 
 
@@ -140,9 +141,18 @@ public class Usuario {
     }
 
 
-    public static Collection<Membro> minhasRedes(String usuarioId) {
+    public static Collection<RedeDetalhada> minhasRedes(String usuarioId) {
         Usuario u = OfyService.ofy().load().type(Usuario.class).id(usuarioId).now();
-        return OfyService.ofy().load().type(Membro.class).filter("usuario",u).list();
+        List<Membro> membros =  OfyService.ofy().load().type(Membro.class).filter("usuario",u).list();
+        return detalhaRedes(membros);
+    }
+
+    private static Collection<RedeDetalhada> detalhaRedes(List<Membro> membros) {
+        Collection<RedeDetalhada> redes = new ArrayList<RedeDetalhada>(membros.size());
+        for(Membro m: membros){
+            redes.add(new RedeDetalhada(m));
+        }
+        return redes;
     }
 
     public static Usuario novoUsuario(Usuario usuario) {

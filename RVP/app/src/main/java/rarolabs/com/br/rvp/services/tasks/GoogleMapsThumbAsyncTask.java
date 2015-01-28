@@ -52,8 +52,11 @@ public class GoogleMapsThumbAsyncTask extends AsyncTask<Double, Void, Bitmap> {
 
         String URL = "http://maps.google.com/maps/api/staticmap?center=" + location[0] +
                 "," + location[1] +
-                "&zoom=15&size=360x270&scale="+ density.intValue() +"&sensor=false&"+
-                "&markers=color:red%7Clabel:S%7C"+ location[0]+ ","+ location[1];
+                "&zoom=15&size=360x270&scale="+ density.intValue() +"&sensor=false&";
+
+        URL += addMarkers(location);
+        Log.i("URL", URL);
+
         Bitmap bmp = null;
         HttpClient httpclient = new DefaultHttpClient();
         HttpGet request = new HttpGet(URL);
@@ -76,6 +79,16 @@ public class GoogleMapsThumbAsyncTask extends AsyncTask<Double, Void, Bitmap> {
 
         return bmp;
 
+    }
+
+    private String addMarkers(Double[] location) {
+        StringBuffer buffer = new StringBuffer();
+        Log.d("MARKER","Pontos:" + location.length);
+        for(int i = 0; i < location.length; i+=2){
+            buffer.append("&markers=color:red%7C"+ location[i]+ ","+ location[i+1]);
+        }
+
+        return buffer.toString();
     }
 
     @Override

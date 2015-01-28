@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/E4yl82yyMv_jU2dJNJR7N8Ou4Hs\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/mAO48sSxpXy1-BDruwDBR6JNth4\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -182,6 +182,14 @@
      "type": "string",
      "format": "int64"
     },
+    "latitude": {
+     "type": "number",
+     "format": "double"
+    },
+    "longitude": {
+     "type": "number",
+     "format": "double"
+    },
     "nomeRede": {
      "type": "string"
     },
@@ -260,6 +268,55 @@
     },
     "nome": {
      "type": "string"
+    }
+   }
+  },
+  "RedeDetalhada": {
+   "id": "RedeDetalhada",
+   "type": "object",
+   "properties": {
+    "membroId": {
+     "type": "string",
+     "format": "int64"
+    },
+    "membros": {
+     "type": "array",
+     "items": {
+      "$ref": "Membro"
+     }
+    },
+    "nomeAdministrador": {
+     "type": "string"
+    },
+    "nomeRede": {
+     "type": "string"
+    },
+    "quantidadeMembros": {
+     "type": "integer",
+     "format": "int32"
+    },
+    "redeId": {
+     "type": "string",
+     "format": "int64"
+    },
+    "status": {
+     "$ref": "Status"
+    },
+    "ultimaAtividade": {
+     "type": "string",
+     "format": "date-time"
+    }
+   }
+  },
+  "RedeDetalhadaCollection": {
+   "id": "RedeDetalhadaCollection",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "RedeDetalhada"
+     }
     }
    }
   },
@@ -583,7 +640,7 @@
    "path": "minhasRedes",
    "httpMethod": "POST",
    "response": {
-    "$ref": "MembroCollection"
+    "$ref": "RedeDetalhadaCollection"
    },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.profile"
