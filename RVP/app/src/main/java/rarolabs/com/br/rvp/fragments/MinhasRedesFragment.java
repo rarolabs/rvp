@@ -161,7 +161,7 @@ public class MinhasRedesFragment extends Fragment {
             if(result.size()==0){
                 Toast.makeText(getActivity(), "Você ainda não pertence a nenhuma rede", Toast.LENGTH_SHORT).show();
             }else{
-                mAdapter.clear();
+                //mAdapter.clear();
                 mAdapter.addAll(result);
                 mAdapter.notifyDataSetChanged();
             }
