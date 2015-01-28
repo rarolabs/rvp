@@ -69,7 +69,7 @@ public class MinhasRedesFragment extends Fragment {
         MainActivity activity = (MainActivity) getActivity();
         activity.setRecycleView(mRecyclerView);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.minhas_redes_swipe_refresh_layout);
-        mSwipeRefreshLayout.setProgressViewOffset(false,145,185);
+        mSwipeRefreshLayout.setProgressViewOffset(false,150,190);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                                                      @Override
                                                      public void onRefresh() {
