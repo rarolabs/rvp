@@ -8,6 +8,7 @@ import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
@@ -86,6 +87,8 @@ public class MainActivity extends ActionBarActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_actionbar_menu);
+        toolbar.setNavigationContentDescription("Menu");
+
         setSupportActionBar(toolbar);
 //        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -109,6 +112,7 @@ public class MainActivity extends ActionBarActivity
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+
         //mTitle = (TextView) findViewById(R.id.title);
 
         // Set up the drawer.
@@ -179,6 +183,7 @@ public class MainActivity extends ActionBarActivity
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.container, fragment, "MAIN_FRAGMENT_" + sectionNumer)
+                    .addToBackStack("MAIN_FRAGMENT_" + sectionNumer)
                     .commit();
 
     }
@@ -209,6 +214,7 @@ public class MainActivity extends ActionBarActivity
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle("");
+
     }
 
 
@@ -273,16 +279,14 @@ public class MainActivity extends ActionBarActivity
                 sectionNumer = SECTION_BUSCA_REDES;
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, fragment, "MAIN_FRAGMENT_" + SECTION_BUSCA_REDES)
+                        .addToBackStack("MAIN_FRAGMENT_" + SECTION_BUSCA_REDES)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .commit();
                 onSectionAttached(fragment);
                 break;
 
             case R.id.action_voltar:
-                fragment = getFragmentBySection(SECTION_MINHAS_REDES);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, fragment, "MAIN_FRAGMENT_" + SECTION_MINHAS_REDES)
-                        .commit();
-                onSectionAttached(fragment);
+                onBackPressed();
                 break;
 
         }
@@ -392,5 +396,12 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
+    public void onBackPressed() {
+        FragmentManager fragmentManager = getFragmentManager();
+        if (fragmentManager.getBackStackEntryCount() > 1){
+            fragmentManager.popBackStackImmediate();
+            fragmentManager.beginTransaction().commit();
+        }
 
+    }
 }
