@@ -1,6 +1,7 @@
 package rarolabs.com.br.rvp.activities;
 
 import android.accounts.AccountManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -81,7 +83,7 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
     private String email;
     private EditText nomeRede;
     private boolean novaRede;
-
+    ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -298,7 +300,6 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
         switch (id){
 
             case  R.id.action_confirmar:
-                Toast.makeText(this,"Enviando solicitação",Toast.LENGTH_LONG).show();
                 validator.validate();
                 return true;
         }
@@ -314,6 +315,9 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
 
     @Override
     public void onValidationSucceeded() {
+        hideKeyboard();
+        progress = ProgressDialog.show(this, getString(R.string.aguarde),
+                getString(R.string.enviando_solicitacao, true));
 
         Usuario u = new Usuario();
         u.setNome(nome.getText().toString());
@@ -379,13 +383,15 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
 
 
     public void error(String descricao) {
+        progress.dismiss();
         Toast.makeText(this,descricao,Toast.LENGTH_LONG).show();
     }
 
     public void ok() {
-
+        progress.dismiss();
         Toast.makeText(this,"Sua solicitação foi enviada com sucesso!",Toast.LENGTH_SHORT).show();
         saveFromPrefs();
+        finish();
 
     }
 
@@ -405,5 +411,13 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
         editor.commit();
     }
 
+    private void hideKeyboard() {
+        // Check if no view has focus:
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
 
 }

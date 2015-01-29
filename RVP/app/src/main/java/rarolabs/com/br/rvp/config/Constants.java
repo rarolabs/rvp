@@ -29,4 +29,6 @@ public class Constants {
     public static final java.lang.String EXTRA_ID_REDE = "id";
 
     public static final String EXTRA_MEMBRO = "membro";
+    public static final java.lang.String EXTRA_PAPEL = "papel";
+    public static final java.lang.String EXTRA_MEMBRO_ID = "membro_id";
 }

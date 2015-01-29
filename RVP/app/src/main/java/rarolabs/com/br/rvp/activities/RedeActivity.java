@@ -2,6 +2,7 @@ package rarolabs.com.br.rvp.activities;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -14,12 +15,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.config.GlobalValues;
+import rarolabs.com.br.rvp.services.tasks.DeixarRedeAsyncTask;
 import rarolabs.com.br.rvp.services.tasks.GoogleMapsThumbAsyncTask;
 
 public class RedeActivity extends Activity {
@@ -33,6 +36,9 @@ public class RedeActivity extends Activity {
     private Bundle extras;
     private boolean membro;
     private int quantidadeMembros;
+    private String papel;
+    ProgressDialog progress;
+    private Long membroId;
 
 
     @Override
@@ -50,7 +56,9 @@ public class RedeActivity extends Activity {
             extras = ((GlobalValues)getApplicationContext()).getUltimaRede();
         }
 
-        membro = extras.getBoolean(Constants.EXTRA_MEMBRO,false);
+        membro = extras.getBoolean(Constants.EXTRA_MEMBRO, false);
+        membroId = extras.getLong(Constants.EXTRA_MEMBRO_ID, 0l);
+
 
 
 
@@ -70,23 +78,22 @@ public class RedeActivity extends Activity {
         entrarNaRede.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                entrar();
+                entrarOuSair();
             }
         });
+        if(membro){
+            entrarNaRede.setImageResource(android.R.drawable.ic_menu_delete);
+        }else{
+            entrarNaRede.setImageResource(R.drawable.ic_actionbar_confirmar);
+        }
 
         thumb = (ImageView) findViewById(R.id.thumb);
-        Double[] location = null;
-        if(membro){
-            location = new Double[quantidadeMembros * 2];
-            int locationIndex = 0;
-            for(int membroCount = 0; membroCount < quantidadeMembros; membroCount++){
-                location[locationIndex++] = extras.getDouble("latitude_" + membroCount);
-                location[locationIndex++] = extras.getDouble("longitude_" + membroCount);
-            }
-        }else {
-            location = new Double[2];
-            location[0] = extras.getDouble(Constants.EXTRA_LATITUDE);
-            location[1] = extras.getDouble(Constants.EXTRA_LONGITUDE);
+        Double[] location = new Double[quantidadeMembros * 2];
+
+        int locationIndex = 0;
+        for(int membroCount = 0; membroCount < quantidadeMembros; membroCount++){
+            location[locationIndex++] = extras.getDouble("latitude_" + membroCount);
+            location[locationIndex++] = extras.getDouble("longitude_" + membroCount);
         }
 
         new GoogleMapsThumbAsyncTask(RedeActivity.this).execute(location);
@@ -95,6 +102,19 @@ public class RedeActivity extends Activity {
 
     }
 
+    private void entrarOuSair() {
+        if(membro){
+            sair();
+        }else{
+            entrar();
+        }
+    }
+
+    private void sair() {
+        progress = ProgressDialog.show(this, getString(R.string.aguarde),
+                getString(R.string.enviando_solicitacao, true));
+        new DeixarRedeAsyncTask(this).execute(membroId);
+    }
 
 
     private void entrar() {
@@ -139,5 +159,16 @@ public class RedeActivity extends Activity {
 
     public void setThumb(Bitmap result) {
         thumb.setImageBitmap(result);
+    }
+
+    public void error(String descricao) {
+        progress.dismiss();
+        Toast.makeText(this,descricao,Toast.LENGTH_LONG).show();
+    }
+
+    public void ok() {
+        progress.dismiss();
+        Toast.makeText(this,R.string.nao_faz_mais_parte_da_rede,Toast.LENGTH_LONG).show();
+        finish();
     }
 }

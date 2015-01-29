@@ -49,6 +49,7 @@ public class MinhasRedesFragment extends Fragment {
     private MinhasRedesAdapter mAdapter;
     private Loading loading;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private String currentUser;
 
     // TODO: Rename and change types and number of parameters
     public static MinhasRedesFragment newInstance(String param1, String param2) {
@@ -66,6 +67,7 @@ public class MinhasRedesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAdapter = new MinhasRedesAdapter(new ArrayList<RedeDetalhada>());
+        currentUser = getActivity().getSharedPreferences("RVP",0).getString(Constants.ACCOUNT,null);
     }
 
     @Override
@@ -111,6 +113,9 @@ public class MinhasRedesFragment extends Fragment {
                             i.putExtra(Constants.EXTRA_QUANTIDADE_MEMBROS, rede.getQuantidadeMembros());
                             int pos = 0;
                             for(Membro m : rede.getMembros()){
+                                if(m.getUsuarioId().equals(currentUser)){
+                                    i.putExtra(Constants.EXTRA_MEMBRO_ID,m.getId());
+                                }
                                 i.putExtra("latitude_" + pos,m.getLatitude());
                                 i.putExtra("longitude_" + pos,m.getLongitude());
                                 pos++;

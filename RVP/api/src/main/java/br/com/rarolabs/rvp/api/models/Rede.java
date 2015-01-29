@@ -242,25 +242,26 @@ public class Rede {
         return r.membrosAtivos();
     }
 
+    public static Collection<Membro> membrosAdministradores(Long redeId) {
+        Objectify ofy = OfyService.ofy();
+        Rede r = ofy.load().type(Rede.class).id(redeId).now();
+        return r.membrosAdministradores();
+    }
+
+
 
     public Collection<Membro> membrosAtivos() {
         Collection<Membro> membros =  getMembros();
-        System.out.println("Membros ativos:" + membros.size());
-        Collection<Membro> filteredMembros =  Collections2.filter(membros, new com.google.common.base.Predicate<Membro>() {
-            @Override
-            public boolean apply(@Nullable Membro input) {
-                System.out.println("Membro:" + input.getId());
-                System.out.println("Membro:" + input.getStatus());
-                System.out.println("Membro:" + input.getStatus().equals(Membro.Status.ATIVO));
-                System.out.println("Membro:" + (input.getStatus() == Membro.Status.ATIVO));
-
-                return input.getStatus().equals(Membro.Status.ATIVO);
-            }
-        });
-
-        System.out.println("Quantidade de elementos filtrados..." + filteredMembros.size());
-        return filteredMembros;
+        return Rede.filtrarMembrosAtivos(membros);
     }
+
+    public Collection<Membro> membrosAdministradores() {
+        Collection<Membro> membros =  getMembros();
+        return Rede.filtrarMembrosAdministradores(membros);
+    }
+
+
+
 
     public static Rede buscar(Long id) throws NotFoundException {
         Objectify ofy = OfyService.ofy();
@@ -298,5 +299,49 @@ public class Rede {
     private static boolean podeApagar(Rede r, Usuario u) throws OAuthRequestException {
 
         return r.getDono().getUsuario().getId() == u.getId();
+    }
+
+
+    public static Collection<Membro> filtrarMembrosAdministradores(Collection<Membro> membros) {
+
+        Collection<Membro> filteredMembros =  Collections2.filter(membros, new com.google.common.base.Predicate<Membro>() {
+            @Override
+            public boolean apply(@Nullable Membro input) {
+
+                return input.getPapel().equals(Membro.Papel.ADMIN) ||
+                        input.getPapel().equals(Membro.Papel.CRIADOR);
+            }
+        });
+
+        return filteredMembros;
+
+    }
+
+    public static Collection<Membro> filtrarMembrosAtivos(Collection<Membro> membros) {
+
+        Collection<Membro> filteredMembros =  Collections2.filter(membros, new com.google.common.base.Predicate<Membro>() {
+            @Override
+            public boolean apply(@Nullable Membro input) {
+
+                return input.getStatus().equals(Membro.Status.ATIVO);
+            }
+        });
+
+        return filteredMembros;
+
+    }
+
+    public static Collection<Membro> filtrarMinhasRedes(List<Membro> membros) {
+        Collection<Membro> filteredMembros =  Collections2.filter(membros, new com.google.common.base.Predicate<Membro>() {
+            @Override
+            public boolean apply(@Nullable Membro input) {
+
+                return input.getStatus().equals(Membro.Status.ATIVO) ||
+                       input.getStatus().equals(Membro.Status.AGUARDANDO_APROVACAO);
+            }
+        });
+
+        return filteredMembros;
+
     }
 }

@@ -11,7 +11,9 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Load;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import br.com.rarolabs.rvp.api.service.OfyService;
 import br.com.rarolabs.rvp.api.service.SearchService;
@@ -256,6 +258,28 @@ public class Membro {
         ofy.save().entity(m).now();
         return m;
     }
+
+    public static void deixarRede(Long membroId,String email) throws ForbiddenException {
+        Objectify ofy = OfyService.ofy();
+        Membro m = ofy.load().type(Membro.class).id(membroId).now();
+
+        if(!m.getUsuarioId().equals(email)){
+            throw new ForbiddenException("Somente o próprio membro pode deixar a rede");
+        }
+
+        if(m.getPapel() == Papel.CRIADOR || m.getPapel() == Papel.ADMIN){
+            Collection<Membro> membros = m.getRede().getMembros();
+            if(membros.size() > 1 &&
+               Rede.filtrarMembrosAdministradores(membros).size() < 2){
+                throw new ForbiddenException("Você deve nomear outro administrador antes de deixar a rede");
+            }
+        }
+
+        m.setStatus(Status.INATIVO);
+        ofy.save().entity(m).now();
+
+    }
+
 
     @Override
     public String toString() {

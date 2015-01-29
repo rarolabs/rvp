@@ -109,6 +109,14 @@ public class BackendServices {
         }
     }
 
+    public  void deixarRede(Long idMembro) throws BackendExpection {
+        try {
+            service.deixarRede(idMembro).execute();
+        } catch (IOException e) {
+            throw new BackendExpection(e);
+        }
+    }
+
     public  RedeDetalhadaCollection minhasRedes() throws BackendExpection {
         try {
             return service.minhasRedes().execute();

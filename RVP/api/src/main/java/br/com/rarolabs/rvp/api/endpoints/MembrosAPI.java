@@ -153,6 +153,20 @@ public class MembrosAPI {
     }
 
     /**
+     * Deixa a rede
+     * @param membroId id do Membro
+     * @return Membro
+     * @throws NotFoundException Pode ser lançada caso alguma entidade não exista
+     * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
+     */
+    @ApiMethod(name = "deixarRede")
+    public void deixarRede(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException, OAuthRequestException {
+        if(user==null){
+            throw new OAuthRequestException("Usuário não autenticado");
+        }
+        Membro.deixarRede(membroId,user.getEmail());
+    }
+    /**
      * Torna um usuário a autoridade policial da rede
      * @param membroId id do Membro
      * @return Membro

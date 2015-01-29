@@ -12,7 +12,10 @@
         <item name="colorControlHighlight">@color/color_control_activated</item>
         <!--<item name="android:windowActionBar">false</item>-->
         <!--<item name="windowActionBar">false</item>-->
+
+
     </style>
+
 
     <style name="AppTheme.Base.ActionBar" parent="Theme.AppCompat.Light">
         <!-- customize the color palette -->

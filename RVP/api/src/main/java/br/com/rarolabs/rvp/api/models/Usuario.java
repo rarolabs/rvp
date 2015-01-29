@@ -143,11 +143,13 @@ public class Usuario {
 
     public static Collection<RedeDetalhada> minhasRedes(String usuarioId) {
         Usuario u = OfyService.ofy().load().type(Usuario.class).id(usuarioId).now();
-        List<Membro> membros =  OfyService.ofy().load().type(Membro.class).filter("usuario",u).list();
-        return detalhaRedes(membros);
+        List<Membro> membros =  OfyService.ofy().load().type(Membro.class)
+                                                .filter("usuario",u).list();
+
+        return detalhaRedes(Rede.filtrarMinhasRedes(membros));
     }
 
-    private static Collection<RedeDetalhada> detalhaRedes(List<Membro> membros) {
+    private static Collection<RedeDetalhada> detalhaRedes(Collection<Membro> membros) {
         Collection<RedeDetalhada> redes = new ArrayList<RedeDetalhada>(membros.size());
         for(Membro m: membros){
             redes.add(new RedeDetalhada(m));
