@@ -61,14 +61,6 @@ public class BackendServices {
         loadService();
     }
 
-    public  void apagarRede(Long id) throws BackendExpection {
-        try {
-            service.apagarRede(id).execute();
-        } catch (IOException e) {
-            throw new BackendExpection(e);
-        }
-    }
-
     public  Membro ativarVizinho(Long idMembro) throws BackendExpection {
         try {
             return service.ativarVizinho(idMembro).execute();

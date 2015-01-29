@@ -16,7 +16,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.MapFragment;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponder;
 import rarolabs.com.br.rvp.R;
@@ -122,6 +124,9 @@ public class GeoqueryResponderFragment extends Fragment implements AbsListView.O
                         i.putExtra(Constants.EXTRA_NOME_REDE,geo.getNomeRede());
                         i.putExtra(Constants.EXTRA_ENDERECO_REDE,"Nao sei ainda");
                         i.putExtra(Constants.EXTRA_NOME_ADMIN,geo.getNomeAdministrador());
+                        SimpleDateFormat sdf = new SimpleDateFormat("E, d 'de' M 'de' yyyy 'às' HH:mm");
+                        i.putExtra(Constants.EXTRA_ULTIMA_ATIVIDADE, sdf.format(new Date(geo.getUltimaAtividade().getValue())));
+
                         i.putExtra(Constants.EXTRA_ULTIMA_ATIVIDADE,geo.getUltimaAtividade().toString());
                         i.putExtra(Constants.EXTRA_QUANTIDADE_MEMBROS,geo.getQuantidadeMembros());
                         i.putExtra(Constants.EXTRA_LATITUDE,geo.getLatitude());

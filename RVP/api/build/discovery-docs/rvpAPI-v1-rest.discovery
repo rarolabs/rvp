@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/qpXe7KftpN5iZoxZ7JMCas3sRkg\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/EkUIr-xYGOabCOHVap_MrOrkG2Y\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -379,25 +379,6 @@
   }
  },
  "methods": {
-  "apagarRede": {
-   "id": "rvpAPI.apagarRede",
-   "path": "apagarRede/{id}",
-   "httpMethod": "POST",
-   "parameters": {
-    "id": {
-     "type": "string",
-     "required": true,
-     "format": "int64",
-     "location": "path"
-    }
-   },
-   "parameterOrder": [
-    "id"
-   ],
-   "scopes": [
-    "https://www.googleapis.com/auth/userinfo.profile"
-   ]
-  },
   "aprovarAssociacao": {
    "id": "rvpAPI.aprovarAssociacao",
    "path": "aprovarAssociacao/{membro_id}",

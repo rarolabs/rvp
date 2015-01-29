@@ -67,19 +67,6 @@ public class RedesAPI {
     }
 
     /**
-     * Apaga uma rede
-     * @param id ID da rede a ser apagada
-     */
-    @ApiMethod(name ="apagarRede")
-    public void apagarRede(@Named("id") Long id,User user) throws OAuthRequestException {
-        if(user==null){
-            throw new OAuthRequestException("Usuário não autenticado");
-        }
-
-        Rede.apagar(id,user.getEmail());
-    }
-
-    /**
      * Busca redes próximas do usuário
      * @param latitude Latitude de origem da busca
      * @param longitude Longitude de origim da busca

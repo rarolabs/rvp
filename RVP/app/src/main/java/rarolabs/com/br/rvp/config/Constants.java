@@ -24,8 +24,8 @@ public class Constants {
     public static final java.lang.String EXTRA_NOME_ADMIN = "nome_admin";
     public static final java.lang.String EXTRA_ULTIMA_ATIVIDADE = "ultima_atividade";
     public static final java.lang.String EXTRA_QUANTIDADE_MEMBROS = "quantidade_membros";
-    public static final java.lang.String EXTRA_LATITUDE = "latitude";
-    public static final java.lang.String EXTRA_LONGITUDE = "logintude";
+    public static final java.lang.String EXTRA_LATITUDE = "latitude_0";
+    public static final java.lang.String EXTRA_LONGITUDE = "logintude_0";
     public static final java.lang.String EXTRA_ID_REDE = "id";
 
     public static final String EXTRA_MEMBRO = "membro";

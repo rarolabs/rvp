@@ -17,7 +17,9 @@ import android.widget.Toast;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
@@ -109,7 +111,8 @@ public class MinhasRedesFragment extends Fragment {
                             i.putExtra(Constants.EXTRA_NOME_REDE, rede.getNomeRede());
                             i.putExtra(Constants.EXTRA_ENDERECO_REDE, "Nao sei ainda");
                             i.putExtra(Constants.EXTRA_NOME_ADMIN, rede.getNomeAdministrador());
-                            i.putExtra(Constants.EXTRA_ULTIMA_ATIVIDADE, rede.getUltimaAtividade().toString());
+                            SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d 'de' MMMM 'de' yyyy 'às' HH:mm");
+                            i.putExtra(Constants.EXTRA_ULTIMA_ATIVIDADE, sdf.format(new Date(rede.getUltimaAtividade().getValue())));
                             i.putExtra(Constants.EXTRA_QUANTIDADE_MEMBROS, rede.getQuantidadeMembros());
                             int pos = 0;
                             for(Membro m : rede.getMembros()){

@@ -4,6 +4,7 @@ import com.google.api.server.spi.config.AnnotationBoolean;
 import com.google.api.server.spi.config.ApiResourceProperty;
 import com.google.api.server.spi.response.ForbiddenException;
 import com.google.api.server.spi.response.NotFoundException;
+import com.google.appengine.api.oauth.OAuthRequestException;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
@@ -259,24 +260,30 @@ public class Membro {
         return m;
     }
 
-    public static void deixarRede(Long membroId,String email) throws ForbiddenException {
+    public static void deixarRede(Long membroId,String email) throws ForbiddenException, OAuthRequestException {
         Objectify ofy = OfyService.ofy();
         Membro m = ofy.load().type(Membro.class).id(membroId).now();
 
         if(!m.getUsuarioId().equals(email)){
             throw new ForbiddenException("Somente o próprio membro pode deixar a rede");
         }
-
+        boolean excluirRede = false;
         if(m.getPapel() == Papel.CRIADOR || m.getPapel() == Papel.ADMIN){
             Collection<Membro> membros = m.getRede().getMembros();
             if(membros.size() > 1 &&
                Rede.filtrarMembrosAdministradores(membros).size() < 2){
                 throw new ForbiddenException("Você deve nomear outro administrador antes de deixar a rede");
+            }else{
+                excluirRede = true;
             }
-        }
 
-        m.setStatus(Status.INATIVO);
-        ofy.save().entity(m).now();
+        }
+        if(excluirRede){
+           m.getRede().apagar();
+        }else {
+            m.setStatus(Status.INATIVO);
+            ofy.save().entity(m).now();
+        }
 
     }
 
