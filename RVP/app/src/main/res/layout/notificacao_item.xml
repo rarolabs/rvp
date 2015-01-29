@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="0dp">
+    <TextView
+        android:id="@+id/secao"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:fontFamily="Roboto-Bold"
+        android:paddingLeft="57dp"
+        android:paddingTop="29dp"
+        android:text="Ontem"
+        android:textColor="@color/fonte_busca_rede_bairro"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/icone"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginRight="16dp"
+            android:gravity="top"
+            android:src="@drawable/ic_cadastro_foto_vazia"
+            android:layout_marginTop="4dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="26dp"
+                android:orientation="horizontal"
+                android:paddingBottom="0dp">
+                <TextView
+                    android:id="@+id/titulo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:clickable="false"
+                    android:fontFamily="Roboto-Medium"
+                    android:gravity="top"
+                    android:lines="2"
+                    android:maxLines="1"
+                    android:text="Solicitação"
+                    android:textColor="@color/fonte_busca_rede"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="0dp"
+                    android:textStyle="bold"
+
+                    />
+                <TextView
+                    android:id="@+id/data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:clickable="false"
+                    android:fontFamily="Roboto-Medium"
+                    android:gravity="top|right"
+                    android:lines="2"
+                    android:maxLines="1"
+                    android:text="13/02/2015 às 22:30"
+                    android:textColor="@color/fonte_busca_rede_bairro"
+                    android:textSize="10sp"
+                    android:layout_marginRight="5dp"
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/texto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:fontFamily="Roboto-Medium"
+                android:maxLines="20"
+                android:text="Arthur Gouveia gostaria de se tornar membro da rede Ipanema Kings"
+                android:textColor="@color/fonte_busca_rede_bairro"
+                android:textSize="14sp"
+                android:paddingBottom="16dp"
+                />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@drawable/list_divider"
+                android:clickable="false" />
+
+            </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -23,6 +23,7 @@
     <color name="drawer_item_color">#4d4d4d</color>
     <color name="drawer_item_bg">#eceff1</color>
     <color name="fonte_status">#FF7043</color>
+    <color name="fonte_descricao_dialogo">#666666</color>
 
 
 </resources>

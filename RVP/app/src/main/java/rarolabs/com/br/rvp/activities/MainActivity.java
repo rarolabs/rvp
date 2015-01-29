@@ -37,6 +37,7 @@ import rarolabs.com.br.rvp.fragments.BuscaRedeFragment;
 import rarolabs.com.br.rvp.fragments.GeoqueryResponderFragment;
 import rarolabs.com.br.rvp.fragments.MinhasRedesFragment;
 import rarolabs.com.br.rvp.fragments.NavigationDrawerFragment;
+import rarolabs.com.br.rvp.fragments.NotificacaoDialogFragment;
 import rarolabs.com.br.rvp.fragments.NotificacoesFragment;
 
 
@@ -46,6 +47,8 @@ public class MainActivity extends ActionBarActivity
                    GeoqueryResponderFragment.OnFragmentInteractionListener,
                    BuscaRedeFragment.OnFragmentInteractionListener,
                    MinhasRedesFragment.OnFragmentInteractionListener,
+                   NotificacoesFragment.OnFragmentInteractionListener,
+                   NotificacaoDialogFragment.OnFragmentInteractionListener,
                    ObservableScrollViewCallbacks {
 
 

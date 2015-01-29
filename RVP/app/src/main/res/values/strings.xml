@@ -65,5 +65,8 @@
     <string name="aguarde">Aguarde</string>
     <string name="enviando_solicitacao">enviando solicitação...</string>
     <string name="nao_faz_mais_parte_da_rede">Você não faz mais parte dessa rede</string>
+    <string name="exemplo_tornar_membro"><b>Arthur Golveia</b> gostaria de se tornar membro da rede <b>Ipanema Kings</b></string>
+    <string name="tornar_administrador">Tornar administrador</string>
+    <string name="tonar_autoridade_policial">Autoridade policial</string>
 
 </resources>
