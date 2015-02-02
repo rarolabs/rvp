@@ -21,7 +21,7 @@ import com.melnykov.fab.FloatingActionButton;
 
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.config.Constants;
-import rarolabs.com.br.rvp.config.GlobalValues;
+import rarolabs.com.br.rvp.config.RVPApp;
 import rarolabs.com.br.rvp.services.tasks.DeixarRedeAsyncTask;
 import rarolabs.com.br.rvp.services.tasks.GoogleMapsThumbAsyncTask;
 
@@ -53,7 +53,7 @@ public class RedeActivity extends Activity {
         Intent i = getIntent();
         extras = i.getExtras();
         if(extras == null){
-            extras = ((GlobalValues)getApplicationContext()).getUltimaRede();
+            extras = ((RVPApp)getApplicationContext()).getUltimaRede();
         }
 
         membro = extras.getBoolean(Constants.EXTRA_MEMBRO, false);
@@ -130,7 +130,7 @@ public class RedeActivity extends Activity {
         builder.setContentIntent(pendingIntent);
         i.putExtra(Constants.EXTRA_ID_REDE,redeId);
 
-        ((GlobalValues)getApplicationContext()).setUltimaRede(extras);
+        ((RVPApp)getApplicationContext()).setUltimaRede(extras);
         startActivity(i);
 
     }

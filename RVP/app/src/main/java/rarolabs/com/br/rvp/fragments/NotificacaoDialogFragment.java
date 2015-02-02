@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.SwitchCompat;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -87,7 +86,7 @@ public class NotificacaoDialogFragment extends DialogFragment {
 
 
         mDescricao = (TextView) mView.findViewById(R.id.descricao);
-        String descricao = String.format(getResources().getString(R.string.descricao_dialog_notificacao), mNomeUser, mNomeRede);
+        String descricao = String.format(getResources().getString(R.string.descricao_notificacao_solicitacao), mNomeUser, mNomeRede);
 
         mDescricao.setText(Html.fromHtml(descricao));
 

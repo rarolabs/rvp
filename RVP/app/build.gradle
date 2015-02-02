@@ -49,6 +49,7 @@ dependencies {
     compile 'com.mobsandgeeks:android-saripaar:2.0-SNAPSHOT'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     compile 'com.github.ksoichiro:android-observablescrollview:1.4.0'
+    compile 'com.github.satyan:sugar:1.3'
 
 }
 

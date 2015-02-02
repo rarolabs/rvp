@@ -1,13 +1,14 @@
 package rarolabs.com.br.rvp.models;
 
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
+import android.content.Context;
+import android.text.Html;
 import android.text.Spanned;
 
-import java.lang.reflect.Field;
+import com.orm.SugarRecord;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+import java.util.List;
 
 
 import rarolabs.com.br.rvp.R;
@@ -15,14 +16,15 @@ import rarolabs.com.br.rvp.R;
 /**
  * Created by rodrigosol on 1/29/15.
  */
-public class Notificacao implements Iconable  {
+public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
+
 
 
 
     public enum TipoAlerta {VEICULO_SUSPEITO,PESSOA_SUSPEITA,
         PANICO,PORTAO_ABERTO,SUSPEITA_DE_INVACAO,AUSENCIA, MUDANCA,INCENDIO}
 
-    public enum TipoStatus {ADMINISTRADOR,NOVO_MEMBRO}
+    public enum TipoStatus {NOVO_MEMBRO,NOVO_ADMINSTRADOR,NOVA_AUTORIDADE}
 
     public enum Tipo {SOLICITACAO,ALERTA,SISTEMA,STATUS}
 
@@ -31,8 +33,7 @@ public class Notificacao implements Iconable  {
 
     private String titulo;
     private Date data;
-    private Spanned texto;
-    private Drawable icon;
+    private int icon;
     private Boolean lido = false;
     private Tipo tipo;
     private Boolean secao = false;
@@ -42,15 +43,15 @@ public class Notificacao implements Iconable  {
     private Long membroId;
     private String nomeUsuario;
     private String nomeRede;
+    private String texto;
 
 
-
-
+    public Notificacao() {
+    }
 
     public Notificacao(String titulo, Date data, Spanned texto, Tipo tipo) {
         this.titulo = titulo;
         this.data = data;
-        this.texto = texto;
         this.tipo = tipo;
     }
 
@@ -79,19 +80,31 @@ public class Notificacao implements Iconable  {
         this.data = data;
     }
 
-    public Spanned getTexto() {
-        return texto;
+    public Spanned getTexto(Context context) {
+        String str = null;
+        switch (tipo){
+            case SOLICITACAO:
+                return Html.fromHtml(String.format(context.getString(R.string.descricao_notificacao_solicitacao), nomeUsuario, nomeRede));
+            case STATUS:
+                switch (tipoStatus){
+                    case NOVO_MEMBRO:
+                        return Html.fromHtml(String.format(context.getString(R.string.descricao_notificacao_novo_membro), nomeUsuario, nomeRede));
+                    case NOVO_ADMINSTRADOR:
+                        return Html.fromHtml(String.format(context.getString(R.string.descricao_notificacao_novo_admin), nomeUsuario, nomeRede));
+                    case NOVA_AUTORIDADE:
+                        return Html.fromHtml(String.format(context.getString(R.string.descricao_notificacao_nova_autoridade), nomeUsuario, nomeRede));
+
+                }
+        }
+        return Html.fromHtml("Nao implementado");
+
     }
 
-    public void setTexto(Spanned texto) {
-        this.texto = texto;
-    }
-
-    public Drawable getIcon() {
+    public int getIcon() {
         return icon;
     }
 
-    public void setIcon(Drawable icon) {
+    public void setIcon(int icon) {
         this.icon = icon;
     }
 
@@ -211,10 +224,13 @@ public class Notificacao implements Iconable  {
             return "ic_drawer_notificacoes_normal";
         }
         switch (tipoStatus){
-            case ADMINISTRADOR:
+            case NOVO_ADMINSTRADOR:
                 return getIconeFromString("ic_notificacoes_novo_admin",lido);
             case NOVO_MEMBRO:
                 return "ic_cadastro_foto_vazia";
+            case NOVA_AUTORIDADE:
+                return getIconeFromString("ic_alertas_policia",lido);
+
         }
         return "";
     }
@@ -246,5 +262,29 @@ public class Notificacao implements Iconable  {
         return nome+"_" +sufixo;
     }
 
+    public static long totalNotificacoes() {
+        return Notificacao.count(Notificacao.class,null,null);
+
+    }
+
+   public static List<Notificacao> getNotificacoes(Integer skip, Integer count,Notificacao ultimaCarregada){
+       return criaSecoes(Notificacao.findWithQuery(Notificacao.class, "SELECT * FROM notificacao ORDER by data desc LIMIT ?, ?", skip.toString(), count.toString()),ultimaCarregada);
+   }
+
+    private static List<Notificacao> criaSecoes(List<Notificacao> notificacaos,Notificacao ultimaCarregada) {
+        String secaoAtual = "";
+        if(ultimaCarregada!=null){
+            secaoAtual = ultimaCarregada.getSecao();
+        }
+        for(Notificacao n: notificacaos){
+            if(!n.getSecao().equals(secaoAtual)){
+                n.setSecao(true);
+                secaoAtual = n.getSecao();
+            }else{
+                n.setSecao(false);
+            }
+        }
+        return notificacaos;
+    }
 
 }

@@ -62,8 +62,8 @@ public class NotificacoesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new NotificacoesAdapter(getActivity(),new ArrayList<Notificacao>());
-        currentUser = getActivity().getSharedPreferences("RVP",0).getString(Constants.ACCOUNT,null);
+        mAdapter = new NotificacoesAdapter(getActivity());
+        currentUser = getActivity().getSharedPreferences("RVP", 0).getString(Constants.ACCOUNT, null);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class NotificacoesFragment extends Fragment {
         MainActivity activity = (MainActivity) getActivity();
         activity.setRecycleView(mRecyclerView);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.notificacoes_swipe_refresh_layout);
-        mSwipeRefreshLayout.setProgressViewOffset(false,150,190);
+        mSwipeRefreshLayout.setProgressViewOffset(false, 150, 190);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -98,16 +98,20 @@ public class NotificacoesFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
-                        if(position > 0) {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        if (position > mAdapter.datasetSize()) {
+                            mAdapter.carregarMais();
+
+                        } else if (position > 0) {
                             Notificacao notificacao = mAdapter.get(position - 1);
-                            if(notificacao.getTipo().equals(Notificacao.Tipo.SOLICITACAO)){
+                            if (notificacao.getTipo().equals(Notificacao.Tipo.SOLICITACAO)) {
 
                                 NotificacaoDialogFragment.newInstance(notificacao.getUsuarioId(),
-                                                                      notificacao.getMembroId(),
-                                                                      notificacao.getNomeRede(),
-                                                                   notificacao.getNomeUsuario())
-                                        .show(getFragmentManager(),"NOTIFICACAO_DIALOG");
+                                        notificacao.getMembroId(),
+                                        notificacao.getNomeRede(),
+                                        notificacao.getNomeUsuario())
+                                        .show(getFragmentManager(), "NOTIFICACAO_DIALOG");
                             }
 
                         }
@@ -117,69 +121,63 @@ public class NotificacoesFragment extends Fragment {
         );
 
 
-//        mSwipeRefreshLayout.post(new Runnable() {
-//            @Override public void run() {
-//                mSwipeRefreshLayout.setRefreshing(true);
-//            }
-//        });
         SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
         try {
 
 
-            Notificacao n = new Notificacao("Solicitação",sdf.parse("28012015"), Notificacao.Tipo.SOLICITACAO);
+            Notificacao n = new Notificacao("Solicitação", sdf.parse("28012015"), Notificacao.Tipo.SOLICITACAO);
             n.setSecao(true);
             n.setUsuarioId("rodrigosol@gmail.com");
             n.setNomeRede("Rede teste");
             n.setNomeUsuario("Rodrigo Sol");
             n.setMembroId(0l);
             n.setTipo(Notificacao.Tipo.SOLICITACAO);
-            mAdapter.add(n);
+            n.save();
 
-            n = new Notificacao("Novo membro",sdf.parse("28012015"),
+
+            n = new Notificacao("Novo membro", sdf.parse("28012015"),
                     Html.fromHtml("<b>Amanda Lima</b> foi aceita como membro da rede <b>Ipanema Kings</b>"), Notificacao.Tipo.STATUS);
             n.setTipo(Notificacao.Tipo.STATUS);
             n.setTipoStatus(Notificacao.TipoStatus.NOVO_MEMBRO);
             n.setLido(true);
-            mAdapter.add(n);
+            n.save();
 
-            n = new Notificacao("Novo Administrador",sdf.parse("27012015"),
+
+            n = new Notificacao("Novo Administrador", sdf.parse("27012015"),
                     Html.fromHtml("<b>Henrique Teles</b> te adicionou como novo Administrador da rede <b>Ipanema Kings</b>"), Notificacao.Tipo.STATUS);
             n.setSecao(true);
             n.setTipo(Notificacao.Tipo.STATUS);
-            n.setTipoStatus(Notificacao.TipoStatus.ADMINISTRADOR);
+            n.setTipoStatus(Notificacao.TipoStatus.NOVO_ADMINSTRADOR);
             n.setLido(true);
 
-            mAdapter.add(n);
+            n.save();
 
-            n = new Notificacao("Pânico",sdf.parse("27012015"),
+            n = new Notificacao("Pânico", sdf.parse("27012015"),
                     Html.fromHtml("Acabei de ver quatro capivaras em di..."), Notificacao.Tipo.ALERTA);
             n.setTipo(Notificacao.Tipo.ALERTA);
             n.setTipoAlerta(Notificacao.TipoAlerta.PANICO);
 
 
-            n = new Notificacao("Pessoa suspeita",sdf.parse("27012015"),
+            n = new Notificacao("Pessoa suspeita", sdf.parse("27012015"),
                     Html.fromHtml("Vi 4 sujeitos fantasiados de capivara na r..."), Notificacao.Tipo.ALERTA);
             n.setTipo(Notificacao.Tipo.ALERTA);
             n.setTipoAlerta(Notificacao.TipoAlerta.PESSOA_SUSPEITA);
             n.setLido(false);
 
-            mAdapter.add(n);
+            n.save();
 
 
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        for(int i = 0; i< 100;i++){
-            mAdapter.add(new Notificacao("Titulo",new Date(),Html.fromHtml("Texto"), Notificacao.Tipo.STATUS));
-        }
-        //new MinhasRedesAsyncTask(this).execute();
 
         return view;
 
     }
 
     private void refreshContent() {
-        //new MinhasRedesAsyncTask(this).execute();
+        mAdapter.reflesh();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -207,7 +205,7 @@ public class NotificacoesFragment extends Fragment {
     }
 
     public void error(String descricao) {
-        Toast.makeText(getActivity(),descricao,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), descricao, Toast.LENGTH_SHORT).show();
     }
 
     public void ok(List<RedeDetalhada> result) {
@@ -223,6 +221,7 @@ public class NotificacoesFragment extends Fragment {
 //        }
 
     }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

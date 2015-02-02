@@ -70,6 +70,12 @@
     <string name="tonar_autoridade_policial">Autoridade policial</string>
     <string name="cancelar">CANCELAR</string>
     <string name="tornar_membro">ADICIONAR MEMEBRO</string>
-    <string name="descricao_dialog_notificacao">&lt;b>%1$s&lt;/b> gostaria de se tornar membro da rede &lt;b>%2$s&lt;/b></string>
+    <string name="descricao_notificacao_solicitacao">&lt;b>%1$s&lt;/b> gostaria de se tornar membro da rede &lt;b>%2$s&lt;/b></string>
+    <string name="descricao_notificacao_novo_membro">&lt;b>%1$s&lt;/b> foi adicionado como um novo vizinho da rede &lt;b>%2$s&lt;/b></string>
+    <string name="descricao_notificacao_novo_admin" >&lt;b>%1$s&lt;/b> foi adicionado como um novo administrador da rede &lt;b>%2$s&lt;/b></string>
+    <string name="descricao_notificacao_nova_autoridade">&lt;b>%1$s&lt;/b> foi adicionado como uma nova autoridade policial da rede &lt;b>%2$s&lt;/b></string>
+
+    <string name="carregar_mais" >CARREGAR NOTIFICAÇÕES MAIS ANTIGAS</string>
+    <string name="nao_existe_mais_itens">Não existem mais notificações</string>
 
 </resources>

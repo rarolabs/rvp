@@ -6,7 +6,7 @@ import android.os.Bundle;
 /**
  * Created by rodrigosol on 1/28/15.
  */
-public class GlobalValues extends Application {
+public class RVPApp extends com.orm.SugarApp {
     public Bundle getUltimaRede() {
         return ultimaRede;
     }
