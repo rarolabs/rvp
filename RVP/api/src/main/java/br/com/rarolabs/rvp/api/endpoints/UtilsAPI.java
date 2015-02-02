@@ -1,11 +1,21 @@
 package br.com.rarolabs.rvp.api.endpoints;
 
+import com.google.android.gcm.server.Message;
+import com.google.android.gcm.server.Sender;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import br.com.rarolabs.rvp.api.auth.Constants;
+import br.com.rarolabs.rvp.api.models.Dispositivo;
+import br.com.rarolabs.rvp.api.models.Mensagem;
 import br.com.rarolabs.rvp.api.service.OfyService;
 import com.google.appengine.api.users.User;
+import com.googlecode.objectify.Objectify;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.inject.Named;
 
 /**
  * Created by rodrigosol on 12/30/14.
@@ -27,4 +37,22 @@ import com.google.appengine.api.users.User;
     public void cleanDataBaseForTesting() {
         OfyService.removeAll();
     }
+
+    @ApiMethod(name = "enviarMensagem")
+    public void enviarMensagem(@com.google.api.server.spi.config.Named("mensagem") String mensagen){
+        Sender sender = new Sender(Constants.GCM_API_KEY);
+        Message msg =  new Message.Builder().addData("mensage",mensagen).build();
+        List<Dispositivo> dipositivos = OfyService.ofy().load().type(Dispositivo.class).list();
+        for(Dispositivo dispositivo: dipositivos) {
+            try {
+                System.out.println("Enviando mensagem para:" + dispositivo.getDispositivoId());
+                sender.sendNoRetry(msg,dispositivo.getDispositivoId());
+            } catch (IOException e) {
+                System.out.println("Não foi possivel enviar uma mensagem:" + e.getMessage());
+            }
+        }
+
+    }
+
+
 }

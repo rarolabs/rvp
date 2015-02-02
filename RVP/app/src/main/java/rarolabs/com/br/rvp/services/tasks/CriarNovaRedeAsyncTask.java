@@ -17,6 +17,7 @@ import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
 import rarolabs.com.br.rvp.activities.CadastroActivity;
 import rarolabs.com.br.rvp.activities.RedeActivity;
 import rarolabs.com.br.rvp.config.Constants;
+import rarolabs.com.br.rvp.gcm.GcmRegister;
 import rarolabs.com.br.rvp.services.BackendExpection;
 import rarolabs.com.br.rvp.services.BackendServices;
 
@@ -57,8 +58,8 @@ public class CriarNovaRedeAsyncTask extends AsyncTask<Object, Void, Void> {
                 Log.d("Membro", "Usuario adicionado");
 
                 Log.d("Membro", "Adicionando dispositivo");
-                GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(context);
-                String regId = gcm.register(Constants.PROJECT_NUMBER);
+
+                String regId = settings.getString(Constants.REG_ID,"");
                 backendServices.registrarDispositivo(regId,"Android", String.valueOf(Build.VERSION.SDK_INT));
 
 
@@ -76,8 +77,6 @@ public class CriarNovaRedeAsyncTask extends AsyncTask<Object, Void, Void> {
                     activity.error(e.getDescricao());
                 }
             });
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         return null;
     }

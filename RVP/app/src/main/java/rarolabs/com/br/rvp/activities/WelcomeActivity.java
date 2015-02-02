@@ -18,6 +18,7 @@ import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.fragments.BuscaRedeFragment;
 import rarolabs.com.br.rvp.fragments.GeoqueryResponderFragment;
+import rarolabs.com.br.rvp.gcm.GcmRegister;
 
 
 public class WelcomeActivity extends Activity implements
@@ -27,6 +28,7 @@ public class WelcomeActivity extends Activity implements
     private Button buscarRede;
     private Button novaRede;
     private BuscaRedeFragment buscaRedeFragment;
+    private GcmRegister gcmRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,8 @@ public class WelcomeActivity extends Activity implements
 
         sliderShow.stopAutoCycle();
         sliderShow.addSlider(defaultSliderView);
+
+        gcmRegister = GcmRegister.newInstance(this);
 
         buscarRede = (Button) findViewById(R.id.buscar_rede);
         novaRede = (Button) findViewById(R.id.nova_rede);

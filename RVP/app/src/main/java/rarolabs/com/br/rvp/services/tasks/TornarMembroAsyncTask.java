@@ -60,8 +60,7 @@ public class TornarMembroAsyncTask extends AsyncTask<Object, Void, Void> {
                 Log.d("Membro", "Usuario adicionado");
 
                 Log.d("Membro", "Adicionando dispositivo");
-                GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(context);
-                String regId = gcm.register(Constants.PROJECT_NUMBER);
+                String regId = settings.getString(Constants.REG_ID,"");
                 backendServices.registrarDispositivo(regId,"Android", String.valueOf(Build.VERSION.SDK_INT));
 
 
@@ -81,8 +80,6 @@ public class TornarMembroAsyncTask extends AsyncTask<Object, Void, Void> {
                     activity.error(e.getDescricao());
                 }
             });
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         return null;
     }

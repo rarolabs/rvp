@@ -39,7 +39,7 @@ import rarolabs.com.br.rvp.fragments.MinhasRedesFragment;
 import rarolabs.com.br.rvp.fragments.NavigationDrawerFragment;
 import rarolabs.com.br.rvp.fragments.NotificacaoDialogFragment;
 import rarolabs.com.br.rvp.fragments.NotificacoesFragment;
-
+import rarolabs.com.br.rvp.gcm.GcmRegister;
 
 
 public class MainActivity extends ActionBarActivity
@@ -82,6 +82,7 @@ public class MainActivity extends ActionBarActivity
     private AlertasFragment alertasFragment;
     private NotificacoesFragment notificacoesFragment;
     private BuscaRedeFragment buscaRedeFragment;
+    private GcmRegister gcmRegister;
 
 
     @Override
@@ -94,6 +95,8 @@ public class MainActivity extends ActionBarActivity
 
         setSupportActionBar(toolbar);
 //        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        gcmRegister = GcmRegister.newInstance(MainActivity.this);
 
         mFlexibleSpaceView = findViewById(R.id.flexible_space);
         mTitleView = (TextView) findViewById(R.id.title);

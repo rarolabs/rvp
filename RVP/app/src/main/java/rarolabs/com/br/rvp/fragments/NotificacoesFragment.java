@@ -121,56 +121,6 @@ public class NotificacoesFragment extends Fragment {
         );
 
 
-        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-        try {
-
-
-            Notificacao n = new Notificacao("Solicitação", sdf.parse("28012015"), Notificacao.Tipo.SOLICITACAO);
-            n.setSecao(true);
-            n.setUsuarioId("rodrigosol@gmail.com");
-            n.setNomeRede("Rede teste");
-            n.setNomeUsuario("Rodrigo Sol");
-            n.setMembroId(0l);
-            n.setTipo(Notificacao.Tipo.SOLICITACAO);
-            n.save();
-
-
-            n = new Notificacao("Novo membro", sdf.parse("28012015"),
-                    Html.fromHtml("<b>Amanda Lima</b> foi aceita como membro da rede <b>Ipanema Kings</b>"), Notificacao.Tipo.STATUS);
-            n.setTipo(Notificacao.Tipo.STATUS);
-            n.setTipoStatus(Notificacao.TipoStatus.NOVO_MEMBRO);
-            n.setLido(true);
-            n.save();
-
-
-            n = new Notificacao("Novo Administrador", sdf.parse("27012015"),
-                    Html.fromHtml("<b>Henrique Teles</b> te adicionou como novo Administrador da rede <b>Ipanema Kings</b>"), Notificacao.Tipo.STATUS);
-            n.setSecao(true);
-            n.setTipo(Notificacao.Tipo.STATUS);
-            n.setTipoStatus(Notificacao.TipoStatus.NOVO_ADMINSTRADOR);
-            n.setLido(true);
-
-            n.save();
-
-            n = new Notificacao("Pânico", sdf.parse("27012015"),
-                    Html.fromHtml("Acabei de ver quatro capivaras em di..."), Notificacao.Tipo.ALERTA);
-            n.setTipo(Notificacao.Tipo.ALERTA);
-            n.setTipoAlerta(Notificacao.TipoAlerta.PANICO);
-
-
-            n = new Notificacao("Pessoa suspeita", sdf.parse("27012015"),
-                    Html.fromHtml("Vi 4 sujeitos fantasiados de capivara na r..."), Notificacao.Tipo.ALERTA);
-            n.setTipo(Notificacao.Tipo.ALERTA);
-            n.setTipoAlerta(Notificacao.TipoAlerta.PESSOA_SUSPEITA);
-            n.setLido(false);
-
-            n.save();
-
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
         return view;
 
     }

@@ -110,7 +110,7 @@ public class BuscaRedeFragment extends Fragment
 
     @Override
     public void onLocationChange(Location location) {
-        if (location.getLatitude() != 0) {
+        if (location !=null && location.getLatitude() != 0) {
             gps.stopUsingGPS();
             buscar(location);
         }
