@@ -322,6 +322,7 @@ public class Rede {
 
     }
 
+
     public static Collection<Membro> filtrarMinhasRedes(List<Membro> membros) {
         Collection<Membro> filteredMembros =  Collections2.filter(membros, new com.google.common.base.Predicate<Membro>() {
             @Override
@@ -335,4 +336,5 @@ public class Rede {
         return filteredMembros;
 
     }
+
 }

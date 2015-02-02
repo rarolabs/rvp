@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/umq-m6LqMSDukSksgUGs1kAYz20\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/Ej212o1yFD5KcsWyhHVIppY3RBQ\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -346,6 +346,12 @@
     "dddTelefoneFixo": {
      "type": "string"
     },
+    "dispositivos": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
     "email": {
      "type": "string"
     },
@@ -381,9 +387,19 @@
  "methods": {
   "aprovarAssociacao": {
    "id": "rvpAPI.aprovarAssociacao",
-   "path": "aprovarAssociacao/{membro_id}",
+   "path": "aprovarAssociacao/{membro_id}/{Administrador}/{Autoridade}",
    "httpMethod": "POST",
    "parameters": {
+    "Administrador": {
+     "type": "boolean",
+     "required": true,
+     "location": "path"
+    },
+    "Autoridade": {
+     "type": "boolean",
+     "required": true,
+     "location": "path"
+    },
     "membro_id": {
      "type": "string",
      "required": true,
@@ -392,7 +408,9 @@
     }
    },
    "parameterOrder": [
-    "membro_id"
+    "membro_id",
+    "Administrador",
+    "Autoridade"
    ],
    "response": {
     "$ref": "Membro"

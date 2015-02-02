@@ -69,7 +69,7 @@
     <string name="tornar_administrador">Tornar administrador</string>
     <string name="tonar_autoridade_policial">Autoridade policial</string>
     <string name="cancelar">CANCELAR</string>
-    <string name="tornar_membro">ADICIONAR MEMEBRO</string>
+    <string name="tornar_membro">ADICIONAR VIZINHO</string>
     <string name="descricao_notificacao_solicitacao">&lt;b>%1$s&lt;/b> gostaria de se tornar membro da rede &lt;b>%2$s&lt;/b></string>
     <string name="descricao_notificacao_novo_membro">&lt;b>%1$s&lt;/b> foi adicionado como um novo vizinho da rede &lt;b>%2$s&lt;/b></string>
     <string name="descricao_notificacao_novo_admin" >&lt;b>%1$s&lt;/b> foi adicionado como um novo administrador da rede &lt;b>%2$s&lt;/b></string>
@@ -77,5 +77,17 @@
 
     <string name="carregar_mais" >CARREGAR NOTIFICAÇÕES MAIS ANTIGAS</string>
     <string name="nao_existe_mais_itens">Não existem mais notificações</string>
+    <string name="marcar_como_lidas">marcar como lidas</string>
+    <string name="excluir_todas">excluir todas</string>
+    <string name="tem_certeza">Você tem certeza?</string>
+    <string name="apagar_todas_notificacoes">Apagar notificações</string>
+    <string name="sim">SIM</string>
+    <string name="nao">NÃO</string>
+    <string name="notificacoes_excluidas">Todas as notificações foram apagadas</string>
+    <string name="notificacoes_marcadas_como_lidas">As notificações foram marcadas como lidas</string>
+    <string name="titulo_notificacao_solicitacao">Solicitação</string>
+    <string name="titulo_notificacao_novo_membro">Novo vizinho adicionado</string>
+    <string name="titulo_notificacao_novo_admin">Novo administrador adicionado</string>
+    <string name="titulo_notificacao_nova_autoridade">Nova autoridade policial adicionada</string>
 
 </resources>

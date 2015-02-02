@@ -1,6 +1,5 @@
 package rarolabs.com.br.rvp.fragments;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -12,8 +11,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,7 +26,8 @@ import android.widget.Toast;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.adapters.DrawerAdapter;
 import rarolabs.com.br.rvp.config.Constants;
-import rarolabs.com.br.rvp.models.DrawerItem;
+import rarolabs.com.br.rvp.models.drawer.DrawerItem;
+import rarolabs.com.br.rvp.models.drawer.DrawerItens;
 import rarolabs.com.br.rvp.utils.ImageUtil;
 
 /**
@@ -114,7 +111,7 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
 
-        mAdapter = new DrawerAdapter(getActivity(), DrawerItem.getDrawerItens());
+        mAdapter = new DrawerAdapter(getActivity(), DrawerItens.getDrawerItens());
 
         mDrawerListView.setAdapter((android.widget.ListAdapter) mAdapter);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
@@ -218,7 +215,7 @@ public class NavigationDrawerFragment extends Fragment {
         mCurrentSelectedPosition = position;
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
-            DrawerItem.check(position);
+            DrawerItens.check(position);
         }
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);

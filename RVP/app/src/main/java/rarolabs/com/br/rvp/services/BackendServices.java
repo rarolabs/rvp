@@ -142,9 +142,9 @@ public class BackendServices {
         }
     }
 
-    public  Membro aprovarAssociacao(Long idMembro) throws BackendExpection {
+    public  Membro aprovarAssociacao(Long idMembro,Boolean admin, Boolean autoridade) throws BackendExpection {
         try {
-            return service.aprovarAssociacao(idMembro).execute();
+            return service.aprovarAssociacao(idMembro,admin,autoridade).execute();
         } catch (IOException e) {
             throw new BackendExpection(e);
         }

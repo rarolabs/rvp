@@ -138,7 +138,7 @@ public class NotificacoesAdapter extends RecyclerView.Adapter<NotificacoesAdapte
                 ((VHItem)holder).secao.setVisibility(View.GONE);
             }
 
-            ((VHItem)holder).titulo.setText(notificacao.getTitulo());
+            ((VHItem)holder).titulo.setText(notificacao.getTitulo(context));
             if(notificacao.isLido()){
                 ((VHItem)holder).titulo.setTextColor(context.getResources().getColor(R.color.fonte_busca_rede));
             }else{

@@ -1,7 +1,9 @@
 package rarolabs.com.br.rvp.activities;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
@@ -22,6 +24,7 @@ import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
@@ -40,6 +43,7 @@ import rarolabs.com.br.rvp.fragments.NavigationDrawerFragment;
 import rarolabs.com.br.rvp.fragments.NotificacaoDialogFragment;
 import rarolabs.com.br.rvp.fragments.NotificacoesFragment;
 import rarolabs.com.br.rvp.gcm.GcmRegister;
+import rarolabs.com.br.rvp.models.Notificacao;
 
 
 public class MainActivity extends ActionBarActivity
@@ -295,10 +299,20 @@ public class MainActivity extends ActionBarActivity
                 onBackPressed();
                 break;
 
+            case R.id.action_marcar_notificacoes_como_lidas:
+                notificacoesFragment.marcarTodasComoLidas();
+                break;
+
+            case R.id.action_excluir_todas_notificacoes:
+                notificacoesFragment.excluirTodasNotificacoes();
+
+                break;
+
         }
 
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public void onFragmentInteraction(String id) {

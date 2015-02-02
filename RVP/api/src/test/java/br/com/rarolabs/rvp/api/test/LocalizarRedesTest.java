@@ -56,7 +56,7 @@ public class LocalizarRedesTest {
         Usuario ramon = Usuario.novoUsuario(UsuarioFixture.getRamonSetragni());
         Rede rede3 = Rede.novaRede("Amigos do Praça",ramon.getId(), EnderecoFixture.getEnderecoPraca(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
         Rede.solicitarAssociacao(rede3.getId(),rodrigo.getId(), EnderecoFixture.getEnderecoPraca(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
-        Membro.aprovarAssociacao(rede3.solicitacoesPendentes().iterator().next().getId());
+        Membro.aprovarAssociacao(rede3.solicitacoesPendentes().iterator().next().getId(), tornarAdministrador, tornarAutoridade);
         Collection<Membro> minhasRedes = Usuario.minhasRedes(rodrigo.getId());
 
         assertEquals(3,minhasRedes.size());
@@ -116,7 +116,7 @@ public class LocalizarRedesTest {
         Usuario lesio = Usuario.novoUsuario(UsuarioFixture.getLesioPinheiro());
         Rede.solicitarAssociacao(rede1.getId(),lesio.getId(),EnderecoFixture.getEnderecoCasa(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
         Membro lesioMembro = rede1.solicitacoesPendentes().iterator().next();
-        Membro.aprovarAssociacao(lesioMembro.getId());
+        Membro.aprovarAssociacao(lesioMembro.getId(), tornarAdministrador, tornarAutoridade);
 
         //Agora, ja que houve a aprovacao de membro com endereco casa, uma busca apartir de
         //casa deve retornar a rede Raro

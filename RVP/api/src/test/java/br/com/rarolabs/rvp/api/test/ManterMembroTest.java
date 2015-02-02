@@ -11,16 +11,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collection;
-
 import br.com.rarolabs.rvp.api.models.Membro;
-import br.com.rarolabs.rvp.api.models.Rede;
-import br.com.rarolabs.rvp.api.models.Usuario;
 import br.com.rarolabs.rvp.api.service.OfyService;
-import br.com.rarolabs.rvp.api.test.fixtures.EnderecoFixture;
-import br.com.rarolabs.rvp.api.test.fixtures.RedeFixture;
 import br.com.rarolabs.rvp.api.test.fixtures.SolicitacaoFixture;
-import br.com.rarolabs.rvp.api.test.fixtures.UsuarioFixture;
 
 import static org.junit.Assert.assertEquals;
 
@@ -48,7 +41,7 @@ public class ManterMembroTest {
     public void aprovarSolicitacao() throws ConflictException, NotFoundException, ForbiddenException {
         Membro m = SolicitacaoFixture.criarSolicitacaoAprovada();
 
-        Membro.aprovarAssociacao(m.getId());
+        Membro.aprovarAssociacao(m.getId(), tornarAdministrador, tornarAutoridade);
         assertEquals(m.getStatus(), Membro.Status.ATIVO);
         assertEquals(m.getPapel(), Membro.Papel.VIVIZINHO);
 

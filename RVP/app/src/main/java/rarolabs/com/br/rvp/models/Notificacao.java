@@ -1,10 +1,13 @@
 package rarolabs.com.br.rvp.models;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.Log;
 
 import com.orm.SugarRecord;
+import com.orm.dsl.Ignore;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,7 +34,7 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
     private static final SimpleDateFormat sdfSecao = new SimpleDateFormat("EEEE, d 'de' MMMM 'de' yyyy");
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyDDmm");
 
-    private String titulo;
+
     private Date data;
     private int icon;
     private Boolean lido = false;
@@ -44,32 +47,44 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
     private String nomeUsuario;
     private String nomeRede;
     private String texto;
+    private Boolean respondida;
 
 
-    public Notificacao() {
+
+    public Notificacao(){
+    }
+    public Notificacao(Bundle extras) {
+
+        this.setTipo(Notificacao.Tipo.valueOf(extras.getString("tipo")));
+        String extraTipoStatus = extras.getString("tipo_alerta");
+        this.setTipoStatus(extraTipoStatus != null ? Notificacao.TipoStatus.valueOf(extraTipoStatus) : null);
+        this.setUsuarioId(extras.getString("usuario_id"));
+        this.setMembroId(Long.valueOf(extras.getString("membro_id")));
+        this.setNomeRede(extras.getString("nome_rede"));
+        this.setNomeUsuario(extras.getString("nome_usuario"));
+        this.setData(new Date());
+
+
     }
 
-    public Notificacao(String titulo, Date data, Spanned texto, Tipo tipo) {
-        this.titulo = titulo;
-        this.data = data;
-        this.tipo = tipo;
-    }
 
-    public Notificacao(String titulo, Date data, Tipo tipo) {
-        this.titulo = titulo;
-        this.data = data;
-        this.tipo = tipo;
+    public String getTitulo(Context context) {
 
-    }
+        switch (tipo){
+            case SOLICITACAO:
+                return context.getString(R.string.titulo_notificacao_solicitacao);
+            case STATUS:
+                switch (tipoStatus){
+                    case NOVO_MEMBRO:
+                        return context.getString(R.string.titulo_notificacao_novo_membro);
+                    case NOVO_ADMINSTRADOR:
+                        return context.getString(R.string.titulo_notificacao_novo_admin);
+                    case NOVA_AUTORIDADE:
+                        return context.getString(R.string.titulo_notificacao_nova_autoridade);
+                }
+        }
 
-
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+        return "Não implementado";
     }
 
     public Date getData() {
@@ -183,6 +198,22 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
         this.nomeRede = nomeRede;
     }
 
+    public String getTexto() {
+        return texto;
+    }
+
+    public void setTexto(String texto) {
+        this.texto = texto;
+    }
+
+    public Boolean getRespondida() {
+        return respondida;
+    }
+
+    public void setRespondida(Boolean respondida) {
+        this.respondida = respondida;
+    }
+
     public String getSecao() {
         int diffDays = getDiff(data);
         switch (diffDays){
@@ -264,10 +295,20 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
 
     public static long totalNotificacoes() {
         return Notificacao.count(Notificacao.class,null,null);
-
+    }
+    public static long totalNotificacoesNaoLidas() {
+        return Notificacao.count(Notificacao.class, "lido = 0",null);
     }
 
-   public static List<Notificacao> getNotificacoes(Integer skip, Integer count,Notificacao ultimaCarregada){
+    public static void marcarTodasComoLidas() {
+        Notificacao.executeQuery("UPDATE notificacao SET lido = 1");
+    }
+    public static void excluirTodo() {
+        Notificacao.executeQuery("DELETE FROM notificacao");
+    }
+
+
+    public static List<Notificacao> getNotificacoes(Integer skip, Integer count,Notificacao ultimaCarregada){
        return criaSecoes(Notificacao.findWithQuery(Notificacao.class, "SELECT * FROM notificacao ORDER by data desc LIMIT ?, ?", skip.toString(), count.toString()),ultimaCarregada);
    }
 

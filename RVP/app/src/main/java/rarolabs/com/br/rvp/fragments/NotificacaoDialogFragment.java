@@ -4,17 +4,26 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.SwitchCompat;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.activities.MainActivity;
+import rarolabs.com.br.rvp.models.Notificacao;
+import rarolabs.com.br.rvp.services.tasks.AceitarSolicitacaoAsyncTask;
+import rarolabs.com.br.rvp.services.tasks.DeixarRedeAsyncTask;
+import rarolabs.com.br.rvp.services.tasks.TornarMembroAsyncTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,12 +39,13 @@ public class NotificacaoDialogFragment extends DialogFragment {
     private static final String ARG_MEMBRO_ID = "membro_id";
     private static final String ARG_NOME_REDE = "nome_rede";
     private static final String ARG_NOME_USER = "nome_user";
+    private static final String ARG_NOTIFICACAO_ID = "notificacao_id";
 
     private String mUserId;
     private Long mMembroId;
     private String mNomeRede;
     private String mNomeUser;
-
+    private long notificacaoId;
 
     private OnFragmentInteractionListener mListener;
     private TextView mDescricao;
@@ -44,14 +54,18 @@ public class NotificacaoDialogFragment extends DialogFragment {
     private Button mCancelar;
     private Button mTornarMembro;
     private View mView;
+    private ProgressDialog progress;
+    private long mNotificacaoId;
 
-    public static NotificacaoDialogFragment newInstance(String userId, Long membroId, String nomeRede, String nomeUsuario) {
+    public static NotificacaoDialogFragment newInstance(String userId, Long membroId, String nomeRede,
+                                                        String nomeUsuario,Long notificacaoId) {
         NotificacaoDialogFragment fragment = new NotificacaoDialogFragment();
         Bundle args = new Bundle();
         args.putString(ARG_USER_ID, userId);
         args.putLong(ARG_MEMBRO_ID, membroId);
         args.putString(ARG_NOME_REDE, nomeRede);
         args.putString(ARG_NOME_USER, nomeUsuario);
+        args.putLong(ARG_NOTIFICACAO_ID,notificacaoId);
 
         fragment.setArguments(args);
 
@@ -70,6 +84,7 @@ public class NotificacaoDialogFragment extends DialogFragment {
             mMembroId = getArguments().getLong(ARG_MEMBRO_ID);
             mNomeRede = getArguments().getString(ARG_NOME_REDE);
             mNomeUser = getArguments().getString(ARG_NOME_USER);
+            mNotificacaoId = getArguments().getLong(ARG_NOTIFICACAO_ID);
         }
     }
     @Override
@@ -93,7 +108,7 @@ public class NotificacaoDialogFragment extends DialogFragment {
         mTornarAdministrador = (SwitchCompat) mView.findViewById(R.id.tornar_administrador);
         mTornarAutoridade = (SwitchCompat) mView.findViewById(R.id.tornar_autoridade);
         mCancelar = (Button) mView.findViewById(R.id.cancelar);
-        mTornarMembro= (Button) mView.findViewById(R.id.tornar_administrador);
+        mTornarMembro= (Button) mView.findViewById(R.id.tornar_membro);
 
 
         mCancelar.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +121,7 @@ public class NotificacaoDialogFragment extends DialogFragment {
         mTornarMembro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTornarMembro();
+                tornarMembro();
             }
         });
 
@@ -115,7 +130,18 @@ public class NotificacaoDialogFragment extends DialogFragment {
 
     }
 
-    private void mTornarMembro() {
+    private void tornarMembro() {
+        Log.d("Notificacao", "tornarMembro");
+        progress = ProgressDialog.show(NotificacaoDialogFragment.this.getActivity(), NotificacaoDialogFragment.this.getString(R.string.aguarde),
+                NotificacaoDialogFragment.this.getString(R.string.enviando_solicitacao, true));
+
+        Object[] params ={
+            mMembroId,
+            Boolean.valueOf(mTornarAdministrador.isChecked()),
+            Boolean.valueOf(mTornarAutoridade.isChecked())
+        };
+
+        new AceitarSolicitacaoAsyncTask(NotificacaoDialogFragment.this).execute(params);
 
     }
 
@@ -140,11 +166,28 @@ public class NotificacaoDialogFragment extends DialogFragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
-
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        Toast.makeText(this.getActivity(),"Fechado",Toast.LENGTH_SHORT).show();
+    }
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void error(String descricao) {
+        progress.dismiss();
+        Toast.makeText(this.getActivity(),descricao,Toast.LENGTH_LONG).show();
+    }
+
+    public void ok() {
+        progress.dismiss();
+        Notificacao notificacao = Notificacao.findById(Notificacao.class,mNotificacaoId);
+        notificacao.setRespondida(true);
+        notificacao.save();
+        Toast.makeText(this.getActivity(), "Sua solicitação foi enviada com sucesso!", Toast.LENGTH_SHORT).show();
+        dismiss();
     }
 
     /**

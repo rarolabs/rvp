@@ -13,6 +13,8 @@ import com.google.api.server.spi.response.ConflictException;
 import com.google.api.server.spi.response.ForbiddenException;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.oauth.OAuthRequestException;
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.users.User;
 
 
@@ -24,6 +26,7 @@ import br.com.rarolabs.rvp.api.models.Endereco;
 import br.com.rarolabs.rvp.api.models.Membro;
 import br.com.rarolabs.rvp.api.models.Rede;
 import br.com.rarolabs.rvp.api.models.Usuario;
+import br.com.rarolabs.rvp.api.service.NotificacaoService;
 
 /**
  * API - Rede de Vizinho Protegidos
@@ -58,7 +61,9 @@ public class MembrosAPI {
         if(user==null){
             throw new OAuthRequestException("Usuário não autenticado");
         }
-        return Rede.solicitarAssociacao(redeId,user.getEmail(),endereco,visibilidadeFixo,visibilidadeCel,visibilidadeEndereco);
+        Membro m = Rede.solicitarAssociacao(redeId,user.getEmail(),endereco,visibilidadeFixo,visibilidadeCel,visibilidadeEndereco);
+        NotificacaoService.notificarSolicacaoAssociacao(m);
+        return m;
     }
 
     /**
@@ -69,12 +74,15 @@ public class MembrosAPI {
      * @throws ForbiddenException Pode ser lançada casa a operacao não seja permitida
      */
     @ApiMethod(name = "aprovarAssociacao")
-    public Membro aprovarAssociacao(@Named("membro_id") Long membroId,User user) throws NotFoundException, ForbiddenException, OAuthRequestException {
+    public Membro aprovarAssociacao(@Named("membro_id") Long membroId,
+                                    @Named("Administrador") Boolean tornarAdministrador,
+                                    @Named("Autoridade") Boolean tornarAutoridade,
+                                    User user) throws NotFoundException, ForbiddenException, OAuthRequestException {
         if(user==null){
             throw new OAuthRequestException("Usuário não autenticado");
         }
 
-        return Membro.aprovarAssociacao(membroId);
+        return Membro.aprovarAssociacao(membroId,tornarAdministrador,tornarAutoridade);
     }
 
     /**

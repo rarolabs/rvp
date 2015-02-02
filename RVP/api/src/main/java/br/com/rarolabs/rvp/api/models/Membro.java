@@ -180,10 +180,18 @@ public class Membro {
 
 
 
-    public static Membro aprovarAssociacao(Long id) throws NotFoundException, ForbiddenException {
+    public static Membro aprovarAssociacao(Long id, Boolean tornarAdministrador, Boolean tornarAutoridade) throws NotFoundException, ForbiddenException {
 
         Membro m = mudarStatusAssociacao(id,Status.ATIVO);
+        if(tornarAutoridade){
+            m.setPapel(Papel.AUTORIDADE);
+        }else if(tornarAdministrador){
+            m.setPapel(Papel.ADMIN);
+        }
+        OfyService.ofy().save().entity(m);
+
         m.getUsuario().add(m);
+
         SearchService.createDocument(m);
         return m;
 

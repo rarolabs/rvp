@@ -53,14 +53,14 @@ public class VisualizarMembrosTest {
         Rede.solicitarAssociacao(rede.getId(), lesio.getId(), EnderecoFixture.getEnderecoCasa(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
 
         Membro lesioMembro = rede.solicitacoesPendentes().iterator().next();
-        Membro.aprovarAssociacao(lesioMembro.getId());
+        Membro.aprovarAssociacao(lesioMembro.getId(), tornarAdministrador, tornarAutoridade);
 
 
         Usuario ramon = Usuario.novoUsuario(UsuarioFixture.getRamonSetragni());
         Rede.solicitarAssociacao(rede.getId(), ramon.getId(), EnderecoFixture.getEnderecoPraca(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
 
         Membro ramonMembro = rede.solicitacoesPendentes().iterator().next();
-        Membro.aprovarAssociacao(ramonMembro.getId());
+        Membro.aprovarAssociacao(ramonMembro.getId(), tornarAdministrador, tornarAutoridade);
 
 
         Usuario leo = Usuario.novoUsuario(UsuarioFixture.getLeonardoHerbert());

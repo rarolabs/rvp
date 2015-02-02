@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="rarolabs.com.br.rvp.activities.MainActivity">
+    <item android:id="@+id/action_marcar_notificacoes_como_lidas" android:title="@string/marcar_como_lidas"
+        android:orderInCategory="100"  />
+    <item android:id="@+id/action_excluir_todas_notificacoes" android:title="@string/excluir_todas"
+        android:orderInCategory="100"  />
 
 </menu>

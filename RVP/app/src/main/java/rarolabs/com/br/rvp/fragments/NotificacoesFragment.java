@@ -1,6 +1,8 @@
 package rarolabs.com.br.rvp.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -110,8 +112,11 @@ public class NotificacoesFragment extends Fragment {
                                 NotificacaoDialogFragment.newInstance(notificacao.getUsuarioId(),
                                         notificacao.getMembroId(),
                                         notificacao.getNomeRede(),
-                                        notificacao.getNomeUsuario())
-                                        .show(getFragmentManager(), "NOTIFICACAO_DIALOG");
+                                        notificacao.getNomeUsuario(),
+                                        notificacao.getId()).show(getFragmentManager(), "NOTIFICACAO_DIALOG");
+
+
+
                             }
 
                         }
@@ -172,6 +177,32 @@ public class NotificacoesFragment extends Fragment {
 
     }
 
+    public void marcarTodasComoLidas() {
+        Notificacao.marcarTodasComoLidas();
+        ((NotificacoesAdapter)mRecyclerView.getAdapter()).reflesh();
+        Toast.makeText(this.getActivity(),R.string.notificacoes_marcadas_como_lidas,Toast.LENGTH_SHORT).show();
+
+    }
+
+    public void excluirTodasNotificacoes() {
+        new AlertDialog.Builder(this.getActivity())
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(R.string.apagar_todas_notificacoes)
+                .setMessage(R.string.tem_certeza)
+                .setPositiveButton(R.string.sim, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Notificacao.excluirTodo();
+                        ((NotificacoesAdapter)mRecyclerView.getAdapter()).reflesh();
+
+                        Toast.makeText(NotificacoesFragment.this.getActivity(),R.string.notificacoes_excluidas,Toast.LENGTH_SHORT).show();
+                    }
+
+                })
+                .setNegativeButton(R.string.nao, null)
+                .show();
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

@@ -29,7 +29,7 @@ public class SolicitacaoFixture {
         Rede.solicitarAssociacao(rede.getId(), lesio.getId(), EnderecoFixture.getEnderecoCasa(), visibilidadeFixo, visibilidadeCel, visibilidadeEndereco);
 
         Membro m = rede.solicitacoesPendentes().iterator().next();
-        Membro.aprovarAssociacao(m.getId());
+        Membro.aprovarAssociacao(m.getId(), tornarAdministrador, tornarAutoridade);
 
         return m;
 

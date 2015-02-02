@@ -41,7 +41,15 @@ import javax.inject.Named;
     @ApiMethod(name = "enviarMensagem")
     public void enviarMensagem(@com.google.api.server.spi.config.Named("mensagem") String mensagen){
         Sender sender = new Sender(Constants.GCM_API_KEY);
-        Message msg =  new Message.Builder().addData("mensage",mensagen).build();
+        Message msg =  new Message.Builder()
+                                  .addData("tipo","SOLICITACAO")
+                                  .addData("usuario_id","rodrigosol@gmail.com")
+                                  .addData("membro_id","0")
+                                  .addData("rede_id","0")
+                                  .addData("nome_rede","Rede de Teste")
+                                  .addData("nome_usuario","Rodrigo Sol")
+                                  .build();
+
         List<Dispositivo> dipositivos = OfyService.ofy().load().type(Dispositivo.class).list();
         for(Dispositivo dispositivo: dipositivos) {
             try {

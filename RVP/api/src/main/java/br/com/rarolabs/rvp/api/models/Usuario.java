@@ -190,4 +190,16 @@ public class Usuario {
         Objectify ofy = OfyService.ofy();
         ofy.delete().type(Usuario.class).id(id).now();
     }
+
+    public List<String> getDispositivos() {
+        List<String> ids = new ArrayList<String>();
+
+        for(Dispositivo d:
+                OfyService.ofy().load()
+                          .type(Dispositivo.class)
+                          .filter("usuarioId",this.getId()).list()){
+            ids.add(d.getDispositivoId());
+        }
+        return ids;
+    }
 }

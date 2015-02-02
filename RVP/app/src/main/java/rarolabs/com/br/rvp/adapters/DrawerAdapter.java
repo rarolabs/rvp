@@ -1,7 +1,6 @@
 package rarolabs.com.br.rvp.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
-
-import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponder;
 import rarolabs.com.br.rvp.R;
-import rarolabs.com.br.rvp.models.DrawerItem;
-import rarolabs.com.br.rvp.utils.Formarter;
+import rarolabs.com.br.rvp.models.drawer.DrawerItem;
 
 /**
  * Created by rodrigosol on 1/14/15.
