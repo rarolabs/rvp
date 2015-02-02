@@ -68,5 +68,8 @@
     <string name="exemplo_tornar_membro"><b>Arthur Golveia</b> gostaria de se tornar membro da rede <b>Ipanema Kings</b></string>
     <string name="tornar_administrador">Tornar administrador</string>
     <string name="tonar_autoridade_policial">Autoridade policial</string>
+    <string name="cancelar">CANCELAR</string>
+    <string name="tornar_membro">ADICIONAR MEMEBRO</string>
+    <string name="descricao_dialog_notificacao">&lt;b>%1$s&lt;/b> gostaria de se tornar membro da rede &lt;b>%2$s&lt;/b></string>
 
 </resources>

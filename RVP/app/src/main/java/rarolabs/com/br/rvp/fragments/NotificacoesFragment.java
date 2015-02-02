@@ -101,7 +101,15 @@ public class NotificacoesFragment extends Fragment {
                     @Override public void onItemClick(View view, int position) {
                         if(position > 0) {
                             Notificacao notificacao = mAdapter.get(position - 1);
-                            new NotificacaoDialogFragment().show(getFragmentManager(),"NOTIFICACAO_DIALOG");
+                            if(notificacao.getTipo().equals(Notificacao.Tipo.SOLICITACAO)){
+
+                                NotificacaoDialogFragment.newInstance(notificacao.getUsuarioId(),
+                                                                      notificacao.getMembroId(),
+                                                                      notificacao.getNomeRede(),
+                                                                   notificacao.getNomeUsuario())
+                                        .show(getFragmentManager(),"NOTIFICACAO_DIALOG");
+                            }
+
                         }
 
                     }
@@ -118,9 +126,12 @@ public class NotificacoesFragment extends Fragment {
         try {
 
 
-            Notificacao n = new Notificacao("Solicitação",sdf.parse("28012015"),
-                    Html.fromHtml("<b>Arthur Gouveia</b> gostaria de se tornar membro da rede <b>Ipanema Kings</b>"), Notificacao.Tipo.SOLICITACAO);
+            Notificacao n = new Notificacao("Solicitação",sdf.parse("28012015"), Notificacao.Tipo.SOLICITACAO);
             n.setSecao(true);
+            n.setUsuarioId("rodrigosol@gmail.com");
+            n.setNomeRede("Rede teste");
+            n.setNomeUsuario("Rodrigo Sol");
+            n.setMembroId(0l);
             n.setTipo(Notificacao.Tipo.SOLICITACAO);
             mAdapter.add(n);
 

@@ -18,6 +18,7 @@ import rarolabs.com.br.rvp.R;
 public class Notificacao implements Iconable  {
 
 
+
     public enum TipoAlerta {VEICULO_SUSPEITO,PESSOA_SUSPEITA,
         PANICO,PORTAO_ABERTO,SUSPEITA_DE_INVACAO,AUSENCIA, MUDANCA,INCENDIO}
 
@@ -37,6 +38,11 @@ public class Notificacao implements Iconable  {
     private Boolean secao = false;
     private TipoAlerta tipoAlerta;
     private TipoStatus tipoStatus;
+    private String usuarioId;
+    private Long membroId;
+    private String nomeUsuario;
+    private String nomeRede;
+
 
 
 
@@ -47,6 +53,14 @@ public class Notificacao implements Iconable  {
         this.texto = texto;
         this.tipo = tipo;
     }
+
+    public Notificacao(String titulo, Date data, Tipo tipo) {
+        this.titulo = titulo;
+        this.data = data;
+        this.tipo = tipo;
+
+    }
+
 
 
     public String getTitulo() {
@@ -118,6 +132,42 @@ public class Notificacao implements Iconable  {
 
     public void setTipoStatus(TipoStatus tipoStatus) {
         this.tipoStatus = tipoStatus;
+    }
+
+    public Boolean getLido() {
+        return lido;
+    }
+
+    public String getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(String usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
+    public Long getMembroId() {
+        return membroId;
+    }
+
+    public void setMembroId(Long membroId) {
+        this.membroId = membroId;
+    }
+
+    public String getNomeUsuario() {
+        return nomeUsuario;
+    }
+
+    public void setNomeUsuario(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
+    }
+
+    public String getNomeRede() {
+        return nomeRede;
+    }
+
+    public void setNomeRede(String nomeRede) {
+        this.nomeRede = nomeRede;
     }
 
     public String getSecao() {

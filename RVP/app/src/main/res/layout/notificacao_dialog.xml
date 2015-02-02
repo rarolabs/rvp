@@ -11,6 +11,7 @@
         android:layout_width="fill_parent"
         android:layout_height="200dp"
         android:background="@color/fundo_image"
+        android:id="@+id/profile_image_bg"
         >
     <ImageView
         android:layout_width="160dp"
@@ -29,8 +30,6 @@
         android:id="@+id/descricao"
         android:textSize="16sp"
         android:textColor="@color/fonte_descricao_dialogo"
-
-
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingTop="32dp"
@@ -59,12 +58,14 @@
             android:layout_weight="1"
             />
 
-         <Switch
+         <android.support.v7.widget.SwitchCompat
              android:gravity="center_vertical"
-             android:id="@+id/mySwitch2"
+             android:id="@+id/tornar_administrador"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:layout_marginRight="16dp"
+             android:layout_marginTop="12dp"
+
              />
 
      </LinearLayout>
@@ -91,13 +92,15 @@
 
                 />
 
-            <Switch
+            <android.support.v7.widget.SwitchCompat
                 android:gravity="center_vertical"
-                android:id="@+id/mySwitch"
+                android:id="@+id/tornar_autoridade"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="16dp"
+                android:layout_marginTop="12dp"
                 />
+
         </LinearLayout>
         <ImageView
             android:layout_width="fill_parent"
@@ -110,15 +113,24 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <Button
+                android:id="@+id/cancelar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="CANCELAR"/>
+                android:text="@string/cancelar"
+                android:background="?android:attr/selectableItemBackground"
+                android:textSize="14sp"
+                android:textColor="@color/fonte_cancelar"
+                android:layout_weight="60"
+                />
             <Button
+                android:id="@+id/tornar_membro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="ADICIONAR MEMEBRO"/>
+                android:text="@string/tornar_membro"
+                android:background="?android:attr/selectableItemBackground"
+                android:textSize="14sp"
+                android:textColor="@color/titulo_rede"
+                android:layout_weight="40"/>
 
         </LinearLayout>
     </LinearLayout>

@@ -7,7 +7,13 @@ import android.app.DialogFragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.widget.SwitchCompat;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import rarolabs.com.br.rvp.R;
 
@@ -20,32 +26,36 @@ import rarolabs.com.br.rvp.R;
  * create an instance of this fragment.
  */
 public class NotificacaoDialogFragment extends DialogFragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private static final String ARG_USER_ID = "user_id";
+    private static final String ARG_MEMBRO_ID = "membro_id";
+    private static final String ARG_NOME_REDE = "nome_rede";
+    private static final String ARG_NOME_USER = "nome_user";
+
+    private String mUserId;
+    private Long mMembroId;
+    private String mNomeRede;
+    private String mNomeUser;
+
 
     private OnFragmentInteractionListener mListener;
+    private TextView mDescricao;
+    private SwitchCompat mTornarAdministrador;
+    private SwitchCompat mTornarAutoridade;
+    private Button mCancelar;
+    private Button mTornarMembro;
+    private View mView;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment NotificaoDialogFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static NotificacaoDialogFragment newInstance(String param1, String param2) {
+    public static NotificacaoDialogFragment newInstance(String userId, Long membroId, String nomeRede, String nomeUsuario) {
         NotificacaoDialogFragment fragment = new NotificacaoDialogFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_USER_ID, userId);
+        args.putLong(ARG_MEMBRO_ID, membroId);
+        args.putString(ARG_NOME_REDE, nomeRede);
+        args.putString(ARG_NOME_USER, nomeUsuario);
+
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -57,8 +67,10 @@ public class NotificacaoDialogFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mUserId = getArguments().getString(ARG_USER_ID);
+            mMembroId = getArguments().getLong(ARG_MEMBRO_ID);
+            mNomeRede = getArguments().getString(ARG_NOME_REDE);
+            mNomeUser = getArguments().getString(ARG_NOME_USER);
         }
     }
     @Override
@@ -71,22 +83,47 @@ public class NotificacaoDialogFragment extends DialogFragment {
 
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
-        builder.setView(inflater.inflate(R.layout.notificacao_dialog, null));
+        mView = inflater.inflate(R.layout.notificacao_dialog,null);
 
-//        builder.setMessage(R.string.dialog_fire_missiles)
-//                .setPositiveButton(R.string.fire, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        // FIRE ZE MISSILES!
-//                    }
-//                })
-//                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        // User cancelled the dialog
-//                    }
-//                });
-        // Create the AlertDialog object and return it
+
+        mDescricao = (TextView) mView.findViewById(R.id.descricao);
+        String descricao = String.format(getResources().getString(R.string.descricao_dialog_notificacao), mNomeUser, mNomeRede);
+
+        mDescricao.setText(Html.fromHtml(descricao));
+
+        mTornarAdministrador = (SwitchCompat) mView.findViewById(R.id.tornar_administrador);
+        mTornarAutoridade = (SwitchCompat) mView.findViewById(R.id.tornar_autoridade);
+        mCancelar = (Button) mView.findViewById(R.id.cancelar);
+        mTornarMembro= (Button) mView.findViewById(R.id.tornar_administrador);
+
+
+        mCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancelar();
+            }
+        });
+
+        mTornarMembro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTornarMembro();
+            }
+        });
+
+        builder.setView(mView);
         return builder.create();
+
     }
+
+    private void mTornarMembro() {
+
+    }
+
+    private void cancelar() {
+        this.dismiss();
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
