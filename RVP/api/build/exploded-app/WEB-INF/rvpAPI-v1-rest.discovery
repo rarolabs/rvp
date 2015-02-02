@@ -1,0 +1,1000 @@
+{
+ "kind": "discovery#restDescription",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/umq-m6LqMSDukSksgUGs1kAYz20\"",
+ "discoveryVersion": "v1",
+ "id": "rvpAPI:v1",
+ "name": "rvpAPI",
+ "version": "v1",
+ "description": "This is an API",
+ "ownerDomain": "api.rvp.rarolabs.com.br",
+ "ownerName": "api.rvp.rarolabs.com.br",
+ "icons": {
+  "x16": "http://www.google.com/images/icons/product/search-16.gif",
+  "x32": "http://www.google.com/images/icons/product/search-32.gif"
+ },
+ "protocol": "rest",
+ "baseUrl": "https://rede-vizinhos-projetegidos.appspot.com/_ah/api/rvpAPI/v1/",
+ "basePath": "/_ah/api/rvpAPI/v1/",
+ "rootUrl": "https://rede-vizinhos-projetegidos.appspot.com/_ah/api/",
+ "servicePath": "rvpAPI/v1/",
+ "batchPath": "batch",
+ "parameters": {
+  "alt": {
+   "type": "string",
+   "description": "Data format for the response.",
+   "default": "json",
+   "enum": [
+    "json"
+   ],
+   "enumDescriptions": [
+    "Responses with Content-Type of application/json"
+   ],
+   "location": "query"
+  },
+  "fields": {
+   "type": "string",
+   "description": "Selector specifying which fields to include in a partial response.",
+   "location": "query"
+  },
+  "key": {
+   "type": "string",
+   "description": "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token.",
+   "location": "query"
+  },
+  "oauth_token": {
+   "type": "string",
+   "description": "OAuth 2.0 token for the current user.",
+   "location": "query"
+  },
+  "prettyPrint": {
+   "type": "boolean",
+   "description": "Returns response with indentations and line breaks.",
+   "default": "true",
+   "location": "query"
+  },
+  "quotaUser": {
+   "type": "string",
+   "description": "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters. Overrides userIp if both are provided.",
+   "location": "query"
+  },
+  "userIp": {
+   "type": "string",
+   "description": "IP address of the site where the request originates. Use this if you want to enforce per-user limits.",
+   "location": "query"
+  }
+ },
+ "auth": {
+  "oauth2": {
+   "scopes": {
+    "https://www.googleapis.com/auth/userinfo.profile": {
+     "description": "View your basic profile info"
+    }
+   }
+  }
+ },
+ "schemas": {
+  "Coordinator": {
+   "id": "Coordinator",
+   "type": "object",
+   "properties": {
+    "latitude": {
+     "type": "number",
+     "format": "double"
+    },
+    "longitude": {
+     "type": "number",
+     "format": "double"
+    }
+   }
+  },
+  "Endereco": {
+   "id": "Endereco",
+   "type": "object",
+   "properties": {
+    "descricao": {
+     "type": "string"
+    },
+    "id": {
+     "type": "string",
+     "format": "int64"
+    },
+    "latitude": {
+     "type": "number",
+     "format": "double"
+    },
+    "longitude": {
+     "type": "number",
+     "format": "double"
+    }
+   }
+  },
+  "GeoqueryResponder": {
+   "id": "GeoqueryResponder",
+   "type": "object",
+   "properties": {
+    "coordinators": {
+     "type": "array",
+     "items": {
+      "$ref": "Coordinator"
+     }
+    },
+    "distance": {
+     "type": "number",
+     "format": "double"
+    },
+    "idRede": {
+     "type": "string",
+     "format": "int64"
+    },
+    "latitude": {
+     "type": "number",
+     "format": "double"
+    },
+    "longitude": {
+     "type": "number",
+     "format": "double"
+    },
+    "nomeAdministrador": {
+     "type": "string"
+    },
+    "nomeRede": {
+     "type": "string"
+    },
+    "quantidadeMembros": {
+     "type": "integer",
+     "format": "int32"
+    },
+    "resultSize": {
+     "type": "integer",
+     "format": "int32"
+    },
+    "ultimaAtividade": {
+     "type": "string",
+     "format": "date-time"
+    }
+   }
+  },
+  "GeoqueryResponderCollection": {
+   "id": "GeoqueryResponderCollection",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "GeoqueryResponder"
+     }
+    }
+   }
+  },
+  "Membro": {
+   "id": "Membro",
+   "type": "object",
+   "properties": {
+    "dataAssociacao": {
+     "type": "string",
+     "format": "date-time"
+    },
+    "enderecoId": {
+     "type": "string",
+     "format": "int64"
+    },
+    "id": {
+     "type": "string",
+     "format": "int64"
+    },
+    "latitude": {
+     "type": "number",
+     "format": "double"
+    },
+    "longitude": {
+     "type": "number",
+     "format": "double"
+    },
+    "nomeRede": {
+     "type": "string"
+    },
+    "papel": {
+     "$ref": "Papel"
+    },
+    "redeId": {
+     "type": "string",
+     "format": "int64"
+    },
+    "status": {
+     "$ref": "Status"
+    },
+    "usuarioId": {
+     "type": "string"
+    },
+    "visibilidadeEmail": {
+     "$ref": "Visibilidade"
+    },
+    "visibilidadeEndereco": {
+     "$ref": "Visibilidade"
+    },
+    "visibilidadeTelefoneCelular": {
+     "$ref": "Visibilidade"
+    },
+    "visibilidadeTelefoneFixo": {
+     "$ref": "Visibilidade"
+    }
+   }
+  },
+  "MembroCollection": {
+   "id": "MembroCollection",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "Membro"
+     }
+    }
+   }
+  },
+  "Papel": {
+   "id": "Papel",
+   "type": "string",
+   "enum": [
+    "ADMIN",
+    "AUTORIDADE",
+    "CRIADOR",
+    "SYSADMIN",
+    "VIVIZINHO"
+   ],
+   "enumDescriptions": [
+    "",
+    "",
+    "",
+    "",
+    ""
+   ]
+  },
+  "Rede": {
+   "id": "Rede",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string",
+     "format": "int64"
+    },
+    "latitude": {
+     "type": "number",
+     "format": "double"
+    },
+    "longitude": {
+     "type": "number",
+     "format": "double"
+    },
+    "nome": {
+     "type": "string"
+    }
+   }
+  },
+  "RedeDetalhada": {
+   "id": "RedeDetalhada",
+   "type": "object",
+   "properties": {
+    "membroId": {
+     "type": "string",
+     "format": "int64"
+    },
+    "membros": {
+     "type": "array",
+     "items": {
+      "$ref": "Membro"
+     }
+    },
+    "nomeAdministrador": {
+     "type": "string"
+    },
+    "nomeRede": {
+     "type": "string"
+    },
+    "quantidadeMembros": {
+     "type": "integer",
+     "format": "int32"
+    },
+    "redeId": {
+     "type": "string",
+     "format": "int64"
+    },
+    "status": {
+     "$ref": "Status"
+    },
+    "ultimaAtividade": {
+     "type": "string",
+     "format": "date-time"
+    }
+   }
+  },
+  "RedeDetalhadaCollection": {
+   "id": "RedeDetalhadaCollection",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "RedeDetalhada"
+     }
+    }
+   }
+  },
+  "Status": {
+   "id": "Status",
+   "type": "string",
+   "enum": [
+    "AGUARDANDO_APROVACAO",
+    "ATIVO",
+    "INATIVO",
+    "REPROVADO"
+   ],
+   "enumDescriptions": [
+    "",
+    "",
+    "",
+    ""
+   ]
+  },
+  "Usuario": {
+   "id": "Usuario",
+   "type": "object",
+   "properties": {
+    "dddTelefoneCelular": {
+     "type": "string"
+    },
+    "dddTelefoneFixo": {
+     "type": "string"
+    },
+    "email": {
+     "type": "string"
+    },
+    "id": {
+     "type": "string"
+    },
+    "nome": {
+     "type": "string"
+    },
+    "telefoneCelular": {
+     "type": "string"
+    },
+    "telefoneFixo": {
+     "type": "string"
+    }
+   }
+  },
+  "Visibilidade": {
+   "id": "Visibilidade",
+   "type": "string",
+   "enum": [
+    "PRIVADO",
+    "PUBLICO",
+    "SOMENTE_COM_AUTORIDADE"
+   ],
+   "enumDescriptions": [
+    "",
+    "",
+    ""
+   ]
+  }
+ },
+ "methods": {
+  "aprovarAssociacao": {
+   "id": "rvpAPI.aprovarAssociacao",
+   "path": "aprovarAssociacao/{membro_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "membro_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "membro_id"
+   ],
+   "response": {
+    "$ref": "Membro"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "ativarVizinho": {
+   "id": "rvpAPI.ativarVizinho",
+   "path": "ativarVizinho/{membro_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "membro_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "membro_id"
+   ],
+   "response": {
+    "$ref": "Membro"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "buscarDono": {
+   "id": "rvpAPI.buscarDono",
+   "path": "buscarDono/{rede_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "rede_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "rede_id"
+   ],
+   "response": {
+    "$ref": "Membro"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "buscarMembros": {
+   "id": "rvpAPI.buscarMembros",
+   "path": "buscarMembros/{rede_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "rede_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "rede_id"
+   ],
+   "response": {
+    "$ref": "MembroCollection"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "buscarMembrosAtivos": {
+   "id": "rvpAPI.buscarMembrosAtivos",
+   "path": "buscarMembrosAtios/{rede_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "rede_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "rede_id"
+   ],
+   "response": {
+    "$ref": "MembroCollection"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "buscarRede": {
+   "id": "rvpAPI.buscarRede",
+   "path": "buscarRede/{id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "response": {
+    "$ref": "Rede"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "buscarRedesProximas": {
+   "id": "rvpAPI.buscarRedesProximas",
+   "path": "buscarRedesProximas/{latitude}/{longitude}/{distancia}",
+   "httpMethod": "POST",
+   "parameters": {
+    "distancia": {
+     "type": "number",
+     "required": true,
+     "format": "double",
+     "location": "path"
+    },
+    "latitude": {
+     "type": "number",
+     "required": true,
+     "format": "double",
+     "location": "path"
+    },
+    "longitude": {
+     "type": "number",
+     "required": true,
+     "format": "double",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "latitude",
+    "longitude",
+    "distancia"
+   ],
+   "response": {
+    "$ref": "GeoqueryResponderCollection"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "buscarUsuario": {
+   "id": "rvpAPI.buscarUsuario",
+   "path": "buscarUsuario/{id_usuario}",
+   "httpMethod": "POST",
+   "parameters": {
+    "id_usuario": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id_usuario"
+   ],
+   "response": {
+    "$ref": "Usuario"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "cleanDataBaseForTesting": {
+   "id": "rvpAPI.cleanDataBaseForTesting",
+   "path": "cleanDataBaseForTesting",
+   "httpMethod": "POST",
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "deixarRede": {
+   "id": "rvpAPI.deixarRede",
+   "path": "deixarRede/{membro_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "membro_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "membro_id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "desregistrarDispositivo": {
+   "id": "rvpAPI.desregistrarDispositivo",
+   "path": "desregistrarDispositivo/{id_dispositivo}",
+   "httpMethod": "POST",
+   "parameters": {
+    "id_dispositivo": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id_dispositivo"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "enviarMensagem": {
+   "id": "rvpAPI.enviarMensagem",
+   "path": "enviarMensagem/{mensagem}",
+   "httpMethod": "POST",
+   "parameters": {
+    "mensagem": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "mensagem"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "inativarVizinho": {
+   "id": "rvpAPI.inativarVizinho",
+   "path": "inativarVizinho/{membro_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "membro_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "membro_id"
+   ],
+   "response": {
+    "$ref": "Membro"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "minhasRedes": {
+   "id": "rvpAPI.minhasRedes",
+   "path": "minhasRedes",
+   "httpMethod": "POST",
+   "response": {
+    "$ref": "RedeDetalhadaCollection"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "novaRede": {
+   "id": "rvpAPI.novaRede",
+   "path": "novaRede/{nome}/{visibilidadeFixo}/{visibilidadeCel}/{visibilidadeEndereco}",
+   "httpMethod": "POST",
+   "parameters": {
+    "nome": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    },
+    "visibilidadeCel": {
+     "type": "string",
+     "required": true,
+     "enum": [
+      "PRIVADO",
+      "PUBLICO",
+      "SOMENTE_COM_AUTORIDADE"
+     ],
+     "enumDescriptions": [
+      "",
+      "",
+      ""
+     ],
+     "location": "path"
+    },
+    "visibilidadeEndereco": {
+     "type": "string",
+     "required": true,
+     "enum": [
+      "PRIVADO",
+      "PUBLICO",
+      "SOMENTE_COM_AUTORIDADE"
+     ],
+     "enumDescriptions": [
+      "",
+      "",
+      ""
+     ],
+     "location": "path"
+    },
+    "visibilidadeFixo": {
+     "type": "string",
+     "required": true,
+     "enum": [
+      "PRIVADO",
+      "PUBLICO",
+      "SOMENTE_COM_AUTORIDADE"
+     ],
+     "enumDescriptions": [
+      "",
+      "",
+      ""
+     ],
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "nome",
+    "visibilidadeFixo",
+    "visibilidadeCel",
+    "visibilidadeEndereco"
+   ],
+   "request": {
+    "$ref": "Endereco",
+    "parameterName": "resource"
+   },
+   "response": {
+    "$ref": "Rede"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "novoUsuario": {
+   "id": "rvpAPI.novoUsuario",
+   "path": "novoUsuario",
+   "httpMethod": "POST",
+   "request": {
+    "$ref": "Usuario",
+    "parameterName": "resource"
+   },
+   "response": {
+    "$ref": "Usuario"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "registrarDispositivo": {
+   "id": "rvpAPI.registrarDispositivo",
+   "path": "registrarDispositivo/{id_dispositivo}/{so}/{versao}",
+   "httpMethod": "POST",
+   "parameters": {
+    "id_dispositivo": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    },
+    "so": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    },
+    "versao": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "id_dispositivo",
+    "so",
+    "versao"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "removerUsuario": {
+   "id": "rvpAPI.removerUsuario",
+   "path": "rusuario",
+   "httpMethod": "DELETE",
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "reprovarAssociacao": {
+   "id": "rvpAPI.reprovarAssociacao",
+   "path": "reprovarAssociacao/{membro_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "membro_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "membro_id"
+   ],
+   "response": {
+    "$ref": "Membro"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "retirarPermissaoAdministrador": {
+   "id": "rvpAPI.retirarPermissaoAdministrador",
+   "path": "retirarPermissaoAdministrador/{membro_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "membro_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "membro_id"
+   ],
+   "response": {
+    "$ref": "Membro"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "retirarPermissaoAutoridade": {
+   "id": "rvpAPI.retirarPermissaoAutoridade",
+   "path": "retirarPermissaoAutoridade/{membro_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "membro_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "membro_id"
+   ],
+   "response": {
+    "$ref": "Membro"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "solicitacoesPendentes": {
+   "id": "rvpAPI.solicitacoesPendentes",
+   "path": "solicitacoesPendentes/{rede_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "rede_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "rede_id"
+   ],
+   "response": {
+    "$ref": "MembroCollection"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "solicitarAssociacao": {
+   "id": "rvpAPI.solicitarAssociacao",
+   "path": "solicitarAssociacao/{rede_id}/{visibilidadeFixo}/{visibilidadeCel}/{visibilidadeEndereco}",
+   "httpMethod": "POST",
+   "parameters": {
+    "rede_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    },
+    "visibilidadeCel": {
+     "type": "string",
+     "required": true,
+     "enum": [
+      "PRIVADO",
+      "PUBLICO",
+      "SOMENTE_COM_AUTORIDADE"
+     ],
+     "enumDescriptions": [
+      "",
+      "",
+      ""
+     ],
+     "location": "path"
+    },
+    "visibilidadeEndereco": {
+     "type": "string",
+     "required": true,
+     "enum": [
+      "PRIVADO",
+      "PUBLICO",
+      "SOMENTE_COM_AUTORIDADE"
+     ],
+     "enumDescriptions": [
+      "",
+      "",
+      ""
+     ],
+     "location": "path"
+    },
+    "visibilidadeFixo": {
+     "type": "string",
+     "required": true,
+     "enum": [
+      "PRIVADO",
+      "PUBLICO",
+      "SOMENTE_COM_AUTORIDADE"
+     ],
+     "enumDescriptions": [
+      "",
+      "",
+      ""
+     ],
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "rede_id",
+    "visibilidadeFixo",
+    "visibilidadeCel",
+    "visibilidadeEndereco"
+   ],
+   "request": {
+    "$ref": "Endereco",
+    "parameterName": "resource"
+   },
+   "response": {
+    "$ref": "Membro"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "tornarAdministrador": {
+   "id": "rvpAPI.tornarAdministrador",
+   "path": "tornarAdministrador/{membro_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "membro_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "membro_id"
+   ],
+   "response": {
+    "$ref": "Membro"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "tornarAutoridade": {
+   "id": "rvpAPI.tornarAutoridade",
+   "path": "tornarAutoridade/{membro_id}",
+   "httpMethod": "POST",
+   "parameters": {
+    "membro_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "membro_id"
+   ],
+   "response": {
+    "$ref": "Membro"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  }
+ }
+}
