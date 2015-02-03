@@ -56,7 +56,7 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
     public Notificacao(Bundle extras) {
 
         this.setTipo(Notificacao.Tipo.valueOf(extras.getString("tipo")));
-        String extraTipoStatus = extras.getString("tipo_alerta");
+        String extraTipoStatus = extras.getString("tipo_status");
         this.setTipoStatus(extraTipoStatus != null ? Notificacao.TipoStatus.valueOf(extraTipoStatus) : null);
         this.setUsuarioId(extras.getString("usuario_id"));
         this.setMembroId(Long.valueOf(extras.getString("membro_id")));
@@ -67,6 +67,12 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
 
     }
 
+    public void autoLido(){
+        if(tipo != Tipo.SOLICITACAO){
+            setLido(true);
+            save();
+        }
+    }
 
     public String getTitulo(Context context) {
 

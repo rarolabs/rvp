@@ -47,6 +47,7 @@ import rarolabs.com.br.rvp.fragments.NavigationDrawerFragment;
 import rarolabs.com.br.rvp.fragments.NotificacaoDialogFragment;
 import rarolabs.com.br.rvp.fragments.NotificacoesFragment;
 import rarolabs.com.br.rvp.gcm.GcmRegister;
+import rarolabs.com.br.rvp.models.Notificacao;
 
 
 public class MainActivity extends ActionBarActivity
@@ -55,7 +56,7 @@ public class MainActivity extends ActionBarActivity
                    BuscaRedeFragment.OnFragmentInteractionListener,
                    MinhasRedesFragment.OnFragmentInteractionListener,
                    NotificacoesFragment.OnFragmentInteractionListener,
-                   NotificacaoDialogFragment.OnFragmentInteractionListener,
+                   NotificacaoDialogFragment.NoticeDialogListener,
                    ObservableScrollViewCallbacks {
 
 
@@ -209,6 +210,9 @@ public class MainActivity extends ActionBarActivity
     public void mostrarAlerta(){
         if(!alertaSendoExibido) {
             animations.start();
+            if(sectionNumer == SECTION_NOTIFICACOES){
+                notificacoesFragment.refreshContent();
+            }
         }
     }
 
@@ -314,22 +318,26 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        Log.d("Menu", "section:" + sectionNumer);
         menu.clear();
         int menu_itens = 0;
         switch (sectionNumer){
             default:
             case 0:
                 menu_itens = R.menu.menu_fragment_redes;
+                mTitleView.setText(getString(R.string.title_rede_de_vizinhos));
                 break;
             case 1:
                 menu_itens = R.menu.menu_fragment_alertas;
+                mTitleView.setText(getString(R.string.title_alertas));
                 break;
             case 2:
                 menu_itens = R.menu.menu_fragment_notificacoes;
+                mTitleView.setText(getString(R.string.title_notificacoes));
                 break;
             case 3:
-                Log.d("Menu","Carregando menu");
                 menu_itens = R.menu.menu_fragment_busca_redes;
+                mTitleView.setText(getString(R.string.title_busca_redes));
                 break;
         }
 
@@ -379,8 +387,8 @@ public class MainActivity extends ActionBarActivity
 
                 break;
 
-            case R.id.action_mover_alerta:
-                mostrarAlerta();
+            case R.id.action_atualizar_notificacoes:
+                notificacoesFragment.refreshContent();
                 break;
 
         }
@@ -497,6 +505,11 @@ public class MainActivity extends ActionBarActivity
             fragmentManager.popBackStackImmediate();
             fragmentManager.beginTransaction().commit();
         }
+        if(sectionNumer == SECTION_BUSCA_REDES){
+            sectionNumer = SECTION_MINHAS_REDES;
+        }
+        invalidateOptionsMenu();
+
 
     }
 
@@ -517,4 +530,12 @@ public class MainActivity extends ActionBarActivity
     }
 
 
+    @Override
+    public void returnFromDialog(long notificacaoId) {
+        Log.d("Dialog","Fui fechado");
+        Notificacao n = Notificacao.findById(Notificacao.class,notificacaoId);
+        n.setLido(true);
+        n.save();
+        notificacoesFragment.refreshContent();
+    }
 }

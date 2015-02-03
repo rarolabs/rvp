@@ -6,12 +6,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import rarolabs.com.br.rvp.R;
@@ -39,7 +39,7 @@ public class NotificacoesAdapter extends RecyclerView.Adapter<NotificacoesAdapte
     public NotificacoesAdapter(Context context) {
         this.currentPage = 0;
         this.context = context;
-        this.myDataset = Notificacao.getNotificacoes(currentPage * PAGE_SIZE, PAGE_SIZE,null);
+        this.myDataset = new ArrayList<Notificacao>();
         this.totalNotificacoes = Notificacao.totalNotificacoes();
     }
 
@@ -144,6 +144,8 @@ public class NotificacoesAdapter extends RecyclerView.Adapter<NotificacoesAdapte
             }else{
                 ((VHItem)holder).titulo.setTextColor(context.getResources().getColor(R.color.titulo_rede));
             }
+            notificacao.autoLido();
+
             ((VHItem)holder).texto.setText(notificacao.getTexto(context));
             ((VHItem)holder).data.setText(sdfData.format(notificacao.getData()));
 

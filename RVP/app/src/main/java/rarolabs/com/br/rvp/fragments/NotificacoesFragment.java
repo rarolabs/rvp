@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +16,6 @@ import android.widget.Toast;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.RedeDetalhada;
@@ -64,7 +60,6 @@ public class NotificacoesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new NotificacoesAdapter(getActivity());
         currentUser = getActivity().getSharedPreferences("RVP", 0).getString(Constants.ACCOUNT, null);
     }
 
@@ -97,7 +92,6 @@ public class NotificacoesFragment extends Fragment {
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this.getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
@@ -125,12 +119,40 @@ public class NotificacoesFragment extends Fragment {
                 })
         );
 
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+        });
+
+        mAdapter = new NotificacoesAdapter(NotificacoesFragment.this.getActivity());
+        mRecyclerView.setAdapter(mAdapter);
+
+        new AsyncTask<Void,Void,Void>(){
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    Thread.sleep(600);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                refreshContent();
+            }
+        }.execute();
+
 
         return view;
 
     }
 
-    private void refreshContent() {
+    public void refreshContent() {
         mAdapter.reflesh();
         mSwipeRefreshLayout.setRefreshing(false);
     }

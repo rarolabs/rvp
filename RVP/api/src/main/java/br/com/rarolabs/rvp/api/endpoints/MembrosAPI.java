@@ -81,8 +81,10 @@ public class MembrosAPI {
         if(user==null){
             throw new OAuthRequestException("Usuário não autenticado");
         }
+        Membro m = Membro.aprovarAssociacao(membroId,tornarAdministrador,tornarAutoridade);
+        NotificacaoService.notificarNovoVizinho(m);
+        return m;
 
-        return Membro.aprovarAssociacao(membroId,tornarAdministrador,tornarAutoridade);
     }
 
     /**

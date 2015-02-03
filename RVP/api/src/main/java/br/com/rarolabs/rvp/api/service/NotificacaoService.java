@@ -39,4 +39,31 @@ public class NotificacaoService {
                 .build();
 
     }
+
+    public static void notificarNovoVizinho(Membro m) {
+        Sender sender = new Sender(Constants.GCM_API_KEY);
+        for(Membro admin: m.getRede().membrosAtivos()){
+            try {
+                System.out.println("Enviando mensagem para:" + m.getUsuario().getEmail());
+                Message msg = mensagemDeStatus(m);
+                sender.send(msg,admin.getUsuario().getDispositivos(),5);
+            } catch (IOException e) {
+                System.out.println("Não foi possivel enviar uma mensagem:" + e.getMessage());
+            }
+
+        }
+    }
+
+    private static Message mensagemDeStatus(Membro m) {
+        return new Message.Builder()
+                .addData("tipo","STATUS")
+                .addData("tipo_status","NOVO_MEMBRO")
+                .addData("usuario_id",m.getUsuarioId())
+                .addData("membro_id",m.getId().toString())
+                .addData("rede_id",m.getRedeId().toString())
+                .addData("nome_rede",m.getNomeRede())
+                .addData("nome_usuario",m.getUsuario().getNome())
+                .build();
+
+    }
 }

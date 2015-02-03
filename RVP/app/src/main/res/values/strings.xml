@@ -56,12 +56,12 @@
     <string name="drawer_notificacoes">Notificações</string>
     <string name="drawer_perfil">Perfil</string>
     <string name="title_rede_de_vizinhos">Redes de Vizinhos</string>
-    <string name="title_alertas">Todos os alertas</string>
+    <string name="title_alertas">Todos os Alertas</string>
     <string name="title_notificacoes">Notificações</string>
     <string name="title_perfil">Perfil</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="action_voltar">Voltar</string>
-    <string name="title_busca_redes">Encontre novas redes</string>
+    <string name="title_busca_redes">Encontre Novas Redes</string>
     <string name="aguarde">Aguarde</string>
     <string name="enviando_solicitacao">enviando solicitação...</string>
     <string name="nao_faz_mais_parte_da_rede">Você não faz mais parte dessa rede</string>
@@ -77,8 +77,8 @@
 
     <string name="carregar_mais" >CARREGAR NOTIFICAÇÕES MAIS ANTIGAS</string>
     <string name="nao_existe_mais_itens">Não existem mais notificações</string>
-    <string name="marcar_como_lidas">marcar como lidas</string>
-    <string name="excluir_todas">excluir todas</string>
+    <string name="marcar_como_lidas">Marcar tudo como lido</string>
+    <string name="excluir_todas">Excluir todo</string>
     <string name="tem_certeza">Você tem certeza?</string>
     <string name="apagar_todas_notificacoes">Apagar notificações</string>
     <string name="sim">SIM</string>
@@ -89,5 +89,6 @@
     <string name="titulo_notificacao_novo_membro">Novo vizinho adicionado</string>
     <string name="titulo_notificacao_novo_admin">Novo administrador adicionado</string>
     <string name="titulo_notificacao_nova_autoridade">Nova autoridade policial adicionada</string>
+    <string name="atualizar_notificacoes">Atualizar notificações</string>
 
 </resources>

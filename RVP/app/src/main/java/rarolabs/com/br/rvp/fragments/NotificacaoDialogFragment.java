@@ -47,7 +47,7 @@ public class NotificacaoDialogFragment extends DialogFragment {
     private String mNomeUser;
     private long notificacaoId;
 
-    private OnFragmentInteractionListener mListener;
+
     private TextView mDescricao;
     private SwitchCompat mTornarAdministrador;
     private SwitchCompat mTornarAutoridade;
@@ -71,6 +71,14 @@ public class NotificacaoDialogFragment extends DialogFragment {
 
         return fragment;
     }
+
+    public interface NoticeDialogListener {
+        public void returnFromDialog(long notificacaoId);
+    }
+
+    // Use this instance of the interface to deliver action events
+    NoticeDialogListener mListener;
+
 
     public NotificacaoDialogFragment() {
         // Required empty public constructor
@@ -147,25 +155,31 @@ public class NotificacaoDialogFragment extends DialogFragment {
 
     private void cancelar() {
         this.dismiss();
+        mListener.returnFromDialog(mNotificacaoId);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.returnFromDialog(mNotificacaoId);
         }
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        // Verify that the host activity implements the callback interface
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            // Instantiate the NoticeDialogListener so we can send events to the host
+            mListener = (NoticeDialogListener) activity;
         } catch (ClassCastException e) {
+            // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement NoticeDialogListener");
         }
     }
+
+
     @Override
     public void onCancel(DialogInterface dialog) {
         Toast.makeText(this.getActivity(),"Fechado",Toast.LENGTH_SHORT).show();
@@ -188,6 +202,7 @@ public class NotificacaoDialogFragment extends DialogFragment {
         notificacao.save();
         Toast.makeText(this.getActivity(), "Sua solicitação foi enviada com sucesso!", Toast.LENGTH_SHORT).show();
         dismiss();
+        mListener.returnFromDialog(mNotificacaoId);
     }
 
     /**
