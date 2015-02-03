@@ -294,6 +294,10 @@ public class NavigationDrawerFragment extends Fragment {
         return ((ActionBarActivity) getActivity()).getSupportActionBar();
     }
 
+    public void mostraNotificacoes() {
+        selectItem(2);
+    }
+
     /**
      * Callbacks interface that all activities using this fragment must implement.
      */

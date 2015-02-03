@@ -91,8 +91,43 @@
             fab:fab_colorRipple="@color/ripple"
             android:layout_marginTop="100dp"
             android:layout_marginLeft="16dp"/>
+        <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/notificacao"
+        android:gravity="bottom"
+            android:background="@color/material_lime_A400"
+            android:elevation="4dp"
+            android:fadingEdge="none"
+            android:layout_marginTop="-42dp"
+
+        >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_drawer_notificacoes_selected"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="16dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Nova Notificação Recebida"
+            android:textColor="@color/material_green_700"
+            android:gravity="center"
+            android:layout_marginLeft="16dp"
+            android:textSize="16dp"
+            />
+            </LinearLayout>
+    </RelativeLayout>
+
+
 
     </FrameLayout>
+
 
     <!-- android:layout_gravity="start" tells DrawerLayout to treat
          this as a sliding drawer on the left side for left-to-right
@@ -108,5 +143,6 @@
         android:layout_gravity="start"
         android:name="rarolabs.com.br.rvp.fragments.NavigationDrawerFragment"
         tools:layout="@layout/fragment_navigation_drawer" />
+
 
 </android.support.v4.widget.DrawerLayout>

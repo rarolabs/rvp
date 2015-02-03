@@ -1,10 +1,14 @@
 package rarolabs.com.br.rvp.activities;
 
-import android.app.AlertDialog;
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.DialogInterface;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
@@ -15,7 +19,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
@@ -23,11 +26,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
@@ -35,6 +38,7 @@ import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.fragments.AlertasFragment;
 import rarolabs.com.br.rvp.fragments.BuscaRedeFragment;
 import rarolabs.com.br.rvp.fragments.GeoqueryResponderFragment;
@@ -43,7 +47,6 @@ import rarolabs.com.br.rvp.fragments.NavigationDrawerFragment;
 import rarolabs.com.br.rvp.fragments.NotificacaoDialogFragment;
 import rarolabs.com.br.rvp.fragments.NotificacoesFragment;
 import rarolabs.com.br.rvp.gcm.GcmRegister;
-import rarolabs.com.br.rvp.models.Notificacao;
 
 
 public class MainActivity extends ActionBarActivity
@@ -87,6 +90,12 @@ public class MainActivity extends ActionBarActivity
     private NotificacoesFragment notificacoesFragment;
     private BuscaRedeFragment buscaRedeFragment;
     private GcmRegister gcmRegister;
+    private RelativeLayout alerta;
+    private AnimatorSet animations;
+    private TextSwitcher alertaTexto;
+    private Boolean alertaSendoExibido = false;
+    private BroadcastReceiver mReceiver;
+    private IntentFilter intentFilter;
 
 
     @Override
@@ -132,13 +141,75 @@ public class MainActivity extends ActionBarActivity
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 
+        alerta = (RelativeLayout) findViewById(R.id.notificacao);
 
+        setupAnimation();
 
-//        if(sp.getBoolean(PREF_NEW_USER,true)){
-//            Intent intent = new Intent(this, WelcomeActivity.class);
-//            startActivity(intent);
-//        }
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d("Main","Alerta rececido");
+                mostrarAlerta();
+            }
+        };
 
+        intentFilter = new IntentFilter("rarolabs.com.br.rvp.broadcast.MOSTRA_ALERTA");
+        onNewIntent(getIntent());
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            if (extras.containsKey(Constants.FRAGMENT)) {
+                mNavigationDrawerFragment.mostraNotificacoes();
+            }
+        }
+    }
+
+    private void setupAnimation() {
+        int px = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                42,
+                getResources().getDisplayMetrics()
+        );
+
+        ObjectAnimator anim1 = ObjectAnimator.ofFloat(alerta, "TranslationY", px);
+        ObjectAnimator anim2 = ObjectAnimator.ofFloat(alerta, "TranslationY", -px);
+        anim2.setStartDelay(2000);
+        animations = new AnimatorSet();
+        animations.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                mostrandoAlerta(true);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mostrandoAlerta(false);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                mostrandoAlerta(false);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+                mostrandoAlerta(false);
+            }
+        });
+        animations.play(anim1).before(anim2);
+    }
+
+    private synchronized void mostrandoAlerta(Boolean status){
+        alertaSendoExibido = status;
+    }
+
+    public void mostrarAlerta(){
+        if(!alertaSendoExibido) {
+            animations.start();
+        }
     }
 
     private void fabClick() {
@@ -308,6 +379,10 @@ public class MainActivity extends ActionBarActivity
 
                 break;
 
+            case R.id.action_mover_alerta:
+                mostrarAlerta();
+                break;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -424,4 +499,22 @@ public class MainActivity extends ActionBarActivity
         }
 
     }
+
+//    myReceiver = new MyReceiver();
+//    intentFilter = new IntentFilter("com.hmkcode.android.USER_ACTION");
+//}
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(mReceiver, intentFilter);
+
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mReceiver);
+    }
+
+
 }
