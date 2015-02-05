@@ -1,6 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,14 +20,13 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/profile_image_bg"
                 android:layout_width="match_parent"
                 android:layout_height="216dp"
+                android:background="@color/fundo_image"
                 android:elevation="1dp"
                 android:orientation="vertical"
-                android:padding="27dp"
-                android:background="@color/fundo_image"
-                android:id="@+id/profile_image_bg"
-                >
+                android:padding="27dp">
 
                 <ImageView
                     android:id="@+id/profile_image"
@@ -35,8 +34,7 @@
                     android:layout_height="164dp"
                     android:layout_gravity="center"
                     android:scaleType="fitXY"
-                    android:src="@drawable/ic_cadastro_foto_vazia"
-                    />
+                    android:src="@drawable/ic_cadastro_foto_vazia" />
 
             </LinearLayout>
 
@@ -67,44 +65,115 @@
                     android:orientation="horizontal">
 
 
-                    <EditText
-                        xmlns:custom="http://schemas.android.com/apk/res-auto"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/hint_nome_da_rede"
-                        android:textColorHint="@color/hint_color"
-                        android:fontFamily="Roboto-Regular"
-                        android:textSize="20sp"
-                        android:textColor="@color/fonte_edit_text"
+                    <EditText xmlns:custom="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/nome_rede"
-                        />
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="25dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="33dp"
-                        android:src="@drawable/ic_cadastro_nome_normal"
-                        android:layout_gravity="center_vertical"
-                        android:id="@+id/icon_nome"/>
-
-                    <EditText
-                        xmlns:custom="http://schemas.android.com/apk/res-auto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/hint_nome"
-                        android:textColorHint="@color/hint_color"
                         android:fontFamily="Roboto-Regular"
-                        android:textSize="16sp"
+                        android:hint="@string/hint_nome_da_rede"
+                        android:inputType="textPersonName"
                         android:textColor="@color/fonte_edit_text"
+                        android:textColorHint="@color/hint_color"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/icon_nome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="33dp"
+                        android:src="@drawable/ic_cadastro_nome_normal" />
+
+                    <EditText xmlns:custom="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/cadastro_nome"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="Roboto-Regular"
+                        android:hint="@string/hint_nome"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/fonte_edit_text"
+                        android:textColorHint="@color/hint_color"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/icon_tel_cel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="33dp"
+                        android:src="@drawable/ic_cadastro_telefone_normal" />
+
+                    <EditText
+                        android:id="@+id/ddd_cel"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="Roboto-Regular"
+                        android:hint="@string/DDD"
+                        android:inputType="phone"
+                        android:textColor="@color/fonte_edit_text"
+                        android:textColorHint="@color/hint_color"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/tel_cel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="Roboto-Regular"
+                        android:hint="@string/telefone_celular"
+                        android:inputType="phone"
+                        android:textColor="@color/fonte_edit_text"
+                        android:textColorHint="@color/hint_color"
+                        android:textSize="16sp"
+
                         />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="60dp"
+                        android:text="@string/quem_pode_ver_celular"
+                        android:textColor="@color/quem_pode"
+                        android:textSize="12sp" />
+
+                    <Spinner
+                        android:id="@+id/visibilidade_cel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/permissoes"
+                        android:layout_marginLeft="@dimen/spinner_left_margin"/>
+
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="0dp"
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginTop="0dp"
+                        android:src="@drawable/sppinner_line" />
+
 
                 </LinearLayout>
 
@@ -117,33 +186,34 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginRight="33dp"
                         android:src="@drawable/ic_cadastro_telefone_normal"
-                        android:layout_gravity="center_vertical"
                         android:id="@+id/icon_tel_fixo"/>
 
                     <EditText
+                        android:id="@+id/ddd_fixo"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
-                        android:hint="@string/DDD"
-                        android:textColorHint="@color/hint_color"
                         android:fontFamily="Roboto-Regular"
-                        android:textSize="16sp"
+                        android:hint="@string/DDD"
+                        android:inputType="phone"
                         android:textColor="@color/fonte_edit_text"
-                        android:id="@+id/ddd_cel"
+                        android:textColorHint="@color/hint_color"
+                        android:textSize="16sp"
+
                         />
 
                     <EditText
+                        android:id="@+id/tel_fixo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/telefone_celular"
-                        android:textColorHint="@color/hint_color"
                         android:fontFamily="Roboto-Regular"
-                        android:textSize="16sp"
+                        android:hint="@string/telefone_fixo"
+                        android:inputType="phone"
                         android:textColor="@color/fonte_edit_text"
-                        android:id="@+id/tel_cel"
-
-                        />
+                        android:textColorHint="@color/hint_color"
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 
@@ -156,35 +226,29 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/quem_pode_ver_celular"
+                        android:layout_marginLeft="60dp"
+                        android:text="@string/quem_pode_ver_fixo"
                         android:textColor="@color/quem_pode"
                         android:textSize="12sp"
-                        android:layout_marginLeft="60dp"
+
                         />
 
                     <Spinner
+                        android:id="@+id/visibilidade_fixo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:entries="@array/permissoes"
-                        android:layout_marginLeft="50dp"
-                        android:textColorHint="@color/hint_color"
-                        android:fontFamily="Roboto-Regular"
-                        android:textSize="16sp"
-                        android:textColor="@color/fonte_edit_text"
-                        android:padding="0dp"
-                        android:id="@+id/visibilidade_cel"
+                        android:layout_marginLeft="@dimen/spinner_left_margin"/>
 
-                        />
                     <ImageView
                         android:layout_width="fill_parent"
                         android:layout_height="1dp"
-                        android:src="@drawable/sppinner_line"
-                        android:layout_marginTop="0dp"
                         android:layout_marginBottom="0dp"
-                        android:layout_marginLeft="60dp"/>
-
-
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginTop="0dp"
+                        android:src="@drawable/sppinner_line" />
                 </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -195,33 +259,42 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="top"
                         android:layout_marginRight="33dp"
-                        android:src="@drawable/ic_cadastro_telefone_normal"
-                        android:layout_gravity="center_vertical"/>
+                        android:layout_marginTop="16dp"
+                        android:src="@drawable/ic_cadastro_end_normal"
+                        android:id="@+id/icon_endereco"/>
 
-                    <EditText
-                        android:layout_width="80dp"
+                    <LinearLayout
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/DDD"
-                        android:textColorHint="@color/hint_color"
-                        android:fontFamily="Roboto-Regular"
-                        android:textSize="16sp"
-                        android:textColor="@color/fonte_edit_text"
-                        android:id="@+id/ddd_fixo"
+                        android:orientation="vertical"
+                        android:paddingLeft="0dp">
 
-                        />
 
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/telefone_fixo"
-                        android:textColorHint="@color/hint_color"
-                        android:fontFamily="Roboto-Regular"
-                        android:textSize="16sp"
-                        android:textColor="@color/fonte_edit_text"
-                        android:id="@+id/tel_fixo"
-                        />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="0dp"
+                            android:text="@string/endereco"
+                            android:textColor="@color/quem_pode"
+                            android:textSize="12sp"
 
+                            />
+
+                        <EditText
+                            android:id="@+id/cadastro_endereco"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="0dp"
+                            android:fontFamily="Roboto-Regular"
+                            android:inputType="textPostalAddress"
+                            android:textColor="@color/fonte_edit_text"
+                            android:textColorHint="@color/hint_color"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -233,132 +306,27 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/quem_pode_ver_fixo"
+                        android:layout_marginLeft="60dp"
+                        android:text="@string/quem_pode_ver_endereco"
                         android:textColor="@color/quem_pode"
                         android:textSize="12sp"
-                        android:layout_marginLeft="60dp"
 
                         />
 
                     <Spinner
+                        android:id="@+id/visibilidade_endereco"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:entries="@array/permissoes"
-                        android:layout_marginLeft="50dp"
-                        android:textColorHint="@color/hint_color"
-                        android:fontFamily="Roboto-Regular"
-                        android:textSize="16sp"
-                        android:textColor="@color/fonte_edit_text"
-                        android:id="@+id/visibilidade_fixo"
-                        />
-                    <ImageView
-                        android:layout_width="fill_parent"
-                        android:layout_height="1dp"
-                        android:src="@drawable/sppinner_line"
-                        android:layout_marginTop="0dp"
-                        android:layout_marginBottom="0dp"
-                        android:layout_marginLeft="60dp"/>
+                        android:layout_marginLeft="@dimen/spinner_left_margin"/>
                 </LinearLayout>
 
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="25dp"
-                        android:orientation="horizontal">
+            </LinearLayout>
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="33dp"
-                            android:src="@drawable/ic_cadastro_end_normal"
-                            android:layout_gravity="top"
-                            android:layout_marginTop="16dp"/>
-
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:paddingLeft="0dp"
-
-                            >
-
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/endereco"
-                                android:textColor="@color/quem_pode"
-                                android:textSize="12sp"
-                                android:layout_marginRight="0dp"
-                                android:layout_marginLeft="5dp"
-
-                                />
-
-                            <EditText
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:textColorHint="@color/hint_color"
-                                android:fontFamily="Roboto-Regular"
-                                android:textSize="16sp"
-                                android:layout_marginLeft="0dp"
-                                android:textColor="@color/fonte_edit_text"
-                                android:id="@+id/cadastro_endereco"
-                                />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="25dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/quem_pode_ver_endereco"
-                                    android:textColor="@color/quem_pode"
-                                    android:textSize="12sp"
-                                    android:layout_marginLeft="0dp"
-                                    />
-
-                                <Spinner
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:entries="@array/permissoes"
-                                    android:layout_marginLeft="0dp"
-                                    android:textColorHint="@color/hint_color"
-                                    android:fontFamily="Roboto-Regular"
-                                    android:textSize="16sp"
-                                    android:textColor="@color/fonte_edit_text"
-                                    android:padding="0dp"
-                                    android:id="@+id/visibilidade_endereco"
-
-                                    />
-                                <ImageView
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="1dp"
-                                    android:src="@drawable/sppinner_line"
-                                    android:layout_marginTop="0dp"
-                                    android:layout_marginBottom="0dp"
-                                    android:layout_marginLeft="0dp"/>
-
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-
-
-
-
-
-                </LinearLayout>
 
         </LinearLayout>
 
-    </ScrollView>
+</ScrollView>
 
-</FrameLayout>
+    </FrameLayout>

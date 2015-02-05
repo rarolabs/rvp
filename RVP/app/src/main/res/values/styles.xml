@@ -12,6 +12,10 @@
         <item name="colorControlHighlight">@color/color_control_activated</item>
         <!--<item name="android:windowActionBar">false</item>-->
         <!--<item name="windowActionBar">false</item>-->
+        <item name="android:spinnerItemStyle">
+            @style/spinnerItemStyle
+        </item>
+
 
 
     </style>

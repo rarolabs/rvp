@@ -10,28 +10,16 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 
 
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import br.com.rarolabs.rvp.api.rvpAPI.model.Endereco;
-import br.com.rarolabs.rvp.api.rvpAPI.model.MembroCollection;
-import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
-import rarolabs.com.br.rvp.activities.CadastroActivity;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.services.BackendExpection;
 import rarolabs.com.br.rvp.services.BackendServices;
@@ -72,40 +60,26 @@ public class AtualizarAvatarAsyncTask extends AsyncTask<File, Void, Void> {
                 url = Constants.BACKEND_URL_UPLOAD + url.split("8080")[1];
             }
 
+            String usuarioId = settings.getString(Constants.ACCOUNT, null);
 
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost(url);
-            httppost.setHeader("rvp-usuario-id",settings.getString(Constants.ACCOUNT,null));
+            if(backendServices.buscarUsuario(usuarioId)!=null) {
 
-            FileBody fileBody  = new FileBody(params[0]);
-            MultipartEntity reqEntity = new MultipartEntity();
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httppost = new HttpPost(url);
+                httppost.setHeader("rvp-usuario-id", usuarioId);
 
-            reqEntity.addPart("file", fileBody);
+                FileBody fileBodyProfile = new FileBody(params[0]);
+                FileBody fileBodyProfileBlur = new FileBody(params[1]);
+                MultipartEntity reqEntity = new MultipartEntity();
 
-
-
-            httppost.setEntity(reqEntity);
-            HttpResponse response = httpclient.execute(httppost);
-            Log.d("Status", "Code:" + response.getStatusLine().getStatusCode());
+                reqEntity.addPart("profile", fileBodyProfile);
+                reqEntity.addPart("profile-blur", fileBodyProfileBlur);
 
 
-//            HttpClient httpclient = new DefaultHttpClient();
-//            HttpPost httppost = new HttpPost(url);
-//
-//            List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-//            nvps.add(new BasicNameValuePair("usuario-id", settings.getString(Constants.ACCOUNT,null)));
-//
-//            httppost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
-//
-//
-//            InputStreamEntity reqEntity = new InputStreamEntity(
-//                    new FileInputStream(params[0]), -1);
-//            reqEntity.setContentType("binary/octet-stream");
-//            reqEntity.setChunked(true); // Send in multiple parts if needed
-//            httppost.setEntity(reqEntity);
-//
-//            HttpResponse response = httpclient.execute(httppost);
-//            Log.d("membro", "Response:" + response.toString());
+                httppost.setEntity(reqEntity);
+                HttpResponse response = httpclient.execute(httppost);
+                Log.d("Status", "Code:" + response.getStatusLine().getStatusCode());
+            }
 
 
 

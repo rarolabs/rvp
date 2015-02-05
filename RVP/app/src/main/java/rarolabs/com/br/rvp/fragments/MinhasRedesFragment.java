@@ -130,8 +130,6 @@ public class MinhasRedesFragment extends Fragment {
                     }
                 })
         );
-
-
         mSwipeRefreshLayout.post(new Runnable() {
             @Override public void run() {
                 mSwipeRefreshLayout.setRefreshing(true);

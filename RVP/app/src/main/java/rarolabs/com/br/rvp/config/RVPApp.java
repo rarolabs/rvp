@@ -3,6 +3,10 @@ package rarolabs.com.br.rvp.config;
 import android.app.Application;
 import android.os.Bundle;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
 import rarolabs.com.br.rvp.adapters.NotificacoesAdapter;
 
 /**
@@ -19,7 +23,19 @@ public class RVPApp extends com.orm.SugarApp {
 
     private Bundle ultimaRede;
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+        .cacheInMemory(true)
+        .cacheOnDisk(true).build();
 
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+        .defaultDisplayImageOptions(defaultOptions)
+        .build();
+        ImageLoader.getInstance().init(config);
+    }
 }
 
 

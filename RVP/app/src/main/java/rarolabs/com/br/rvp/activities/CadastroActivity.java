@@ -7,17 +7,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,11 +32,11 @@ import com.mobsandgeeks.saripaar.QuickRule;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -49,8 +50,23 @@ import rarolabs.com.br.rvp.services.tasks.CriarNovaRedeAsyncTask;
 import rarolabs.com.br.rvp.services.tasks.TornarMembroAsyncTask;
 import rarolabs.com.br.rvp.utils.ImageUtil;
 
-public class CadastroActivity extends ActionBarActivity implements Validator.ValidationListener {
+public class CadastroActivity extends ActionBarActivity implements Validator.ValidationListener, View.OnFocusChangeListener {
     private static final int SELECT_PHOTO = 100;
+
+    private static final Object[] nomeParams = {R.id.icon_nome, R.drawable.ic_cadastro_nome_normal, R.drawable.ic_cadastro_nome_focus};
+    private static final Object[] fixoParams = {R.id.icon_tel_fixo, R.drawable.ic_cadastro_telefone_normal, R.drawable.ic_cadastro_telefone_focus};
+    private static final Object[] celParams = {R.id.icon_tel_cel, R.drawable.ic_cadastro_telefone_normal, R.drawable.ic_cadastro_telefone_focus};
+    private static final Object[] enderecoParams = {R.id.icon_endereco, R.drawable.ic_cadastro_end_normal, R.drawable.ic_cadastro_end_focus};
+    private static final HashMap<Integer,Object[]> iconMapping = new HashMap<Integer,Object[]>();
+
+    static{
+        iconMapping.put(R.id.ddd_fixo,fixoParams);
+        iconMapping.put(R.id.cadastro_nome,nomeParams);
+        iconMapping.put(R.id.tel_fixo,fixoParams);
+        iconMapping.put(R.id.ddd_cel,celParams);
+        iconMapping.put(R.id.tel_cel,celParams);
+        iconMapping.put(R.id.cadastro_endereco,enderecoParams);
+    }
 
     private String account;
     private SharedPreferences settings;
@@ -87,10 +103,16 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
     private EditText nomeRede;
     private boolean novaRede;
     ProgressDialog progress;
+    private boolean photoAtualizada;
+    private File fileProfile;
+    private File fileProfileBlur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         Log.d("Cadastro Actitivity", "OnCreate");
         setContentView(R.layout.activity_cadastro);
 
@@ -111,15 +133,30 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
         idRede = i.getExtras().getLong(Constants.EXTRA_ID_REDE);
 
         nome = ((EditText)findViewById(R.id.cadastro_nome));
+        nome.setOnFocusChangeListener(this);
+
         dddFixo = ((EditText)findViewById(R.id.ddd_fixo));
+        dddFixo.setOnFocusChangeListener(this);
+
         telFixo = ((EditText)findViewById(R.id.tel_fixo));
+        telFixo.setOnFocusChangeListener(this);
+
         dddCel = ((EditText)findViewById(R.id.ddd_cel));
+        dddCel.setOnFocusChangeListener(this);
+
         telCel = ((EditText)findViewById(R.id.tel_cel));
+        telCel.setOnFocusChangeListener(this);
+
         endereco = ((EditText)findViewById(R.id.cadastro_endereco));
+        endereco.setOnFocusChangeListener(this);
+
 
         visibilidadeFixo = (Spinner) findViewById(R.id.visibilidade_fixo);
-        visibilidadeCel = (Spinner) findViewById(R.id.visibilidade_fixo);
-        visibilidadeEndereco = (Spinner) findViewById(R.id.visibilidade_fixo);
+        visibilidadeFixo.setAdapter(ArrayAdapter.createFromResource(this,R.array.permissoes,R.layout.spinner_item));
+        visibilidadeCel = (Spinner) findViewById(R.id.visibilidade_cel);
+        visibilidadeCel.setAdapter(ArrayAdapter.createFromResource(this,R.array.permissoes,R.layout.spinner_item));
+        visibilidadeEndereco = (Spinner) findViewById(R.id.visibilidade_endereco);
+        visibilidadeEndereco.setAdapter(ArrayAdapter.createFromResource(this,R.array.permissoes,R.layout.spinner_item));
 
         nomeRede = (EditText) findViewById(R.id.nome_rede);
         novaRede = i.getExtras().getBoolean("NOVA_REDE",false);
@@ -159,6 +196,7 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
         loadFromPrefs();
         loadAddress();
 
+
     }
 
     private void loadAccount() {
@@ -192,7 +230,7 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
                     Toast.makeText(this, "Você precisa selecionar uma conta antes de continuar", Toast.LENGTH_SHORT).show();
                     finish();
                 }
-
+                break;
 
             case SELECT_PHOTO:
                 if(resultCode == RESULT_OK){
@@ -205,13 +243,14 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
                         Bitmap blur = ImageUtil.fastblur(profileImage, 30);
                         ((LinearLayout) findViewById(R.id.profile_image_bg)).setBackgroundDrawable(new BitmapDrawable(getResources(), blur));
 
-                        File f = new File(ImageUtil.saveToInternalSorage(this,profileImage,"profile.jpg"));
-                        ImageUtil.saveToInternalSorage(this,blur,"profile_blur.jpg");
+                        fileProfile = new File(ImageUtil.saveToInternalSorage(this,profileImage,"profile.jpg"));
+                        fileProfileBlur = new File(ImageUtil.saveToInternalSorage(this,blur,"profile_blur.jpg"));
 
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putBoolean("PROFILE_IMAGE", true);
                         editor.commit();
-                        new AtualizarAvatarAsyncTask(this).execute(f);
+
+                        photoAtualizada = true;
 
 
                     } catch (FileNotFoundException e) {
@@ -395,7 +434,18 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
         progress.dismiss();
         Toast.makeText(this,"Sua solicitação foi enviada com sucesso!",Toast.LENGTH_SHORT).show();
         saveFromPrefs();
+
+        if(photoAtualizada){
+            new AtualizarAvatarAsyncTask(this).execute(fileProfile,fileProfileBlur);
+        }
+
+        if(settings.getBoolean(Constants.PREF_NEW_USER, true)){
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean(Constants.PREF_NEW_USER,false);
+            editor.commit();
+        }
         finish();
+
 
     }
 
@@ -424,4 +474,14 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
         }
     }
 
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        changeIcon(iconMapping.get(v.getId()),hasFocus);
+    }
+
+    private void changeIcon(Object[] params, boolean hasFocus) {
+        int idx = hasFocus ? 2 :1 ;
+        int icon = (int) params[idx];
+        ((ImageView)findViewById((Integer) params[0])).setImageResource(icon);
+    }
 }

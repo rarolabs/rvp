@@ -1,10 +1,14 @@
 package rarolabs.com.br.rvp.activities;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +20,7 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.fragments.BuscaRedeFragment;
 import rarolabs.com.br.rvp.fragments.GeoqueryResponderFragment;
 import rarolabs.com.br.rvp.gcm.GcmRegister;
@@ -29,11 +34,14 @@ public class WelcomeActivity extends Activity implements
     private Button novaRede;
     private BuscaRedeFragment buscaRedeFragment;
     private GcmRegister gcmRegister;
+    private BroadcastReceiver mReceiver;
+    private IntentFilter intentFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
         if (getActionBar() != null) {
             getActionBar().hide();
         }
@@ -61,8 +69,19 @@ public class WelcomeActivity extends Activity implements
 
         buscaRedeFragment = (BuscaRedeFragment) getFragmentManager().findFragmentById(R.id.busca_rede_fragment);
 
+
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(!getSharedPreferences("RVP",0).getBoolean(Constants.PREF_NEW_USER, true)){
+            getSharedPreferences("RVP",0).edit().putBoolean(Constants.WELCOME,false).commit();
+            Intent i = new Intent(this,StartUpActivity.class);
+            finish();
+            startActivity(i);
+        }
+    }
 
 
     @Override

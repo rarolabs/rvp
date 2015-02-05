@@ -52,13 +52,12 @@ import rarolabs.com.br.rvp.models.Notificacao;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
-                   GeoqueryResponderFragment.OnFragmentInteractionListener,
-                   BuscaRedeFragment.OnFragmentInteractionListener,
-                   MinhasRedesFragment.OnFragmentInteractionListener,
-                   NotificacoesFragment.OnFragmentInteractionListener,
-                   NotificacaoDialogFragment.NoticeDialogListener,
-                   ObservableScrollViewCallbacks {
-
+        GeoqueryResponderFragment.OnFragmentInteractionListener,
+        BuscaRedeFragment.OnFragmentInteractionListener,
+        MinhasRedesFragment.OnFragmentInteractionListener,
+        NotificacoesFragment.OnFragmentInteractionListener,
+        NotificacaoDialogFragment.NoticeDialogListener,
+        ObservableScrollViewCallbacks {
 
 
     private View mFlexibleSpaceView;
@@ -140,7 +139,7 @@ public class MainActivity extends ActionBarActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+
 
         alerta = (RelativeLayout) findViewById(R.id.notificacao);
 
@@ -149,7 +148,7 @@ public class MainActivity extends ActionBarActivity
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Log.d("Main","Alerta rececido");
+                Log.d("Main", "Alerta rececido");
                 mostrarAlerta();
             }
         };
@@ -157,6 +156,8 @@ public class MainActivity extends ActionBarActivity
         intentFilter = new IntentFilter("rarolabs.com.br.rvp.broadcast.MOSTRA_ALERTA");
         onNewIntent(getIntent());
     }
+
+
 
     @Override
     public void onNewIntent(Intent intent) {
@@ -203,21 +204,21 @@ public class MainActivity extends ActionBarActivity
         animations.play(anim1).before(anim2);
     }
 
-    private synchronized void mostrandoAlerta(Boolean status){
+    private synchronized void mostrandoAlerta(Boolean status) {
         alertaSendoExibido = status;
     }
 
-    public void mostrarAlerta(){
-        if(!alertaSendoExibido) {
+    public void mostrarAlerta() {
+        if (!alertaSendoExibido) {
             animations.start();
-            if(sectionNumer == SECTION_NOTIFICACOES){
+            if (sectionNumer == SECTION_NOTIFICACOES) {
                 notificacoesFragment.refreshContent();
             }
         }
     }
 
     private void fabClick() {
-        switch (sectionNumer){
+        switch (sectionNumer) {
             case SECTION_MINHAS_REDES:
             case SECTION_BUSCA_REDES:
                 novaRede();
@@ -226,32 +227,32 @@ public class MainActivity extends ActionBarActivity
     }
 
     private void novaRede() {
-        Intent i = new Intent(MainActivity.this,CadastroActivity.class);
-        i.putExtra("NOVA_REDE",true);
+        Intent i = new Intent(MainActivity.this, CadastroActivity.class);
+        i.putExtra("NOVA_REDE", true);
         startActivity(i);
     }
 
-    public Fragment getFragmentBySection(int sectionNumer){
-        switch (sectionNumer){
+    public Fragment getFragmentBySection(int sectionNumer) {
+        switch (sectionNumer) {
             case SECTION_MINHAS_REDES:
-                if(minhasRedesFragment == null){
+                if (minhasRedesFragment == null) {
                     minhasRedesFragment = new MinhasRedesFragment();
                 }
                 return minhasRedesFragment;
 
             case SECTION_BUSCA_REDES:
-                if(buscaRedeFragment == null){
+                if (buscaRedeFragment == null) {
                     buscaRedeFragment = new BuscaRedeFragment();
                 }
                 return buscaRedeFragment;
             case SECTION_ALERTAS:
-                if(alertasFragment == null){
+                if (alertasFragment == null) {
                     alertasFragment = new AlertasFragment();
                 }
                 return alertasFragment;
 
             case SECTION_NOTIFICACOES:
-                if(notificacoesFragment == null){
+                if (notificacoesFragment == null) {
                     notificacoesFragment = new NotificacoesFragment();
                 }
                 return notificacoesFragment;
@@ -262,23 +263,23 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-            sectionNumer = position;
+        sectionNumer = position;
 
-            Fragment fragment = getFragmentBySection(sectionNumer);
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, fragment, "MAIN_FRAGMENT_" + sectionNumer)
-                    .addToBackStack("MAIN_FRAGMENT_" + sectionNumer)
-                    .commit();
+        Fragment fragment = getFragmentBySection(sectionNumer);
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, fragment, "MAIN_FRAGMENT_" + sectionNumer)
+                .addToBackStack("MAIN_FRAGMENT_" + sectionNumer)
+                .commit();
 
     }
 
     public void onSectionAttached(Fragment fragment) {
-        
+
 
         if (fragment instanceof MinhasRedesFragment) {
             mTitleView.setText(getString(R.string.title_rede_de_vizinhos));
-            this.sectionNumer = SECTION_MINHAS_REDES ;
+            this.sectionNumer = SECTION_MINHAS_REDES;
         } else if (fragment instanceof BuscaRedeFragment) {
             mTitleView.setText(getString(R.string.title_busca_redes));
             this.sectionNumer = SECTION_BUSCA_REDES;
@@ -321,7 +322,7 @@ public class MainActivity extends ActionBarActivity
         Log.d("Menu", "section:" + sectionNumer);
         menu.clear();
         int menu_itens = 0;
-        switch (sectionNumer){
+        switch (sectionNumer) {
             default:
             case 0:
                 menu_itens = R.menu.menu_fragment_redes;
@@ -439,11 +440,11 @@ public class MainActivity extends ActionBarActivity
         int maxTitleTranslationY = mToolbarView.getHeight() + mFlexibleSpaceHeight - (int) (mTitleView.getHeight() * (1 + scale));
         int titleTranslationY = (int) (maxTitleTranslationY * ((float) mFlexibleSpaceHeight - adjustedScrollY) / mFlexibleSpaceHeight);
         ViewHelper.setTranslationY(mTitleView, titleTranslationY);
-        int[] location = {0,0};
+        int[] location = {0, 0};
         Rect rect = new Rect();
         mFab.getLocalVisibleRect(rect);
 
-        int mFabTranslateY =  ((rect.centerY()  - adjustedScrollY) - (mFab.getHeight() /2));
+        int mFabTranslateY = ((rect.centerY() - adjustedScrollY) - (mFab.getHeight() / 2));
         ViewHelper.setTranslationY(mFab, mFabTranslateY);
 
         // Show/hide FAB
@@ -464,7 +465,7 @@ public class MainActivity extends ActionBarActivity
         return actionBarSize;
     }
 
-    public void setRecycleView(final ObservableRecyclerView mRecyclerView){
+    public void setRecycleView(final ObservableRecyclerView mRecyclerView) {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setScrollViewCallbacks(this);
@@ -501,11 +502,11 @@ public class MainActivity extends ActionBarActivity
 
     public void onBackPressed() {
         FragmentManager fragmentManager = getFragmentManager();
-        if (fragmentManager.getBackStackEntryCount() > 1){
+        if (fragmentManager.getBackStackEntryCount() > 1) {
             fragmentManager.popBackStackImmediate();
             fragmentManager.beginTransaction().commit();
         }
-        if(sectionNumer == SECTION_BUSCA_REDES){
+        if (sectionNumer == SECTION_BUSCA_REDES) {
             sectionNumer = SECTION_MINHAS_REDES;
         }
         invalidateOptionsMenu();
@@ -521,8 +522,8 @@ public class MainActivity extends ActionBarActivity
     protected void onResume() {
         super.onResume();
         registerReceiver(mReceiver, intentFilter);
-
     }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -532,8 +533,8 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void returnFromDialog(long notificacaoId) {
-        Log.d("Dialog","Fui fechado");
-        Notificacao n = Notificacao.findById(Notificacao.class,notificacaoId);
+        Log.d("Dialog", "Fui fechado");
+        Notificacao n = Notificacao.findById(Notificacao.class, notificacaoId);
         n.setLido(true);
         n.save();
         notificacoesFragment.refreshContent();

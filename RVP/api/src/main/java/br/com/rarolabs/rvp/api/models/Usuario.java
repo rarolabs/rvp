@@ -41,6 +41,7 @@ public class Usuario {
     private String telefoneCelular;
 
     private String avatar;
+    private String avatarBlur;
 
     @Index
     @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
@@ -128,7 +129,14 @@ public class Usuario {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
-        System.out.println("Avatar definido:" + avatar);
+    }
+
+    public String getAvatarBlur() {
+        return avatarBlur;
+    }
+
+    public void setAvatarBlur(String avatarBlur) {
+        this.avatarBlur = avatarBlur;
     }
 
     public Collection<Membro> getPartipacoes() {

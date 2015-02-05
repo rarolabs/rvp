@@ -34,4 +34,7 @@ public class Constants {
     public static final java.lang.String EXTRA_MEMBRO_ID = "membro_id";
     public static final String REG_ID = "registration_id";
     public static final String FRAGMENT = "fragment";
+    public static final String PREF_NEW_USER = "new_user";
+    public static final String REFRESH_MAIN = "refresh_main";
+    public static final String WELCOME = "welcome";
 }

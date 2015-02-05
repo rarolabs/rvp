@@ -30,17 +30,23 @@ public class UploadServlet extends HttpServlet {
         String usuarioID = req.getHeader("rvp-usuario-id");
         System.out.println("Usuario:" + usuarioID);
 
-        List<BlobKey> blobs = blobstoreService.getUploads(req).get("file");
-        BlobKey blobKey = blobs.get(0);
+        List<BlobKey> blobs = blobstoreService.getUploads(req).get("profile");
+        BlobKey profile = blobs.get(0);
+        blobs = blobstoreService.getUploads(req).get("profile-blur");
+        BlobKey profileBlur = blobs.get(0);
 
 
 
         ImagesService imagesService = ImagesServiceFactory.getImagesService();
-        ServingUrlOptions opts =  ServingUrlOptions.Builder.withBlobKey(blobKey);
-        String url = imagesService.getServingUrl(opts);
-        System.out.println("URL:" + url);
+        ServingUrlOptions opts =  ServingUrlOptions.Builder.withBlobKey(profile);
+        String urlProfile = imagesService.getServingUrl(opts);
+
+        ServingUrlOptions optsBlur =  ServingUrlOptions.Builder.withBlobKey(profileBlur);
+        String urlProfileBlur = imagesService.getServingUrl(optsBlur);
+
         Usuario usuario = OfyService.ofy().load().type(Usuario.class).id(usuarioID).now();
-        usuario.setAvatar(url);
+        usuario.setAvatar(urlProfile);
+        usuario.setAvatarBlur(urlProfileBlur);
         OfyService.ofy().save().entity(usuario).now();
 
     }
