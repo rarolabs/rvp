@@ -37,7 +37,7 @@ public class ImageUtil {
             e.printStackTrace();
         }
         Log.d("Image Profile", "Gravou:" + directory.getAbsolutePath() + name);
-        return directory.getAbsolutePath();
+        return directory.getAbsolutePath() +"/" +name;
     }
 
     public static Bitmap loadImageFromStorage(Context context,String name)

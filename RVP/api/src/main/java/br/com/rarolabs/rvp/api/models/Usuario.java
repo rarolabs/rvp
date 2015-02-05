@@ -40,6 +40,8 @@ public class Usuario {
     private String dddTelefoneCelular;
     private String telefoneCelular;
 
+    private String avatar;
+
     @Index
     @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
     private Collection<Ref<Membro>> partipacoes = new ArrayList<Ref<Membro>>();
@@ -118,6 +120,15 @@ public class Usuario {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+        System.out.println("Avatar definido:" + avatar);
     }
 
     public Collection<Membro> getPartipacoes() {

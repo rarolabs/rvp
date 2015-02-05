@@ -72,10 +72,9 @@
     <string name="tornar_membro">ADICIONAR VIZINHO</string>
     <string name="descricao_notificacao_solicitacao">&lt;b>%1$s&lt;/b> gostaria de se tornar membro da rede &lt;b>%2$s&lt;/b></string>
     <string name="descricao_notificacao_novo_membro">&lt;b>%1$s&lt;/b> foi adicionado como um novo vizinho da rede &lt;b>%2$s&lt;/b></string>
-    <string name="descricao_notificacao_novo_admin" >&lt;b>%1$s&lt;/b> foi adicionado como um novo administrador da rede &lt;b>%2$s&lt;/b></string>
+    <string name="descricao_notificacao_novo_admin">&lt;b>%1$s&lt;/b> foi adicionado como um novo administrador da rede &lt;b>%2$s&lt;/b></string>
     <string name="descricao_notificacao_nova_autoridade">&lt;b>%1$s&lt;/b> foi adicionado como uma nova autoridade policial da rede &lt;b>%2$s&lt;/b></string>
-
-    <string name="carregar_mais" >CARREGAR NOTIFICAÇÕES MAIS ANTIGAS</string>
+    <string name="carregar_mais">CARREGAR NOTIFICAÇÕES MAIS ANTIGAS</string>
     <string name="nao_existe_mais_itens">Não existem mais notificações</string>
     <string name="marcar_como_lidas">Marcar tudo como lido</string>
     <string name="excluir_todas">Excluir todo</string>
@@ -90,5 +89,6 @@
     <string name="titulo_notificacao_novo_admin">Novo administrador adicionado</string>
     <string name="titulo_notificacao_nova_autoridade">Nova autoridade policial adicionada</string>
     <string name="atualizar_notificacoes">Atualizar notificações</string>
+    <string name="title_activity_perfil">PerfilActivity</string>
 
 </resources>

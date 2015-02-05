@@ -12,20 +12,25 @@ import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.ConflictException;
 import com.google.api.server.spi.response.ForbiddenException;
 import com.google.api.server.spi.response.NotFoundException;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.users.User;
+import com.googlecode.objectify.Objectify;
 
 
 import javax.inject.Named;
 
 
 import br.com.rarolabs.rvp.api.auth.Constants;
+
 import br.com.rarolabs.rvp.api.models.Endereco;
 import br.com.rarolabs.rvp.api.models.Membro;
 import br.com.rarolabs.rvp.api.models.Rede;
 import br.com.rarolabs.rvp.api.models.Usuario;
+import br.com.rarolabs.rvp.api.responders.StringResponse;
 import br.com.rarolabs.rvp.api.service.NotificacaoService;
 
 /**
@@ -206,4 +211,13 @@ public class MembrosAPI {
 
        return Membro.retirarPermissaoAutoridade(membroId);
     }
+
+    @ApiMethod(name = "obterURLparaUpload")
+    public StringResponse obterURLparaUpload(User user) throws OAuthRequestException {
+        BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+        String blobUploadUrl =  blobstoreService.createUploadUrl("/blob/upload");
+        return new StringResponse(blobUploadUrl);
+
+    }
+
 }

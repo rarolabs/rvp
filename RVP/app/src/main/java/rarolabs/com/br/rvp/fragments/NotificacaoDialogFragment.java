@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.activities.MainActivity;
+import rarolabs.com.br.rvp.activities.PerfilActivity;
+import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.models.Notificacao;
 import rarolabs.com.br.rvp.services.tasks.AceitarSolicitacaoAsyncTask;
 import rarolabs.com.br.rvp.services.tasks.DeixarRedeAsyncTask;
@@ -112,6 +115,12 @@ public class NotificacaoDialogFragment extends DialogFragment {
         String descricao = String.format(getResources().getString(R.string.descricao_notificacao_solicitacao), mNomeUser, mNomeRede);
 
         mDescricao.setText(Html.fromHtml(descricao));
+        mDescricao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                perfilDetalhado();
+            }
+        });
 
         mTornarAdministrador = (SwitchCompat) mView.findViewById(R.id.tornar_administrador);
         mTornarAutoridade = (SwitchCompat) mView.findViewById(R.id.tornar_autoridade);
@@ -135,6 +144,18 @@ public class NotificacaoDialogFragment extends DialogFragment {
 
         builder.setView(mView);
         return builder.create();
+
+    }
+
+    private void perfilDetalhado() {
+        Intent i = new Intent(NotificacaoDialogFragment.this.getActivity(), PerfilActivity.class);
+//        i.putExtra(Constants.EXTRA_USER_ID,mUserId);
+//        i.putExtra(Con,mMembroId);
+//        i.putExtra(,mNomeRede);
+//        i.putExtra(,mNomeUser);
+//        i.putExtra(,mNotificacaoId);
+
+        startActivity(i);
 
     }
 

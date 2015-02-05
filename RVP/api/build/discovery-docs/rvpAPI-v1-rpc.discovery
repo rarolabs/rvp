@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/Ej212o1yFD5KcsWyhHVIppY3RBQ\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/yk9UlzkiHrHPW6d9Y2c8ZT6ElCw\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -334,10 +334,22 @@
     ""
    ]
   },
+  "StringResponse": {
+   "id": "StringResponse",
+   "type": "object",
+   "properties": {
+    "value": {
+     "type": "string"
+    }
+   }
+  },
   "Usuario": {
    "id": "Usuario",
    "type": "object",
    "properties": {
+    "avatar": {
+     "type": "string"
+    },
     "dddTelefoneCelular": {
      "type": "string"
     },
@@ -715,6 +727,15 @@
    ],
    "returns": {
     "$ref": "Usuario"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "rvpAPI.obterURLparaUpload": {
+   "id": "rvpAPI.obterURLparaUpload",
+   "returns": {
+    "$ref": "StringResponse"
    },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.profile"

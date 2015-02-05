@@ -33,15 +33,18 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
 
+
 import br.com.rarolabs.rvp.api.rvpAPI.model.Endereco;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.config.Constants;
+import rarolabs.com.br.rvp.services.tasks.AtualizarAvatarAsyncTask;
 import rarolabs.com.br.rvp.services.tasks.CriarNovaRedeAsyncTask;
 import rarolabs.com.br.rvp.services.tasks.TornarMembroAsyncTask;
 import rarolabs.com.br.rvp.utils.ImageUtil;
@@ -202,12 +205,13 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
                         Bitmap blur = ImageUtil.fastblur(profileImage, 30);
                         ((LinearLayout) findViewById(R.id.profile_image_bg)).setBackgroundDrawable(new BitmapDrawable(getResources(), blur));
 
-                        ImageUtil.saveToInternalSorage(this,profileImage,"profile.jpg");
+                        File f = new File(ImageUtil.saveToInternalSorage(this,profileImage,"profile.jpg"));
                         ImageUtil.saveToInternalSorage(this,blur,"profile_blur.jpg");
 
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putBoolean("PROFILE_IMAGE", true);
                         editor.commit();
+                        new AtualizarAvatarAsyncTask(this).execute(f);
 
 
                     } catch (FileNotFoundException e) {

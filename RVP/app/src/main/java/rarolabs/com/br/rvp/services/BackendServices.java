@@ -20,6 +20,7 @@ import java.net.SocketException;
 import br.com.rarolabs.rvp.api.rvpAPI.RvpAPI;
 import br.com.rarolabs.rvp.api.rvpAPI.RvpAPIRequest;
 import br.com.rarolabs.rvp.api.rvpAPI.RvpAPIRequestInitializer;
+
 import br.com.rarolabs.rvp.api.rvpAPI.model.Endereco;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
@@ -245,6 +246,14 @@ public class BackendServices {
     public  void desregistrarDispositivo(String idDispositivo) throws BackendExpection {
         try {
             service.desregistrarDispositivo(idDispositivo).execute();
+        } catch (IOException e) {
+            throw new BackendExpection(e);
+        }
+    }
+
+    public String obterURLparaUpload() throws BackendExpection {
+        try {
+            return service.obterURLparaUpload().execute().getValue();
         } catch (IOException e) {
             throw new BackendExpection(e);
         }
