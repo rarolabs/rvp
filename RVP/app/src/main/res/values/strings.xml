@@ -68,7 +68,7 @@
     <string name="exemplo_tornar_membro"><b>Arthur Golveia</b> gostaria de se tornar membro da rede <b>Ipanema Kings</b></string>
     <string name="tornar_administrador">Tornar administrador</string>
     <string name="tonar_autoridade_policial">Autoridade policial</string>
-    <string name="cancelar">CANCELAR</string>
+    <string name="cancelar">Cancelar</string>
     <string name="tornar_membro">ADICIONAR VIZINHO</string>
     <string name="descricao_notificacao_solicitacao">&lt;b>%1$s&lt;/b> gostaria de se tornar membro da rede &lt;b>%2$s&lt;/b></string>
     <string name="descricao_notificacao_novo_membro">&lt;b>%1$s&lt;/b> foi adicionado como um novo vizinho da rede &lt;b>%2$s&lt;/b></string>
@@ -90,5 +90,8 @@
     <string name="titulo_notificacao_nova_autoridade">Nova autoridade policial adicionada</string>
     <string name="atualizar_notificacoes">Atualizar notificações</string>
     <string name="title_activity_perfil">PerfilActivity</string>
+    <string name="logar">Logar</string>
+    <string name="title_logar">Você já tem uma conta?</string>
+    <string name="text_logar">Se você já utilizou o aplicativo antes, clique em logar para recuperar suas redes.</string>
 
 </resources>

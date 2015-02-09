@@ -11,6 +11,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.app.Fragment;
 import android.util.Log;
 
 import rarolabs.com.br.rvp.R;
@@ -21,7 +22,7 @@ import rarolabs.com.br.rvp.activities.Locable;
  */
 public class GPSTracker extends Service implements LocationListener {
 
-    private final Context mContext;
+    private final Fragment fragment;
 
     // flag for GPS status
     boolean isGPSEnabled = false;
@@ -45,14 +46,14 @@ public class GPSTracker extends Service implements LocationListener {
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
-    public GPSTracker(Context context) {
-        this.mContext = context;
+    public GPSTracker(Fragment fragment) {
+        this.fragment = fragment;
         getLocation();
     }
 
     public Location getLocation() {
         try {
-            locationManager = (LocationManager) mContext
+            locationManager = (LocationManager) fragment.getActivity()
                     .getSystemService(LOCATION_SERVICE);
 
             // getting GPS status
@@ -157,7 +158,7 @@ public class GPSTracker extends Service implements LocationListener {
      * On pressing Settings button will lauch Settings Options
      * */
     public void showSettingsAlert(){
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(fragment.getActivity());
 
         // Setting Dialog Title
         alertDialog.setTitle(R.string.gps_title);
@@ -169,7 +170,7 @@ public class GPSTracker extends Service implements LocationListener {
         alertDialog.setPositiveButton(R.string.settings, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                mContext.startActivity(intent);
+                fragment.getActivity().startActivity(intent);
 
             }
         });
@@ -188,7 +189,7 @@ public class GPSTracker extends Service implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         Log.d("GPS", "On Location change:" + location.getLatitude() + "," + location.getLongitude());
-        ((Locable) mContext).onLocationChange(location);
+        ((Locable) fragment).onLocationChange(location);
     }
 
     @Override

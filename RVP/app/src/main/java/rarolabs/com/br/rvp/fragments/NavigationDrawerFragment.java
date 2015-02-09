@@ -128,7 +128,6 @@ public class NavigationDrawerFragment extends Fragment {
             ((TextView) view.findViewById(R.id.profile_email)).setText(email);
         }
 
-
         return view;
 
     }
@@ -209,6 +208,7 @@ public class NavigationDrawerFragment extends Fragment {
         });
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.closeDrawer(GravityCompat.START);
     }
 
     private void selectItem(int position) {

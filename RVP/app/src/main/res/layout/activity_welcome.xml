@@ -24,15 +24,6 @@
             android:dividerPadding="6dip"
             android:showDividers="middle"
             >
-            <Button
-                android:id="@+id/buscar_rede"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/buscar_redes"
-                android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:textColor="@android:color/white"
-                />
 
             <Button
                 android:layout_width="match_parent"
@@ -44,12 +35,23 @@
                 android:id="@+id/nova_rede"
                 />
 
+            <Button
+                android:id="@+id/logar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/logar"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:textColor="@android:color/white"
+                />
+
+
         </LinearLayout>
     </LinearLayout>
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="320dp"
+        android:layout_marginTop="317dp"
         android:name="rarolabs.com.br.rvp.fragments.BuscaRedeFragment"
         android:id="@+id/busca_rede_fragment"/>
 

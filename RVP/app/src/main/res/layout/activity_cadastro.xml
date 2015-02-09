@@ -74,7 +74,8 @@
                         android:inputType="textPersonName"
                         android:textColor="@color/fonte_edit_text"
                         android:textColorHint="@color/hint_color"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"
+                        android:nextFocusRight="@+id/cadastro_nome"/>
 
                 </LinearLayout>
 
@@ -101,7 +102,9 @@
                         android:inputType="textPersonName"
                         android:textColor="@color/fonte_edit_text"
                         android:textColorHint="@color/hint_color"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:nextFocusRight="@+id/ddd_cel"
+                        android:nextFocusLeft="@+id/nome_rede"/>
 
                 </LinearLayout>
 
@@ -128,7 +131,10 @@
                         android:inputType="phone"
                         android:textColor="@color/fonte_edit_text"
                         android:textColorHint="@color/hint_color"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:maxLength="2"
+                        android:nextFocusLeft="@+id/cadastro_nome"
+                        android:nextFocusRight="@+id/tel_cel"/>
 
                     <EditText
                         android:id="@+id/tel_cel"
@@ -140,6 +146,9 @@
                         android:textColor="@color/fonte_edit_text"
                         android:textColorHint="@color/hint_color"
                         android:textSize="16sp"
+                        android:maxLength="9"
+                        android:nextFocusLeft="@+id/ddd_cel"
+                        android:nextFocusRight="@+id/visibilidade_cel"
 
                         />
 
@@ -164,7 +173,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:entries="@array/permissoes"
-                        android:layout_marginLeft="@dimen/spinner_left_margin"/>
+                        android:layout_marginLeft="@dimen/spinner_left_margin"
+                        android:nextFocusLeft="@+id/tel_cel"
+                        android:nextFocusRight="@+id/ddd_cel"/>
 
                     <ImageView
                         android:layout_width="fill_parent"
@@ -201,6 +212,9 @@
                         android:textColor="@color/fonte_edit_text"
                         android:textColorHint="@color/hint_color"
                         android:textSize="16sp"
+                        android:maxLength="2"
+                        android:nextFocusLeft="@+id/visibilidade_cel"
+                        android:nextFocusRight="@+id/tel_fixo"
 
                         />
 
@@ -213,7 +227,10 @@
                         android:inputType="phone"
                         android:textColor="@color/fonte_edit_text"
                         android:textColorHint="@color/hint_color"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:maxLength="9"
+                        android:nextFocusLeft="@+id/ddd_fixo"
+                        android:nextFocusRight="@+id/visibilidade_fixo"/>
 
                 </LinearLayout>
 
@@ -238,7 +255,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:entries="@array/permissoes"
-                        android:layout_marginLeft="@dimen/spinner_left_margin"/>
+                        android:layout_marginLeft="@dimen/spinner_left_margin"
+                        android:nextFocusLeft="@+id/tel_fixo"
+                        android:nextFocusRight="@+id/cadastro_endereco"/>
 
                     <ImageView
                         android:layout_width="fill_parent"
@@ -292,7 +311,10 @@
                             android:inputType="textPostalAddress"
                             android:textColor="@color/fonte_edit_text"
                             android:textColorHint="@color/hint_color"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"
+                            android:nextFocusLeft="@+id/visibilidade_fixo"
+                            android:nextFocusRight="@+id/visibilidade_endereco"
+                            />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -318,7 +340,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:entries="@array/permissoes"
-                        android:layout_marginLeft="@dimen/spinner_left_margin"/>
+                        android:layout_marginLeft="@dimen/spinner_left_margin"
+                        android:nextFocusLeft="@+id/cadastro_endereco"/>
                 </LinearLayout>
 
 

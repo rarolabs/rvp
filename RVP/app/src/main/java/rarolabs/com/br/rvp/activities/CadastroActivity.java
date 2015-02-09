@@ -50,8 +50,7 @@ import rarolabs.com.br.rvp.services.tasks.CriarNovaRedeAsyncTask;
 import rarolabs.com.br.rvp.services.tasks.TornarMembroAsyncTask;
 import rarolabs.com.br.rvp.utils.ImageUtil;
 
-public class CadastroActivity extends ActionBarActivity implements Validator.ValidationListener, View.OnFocusChangeListener {
-    private static final int SELECT_PHOTO = 100;
+public class CadastroActivity extends RVPActivity implements Validator.ValidationListener, View.OnFocusChangeListener {
 
     private static final Object[] nomeParams = {R.id.icon_nome, R.drawable.ic_cadastro_nome_normal, R.drawable.ic_cadastro_nome_focus};
     private static final Object[] fixoParams = {R.id.icon_tel_fixo, R.drawable.ic_cadastro_telefone_normal, R.drawable.ic_cadastro_telefone_focus};
@@ -108,7 +107,7 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
     private File fileProfileBlur;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
@@ -199,92 +198,7 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
 
     }
 
-    private void loadAccount() {
-        String account = settings.getString("account", null);
-        if(account == null){
-            pickUserAccount();
-        }
-    }
 
-    private void trocarFoto() {
-        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-        photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch(requestCode) {
-            case  REQUEST_CODE_PICK_ACCOUNT:
-                // Receiving a result from the AccountPicker
-                if (resultCode == RESULT_OK) {
-                    email = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                    // With the account name acquired, go get the auth token
-                    setSelectedAccountName(email);
-                } else if (resultCode == RESULT_CANCELED) {
-                    // The account picker dialog closed without selecting an account.
-                    // Notify users that they must pick an account to proceed.
-                    Toast.makeText(this, "Você precisa selecionar uma conta antes de continuar", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-                break;
-
-            case SELECT_PHOTO:
-                if(resultCode == RESULT_OK){
-                    Uri selectedImage = data.getData();
-                    InputStream imageStream = null;
-                    try {
-                        Bitmap profileImage = ImageUtil.decodeUri(this, selectedImage);
-                        profile.setImageBitmap(profileImage);
-
-                        Bitmap blur = ImageUtil.fastblur(profileImage, 30);
-                        ((LinearLayout) findViewById(R.id.profile_image_bg)).setBackgroundDrawable(new BitmapDrawable(getResources(), blur));
-
-                        fileProfile = new File(ImageUtil.saveToInternalSorage(this,profileImage,"profile.jpg"));
-                        fileProfileBlur = new File(ImageUtil.saveToInternalSorage(this,blur,"profile_blur.jpg"));
-
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putBoolean("PROFILE_IMAGE", true);
-                        editor.commit();
-
-                        photoAtualizada = true;
-
-
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-        }
-    }
-
-
-    private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
-        String strAdd = "";
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        try {
-            List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
-            if (addresses != null) {
-                Address returnedAddress = addresses.get(0);
-                StringBuilder strReturnedAddress = new StringBuilder("");
-
-                for (int i = 0; i < returnedAddress.getMaxAddressLineIndex(); i++) {
-                    strReturnedAddress.append(returnedAddress.getAddressLine(i)).append(", ");
-                }
-                strAdd = strReturnedAddress.toString();
-                Log.w("My Current loction address", "" + strReturnedAddress.toString());
-            } else {
-                Log.w("My Current loction address", "No Address returned!");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.w("My Current loction address", "Canont get Address!");
-        }
-        return strAdd;
-    }
 
     private void loadAddress() {
         settings = getSharedPreferences("RVP",0);
@@ -449,30 +363,7 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
 
     }
 
-    static final int REQUEST_CODE_PICK_ACCOUNT = 1000;
 
-    private void pickUserAccount() {
-        String[] accountTypes = new String[]{"com.google"};
-        Intent intent = AccountPicker.newChooseAccountIntent(null, null,
-                accountTypes, false, null, null, null, null);
-        startActivityForResult(intent, REQUEST_CODE_PICK_ACCOUNT);
-    }
-
-
-    private void setSelectedAccountName(String accountName) {
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("account", accountName);
-        editor.commit();
-    }
-
-    private void hideKeyboard() {
-        // Check if no view has focus:
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        }
-    }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
@@ -484,4 +375,37 @@ public class CadastroActivity extends ActionBarActivity implements Validator.Val
         int icon = (int) params[idx];
         ((ImageView)findViewById((Integer) params[0])).setImageResource(icon);
     }
+
+    @Override
+    protected void setRequestCodeSelectPhotoOK(Uri selectedImage) {
+        InputStream imageStream = null;
+        try {
+            Bitmap profileImage = ImageUtil.decodeUri(this, selectedImage);
+            profile.setImageBitmap(profileImage);
+
+            Bitmap blur = ImageUtil.fastblur(profileImage, 30);
+            ((LinearLayout) findViewById(R.id.profile_image_bg)).setBackgroundDrawable(new BitmapDrawable(getResources(), blur));
+
+            fileProfile = new File(ImageUtil.saveToInternalSorage(this,profileImage,"profile.jpg"));
+            fileProfileBlur = new File(ImageUtil.saveToInternalSorage(this,blur,"profile_blur.jpg"));
+
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean("PROFILE_IMAGE", true);
+            editor.commit();
+
+            photoAtualizada = true;
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    protected void setRequestCodePickAccountOK(String email) {
+        super.setRequestCodePickAccountOK(email);
+        this.email = email;
+    }
+
 }

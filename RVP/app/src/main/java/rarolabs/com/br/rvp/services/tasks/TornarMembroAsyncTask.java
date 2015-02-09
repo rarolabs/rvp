@@ -2,23 +2,17 @@ package rarolabs.com.br.rvp.services.tasks;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 
-import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
-import java.io.IOException;
-
 import br.com.rarolabs.rvp.api.rvpAPI.model.Endereco;
-import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
 import br.com.rarolabs.rvp.api.rvpAPI.model.MembroCollection;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
 import rarolabs.com.br.rvp.activities.CadastroActivity;
 
-import rarolabs.com.br.rvp.activities.RedeActivity;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.services.BackendExpection;
 import rarolabs.com.br.rvp.services.BackendServices;
@@ -26,7 +20,7 @@ import rarolabs.com.br.rvp.services.BackendServices;
 /**
  * Created by rodrigosol on 1/19/15.
  */
-public class TornarMembroAsyncTask extends AsyncTask<Object, Void, Void> {
+public class TornarMembroAsyncTask extends AsyncTask<Object, Void, Boolean> {
     private static BackendServices backendServices = null;
     private final CadastroActivity activity;
     private Context context;
@@ -38,7 +32,7 @@ public class TornarMembroAsyncTask extends AsyncTask<Object, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(Object... params) {
+    protected Boolean doInBackground(Object... params) {
 
         Usuario usuario = (Usuario) params[0];
         Endereco endereco = (Endereco) params[1];
@@ -80,17 +74,20 @@ public class TornarMembroAsyncTask extends AsyncTask<Object, Void, Void> {
                     activity.error(e.getDescricao());
                 }
             });
+            return false;
         }
-        return null;
+        return true;
     }
 
     @Override
-    protected void onPostExecute(Void v) {
-        activity.runOnUiThread(new Runnable() {
-            public void run() {
-                activity.ok();
-            }
-        });
+    protected void onPostExecute(Boolean ok) {
+        if(ok) {
+            activity.runOnUiThread(new Runnable() {
+                public void run() {
+                    activity.ok();
+                }
+            });
+        }
     }
 
 }

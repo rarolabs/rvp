@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     tools:context="rarolabs.com.br.rvp.fragments.BuscaRedeFragment"
     android:background="@color/white"
-    android:layout_marginTop="152dp"
     >
 
     <LinearLayout
@@ -45,6 +44,6 @@
         android:id="@+id/fragment_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?android:attr/actionBarSize" />
+        />
 
 </FrameLayout>

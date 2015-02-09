@@ -15,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -92,7 +93,7 @@ public class BuscaRedeFragment extends Fragment
 
 
         if (gps == null) {
-            gps = new GPSTracker(getActivity());
+            gps = new GPSTracker(this);
         }
 
         // check if GPS enabled
@@ -170,20 +171,10 @@ public class BuscaRedeFragment extends Fragment
 
     }
 
-      public void error(String descricao) {
-
-      }
-
-                                              /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    public void error(String descricao) {
+        Toast.makeText(getActivity(),descricao,Toast.LENGTH_SHORT).show();
+        notFound();
+    }
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
@@ -202,7 +193,7 @@ public class BuscaRedeFragment extends Fragment
 
     public void notFound() {
 
-
+        resultFragmentView.setVisibility(View.GONE);
         spinner.clearAnimation();
         spinner.setImageResource(R.drawable.ic_tutorial_empty);
         statusBusca.setText(R.string.busca_redes_nao_encontradas);

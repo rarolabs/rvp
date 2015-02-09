@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 import rarolabs.com.br.rvp.config.Constants;
 
@@ -16,6 +17,7 @@ public class StartUpActivity extends Activity {
         super.onCreate(savedInstance);
         SharedPreferences settings = getSharedPreferences("RVP", 0);
         Intent i = null;
+        Log.w("StartUp","Welcome:" +  settings.getBoolean(Constants.WELCOME,true));
         if(settings.getBoolean(Constants.WELCOME,true)){
             i = new Intent(this,WelcomeActivity.class);
         }else{
@@ -23,5 +25,6 @@ public class StartUpActivity extends Activity {
         }
         finish();
         startActivity(i);
+
     }
 }

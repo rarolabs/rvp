@@ -98,7 +98,9 @@
                 android:value=".activities.MainActivity" />
             >
         </activity>
-        <activity android:name=".activities.StartUpActivity">
+        <activity android:name=".activities.StartUpActivity"
+                  android:theme="@android:style/Theme.NoDisplay">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
