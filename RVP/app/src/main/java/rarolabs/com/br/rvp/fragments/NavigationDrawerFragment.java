@@ -1,5 +1,7 @@
 package rarolabs.com.br.rvp.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -24,6 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.activities.MainActivity;
+import rarolabs.com.br.rvp.activities.RVPActivity;
 import rarolabs.com.br.rvp.adapters.DrawerAdapter;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.models.drawer.DrawerItem;
@@ -68,6 +72,7 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mUserLearnedDrawer;
     private DrawerAdapter mAdapter;
     private SharedPreferences settings;
+    private ImageView profileImage;
 
     public NavigationDrawerFragment() {
     }
@@ -116,8 +121,15 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerListView.setAdapter((android.widget.ListAdapter) mAdapter);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         settings = getActivity().getSharedPreferences("RVP",0);
+        profileImage = ((ImageView) view.findViewById(R.id.profile_image));
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alterarFoto();
+            }
+        });
         if(settings.getBoolean("PROFILE_IMAGE",false)){
-            ((ImageView) view.findViewById(R.id.profile_image)).setImageBitmap(ImageUtil.loadImageFromStorage(getActivity(),"profile.jpg"));
+            profileImage.setImageBitmap(ImageUtil.loadImageFromStorage(getActivity(), "profile.jpg"));
         }
         String nome = settings.getString(Constants.NOME, "");
         if(!nome.equals("")){
@@ -129,6 +141,24 @@ public class NavigationDrawerFragment extends Fragment {
         }
 
         return view;
+
+    }
+
+    private void alterarFoto() {
+        new AlertDialog.Builder(this.getActivity())
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .setTitle(R.string.title_trocar_foto)
+                .setMessage(R.string.text_trocar_foto)
+                .setPositiveButton(R.string.alterar, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ((RVPActivity)getActivity()).trocarFoto();
+                    }
+
+                })
+                .setNegativeButton(R.string.cancelar, null)
+                .show();
 
     }
 
@@ -296,6 +326,10 @@ public class NavigationDrawerFragment extends Fragment {
 
     public void mostraNotificacoes() {
         selectItem(2);
+    }
+
+    public ImageView getProfileImage() {
+        return profileImage;
     }
 
     /**

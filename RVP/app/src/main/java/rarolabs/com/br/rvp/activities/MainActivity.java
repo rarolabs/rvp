@@ -11,7 +11,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
@@ -26,6 +28,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
@@ -36,6 +40,10 @@ import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.config.Constants;
@@ -48,9 +56,11 @@ import rarolabs.com.br.rvp.fragments.NotificacaoDialogFragment;
 import rarolabs.com.br.rvp.fragments.NotificacoesFragment;
 import rarolabs.com.br.rvp.gcm.GcmRegister;
 import rarolabs.com.br.rvp.models.Notificacao;
+import rarolabs.com.br.rvp.services.tasks.AtualizarAvatarAsyncTask;
+import rarolabs.com.br.rvp.utils.ImageUtil;
 
 
-public class MainActivity extends ActionBarActivity
+public class MainActivity extends RVPActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
         GeoqueryResponderFragment.OnFragmentInteractionListener,
         BuscaRedeFragment.OnFragmentInteractionListener,
@@ -98,8 +108,9 @@ public class MainActivity extends ActionBarActivity
     private IntentFilter intentFilter;
 
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -539,4 +550,32 @@ public class MainActivity extends ActionBarActivity
         n.save();
         notificacoesFragment.refreshContent();
     }
+
+
+        @Override
+    protected void setRequestCodeSelectPhotoOK(Uri selectedImage) {
+        InputStream imageStream = null;
+        try {
+            Bitmap profileImage = ImageUtil.decodeUri(this, selectedImage);
+
+            mNavigationDrawerFragment.getProfileImage().setImageBitmap(profileImage);
+
+
+            Bitmap blur = ImageUtil.fastblur(profileImage, 30);
+
+            File fileProfile = new File(ImageUtil.saveToInternalSorage(this,profileImage,"profile.jpg"));
+            File fileProfileBlur = new File(ImageUtil.saveToInternalSorage(this,blur,"profile_blur.jpg"));
+
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean("PROFILE_IMAGE", true);
+            editor.commit();
+
+            new AtualizarAvatarAsyncTask(this).execute(fileProfile,fileProfileBlur);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

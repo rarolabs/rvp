@@ -43,7 +43,7 @@ public class RVPActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         settings = getSharedPreferences("RVP",0);
     }
-    protected void trocarFoto() {
+    public void trocarFoto() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, SELECT_PHOTO);

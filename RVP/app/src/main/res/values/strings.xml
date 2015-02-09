@@ -93,5 +93,8 @@
     <string name="logar">Logar</string>
     <string name="title_logar">Você já tem uma conta?</string>
     <string name="text_logar">Se você já utilizou o aplicativo antes, clique em logar para recuperar suas redes.</string>
+    <string name="title_trocar_foto">Trocar foto</string>
+    <string name="text_trocar_foto">Deseja alterar sua foto?</string>
+    <string name="alterar">Alterar</string>
 
 </resources>

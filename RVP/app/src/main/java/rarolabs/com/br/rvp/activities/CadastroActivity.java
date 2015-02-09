@@ -199,7 +199,6 @@ public class CadastroActivity extends RVPActivity implements Validator.Validatio
     }
 
 
-
     private void loadAddress() {
         settings = getSharedPreferences("RVP",0);
         latitude = Double.parseDouble(settings.getString("USER_LATITUDE", "0"));
