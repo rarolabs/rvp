@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.os.Bundle;
@@ -19,11 +18,12 @@ import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.config.RVPApp;
 import rarolabs.com.br.rvp.services.tasks.DeixarRedeAsyncTask;
-import rarolabs.com.br.rvp.services.tasks.GoogleMapsThumbAsyncTask;
+import rarolabs.com.br.rvp.utils.ImageUtil;
 
 public class RedeActivity extends Activity {
 
@@ -39,6 +39,7 @@ public class RedeActivity extends Activity {
     private String papel;
     ProgressDialog progress;
     private Long membroId;
+    private CircleImageView profileAdmin;
 
 
     @Override
@@ -66,6 +67,9 @@ public class RedeActivity extends Activity {
         ((TextView) findViewById(R.id.endereco_rede)).setText(extras.getString(Constants.EXTRA_ENDERECO_REDE));
         ((TextView) findViewById(R.id.nome_administrador)).setText(extras.getString(Constants.EXTRA_NOME_ADMIN));
         ((TextView) findViewById(R.id.ultima_atividade)).setText(extras.getString(Constants.EXTRA_ULTIMA_ATIVIDADE));
+        profileAdmin = (CircleImageView) findViewById(R.id.profile_image);
+        ImageUtil.loadIconAssync(extras.getString(Constants.EXTRA_AVATAR),profileAdmin);
+
         quantidadeMembros = extras.getInt(Constants.EXTRA_QUANTIDADE_MEMBROS);
 
         ((TextView) findViewById(R.id.quantidade_membros)).setText(quantidadeMembros + " membros");
@@ -96,9 +100,7 @@ public class RedeActivity extends Activity {
             location[locationIndex++] = extras.getDouble("longitude_" + membroCount);
         }
 
-        new GoogleMapsThumbAsyncTask(RedeActivity.this).execute(location);
-
-        settings = getSharedPreferences("RVP", 0);
+        ImageUtil.googleMapsThumb(this,location,thumb);
 
     }
 
@@ -157,8 +159,8 @@ public class RedeActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void setThumb(Bitmap result) {
-        thumb.setImageBitmap(result);
+    public ImageView getThumb() {
+        return thumb;
     }
 
     public void error(String descricao) {

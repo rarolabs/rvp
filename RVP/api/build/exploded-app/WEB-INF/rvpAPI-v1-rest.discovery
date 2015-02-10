@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/DIfsNRBTYTb3Kq9P4nP88oMY9Ec\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/9ptExMsjVj1JPXFiYQx6ZctSwFs\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -112,6 +112,9 @@
    "id": "GeoqueryResponder",
    "type": "object",
    "properties": {
+    "avatarAdministrador": {
+     "type": "string"
+    },
     "coordinators": {
      "type": "array",
      "items": {
@@ -275,6 +278,9 @@
    "id": "RedeDetalhada",
    "type": "object",
    "properties": {
+    "avatarAdministrador": {
+     "type": "string"
+    },
     "membroId": {
      "type": "string",
      "format": "int64"

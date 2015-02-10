@@ -104,7 +104,7 @@ public class Membro {
 
 
     public Rede getRede() {
-        return rede.get();
+        return OfyService.ofy().load().ref(rede).now();
     }
 
     public void setRede(Rede rede) {
@@ -113,7 +113,7 @@ public class Membro {
 
 
     public Usuario getUsuario() {
-        return usuario.get();
+        return OfyService.ofy().load().type(Usuario.class).id(usuario.get().getId()).now();
     }
 
     public void setUsuario(Usuario usuario) {

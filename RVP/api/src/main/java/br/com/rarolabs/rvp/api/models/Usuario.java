@@ -40,7 +40,9 @@ public class Usuario {
     private String dddTelefoneCelular;
     private String telefoneCelular;
 
+    @Index
     private String avatar;
+    @Index
     private String avatarBlur;
 
     @Index
@@ -124,7 +126,7 @@ public class Usuario {
     }
 
     public String getAvatar() {
-        return avatar;
+        return this.avatar;
     }
 
     public void setAvatar(String avatar) {
@@ -220,5 +222,23 @@ public class Usuario {
             ids.add(d.getDispositivoId());
         }
         return ids;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id='" + id + '\'' +
+                ", nome='" + nome + '\'' +
+                ", dddTelefoneFixo='" + dddTelefoneFixo + '\'' +
+                ", telefoneFixo='" + telefoneFixo + '\'' +
+                ", dddTelefoneCelular='" + dddTelefoneCelular + '\'' +
+                ", telefoneCelular='" + telefoneCelular + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", avatarBlur='" + avatarBlur + '\'' +
+                ", partipacoes=" + partipacoes +
+                ", alertas=" + alertas +
+                ", enderecos=" + enderecos +
+                ", mensagens=" + mensagens +
+                '}';
     }
 }

@@ -52,8 +52,11 @@ public class BuscaRedeAdapter extends RecyclerView.Adapter<BuscaRedeAdapter.View
         return myDataset.size();
     }
 
-    public void addAll(List<GeoqueryResponder> itens){
-        myDataset.addAll(itens);
+    public void addAll(List<GeoqueryResponder> itens)
+    {
+        if(itens!=null) {
+            myDataset.addAll(itens);
+        }
     }
 
     public GeoqueryResponder get(int position) {

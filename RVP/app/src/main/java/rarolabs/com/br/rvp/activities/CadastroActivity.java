@@ -349,6 +349,7 @@ public class CadastroActivity extends RVPActivity implements Validator.Validatio
         saveFromPrefs();
 
         if(photoAtualizada){
+
             new AtualizarAvatarAsyncTask(this).execute(fileProfile,fileProfileBlur);
         }
 

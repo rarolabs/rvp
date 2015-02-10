@@ -21,6 +21,8 @@ public class GeoqueryResponder {
     private Double latitude;
     private Double longitude;
     private String nomeAdministrador;
+    private String avatarAdministrador;
+
     private Date ultimaAtividade;
     private Integer quantidadeMembros;
 
@@ -64,6 +66,14 @@ public class GeoqueryResponder {
         this.nomeRede = nomeRede;
     }
 
+    public String getAvatarAdministrador() {
+        return avatarAdministrador;
+    }
+
+    public void setAvatarAdministrador(String avatarAdministrador) {
+        this.avatarAdministrador = avatarAdministrador;
+    }
+
     public Double getDistance() {
         return distance;
     }
@@ -75,6 +85,7 @@ public class GeoqueryResponder {
     public List<Coordinator> getCoordinators() {
         return coordinators;
     }
+
 
     public void setCoordinators(Collection<Membro> membros) {
         for(Membro m : membros){

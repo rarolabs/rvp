@@ -41,6 +41,11 @@ public class AtualizarAvatarAsyncTask extends AsyncTask<File, Void, Void> {
     @Override
     protected Void doInBackground(File... params) {
 
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         settings = context.getSharedPreferences("RVP", 0);
 

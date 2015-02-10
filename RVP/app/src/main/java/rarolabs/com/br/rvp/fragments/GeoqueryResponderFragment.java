@@ -20,7 +20,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import br.com.rarolabs.rvp.api.rvpAPI.model.Coordinator;
 import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponder;
+import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
 import rarolabs.com.br.rvp.R;
 
 import rarolabs.com.br.rvp.activities.RedeActivity;
@@ -124,13 +126,21 @@ public class GeoqueryResponderFragment extends Fragment implements AbsListView.O
                         i.putExtra(Constants.EXTRA_NOME_REDE,geo.getNomeRede());
                         i.putExtra(Constants.EXTRA_ENDERECO_REDE,"Nao sei ainda");
                         i.putExtra(Constants.EXTRA_NOME_ADMIN,geo.getNomeAdministrador());
-                        SimpleDateFormat sdf = new SimpleDateFormat("E, d 'de' M 'de' yyyy 'às' HH:mm");
+                        i.putExtra(Constants.EXTRA_AVATAR,geo.getAvatarAdministrador());
+                        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d 'de' MMMM 'de' yyyy 'às' HH:mm");
                         i.putExtra(Constants.EXTRA_ULTIMA_ATIVIDADE, sdf.format(new Date(geo.getUltimaAtividade().getValue())));
+
 
                         i.putExtra(Constants.EXTRA_ULTIMA_ATIVIDADE,geo.getUltimaAtividade().toString());
                         i.putExtra(Constants.EXTRA_QUANTIDADE_MEMBROS,geo.getQuantidadeMembros());
-                        i.putExtra(Constants.EXTRA_LATITUDE,geo.getLatitude());
-                        i.putExtra(Constants.EXTRA_LONGITUDE,geo.getLongitude());
+
+                        int pos = 0;
+                        for(Coordinator c : geo.getCoordinators()){
+                            i.putExtra("latitude_" + pos,c.getLatitude());
+                            i.putExtra("longitude_" + pos,c.getLongitude());
+                            pos++;
+                        }
+
                         startActivity(i);
                         Toast.makeText(getActivity(),"Clicado:" + position,Toast.LENGTH_SHORT).show();
                     }

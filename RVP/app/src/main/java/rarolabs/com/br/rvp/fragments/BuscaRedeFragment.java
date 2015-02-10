@@ -186,7 +186,7 @@ public class BuscaRedeFragment extends Fragment
         resultFragment.getAdapter().addAll(result);
         resultFragment.getAdapter().notifyDataSetChanged();
 
-        if (result.size() == 0) {
+        if (result == null || result.size() == 0) {
             notFound();
         }
     }

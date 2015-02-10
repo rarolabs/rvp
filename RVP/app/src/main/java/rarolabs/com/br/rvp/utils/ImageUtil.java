@@ -1,16 +1,23 @@
 package rarolabs.com.br.rvp.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Location;
 import android.net.Uri;
+import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.io.File;
@@ -19,32 +26,61 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.config.Constants;
 
 /**
  * Created by rodrigosol on 1/22/15.
  */
 public class ImageUtil {
+    private static final  DisplayImageOptions options;
+    static {
+        options = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.ic_tutorial_loading)
+                .showImageForEmptyUri(R.drawable.ic_cadastro_foto_vazia)
+                .showImageOnFail(R.drawable.ic_cadastro_foto_vazia)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .considerExifParams(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
+    }
+
+    public static void googleMapsThumb(Activity activity, Double[] location, ImageView view){
+    //360x240
+    Display display = activity.getWindowManager().getDefaultDisplay();
+    DisplayMetrics outMetrics = new DisplayMetrics ();
+    display.getMetrics(outMetrics);
+
+    Float density  = activity.getResources().getDisplayMetrics().density;
+
+
+    String URL = "http://maps.google.com/maps/api/staticmap?center=" + location[0] +
+            "," + location[1] +
+            "&zoom=15&size=360x270&scale="+ density.intValue() +"&sensor=false&";
+
+    URL += addMarkers(location);
+    Log.i("URL", URL);
+
+    ImageLoader.getInstance().displayImage(parseUrl(URL), view);
+
+}
+
+    private static String addMarkers(Double[] location) {
+        StringBuffer buffer = new StringBuffer();
+        Log.d("MARKER","Pontos:" + location.length);
+        for(int i = 0; i < location.length; i+=2){
+            buffer.append("&markers=color:red%7C"+ location[i]+ ","+ location[i+1]);
+        }
+
+        return buffer.toString();
+    }
+
 
     public static void loadIconAssync(String url, final ImageView v) {
-        ImageLoader.getInstance().loadImage(parseUrl(url), new SimpleImageLoadingListener(){
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    v.setImageBitmap(loadedImage);
-
-            }
-        });
 
 
-    }
-    public static void loadIconAssync(String url, final CircleImageView v) {
-        ImageLoader.getInstance().loadImage(parseUrl(url), new SimpleImageLoadingListener(){
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                v.setImageBitmap(loadedImage);
-
-            }
-        });
+        ImageLoader.getInstance().displayImage(parseUrl(url), v, options);
 
     }
 
@@ -53,6 +89,7 @@ public class ImageUtil {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 v.setBackgroundDrawable(new BitmapDrawable(loadedImage));
+                v.refreshDrawableState();
 
             }
         });

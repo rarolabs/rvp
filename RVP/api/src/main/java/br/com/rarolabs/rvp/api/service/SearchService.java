@@ -148,8 +148,10 @@ public class SearchService {
             geo.setLongitude(rede.getLongitude());
             geo.setCoordinators(rede.getMembros());
             geo.setNomeAdministrador(rede.getDono().getUsuario().getNome());
+            geo.setAvatarAdministrador(rede.getDono().getUsuario().getAvatar());
             geo.setQuantidadeMembros(rede.getMembros().size());
             geo.setUltimaAtividade(new Date());
+
 
             results.add(geo);
 

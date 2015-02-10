@@ -15,6 +15,7 @@ public class RedeDetalhada {
     private Long membroId;
     private String nomeRede;
     private String nomeAdministrador;
+    private String avatarAdministrador;
 
     private Integer quantidadeMembros;
     private Date ultimaAtividade;
@@ -34,11 +35,16 @@ public class RedeDetalhada {
         this.membroId = m.getId();
         this.nomeRede = m.getNomeRede();
         this.nomeAdministrador = m.getRede().getDono().getUsuario().getNome();
+        this.avatarAdministrador = m.getRede().getDono().getUsuario().getAvatar();
         this.quantidadeMembros = m.getRede().getMembros().size();
         this.setUltimaAtividade(new Date());
         this.membros = m.getRede().membrosAtivos();
         this.status = m.getStatus();
 
+        System.out.println("Avatar:" + m.getRede().getDono().getUsuario());
+        System.out.println("Avatar:" + this.nomeAdministrador);
+        System.out.println("Avatar:" + this.avatarAdministrador);
+        System.out.println("Avatar:" + this.toString());
 
     }
 
@@ -74,6 +80,14 @@ public class RedeDetalhada {
         this.nomeAdministrador = nomeAdministrador;
     }
 
+    public String getAvatarAdministrador() {
+        return avatarAdministrador;
+    }
+
+    public void setAvatarAdministrador(String avatarAdministrador) {
+        this.avatarAdministrador = avatarAdministrador;
+    }
+
     public Integer getQuantidadeMembros() {
         return quantidadeMembros;
     }
@@ -92,5 +106,20 @@ public class RedeDetalhada {
 
     public Collection<Membro> getMembros() {
         return membros;
+    }
+
+    @Override
+    public String toString() {
+        return "RedeDetalhada{" +
+                "membros=" + membros +
+                ", redeId=" + redeId +
+                ", membroId=" + membroId +
+                ", nomeRede='" + nomeRede + '\'' +
+                ", nomeAdministrador='" + nomeAdministrador + '\'' +
+                ", avatarAdministrador='" + avatarAdministrador + '\'' +
+                ", quantidadeMembros=" + quantidadeMembros +
+                ", ultimaAtividade=" + ultimaAtividade +
+                ", status=" + status +
+                '}';
     }
 }
