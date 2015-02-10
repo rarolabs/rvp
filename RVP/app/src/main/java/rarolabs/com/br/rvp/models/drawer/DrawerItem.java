@@ -1,5 +1,6 @@
 package rarolabs.com.br.rvp.models.drawer;
 
+import android.content.Context;
 import android.util.Log;
 
 import rarolabs.com.br.rvp.R;
@@ -8,6 +9,7 @@ import rarolabs.com.br.rvp.R;
  * Created by rodrigosol on 1/23/15.
  */
 public class DrawerItem {
+
 
     private int label;
     private int icon;
@@ -38,7 +40,7 @@ public class DrawerItem {
     }
 
 
-    public long getSize() {
+    public long getSize(String target) {
         Log.d("DrawerItem", "getSizeChamado");
         return size;
     }

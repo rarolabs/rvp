@@ -164,7 +164,7 @@ public class CadastroActivity extends RVPActivity implements Validator.Validatio
             validator.put(nomeRede, new QuickRule() {
                 @Override
                 public boolean isValid(View view) {
-                    return !((EditText)view).getText().equals("");
+                    return !((EditText)view).getText().toString().equals("");
                 }
 
                 @Override

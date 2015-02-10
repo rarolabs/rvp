@@ -4,19 +4,70 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+import rarolabs.com.br.rvp.config.Constants;
+
 /**
  * Created by rodrigosol on 1/22/15.
  */
 public class ImageUtil {
+
+    public static void loadIconAssync(String url, final ImageView v) {
+        ImageLoader.getInstance().loadImage(parseUrl(url), new SimpleImageLoadingListener(){
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    v.setImageBitmap(loadedImage);
+
+            }
+        });
+
+
+    }
+    public static void loadIconAssync(String url, final CircleImageView v) {
+        ImageLoader.getInstance().loadImage(parseUrl(url), new SimpleImageLoadingListener(){
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                v.setImageBitmap(loadedImage);
+
+            }
+        });
+
+    }
+
+    public static void loadIconAssync(String url, final View v) {
+        ImageLoader.getInstance().loadImage(parseUrl(url), new SimpleImageLoadingListener(){
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                v.setBackgroundDrawable(new BitmapDrawable(loadedImage));
+
+            }
+        });
+
+    }
+
+
+    private static String parseUrl(String url) {
+        if (url != null && url.contains("8080")) {
+            url = Constants.BACKEND_URL_UPLOAD + url.split("8080")[1];
+            Log.d("Avatar:", "Nova URL:" + url);
+        }
+        return url;
+    }
+
 
     public static String saveToInternalSorage(Context context, Bitmap bitmapImage,String name){
         ContextWrapper cw = new ContextWrapper(context.getApplicationContext());

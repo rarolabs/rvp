@@ -1,7 +1,9 @@
 package rarolabs.com.br.rvp.models.drawer;
 
+import android.content.Context;
 import android.util.Log;
 
+import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.models.Notificacao;
 
 /**
@@ -13,8 +15,8 @@ public class NotificacaoDrawerItem extends DrawerItem {
         super(label, icon, selectedIcon);
     }
     @Override
-    public long getSize(){
+    public long getSize(String target){
         Log.d("NotificacaoDrawerItem", "getSizeChamado");
-        return Notificacao.totalNotificacoesNaoLidas();
+        return Notificacao.totalNotificacoesNaoLidas(target);
     }
 }

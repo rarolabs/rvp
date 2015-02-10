@@ -19,7 +19,7 @@ public class NotificacaoService {
         for(Membro admin: m.getRede().membrosAdministradores()){
             try {
                 System.out.println("Enviando mensagem para:" + m.getUsuario().getEmail());
-                Message msg = mensagemDeSolicitacao(m);
+                Message msg = mensagemDeSolicitacao(m,admin.getUsuario().getId());
                 sender.send(msg,admin.getUsuario().getDispositivos(),20);
             } catch (IOException e) {
                 System.out.println("Não foi possivel enviar uma mensagem:" + e.getMessage());
@@ -28,14 +28,17 @@ public class NotificacaoService {
         }
     }
 
-    private static Message mensagemDeSolicitacao(Membro m) {
+    private static Message mensagemDeSolicitacao(Membro m, String target) {
         return new Message.Builder()
-                .addData("tipo","SOLICITACAO")
-                .addData("usuario_id",m.getUsuarioId())
-                .addData("membro_id",m.getId().toString())
+                .addData("target",target)
+                .addData("tipo", "SOLICITACAO")
+                .addData("usuario_id", m.getUsuarioId())
+                .addData("membro_id", m.getId().toString())
                 .addData("rede_id",m.getRedeId().toString())
                 .addData("nome_rede",m.getNomeRede())
                 .addData("nome_usuario",m.getUsuario().getNome())
+                .addData("avatar",m.getUsuario().getAvatar())
+                .addData("avatar_blur",m.getUsuario().getAvatarBlur())
                 .build();
 
     }
@@ -45,7 +48,7 @@ public class NotificacaoService {
         for(Membro admin: m.getRede().membrosAtivos()){
             try {
                 System.out.println("Enviando mensagem para:" + m.getUsuario().getEmail());
-                Message msg = mensagemDeStatus(m);
+                Message msg = mensagemDeStatus(m,admin.getUsuario().getId());
                 sender.send(msg,admin.getUsuario().getDispositivos(),5);
             } catch (IOException e) {
                 System.out.println("Não foi possivel enviar uma mensagem:" + e.getMessage());
@@ -54,15 +57,18 @@ public class NotificacaoService {
         }
     }
 
-    private static Message mensagemDeStatus(Membro m) {
+    private static Message mensagemDeStatus(Membro m, String target) {
         return new Message.Builder()
-                .addData("tipo","STATUS")
+                .addData("target",target)
+                .addData("tipo", "STATUS")
                 .addData("tipo_status","NOVO_MEMBRO")
-                .addData("usuario_id",m.getUsuarioId())
+                .addData("usuario_id", m.getUsuarioId())
                 .addData("membro_id",m.getId().toString())
                 .addData("rede_id",m.getRedeId().toString())
                 .addData("nome_rede",m.getNomeRede())
                 .addData("nome_usuario",m.getUsuario().getNome())
+                .addData("avatar", m.getUsuario().getAvatar())
+                .addData("avatar_blur",m.getUsuario().getAvatarBlur())
                 .build();
 
     }

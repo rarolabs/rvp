@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.models.drawer.DrawerItem;
 
 /**
@@ -19,11 +20,13 @@ public class DrawerAdapter extends ArrayAdapter<DrawerItem> {
 
     private final Context context;
     private final DrawerItem[] values;
+    private final String target;
 
     private View.OnClickListener mOnClickListener;
 
     public DrawerAdapter(Context context, DrawerItem[] values) {
         super(context,R.layout.drawer_item,values);
+        this.target = context.getSharedPreferences("RVP",0).getString(Constants.ACCOUNT,"");
         this.context = context;
         this.values = values;
         Log.d("Drawer", "Size:" + values.length);
@@ -39,8 +42,8 @@ public class DrawerAdapter extends ArrayAdapter<DrawerItem> {
         ImageView icon = (ImageView) rowView.findViewById(R.id.drawer_item_icon);
         TextView label = (TextView) rowView.findViewById(R.id.drawer_item_text);
         String labelText = context.getResources().getString(values[position].getLabel());
-        if(values[position].getSize() > 0){
-            labelText+= " ("+values[position].getSize()+")";
+        if(values[position].getSize(target) > 0){
+            labelText+= " ("+values[position].getSize(target)+")";
         }
         label.setText(labelText);
 

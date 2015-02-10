@@ -14,7 +14,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.models.Notificacao;
 
 /**
@@ -34,25 +36,27 @@ public class NotificacoesAdapter extends RecyclerView.Adapter<NotificacoesAdapte
     private final Context context;
     private View.OnClickListener mOnClickListener;
     private long totalNotificacoes;
+    private String target;
 
 
     public NotificacoesAdapter(Context context) {
+        this.target = context.getSharedPreferences("RVP",0).getString(Constants.ACCOUNT,"");
         this.currentPage = 0;
         this.context = context;
         this.myDataset = new ArrayList<Notificacao>();
-        this.totalNotificacoes = Notificacao.totalNotificacoes();
+        this.totalNotificacoes = Notificacao.totalNotificacoes(target);
     }
 
     public void reflesh(){
         this.myDataset.clear();
-        this.myDataset.addAll(Notificacao.getNotificacoes(currentPage * PAGE_SIZE, PAGE_SIZE, null));
+        this.myDataset.addAll(Notificacao.getNotificacoes(currentPage * PAGE_SIZE, PAGE_SIZE,target, null));
         notifyDataSetChanged();
     }
 
     public void carregarMais() {
         if(myDataset.size() < totalNotificacoes){
             this.currentPage++;
-            this.myDataset.addAll(Notificacao.getNotificacoes(currentPage * PAGE_SIZE, PAGE_SIZE,
+            this.myDataset.addAll(Notificacao.getNotificacoes(currentPage * PAGE_SIZE, PAGE_SIZE,target,
                     myDataset.get(myDataset.size() - 1)));
             notifyDataSetChanged();
         }else{
@@ -68,7 +72,7 @@ public class NotificacoesAdapter extends RecyclerView.Adapter<NotificacoesAdapte
             v.setOnClickListener(mOnClickListener);
             VHItem vh = new VHItem(v);
 
-            vh.icone = (ImageView) v.findViewById(R.id.icone);
+            vh.icone = (CircleImageView) v.findViewById(R.id.icone);
             vh.titulo = (TextView) v.findViewById(R.id.titulo);
             vh.texto = (TextView) v.findViewById(R.id.texto);
             vh.secao = (TextView) v.findViewById(R.id.secao);
@@ -149,9 +153,13 @@ public class NotificacoesAdapter extends RecyclerView.Adapter<NotificacoesAdapte
             ((VHItem)holder).texto.setText(notificacao.getTexto(context));
             ((VHItem)holder).data.setText(sdfData.format(notificacao.getData()));
 
-             int icone = context.getResources().getIdentifier(notificacao.getIconResource(), "drawable", context.getPackageName());
-
-            ((VHItem)holder).icone.setImageResource(icone);
+            String iconResource = notificacao.getIconResource(((VHItem)holder).icone);
+            //Caso o icone seja estatico ele eh carregado automaticamente
+            //Caso contrario, ele sera carregado de forma assincrona
+            if(iconResource!=null){
+                int icone = context.getResources().getIdentifier(notificacao.getIconResource(((VHItem) holder).icone), "drawable", context.getPackageName());
+                ((VHItem)holder).icone.setImageResource(icone);
+            }
 
 
             //((VHItem)holder).icone.setImageDrawable(notificacao.getIcon());
@@ -186,7 +194,7 @@ public class NotificacoesAdapter extends RecyclerView.Adapter<NotificacoesAdapte
     }
 
     public static class VHItem extends ViewHolder {
-        public ImageView icone;
+        public CircleImageView icone;
         public TextView secao;
         public TextView titulo;
         public TextView texto;

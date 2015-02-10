@@ -1,26 +1,42 @@
 package rarolabs.com.br.rvp.models;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.orm.SugarRecord;
-import com.orm.dsl.Ignore;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 
+import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
+import de.hdodenhof.circleimageview.CircleImageView;
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.config.Constants;
+import rarolabs.com.br.rvp.services.BackendExpection;
+import rarolabs.com.br.rvp.services.BackendServices;
+import rarolabs.com.br.rvp.utils.ImageUtil;
 
 /**
  * Created by rodrigosol on 1/29/15.
  */
 public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
 
+
+    private String target;
 
 
 
@@ -48,13 +64,15 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
     private String nomeRede;
     private String texto;
     private Boolean respondida;
-
+    private String avatar;
+    private String avatarBlur;
 
 
     public Notificacao(){
     }
-    public Notificacao(Bundle extras) {
 
+    public Notificacao(Bundle extras) {
+        this.target = extras.getString("target","");
         this.setTipo(Notificacao.Tipo.valueOf(extras.getString("tipo")));
         String extraTipoStatus = extras.getString("tipo_status");
         this.setTipoStatus(extraTipoStatus != null ? Notificacao.TipoStatus.valueOf(extraTipoStatus) : null);
@@ -63,6 +81,10 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
         this.setNomeRede(extras.getString("nome_rede"));
         this.setNomeUsuario(extras.getString("nome_usuario"));
         this.setData(new Date());
+        Log.d("Image", "Avatar:" + extras.getString("avatar"));
+        Log.d("Image","Avatar:" + extras.toString());
+        this.setAvatar(extras.getString("avatar"));
+        this.setAvatarBlur(extras.getString("avatar_blur"));
 
 
     }
@@ -220,6 +242,30 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
         this.respondida = respondida;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public void setAvatarBlur(String avatarBlur) {
+        this.avatarBlur = avatarBlur;
+    }
+
+    public String getAvatarBlur() {
+        return avatarBlur;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
     public String getSecao() {
         int diffDays = getDiff(data);
         switch (diffDays){
@@ -241,30 +287,77 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
         return  (int) diff / (24 * 60 * 60 * 1000);
     }
     @Override
-    public String getIconResource() {
+    public String getIconResource(CircleImageView icone) {
         switch (tipo){
             case ALERTA:
                 return getIconeAlerta(tipoAlerta,lido);
             case SISTEMA:
             case STATUS:
-                return getIconeStatus(tipoStatus, lido);
+                return getIconeStatus(tipoStatus, lido,icone);
             case SOLICITACAO:
-                return "ic_cadastro_foto_vazia";
+                return getIconeSolicitacao(icone);
             default:
                 return "ic_cadastro_foto_vazia";
 
         }
     }
 
-    private String getIconeStatus(TipoStatus tipoStatus, Boolean lido) {
+    private String getIconeSolicitacao(final CircleImageView icone) {
+
+        if(getAvatar()==null){
+           Object[] params = {this,getUsuarioId()};
+           new AsyncTask<Object,Void,Void>(){
+               @Override
+               protected Void doInBackground(Object... params) {
+                   Notificacao n = (Notificacao) params[0];
+                   ImageView iv = (ImageView) params[1];
+                   Context context = iv.getContext();
+                   SharedPreferences settings = context.getSharedPreferences("RVP", 0);
+                   GoogleAccountCredential credential = GoogleAccountCredential.usingAudience(context, Constants.OAUTH_CLIENT_ID);
+                   BackendServices service = new BackendServices(context, settings.getString(Constants.ACCOUNT, null), Constants.BACKEND_URL);
+                   try {
+                       final Usuario u = service.buscarUsuario(n.getUsuarioId());
+                       Log.d("Usuario recuperado","Dados:" + u.toString());
+                       if(u != null){
+                           n.setAvatar(u.getAvatar());
+                           n.setAvatarBlur(u.getAvatarBlur());
+                           n.save();
+                       }
+                       ((Activity)icone.getContext()).runOnUiThread(new Runnable() {
+                           public void run() {
+                               Log.d("Usuario Recuperado", "Avatar:" + u.getAvatar());
+                               ImageUtil.loadIconAssync(u.getAvatar(), icone);
+
+                           }
+                       });
+
+                   } catch (BackendExpection backendExpection) {
+                       backendExpection.printStackTrace();
+                   }
+
+
+                   return null;
+               }
+           }.execute(this,icone);
+
+        }else {
+            String url = getAvatar();
+            ImageUtil.loadIconAssync(url, icone);
+        }
+        return null;
+
+    }
+
+
+    private String getIconeStatus(TipoStatus tipoStatus, Boolean lido, CircleImageView icone) {
         if(tipoStatus==null){
-            return "ic_drawer_notificacoes_normal";
+            return getIconeSolicitacao(icone);
         }
         switch (tipoStatus){
             case NOVO_ADMINSTRADOR:
                 return getIconeFromString("ic_notificacoes_novo_admin",lido);
             case NOVO_MEMBRO:
-                return "ic_cadastro_foto_vazia";
+                return getIconeSolicitacao(icone);
             case NOVA_AUTORIDADE:
                 return getIconeFromString("ic_alertas_policia",lido);
 
@@ -299,23 +392,25 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
         return nome+"_" +sufixo;
     }
 
-    public static long totalNotificacoes() {
-        return Notificacao.count(Notificacao.class,null,null);
+    public static long totalNotificacoes(String target) {
+        String[] params = {target};
+        return Notificacao.count(Notificacao.class, "target=?", params);
     }
-    public static long totalNotificacoesNaoLidas() {
-        return Notificacao.count(Notificacao.class, "lido = 0",null);
-    }
-
-    public static void marcarTodasComoLidas() {
-        Notificacao.executeQuery("UPDATE notificacao SET lido = 1");
-    }
-    public static void excluirTodo() {
-        Notificacao.executeQuery("DELETE FROM notificacao");
+    public static long totalNotificacoesNaoLidas(String target) {
+        String[] params = {target};
+        return Notificacao.count(Notificacao.class, "lido = 0 and target=?",params);
     }
 
+    public static void marcarTodasComoLidas(String target) {
+        Notificacao.executeQuery("UPDATE notificacao SET lido = 1 where target = '"+target+"'");
+    }
+    public static void excluirTodo(String target) {
+        Notificacao.executeQuery("DELETE FROM notificacao where target = '"+target+"'");
+    }
 
-    public static List<Notificacao> getNotificacoes(Integer skip, Integer count,Notificacao ultimaCarregada){
-       return criaSecoes(Notificacao.findWithQuery(Notificacao.class, "SELECT * FROM notificacao ORDER by data desc LIMIT ?, ?", skip.toString(), count.toString()),ultimaCarregada);
+
+    public static List<Notificacao> getNotificacoes(Integer skip, Integer count,String target,Notificacao ultimaCarregada){
+       return criaSecoes(Notificacao.findWithQuery(Notificacao.class, "SELECT * FROM notificacao where target = ? ORDER by data desc LIMIT ?, ?", target, skip.toString(), count.toString()),ultimaCarregada);
    }
 
     private static List<Notificacao> criaSecoes(List<Notificacao> notificacaos,Notificacao ultimaCarregada) {

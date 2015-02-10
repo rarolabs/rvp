@@ -107,7 +107,10 @@ public class NotificacoesFragment extends Fragment {
                                         notificacao.getMembroId(),
                                         notificacao.getNomeRede(),
                                         notificacao.getNomeUsuario(),
-                                        notificacao.getId()).show(getFragmentManager(), "NOTIFICACAO_DIALOG");
+                                        notificacao.getId(),
+                                        notificacao.getAvatar(),
+                                        notificacao.getAvatarBlur()
+                                ).show(getFragmentManager(), "NOTIFICACAO_DIALOG");
 
 
 
@@ -200,7 +203,7 @@ public class NotificacoesFragment extends Fragment {
     }
 
     public void marcarTodasComoLidas() {
-        Notificacao.marcarTodasComoLidas();
+        Notificacao.marcarTodasComoLidas(currentUser);
         ((NotificacoesAdapter)mRecyclerView.getAdapter()).reflesh();
         Toast.makeText(this.getActivity(),R.string.notificacoes_marcadas_como_lidas,Toast.LENGTH_SHORT).show();
 
@@ -215,7 +218,7 @@ public class NotificacoesFragment extends Fragment {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Notificacao.excluirTodo();
+                        Notificacao.excluirTodo(currentUser);
                         ((NotificacoesAdapter)mRecyclerView.getAdapter()).reflesh();
 
                         Toast.makeText(NotificacoesFragment.this.getActivity(),R.string.notificacoes_excluidas,Toast.LENGTH_SHORT).show();

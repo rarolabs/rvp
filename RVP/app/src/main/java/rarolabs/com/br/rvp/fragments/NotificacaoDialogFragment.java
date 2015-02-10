@@ -7,6 +7,7 @@ import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -16,8 +17,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.activities.MainActivity;
@@ -27,6 +32,7 @@ import rarolabs.com.br.rvp.models.Notificacao;
 import rarolabs.com.br.rvp.services.tasks.AceitarSolicitacaoAsyncTask;
 import rarolabs.com.br.rvp.services.tasks.DeixarRedeAsyncTask;
 import rarolabs.com.br.rvp.services.tasks.TornarMembroAsyncTask;
+import rarolabs.com.br.rvp.utils.ImageUtil;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,6 +49,8 @@ public class NotificacaoDialogFragment extends DialogFragment {
     private static final String ARG_NOME_REDE = "nome_rede";
     private static final String ARG_NOME_USER = "nome_user";
     private static final String ARG_NOTIFICACAO_ID = "notificacao_id";
+    private static final String ARG_AVATAR = "avatar";
+    private static final String ARG_AVATAR_BLUR = "avatar_blur";
 
     private String mUserId;
     private Long mMembroId;
@@ -59,9 +67,12 @@ public class NotificacaoDialogFragment extends DialogFragment {
     private View mView;
     private ProgressDialog progress;
     private long mNotificacaoId;
+    private String mAvatar;
+    private String mAvatarBlur;
 
     public static NotificacaoDialogFragment newInstance(String userId, Long membroId, String nomeRede,
-                                                        String nomeUsuario,Long notificacaoId) {
+                                                        String nomeUsuario,Long notificacaoId, String avatar,
+                                                        String avatarBlur) {
         NotificacaoDialogFragment fragment = new NotificacaoDialogFragment();
         Bundle args = new Bundle();
         args.putString(ARG_USER_ID, userId);
@@ -69,7 +80,8 @@ public class NotificacaoDialogFragment extends DialogFragment {
         args.putString(ARG_NOME_REDE, nomeRede);
         args.putString(ARG_NOME_USER, nomeUsuario);
         args.putLong(ARG_NOTIFICACAO_ID,notificacaoId);
-
+        args.putString(ARG_AVATAR, avatar);
+        args.putString(ARG_AVATAR_BLUR, avatarBlur);
         fragment.setArguments(args);
 
         return fragment;
@@ -96,6 +108,8 @@ public class NotificacaoDialogFragment extends DialogFragment {
             mNomeRede = getArguments().getString(ARG_NOME_REDE);
             mNomeUser = getArguments().getString(ARG_NOME_USER);
             mNotificacaoId = getArguments().getLong(ARG_NOTIFICACAO_ID);
+            mAvatar = getArguments().getString(ARG_AVATAR);
+            mAvatarBlur = getArguments().getString(ARG_AVATAR_BLUR);
         }
     }
     @Override
@@ -125,8 +139,15 @@ public class NotificacaoDialogFragment extends DialogFragment {
         mTornarAdministrador = (SwitchCompat) mView.findViewById(R.id.tornar_administrador);
         mTornarAutoridade = (SwitchCompat) mView.findViewById(R.id.tornar_autoridade);
         mCancelar = (Button) mView.findViewById(R.id.cancelar);
-        mTornarMembro= (Button) mView.findViewById(R.id.tornar_membro);
+        mTornarMembro = (Button) mView.findViewById(R.id.tornar_membro);
 
+        if(mAvatar!=null){
+            ImageUtil.loadIconAssync(mAvatar, (ImageView) mView.findViewById(R.id.profile_image));
+        }
+
+        if(mAvatarBlur!=null){
+            ImageUtil.loadIconAssync(mAvatarBlur,  mView.findViewById(R.id.profile_image_bg));
+        }
 
         mCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
