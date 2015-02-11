@@ -184,7 +184,9 @@ public class PerfilActivity extends ActionBarActivity {
     public void okToggleAdmnistrador() {
         progress.dismiss();
         disableListeners();
-        tornarAutoridade.setChecked(false);
+        if(tornarAutoridade.isChecked()) {
+            tornarAutoridade.setChecked(false);
+        }
         enableListerners();
     }
 
@@ -207,7 +209,9 @@ public class PerfilActivity extends ActionBarActivity {
     public void okToggleAutoridade() {
         progress.dismiss();
         disableListeners();
-        tornarAdministrador.setChecked(false);
+        if(tornarAdministrador.isChecked()) {
+            tornarAdministrador.setChecked(false);
+        }
         enableListerners();
    }
 
