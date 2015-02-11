@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">RVP</string>
+    <string name="app_name">Rede de Vizinhos Protegidos</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -96,5 +96,7 @@
     <string name="title_trocar_foto">Trocar foto</string>
     <string name="text_trocar_foto">Deseja alterar sua foto?</string>
     <string name="alterar">Alterar</string>
+    <string name="buscando_perfil">Buscando perfil do vizinho</string>
+    <string name="cancelar_maiuscula">CANCELAR</string>
 
 </resources>

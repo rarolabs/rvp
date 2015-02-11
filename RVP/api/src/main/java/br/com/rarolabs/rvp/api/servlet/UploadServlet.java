@@ -44,7 +44,7 @@ public class UploadServlet extends HttpServlet {
         ServingUrlOptions optsBlur =  ServingUrlOptions.Builder.withBlobKey(profileBlur);
         String urlProfileBlur = imagesService.getServingUrl(optsBlur);
 
-        Usuario usuario = OfyService.ofy().load().type(Usuario.class).id(usuarioID).now();
+        Usuario usuario = OfyService.ofy().cache(false).load().type(Usuario.class).id(usuarioID).now();
         System.out.println("Usuario eh null:" + (usuario == null));
         System.out.println("URL produle:" + (urlProfile));
         usuario.setAvatar(urlProfile);

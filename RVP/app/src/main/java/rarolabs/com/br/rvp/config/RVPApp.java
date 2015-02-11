@@ -1,7 +1,11 @@
 package rarolabs.com.br.rvp.config;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.WindowManager;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -22,6 +26,7 @@ public class RVPApp extends com.orm.SugarApp {
     }
 
     private Bundle ultimaRede;
+    private static float density;
 
     @Override
     public void onCreate() {
@@ -35,7 +40,18 @@ public class RVPApp extends com.orm.SugarApp {
         .defaultDisplayImageOptions(defaultOptions)
         .build();
         ImageLoader.getInstance().init(config);
+        WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        DisplayMetrics outMetrics = new DisplayMetrics ();
+        display.getMetrics(outMetrics);
+        density = outMetrics.density;
+
     }
+
+    public static Float getDesinty(){
+        return density;
+    }
+
 }
 
 

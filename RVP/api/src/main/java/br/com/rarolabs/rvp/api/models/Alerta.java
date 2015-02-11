@@ -1,8 +1,11 @@
 package br.com.rarolabs.rvp.api.models;
 
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Load;
 
 import java.util.Date;
 

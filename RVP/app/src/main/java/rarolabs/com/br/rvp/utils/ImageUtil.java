@@ -28,6 +28,7 @@ import java.io.FileOutputStream;
 import de.hdodenhof.circleimageview.CircleImageView;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.config.Constants;
+import rarolabs.com.br.rvp.config.RVPApp;
 
 /**
  * Created by rodrigosol on 1/22/15.
@@ -48,16 +49,11 @@ public class ImageUtil {
 
     public static void googleMapsThumb(Activity activity, Double[] location, ImageView view){
     //360x240
-    Display display = activity.getWindowManager().getDefaultDisplay();
-    DisplayMetrics outMetrics = new DisplayMetrics ();
-    display.getMetrics(outMetrics);
-
-    Float density  = activity.getResources().getDisplayMetrics().density;
 
 
     String URL = "http://maps.google.com/maps/api/staticmap?center=" + location[0] +
             "," + location[1] +
-            "&zoom=15&size=360x270&scale="+ density.intValue() +"&sensor=false&";
+            "&zoom=15&size=360x270&scale="+ RVPApp.getDesinty().intValue() +"&sensor=false&";
 
     URL += addMarkers(location);
     Log.i("URL", URL);
@@ -77,15 +73,22 @@ public class ImageUtil {
     }
 
 
-    public static void loadIconAssync(String url, final ImageView v) {
-
-
-        ImageLoader.getInstance().displayImage(parseUrl(url), v, options);
+    public static void loadIconAssync(String url, final ImageView v,Integer size) {
+        String dpSize = "";
+        if(size!=null){
+            dpSize = "=s" + RVPApp.getDesinty().intValue() * size;
+        }
+        ImageLoader.getInstance().displayImage(parseUrl(url+dpSize), v, options);
 
     }
 
-    public static void loadIconAssync(String url, final View v) {
-        ImageLoader.getInstance().loadImage(parseUrl(url), new SimpleImageLoadingListener(){
+    public static void loadIconAssync(String url, final View v,Integer size) {
+        String dpSize = "";
+        if(size!=null){
+            dpSize = "=s" + RVPApp.getDesinty().intValue() * size;
+        }
+
+        ImageLoader.getInstance().loadImage(parseUrl(url+dpSize), new SimpleImageLoadingListener(){
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 v.setBackgroundDrawable(new BitmapDrawable(loadedImage));

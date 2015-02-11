@@ -46,6 +46,7 @@ public class Rede {
     @Index
     @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
     private @Load Ref<Membro> dono;
+    private @Index Long donoId;
 
 
     @Index
@@ -85,13 +86,14 @@ public class Rede {
 
 
     public Membro getDono() {
-        return dono.get();
+        return OfyService.ofy().load().type(Membro.class).id(donoId).now();
     }
 
     public void setDono(Membro dono) {
         Ref<Membro> ref = Ref.create(dono);
         this.dono = ref;
         this.membros.add(ref);
+        this.donoId = dono.getId();
     }
 
     @ApiResourceProperty

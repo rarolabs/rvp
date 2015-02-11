@@ -9,10 +9,42 @@
     tools:ignore="MergeRootFrame"
     android:background="@color/white">
 
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:id="@+id/loading"
+        android:gravity="center_vertical"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginTop="48dp"
+            android:id="@+id/spinner"
+            android:src="@drawable/ic_tutorial_loading"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/buscando_perfil"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:singleLine="false"
+            android:textAlignment="center"
+            android:id="@+id/status_busca"
+            />
+
+    </LinearLayout>
 
     <ScrollView
+        android:id="@+id/conteiner_profile"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,16 +72,16 @@
                     />
 
             </LinearLayout>
-
+`
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="16dp">
                 <TextView
+                    android:id="@+id/nome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Rodrigo Sol"
                     android:textSize="20sp"
                     android:fontFamily="Roboto-Medium"
                     android:textColor="@color/titulo_rede"
@@ -57,9 +89,9 @@
                     />
 
                 <TextView
+                    android:id="@+id/endereco"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Rua Américo Magalhães 690/102 Barreiro Belo horizonte MG"
                     android:textSize="16dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="16dp"
@@ -78,10 +110,10 @@
                         />
 
                     <TextView
+                        android:id="@+id/telefone_celular"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
-                        android:text="(31) 71718438"
                         android:textSize="16dp"
                         android:textColor="@color/fonte_edit_text"
                         android:layout_gravity="center_vertical"
@@ -103,14 +135,13 @@
                         />
 
                     <TextView
+                        android:id="@+id/telefone_fixo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
-                        android:text="(31) 71718438"
                         android:textSize="16dp"
                         android:textColor="@color/fonte_edit_text"
                         android:layout_gravity="center_vertical"
-
                         />
 
                 </LinearLayout>
@@ -129,7 +160,8 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:id="@+id/container_admin">
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="50dp"
@@ -161,7 +193,8 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:id="@+id/container_autoridade">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"

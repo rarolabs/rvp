@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/9ptExMsjVj1JPXFiYQx6ZctSwFs\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/VKSB8BBDpjB4XVTQTV3GvDQtyic\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -251,6 +251,49 @@
     ""
    ]
   },
+  "Profile": {
+   "id": "Profile",
+   "type": "object",
+   "properties": {
+    "avatar": {
+     "type": "string"
+    },
+    "avatarBlur": {
+     "type": "string"
+    },
+    "endereco": {
+     "type": "string"
+    },
+    "membroId": {
+     "type": "string",
+     "format": "int64"
+    },
+    "nome": {
+     "type": "string"
+    },
+    "papel": {
+     "$ref": "Papel"
+    },
+    "papelDoVisualizado": {
+     "$ref": "Papel"
+    },
+    "redeId": {
+     "type": "string"
+    },
+    "status": {
+     "$ref": "Status"
+    },
+    "telefoneCelular": {
+     "type": "string"
+    },
+    "telefoneFixo": {
+     "type": "string"
+    },
+    "usuarioId": {
+     "type": "string"
+    }
+   }
+  },
   "Rede": {
    "id": "Rede",
    "type": "object",
@@ -383,7 +426,13 @@
     "telefoneCelular": {
      "type": "string"
     },
+    "telefoneCelularComDDD": {
+     "type": "string"
+    },
     "telefoneFixo": {
+     "type": "string"
+    },
+    "telefoneFixoComDDD": {
      "type": "string"
     }
    }
@@ -466,6 +515,25 @@
    ],
    "returns": {
     "$ref": "Membro"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "rvpAPI.buscarMembro": {
+   "id": "rvpAPI.buscarMembro",
+   "parameters": {
+    "membro_id": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    }
+   },
+   "parameterOrder": [
+    "membro_id"
+   ],
+   "returns": {
+    "$ref": "Profile"
    },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.profile"

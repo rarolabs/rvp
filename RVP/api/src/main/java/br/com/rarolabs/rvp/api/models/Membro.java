@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import br.com.rarolabs.rvp.api.responders.Profile;
 import br.com.rarolabs.rvp.api.service.OfyService;
 import br.com.rarolabs.rvp.api.service.SearchService;
 
@@ -47,8 +48,11 @@ public class Membro {
     @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
     private @Load Ref<Rede> rede;
 
+    private @Index Long redeId;
+
     @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
     private @Index @Load Ref<Usuario> usuario;
+    private @Index String usuarioId;
 
     @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
     private @Load Ref<Endereco> endereco;
@@ -74,6 +78,7 @@ public class Membro {
     public Status getStatus() {
         return status;
     }
+
 
     @ApiResourceProperty
     public String getNomeRede() {
@@ -109,15 +114,17 @@ public class Membro {
 
     public void setRede(Rede rede) {
         this.rede = Ref.create(rede);
+        this.redeId = rede.getId();
     }
 
 
     public Usuario getUsuario() {
-        return OfyService.ofy().load().type(Usuario.class).id(usuario.get().getId()).now();
+        return OfyService.ofy().load().type(Usuario.class).id(usuarioId).now();
     }
 
     public void setUsuario(Usuario usuario) {
         this.usuario = Ref.create(usuario);
+        this.usuarioId = usuario.getId();
     }
 
     @ApiResourceProperty
@@ -157,14 +164,14 @@ public class Membro {
 
 
     public Endereco getEndereco() {
-        return endereco.get();
+       return  endereco!=null ? endereco.get() : null;
     }
 
     public Long getRedeId() {
         return rede.get().getId();
     }
     public String getUsuarioId() {
-        return usuario.get().getId();
+        return usuarioId;
     }
 
 
@@ -294,6 +301,98 @@ public class Membro {
         }
 
     }
+
+    public static Profile buscarMembro(Long membroId, String email) throws NotFoundException {
+        Objectify ofy = OfyService.ofy();
+        Membro m = ofy.load().type(Membro.class).id(membroId).now();
+        Usuario u = ofy.load().type(Usuario.class).id(email).now();
+        if(m==null){
+            throw new NotFoundException("Vizinho não encontrado");
+        }
+
+        if(u==null){
+            throw new NotFoundException("Usuário não cadastrado");
+        }
+
+        return ofuscateMembro(m,u);
+    }
+
+    private static Profile ofuscateMembro(Membro m, Usuario u) {
+
+        System.out.println("Membro a ser ofuscado:" +m.getId());
+        System.out.println("Usuario que esta vendo" + u.getId());
+        System.out.println("Rede que esta sendo visualizada" + m.getRedeId());
+
+        Membro membroQueEstavaVendo = u.minhaAssociacao(m.getRedeId());
+        System.out.println("Voltou" + membroQueEstavaVendo);
+        if(membroQueEstavaVendo==null){
+            membroQueEstavaVendo = new Membro();
+            membroQueEstavaVendo.setPapel(Papel.VIVIZINHO);
+        }
+        if(membroQueEstavaVendo.papel.equals(Papel.ADMIN) ||
+           membroQueEstavaVendo.papel.equals(Papel.CRIADOR)){
+            return createProfile(m,membroQueEstavaVendo);
+        }else {
+            return createProfile(m.ofuscaTelefoneCelular(membroQueEstavaVendo)
+                    .ofuscaTelefoneFixo(membroQueEstavaVendo)
+                    .ofuscaEndereco(membroQueEstavaVendo), membroQueEstavaVendo);
+        }
+    }
+
+    private static Profile createProfile(Membro m, Membro membroQueEstavaVendo) {
+        Profile p = new Profile();
+        p.setMembroId(m.getId());
+
+        Usuario dadosDoMembro = m.getUsuario();
+
+
+
+        p.setUsuarioId(m.getUsuarioId());
+        p.setNome(dadosDoMembro.getNome());
+        if(m.getEndereco()!=null) {
+            p.setEndereco(m.getEndereco().getDescricao());
+        }
+        p.setAvatar(dadosDoMembro.getAvatar());
+        p.setAvatarBlur(dadosDoMembro.getAvatarBlur());
+        p.setPapelDoVisualizado(membroQueEstavaVendo.getPapel());
+        p.setTelefoneCelular(dadosDoMembro.getTelefoneCelularComDDD());
+        p.setTelefoneFixo(dadosDoMembro.getTelefoneFixoComDDD());
+        p.setPapel(m.getPapel());
+        p.setStatus(m.getStatus());
+
+        System.out.println(p);
+
+        return p;
+    }
+
+    private Membro ofuscaEndereco(Membro membroQueEstavaVendo) {
+        if (visibilidadeEndereco.equals(Visibilidade.PRIVADO) ||
+           (visibilidadeEndereco.equals(Visibilidade.SOMENTE_COM_AUTORIDADE) && !membroQueEstavaVendo.papel.equals(Papel.AUTORIDADE))){
+            this.endereco = null;
+        }
+        return this;
+    }
+
+    private Membro ofuscaTelefoneFixo(Membro membroQueEstavaVendo) {
+        if (visibilidadeTelefoneFixo.equals(Visibilidade.PRIVADO) ||
+                (visibilidadeTelefoneFixo.equals(Visibilidade.SOMENTE_COM_AUTORIDADE) && !membroQueEstavaVendo.papel.equals(Papel.AUTORIDADE))){
+            this.getUsuario().setTelefoneFixo("");
+            this.getUsuario().setDddTelefoneFixo("");
+        }
+        return this;
+    }
+
+    private Membro ofuscaTelefoneCelular(Membro membroQueEstavaVendo) {
+        if (visibilidadeTelefoneCelular.equals(Visibilidade.PRIVADO) ||
+                (visibilidadeTelefoneCelular.equals(Visibilidade.SOMENTE_COM_AUTORIDADE) && !membroQueEstavaVendo.papel.equals(Papel.AUTORIDADE))){
+            this.getUsuario().setTelefoneCelular("");
+            this.getUsuario().setDddTelefoneCelular("");
+        }
+        return this;
+
+    }
+
+
 
 
     @Override

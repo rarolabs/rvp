@@ -32,6 +32,7 @@ import com.mobsandgeeks.saripaar.QuickRule;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.mobsandgeeks.saripaar.annotation.Size;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -74,18 +75,23 @@ public class CadastroActivity extends RVPActivity implements Validator.Validatio
     private EditText nome;
 
     @NotEmpty(messageResId = R.string.error_ddd_fixo)
+    @Size(min = 2, max = 2)
     private EditText dddFixo;
 
+    @Size(min = 8, max = 9)
     @NotEmpty(messageResId = R.string.error_tel_fixo)
     private EditText telFixo;
 
+    @Size(min = 2, max = 2)
     @NotEmpty(messageResId = R.string.error_ddd_cel)
     private EditText dddCel;
 
+    @Size(min = 8, max = 9)
     @NotEmpty(messageResId = R.string.error_tel_cel)
     private EditText telCel;
 
     @NotEmpty(messageResId = R.string.error_endereco)
+    @Size(min = 6)
     private EditText endereco;
 
     private Validator validator;

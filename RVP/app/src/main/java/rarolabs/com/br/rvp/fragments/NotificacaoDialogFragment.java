@@ -142,11 +142,11 @@ public class NotificacaoDialogFragment extends DialogFragment {
         mTornarMembro = (Button) mView.findViewById(R.id.tornar_membro);
 
         if(mAvatar!=null){
-            ImageUtil.loadIconAssync(mAvatar, (ImageView) mView.findViewById(R.id.profile_image));
+            ImageUtil.loadIconAssync(mAvatar, (ImageView) mView.findViewById(R.id.profile_image),164);
         }
 
         if(mAvatarBlur!=null){
-            ImageUtil.loadIconAssync(mAvatarBlur,  mView.findViewById(R.id.profile_image_bg));
+            ImageUtil.loadIconAssync(mAvatarBlur,  mView.findViewById(R.id.profile_image_bg),216);
         }
 
         mCancelar.setOnClickListener(new View.OnClickListener() {
@@ -170,14 +170,8 @@ public class NotificacaoDialogFragment extends DialogFragment {
 
     private void perfilDetalhado() {
         Intent i = new Intent(NotificacaoDialogFragment.this.getActivity(), PerfilActivity.class);
-//        i.putExtra(Constants.EXTRA_USER_ID,mUserId);
-//        i.putExtra(Con,mMembroId);
-//        i.putExtra(,mNomeRede);
-//        i.putExtra(,mNomeUser);
-//        i.putExtra(,mNotificacaoId);
-
+        i.putExtra(Constants.EXTRA_MEMBRO_ID,mMembroId);
         startActivity(i);
-
     }
 
     private void tornarMembro() {

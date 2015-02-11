@@ -68,7 +68,7 @@ public class RedeActivity extends Activity {
         ((TextView) findViewById(R.id.nome_administrador)).setText(extras.getString(Constants.EXTRA_NOME_ADMIN));
         ((TextView) findViewById(R.id.ultima_atividade)).setText(extras.getString(Constants.EXTRA_ULTIMA_ATIVIDADE));
         profileAdmin = (CircleImageView) findViewById(R.id.profile_image);
-        ImageUtil.loadIconAssync(extras.getString(Constants.EXTRA_AVATAR),profileAdmin);
+        ImageUtil.loadIconAssync(extras.getString(Constants.EXTRA_AVATAR),profileAdmin,40);
 
         quantidadeMembros = extras.getInt(Constants.EXTRA_QUANTIDADE_MEMBROS);
 

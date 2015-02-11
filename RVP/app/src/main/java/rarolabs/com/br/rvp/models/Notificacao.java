@@ -17,6 +17,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.orm.SugarRecord;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -78,8 +80,13 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
         this.setTipoStatus(extraTipoStatus != null ? Notificacao.TipoStatus.valueOf(extraTipoStatus) : null);
         this.setUsuarioId(extras.getString("usuario_id"));
         this.setMembroId(Long.valueOf(extras.getString("membro_id")));
-        this.setNomeRede(extras.getString("nome_rede"));
-        this.setNomeUsuario(extras.getString("nome_usuario"));
+        try {
+            this.setNomeRede(URLDecoder.decode(extras.getString("nome_rede"), "UTF-8"));
+            this.setNomeUsuario(URLDecoder.decode(extras.getString("nome_usuario"), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
         this.setData(new Date());
         Log.d("Image", "Avatar:" + extras.getString("avatar"));
         Log.d("Image","Avatar:" + extras.toString());
@@ -326,7 +333,7 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
                        ((Activity)icone.getContext()).runOnUiThread(new Runnable() {
                            public void run() {
                                Log.d("Usuario Recuperado", "Avatar:" + u.getAvatar());
-                               ImageUtil.loadIconAssync(u.getAvatar(), icone);
+                               ImageUtil.loadIconAssync(u.getAvatar(), icone,40);
 
                            }
                        });
@@ -342,7 +349,7 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
 
         }else {
             String url = getAvatar();
-            ImageUtil.loadIconAssync(url, icone);
+            ImageUtil.loadIconAssync(url, icone,40);
         }
         return null;
 

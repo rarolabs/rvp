@@ -116,7 +116,7 @@
                 android:id="@+id/cancelar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/cancelar"
+                android:text="@string/cancelar_maiuscula"
                 android:background="?android:attr/selectableItemBackground"
                 android:textSize="14sp"
                 android:textColor="@color/fonte_cancelar"

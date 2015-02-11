@@ -23,6 +23,7 @@ import br.com.rarolabs.rvp.api.rvpAPI.RvpAPIRequestInitializer;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.Endereco;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
+import br.com.rarolabs.rvp.api.rvpAPI.model.Profile;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import br.com.rarolabs.rvp.api.rvpAPI.model.RedeDetalhadaCollection;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
@@ -222,6 +223,14 @@ public class BackendServices {
     public  br.com.rarolabs.rvp.api.rvpAPI.model.MembroCollection buscarMembros(Long idRede) throws BackendExpection {
         try {
             return service.buscarMembros(idRede).execute();
+        } catch (IOException e) {
+            throw new BackendExpection(e);
+        }
+    }
+
+    public Profile buscarMembro(Long membroId) throws BackendExpection {
+        try {
+            return service.buscarMembro(membroId).execute();
         } catch (IOException e) {
             throw new BackendExpection(e);
         }

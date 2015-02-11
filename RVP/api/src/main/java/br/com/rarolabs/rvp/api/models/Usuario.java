@@ -241,4 +241,21 @@ public class Usuario {
                 ", mensagens=" + mensagens +
                 '}';
     }
+
+    public Membro minhaAssociacao(Long redeId) {
+
+        return OfyService.ofy().cache(false).load().type(Membro.class).filter("redeId",redeId).filter("usuarioId",this.getId()).first().now();
+//        Rede r = new Rede();
+//        r.setId(redeId);
+//        return OfyService.ofy().load().type(Membro.class).filter("rede",r).first().now();
+    }
+
+    public String getTelefoneCelularComDDD() {
+        return telefoneCelular + "" + dddTelefoneCelular;
+    }
+
+    public String getTelefoneFixoComDDD() {
+        return telefoneFixo + "" + dddTelefoneFixo;
+    }
+
 }

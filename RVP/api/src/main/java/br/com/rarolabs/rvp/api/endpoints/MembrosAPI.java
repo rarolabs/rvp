@@ -30,6 +30,7 @@ import br.com.rarolabs.rvp.api.models.Endereco;
 import br.com.rarolabs.rvp.api.models.Membro;
 import br.com.rarolabs.rvp.api.models.Rede;
 import br.com.rarolabs.rvp.api.models.Usuario;
+import br.com.rarolabs.rvp.api.responders.Profile;
 import br.com.rarolabs.rvp.api.responders.StringResponse;
 import br.com.rarolabs.rvp.api.service.NotificacaoService;
 
@@ -217,6 +218,15 @@ public class MembrosAPI {
         BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
         String blobUploadUrl =  blobstoreService.createUploadUrl("/blob/upload");
         return new StringResponse(blobUploadUrl);
+    }
+
+    @ApiMethod(name = "buscarMembro")
+    public Profile buscarMembro(@Named("membro_id") Long membroId,User user) throws OAuthRequestException, NotFoundException {
+        if(user==null){
+            throw new OAuthRequestException("Usuário não autenticado");
+        }
+
+        return  Membro.buscarMembro(membroId,user.getEmail());
 
     }
 
