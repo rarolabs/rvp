@@ -161,8 +161,7 @@ public class PerfilActivity extends ActionBarActivity {
             }
 
             if (p.getStatus().equals("ATIVO")) {
-                tornarAdministrador.setOnCheckedChangeListener(adminListener);
-                tornarAutoridade.setOnCheckedChangeListener(autoridadeListener);            }
+                enableListerners();            }
 
         } else {
             containerAdministrador.setVisibility(View.GONE);
@@ -184,25 +183,42 @@ public class PerfilActivity extends ActionBarActivity {
 
     public void okToggleAdmnistrador() {
         progress.dismiss();
+        disableListeners();
+        tornarAutoridade.setChecked(false);
+        enableListerners();
     }
 
     public void errorToggleAdministrador(String descricao) {
         Toast.makeText(this, descricao, Toast.LENGTH_LONG).show();
-        tornarAdministrador.setOnCheckedChangeListener(null);
+        disableListeners();
         tornarAdministrador.setChecked(!tornarAdministrador.isChecked());
-        tornarAdministrador.setOnCheckedChangeListener(adminListener);
+        enableListerners();
         progress.dismiss();
     }
 
     public void errorToggleAutoridade(String descricao) {
         Toast.makeText(this, descricao, Toast.LENGTH_LONG).show();
-        tornarAutoridade.setOnCheckedChangeListener(null);
+        disableListeners();
         tornarAutoridade.setChecked(!tornarAutoridade.isChecked());
-        tornarAutoridade.setOnCheckedChangeListener(autoridadeListener);
+        enableListerners();
         progress.dismiss();
     }
 
     public void okToggleAutoridade() {
         progress.dismiss();
+        disableListeners();
+        tornarAdministrador.setChecked(false);
+        enableListerners();
+   }
+
+    private void enableListerners() {
+        tornarAdministrador.setOnCheckedChangeListener(adminListener);
+        tornarAutoridade.setOnCheckedChangeListener(autoridadeListener);
     }
+
+    private void disableListeners() {
+        tornarAdministrador.setOnCheckedChangeListener(null);
+        tornarAutoridade.setOnCheckedChangeListener(null);
+    }
+
 }
