@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -43,20 +44,22 @@ public class RVPNotificationManager {
             i.putExtra(Constants.FRAGMENT,"NOTIFICACAO");
             PendingIntent contentIntent = PendingIntent.getActivity(context, 0,i, PendingIntent.FLAG_UPDATE_CURRENT);
 
-
-
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(context)
-                            .setSmallIcon(R.drawable.ic_drawer_notificacoes_normal)
+                            .setSmallIcon(R.drawable.ic_rvp_status)
                             .setContentTitle(notificacao.getTitulo(context))
                             .setStyle(new NotificationCompat.BigTextStyle()
                                     .bigText(notificacao.getTexto(context)))
                             .setGroup("RVP")
+                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                             .setContentText(notificacao.getTexto(context));
 
 
+
             mBuilder.setContentIntent(contentIntent);
-            mNotificationManager.notify(notificacao.getId().intValue(), mBuilder.build());
+            Notification notification = mBuilder.build();
+            notification.flags |= Notification.FLAG_AUTO_CANCEL;
+            mNotificationManager.notify(notificacao.getId().intValue(), notification);
 
         }else{
             Log.d("Notificacao:", "Tentando notificar activity");

@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/VKSB8BBDpjB4XVTQTV3GvDQtyic\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/xatoHshPUhVNSP6Ko7o_bpKaEGc\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -84,6 +84,28 @@
     "longitude": {
      "type": "number",
      "format": "double"
+    }
+   }
+  },
+  "Dispositivo": {
+   "id": "Dispositivo",
+   "type": "object",
+   "properties": {
+    "dispositivoId": {
+     "type": "string"
+    },
+    "id": {
+     "type": "string",
+     "format": "int64"
+    },
+    "sistemaOperacional": {
+     "type": "string"
+    },
+    "usuarioId": {
+     "type": "string"
+    },
+    "versao": {
+     "type": "string"
     }
    }
   },
@@ -413,7 +435,7 @@
     "dispositivos": {
      "type": "array",
      "items": {
-      "type": "string"
+      "$ref": "Dispositivo"
      }
     },
     "email": {

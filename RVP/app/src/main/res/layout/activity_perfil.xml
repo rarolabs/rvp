@@ -8,6 +8,9 @@
     tools:context="rarolabs.com.br.rvp.activities.PerfilActivity"
     tools:ignore="MergeRootFrame"
     android:background="@color/white">
+    <include
+        layout="@layout/barra_notificacao"
+        android:id="@+id/notificacao"/>
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -16,6 +19,8 @@
         android:orientation="vertical"
         android:id="@+id/loading"
         android:gravity="center_vertical"
+        android:visibility="visible"
+        android:layout_marginTop="-50dp"
         >
 
         <ImageView
@@ -222,6 +227,37 @@
                         android:layout_height="1dp"
                         android:src="@drawable/list_divider"
                         />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:id="@+id/container_acoes"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:visibility="gone"
+                        >
+                    <Button
+                        android:id="@+id/rejeitar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/botao_rejeitar"
+                        android:layout_weight="1"
+                        android:text="@string/rejeitar"
+                        android:textColor="@color/white"
+                        android:layout_marginRight="10dp"
+                        />
+                    <Button
+                        android:id="@+id/adicionar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/botao_aceitar"
+                        android:layout_weight="1"
+                        android:text="@string/adicionar"
+                        android:textColor="@color/fonte_cancelar"
+                        android:layout_marginLeft="10dp"/>
+
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"

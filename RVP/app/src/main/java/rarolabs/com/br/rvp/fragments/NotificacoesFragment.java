@@ -23,6 +23,7 @@ import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.activities.MainActivity;
 import rarolabs.com.br.rvp.adapters.NotificacoesAdapter;
 import rarolabs.com.br.rvp.config.Constants;
+import rarolabs.com.br.rvp.config.RVPApp;
 import rarolabs.com.br.rvp.listeners.RecyclerItemClickListener;
 import rarolabs.com.br.rvp.models.Notificacao;
 import rarolabs.com.br.rvp.views.Loading;
@@ -73,7 +74,7 @@ public class NotificacoesFragment extends Fragment {
         MainActivity activity = (MainActivity) getActivity();
         activity.setRecycleView(mRecyclerView);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.notificacoes_swipe_refresh_layout);
-        mSwipeRefreshLayout.setProgressViewOffset(false, 150, 190);
+        mSwipeRefreshLayout.setProgressViewOffset(false, RVPApp.getDesinty().intValue() * 130, RVPApp.getDesinty().intValue() * 170);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

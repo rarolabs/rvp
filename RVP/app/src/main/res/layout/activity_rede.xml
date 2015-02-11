@@ -4,8 +4,11 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     tools:context="rarolabs.com.br.rvp.activities.RedeActivity" tools:ignore="MergeRootFrame"
     android:statusBarColor="@android:color/transparent"
-
     >
+    <include
+        layout="@layout/barra_notificacao"
+        android:id="@+id/notificacao"/>
+
     <ImageView
         android:id="@+id/thumb"
         android:layout_width="match_parent"

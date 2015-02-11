@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="bottom"
+    android:background="@color/material_lime_A400"
+    android:elevation="4dp"
+    android:fadingEdge="none"
+    android:layout_marginTop="-42dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_drawer_notificacoes_selected"
+            android:layout_gravity="center"
+            android:layout_marginLeft="16dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Nova Notificação Recebida"
+            android:textColor="@color/material_green_700"
+            android:gravity="center"
+            android:layout_marginLeft="16dp"
+            android:textSize="16dp"
+            />
+    </LinearLayout>
+</RelativeLayout>

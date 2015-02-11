@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
 
@@ -24,7 +25,8 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        >
         <meta-data
             android:name="DATABASE"
             android:value="rvp.db" />
@@ -56,14 +58,16 @@
 
         <activity
             android:name=".activities.WelcomeActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="rarolabs.com.br.rvp.broadcast.FECHAR_ACTIVITY" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activities.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="rarolabs.com.br.rvp.broadcast.MOSTRA_ALERTA" />
             </intent-filter>
@@ -71,35 +75,46 @@
         <activity
             android:name=".activities.RedeActivity"
             android:label="@string/title_activity_rede" >
+            <intent-filter>
+                <action android:name="rarolabs.com.br.rvp.broadcast.MOSTRA_ALERTA" />
+            </intent-filter>
+
         </activity>
         <activity
             android:name=".activities.CadastroActivity"
             android:label="@string/title_activity_cadastro"
-            android:theme="@style/AppThemeLight" >
+            android:theme="@style/AppThemeLight"
+            android:screenOrientation="portrait">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.RedeActivity" />
             >
-        </activity>
-        <activity
-            android:name=".HomeActivity"
-            android:label="@string/title_activity_home" >
+            <intent-filter>
+                <action android:name="rarolabs.com.br.rvp.broadcast.MOSTRA_ALERTA" />
+            </intent-filter>
+
         </activity>
         <activity
             android:name=".activities.PerfilActivity"
             android:label="@string/title_activity_perfil"
-            android:theme="@style/AppThemeLight" >
+            android:theme="@style/AppThemeLight"
+            android:screenOrientation="portrait">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
             >
+            <intent-filter>
+                <action android:name="rarolabs.com.br.rvp.broadcast.MOSTRA_ALERTA" />
+            </intent-filter>
+
         </activity>
         <activity android:name=".activities.StartUpActivity"
-                  android:theme="@android:style/Theme.NoDisplay">
+                  android:theme="@android:style/Theme.NoDisplay"
+                  android:screenOrientation="portrait">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

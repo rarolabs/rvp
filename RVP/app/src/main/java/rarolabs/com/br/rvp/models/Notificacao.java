@@ -45,7 +45,7 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
     public enum TipoAlerta {VEICULO_SUSPEITO,PESSOA_SUSPEITA,
         PANICO,PORTAO_ABERTO,SUSPEITA_DE_INVACAO,AUSENCIA, MUDANCA,INCENDIO}
 
-    public enum TipoStatus {NOVO_MEMBRO,NOVO_ADMINSTRADOR,NOVA_AUTORIDADE}
+    public enum TipoStatus {NOVO_MEMBRO,NOVO_ADMINISTRADOR,NOVA_AUTORIDADE,REJEITAR,RETIRAR_ADMINISTRADOR,RETIRAR_AUTORIDADE,DEIXOU_REDE}
 
     public enum Tipo {SOLICITACAO,ALERTA,SISTEMA,STATUS}
 
@@ -112,10 +112,18 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
                 switch (tipoStatus){
                     case NOVO_MEMBRO:
                         return context.getString(R.string.titulo_notificacao_novo_membro);
-                    case NOVO_ADMINSTRADOR:
+                    case NOVO_ADMINISTRADOR:
                         return context.getString(R.string.titulo_notificacao_novo_admin);
                     case NOVA_AUTORIDADE:
                         return context.getString(R.string.titulo_notificacao_nova_autoridade);
+                    case REJEITAR:
+                        return context.getString(R.string.titulo_notificacao_rejeitado);
+                    case RETIRAR_ADMINISTRADOR:
+                        return context.getString(R.string.titulo_notificacao_deixou_de_ser_administrador);
+                    case RETIRAR_AUTORIDADE:
+                        return context.getString(R.string.titulo_notificacao_deixou_de_ser_autoridade);
+                    case DEIXOU_REDE:
+                        return context.getString(R.string.titulo_notificacao_deixou_a_rede);
                 }
         }
 
@@ -139,10 +147,18 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
                 switch (tipoStatus){
                     case NOVO_MEMBRO:
                         return Html.fromHtml(String.format(context.getString(R.string.descricao_notificacao_novo_membro), nomeUsuario, nomeRede));
-                    case NOVO_ADMINSTRADOR:
+                    case NOVO_ADMINISTRADOR:
                         return Html.fromHtml(String.format(context.getString(R.string.descricao_notificacao_novo_admin), nomeUsuario, nomeRede));
                     case NOVA_AUTORIDADE:
                         return Html.fromHtml(String.format(context.getString(R.string.descricao_notificacao_nova_autoridade), nomeUsuario, nomeRede));
+                    case REJEITAR:
+                        return Html.fromHtml(String.format(context.getString(R.string.descricao_notificacao_rejeitado), nomeUsuario, nomeRede));
+                    case RETIRAR_ADMINISTRADOR:
+                        return Html.fromHtml(String.format(context.getString(R.string.descricao_notificacao_deixou_de_ser_administrador), nomeUsuario, nomeRede));
+                    case RETIRAR_AUTORIDADE:
+                        return Html.fromHtml(String.format(context.getString(R.string.descricao_notificacao_deixou_de_ser_autoridade), nomeUsuario, nomeRede));
+                    case DEIXOU_REDE:
+                        return Html.fromHtml(String.format(context.getString(R.string.descricao_notificacao_deixou_a_rede), nomeUsuario, nomeRede));
 
                 }
         }
@@ -295,6 +311,7 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
     }
     @Override
     public String getIconResource(CircleImageView icone) {
+
         switch (tipo){
             case ALERTA:
                 return getIconeAlerta(tipoAlerta,lido);
@@ -310,7 +327,6 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
     }
 
     private String getIconeSolicitacao(final CircleImageView icone) {
-
         if(getAvatar()==null){
            Object[] params = {this,getUsuarioId()};
            new AsyncTask<Object,Void,Void>(){
@@ -361,13 +377,16 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
             return getIconeSolicitacao(icone);
         }
         switch (tipoStatus){
-            case NOVO_ADMINSTRADOR:
-                return getIconeFromString("ic_notificacoes_novo_admin",lido);
+            case RETIRAR_ADMINISTRADOR:
+            case NOVO_ADMINISTRADOR:
+                return getIconeFromString("ic_notificacoes_novo_admin", lido);
             case NOVO_MEMBRO:
+            case REJEITAR:
+            case DEIXOU_REDE:
                 return getIconeSolicitacao(icone);
             case NOVA_AUTORIDADE:
-                return getIconeFromString("ic_alertas_policia",lido);
-
+            case RETIRAR_AUTORIDADE:
+                return getIconeFromString("ic_alertas_policia", lido);
         }
         return "";
     }

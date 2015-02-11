@@ -1,8 +1,13 @@
 package rarolabs.com.br.rvp.activities;
 
 import android.accounts.AccountManager;
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -11,11 +16,15 @@ import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextSwitcher;
 import android.widget.Toast;
 
 import com.google.android.gms.common.AccountPicker;
@@ -37,11 +46,33 @@ public class RVPActivity extends ActionBarActivity {
     protected SharedPreferences settings;
     private static final int REQUEST_CODE_PICK_ACCOUNT = 1000;
     private static final int SELECT_PHOTO = 100;
+    protected AnimatorSet animations;
+    protected TextSwitcher alertaTexto;
+    protected Boolean alertaSendoExibido = false;
+    protected BroadcastReceiver mReceiver;
+    protected IntentFilter intentFilter;
+    protected Vibrator vibe;
+    private RelativeLayout alerta;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         settings = getSharedPreferences("RVP",0);
+
+            mReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    Log.d("Main", "Alerta rececido");
+                    mostrarAlerta();
+                }
+            };
+
+            intentFilter = new IntentFilter("rarolabs.com.br.rvp.broadcast.MOSTRA_ALERTA");
+            onNewIntent(getIntent());
+
+            vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+
     }
     public void trocarFoto() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -143,4 +174,73 @@ public class RVPActivity extends ActionBarActivity {
     protected void disableWelcomeActivity(){
         settings.edit().putBoolean(Constants.WELCOME,true).apply();
     }
+
+    private void setupAnimation() {
+        int px = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                42,
+                getResources().getDisplayMetrics()
+        );
+
+        ObjectAnimator anim1 = ObjectAnimator.ofFloat(alerta, "TranslationY", px);
+        ObjectAnimator anim2 = ObjectAnimator.ofFloat(alerta, "TranslationY", -px);
+        anim2.setStartDelay(2000);
+        animations = new AnimatorSet();
+        animations.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                mostrandoAlerta(true);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mostrandoAlerta(false);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                mostrandoAlerta(false);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+                mostrandoAlerta(false);
+            }
+        });
+        animations.play(anim1).before(anim2);
+    }
+
+    private synchronized void mostrandoAlerta(Boolean status) {
+        alertaSendoExibido = status;
+    }
+
+    public void mostrarAlerta() {
+        if(alerta!=null) {
+            if (!alertaSendoExibido) {
+                if (alerta != null) {
+                    animations.start();
+                }
+                vibe.vibrate(50);
+            }
+        }
+
+    }
+
+    protected void enableNotificacoes(RelativeLayout alerta){
+        this.alerta = alerta;
+        setupAnimation();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(mReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mReceiver);
+    }
+
 }

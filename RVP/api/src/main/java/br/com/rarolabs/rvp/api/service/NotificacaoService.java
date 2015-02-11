@@ -1,11 +1,10 @@
 package br.com.rarolabs.rvp.api.service;
 
-import com.google.android.gcm.server.Message;
 import com.google.android.gcm.server.Sender;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import br.com.rarolabs.rvp.api.auth.Constants;
@@ -16,66 +15,94 @@ import br.com.rarolabs.rvp.api.models.Membro;
  * Created by rodrigosol on 2/2/15.
  */
 public class NotificacaoService {
+    private static final Sender sender = new Sender(Constants.GCM_API_KEY);
+    private static final String[] STATUS_NOVO_MEMBRO = new String[1];
+    private static final String[] STATUS_REJEITAR = new String[1];
+    private static final String[] STATUS_NOVO_ADMINISTRADOR = new String[1];
+    private static final String[] STATUS_NOVA_AUTORIDADE = new String[1];
+    private static final String[] STATUS_RETIRAR_ADMINISTRADOR = new String[1];
+    private static final String[] STATUS_DEIXOU_REDE = new String[1];
+    private static final String[] STATUS_RETIRAR_AUTORIDADE = new String[1];
+
+    static {
+        STATUS_NOVO_MEMBRO[0] = "NOVO_MEMBRO";
+        STATUS_REJEITAR[0] = "REJEITAR";
+        STATUS_NOVO_ADMINISTRADOR[0] = "NOVO_ADMINISTRADOR";
+        STATUS_NOVA_AUTORIDADE[0] = "NOVA_AUTORIDADE";
+        STATUS_RETIRAR_ADMINISTRADOR[0] = "RETIRAR_ADMINISTRADOR";
+        STATUS_RETIRAR_AUTORIDADE[0] = "RETIRAR_AUTORIDADE";
+        STATUS_DEIXOU_REDE[0] = "DEIXOU_REDE";
+    }
+
+
     public static void notificarSolicacaoAssociacao(Membro m) {
-        Sender sender = new Sender(Constants.GCM_API_KEY);
-        for(Membro admin: m.getRede().membrosAdministradores()){
-            try {
-                System.out.println("Enviando mensagem para:" + m.getUsuario().getEmail());
-                Message msg = mensagemDeSolicitacao(m,admin.getUsuario().getId());
-                if(admin.getUsuario().getDispositivos().size() > 0) {
-                    sender.send(msg, admin.getUsuario().getDispositivos(), 20);
-                }
-            } catch (IOException e) {
-                System.out.println("Não foi possivel enviar uma mensagem:" + e.getMessage());
-            }
-
-        }
+        enviarNotificacao(m,m.getRede().membrosAdministradores(), new Notificacoes().new SolicitacaoTemplate(), 20);
     }
 
-    private static Message mensagemDeSolicitacao(Membro m, String target) throws UnsupportedEncodingException {
-        return new Message.Builder()
-                .addData("target",target)
-                .addData("tipo", "SOLICITACAO")
-                .addData("usuario_id", m.getUsuarioId())
-                .addData("membro_id", m.getId().toString())
-                .addData("rede_id",m.getRedeId().toString())
-                .addData("nome_rede", URLEncoder.encode(m.getNomeRede(), "UTF-8"))
-                .addData("nome_usuario",URLEncoder.encode(m.getUsuario().getNome(), "UTF-8"))
-                .addData("avatar",m.getUsuario().getAvatar())
-                .addData("avatar_blur",m.getUsuario().getAvatarBlur())
-                .build();
-
-    }
 
     public static void notificarNovoVizinho(Membro m) {
-        Sender sender = new Sender(Constants.GCM_API_KEY);
-        for(Membro admin: m.getRede().membrosAtivos()){
-            try {
-                System.out.println("Enviando mensagem para:" + m.getUsuario().getEmail());
-                Message msg = mensagemDeStatus(m,admin.getUsuario().getId());
-                if(admin.getUsuario().getDispositivos().size() > 0) {
-                    sender.send(msg, admin.getUsuario().getDispositivos(), 5);
-                }
-            } catch (IOException e) {
-                System.out.println("Não foi possivel enviar uma mensagem:" + e.getMessage());
-            }
+        enviarNotificacao(m,m.getRede().membrosAtivos(), new Notificacoes().new StatusTemplate(STATUS_NOVO_MEMBRO), 5);
+    }
 
+    public static void notificarReprovarAssociacao(Membro m) {
+        enviarNotificacao(m, new Notificacoes().new StatusTemplate(STATUS_REJEITAR), 5);
+    }
+
+    public static void notificarNovoAdministrador(Membro m) {
+        enviarNotificacao(m,m.getRede().membrosAtivos(), new Notificacoes().new StatusTemplate(STATUS_NOVO_ADMINISTRADOR), 5);
+    }
+
+    public static void notificarRetirarAdministrador(Membro m) {
+        enviarNotificacao(m,m.getRede().membrosAtivos(), new Notificacoes().new StatusTemplate(STATUS_RETIRAR_ADMINISTRADOR), 5);
+    }
+
+    public static void notificarDeixarARede(Membro m) {
+        enviarNotificacao(m,m.getRede().membrosAtivos(), new Notificacoes().new StatusTemplate(STATUS_DEIXOU_REDE), 5);
+    }
+
+    public static void notificarTornarAutoridade(Membro m) {
+        enviarNotificacao(m,m.getRede().membrosAtivos(), new Notificacoes().new StatusTemplate(STATUS_NOVA_AUTORIDADE), 5);
+    }
+
+    public static void notificarRetirarAutoridade(Membro m) {
+        enviarNotificacao(m,m.getRede().membrosAtivos(), new Notificacoes().new StatusTemplate(STATUS_RETIRAR_AUTORIDADE), 5);
+    }
+
+    private static void enviarNotificacao(Membro m, Notificacoes.MessageTemplate template, int retries) {
+        try {
+            System.out.println("Enviando mensagem");
+            List<String> dest = getDestinations(m);
+            if(dest.size()>0) {
+                sender.send(template.parse(m, m.getUsuarioId()), dest, 5);
+            }
+        } catch (IOException e) {
+            System.out.println("Não foi possivel enviar uma mensagem:" + e.getMessage());
+        }
+
+    }
+
+    private static void enviarNotificacao(Membro m, Collection<Membro> destinations, Notificacoes.MessageTemplate template, int i) {
+        try {
+            System.out.println("Enviando mensagem");
+            for(Membro membro: destinations) {
+                List<String> dest = getDestinations(membro);
+                if(dest.size()>0) {
+                    sender.send(template.parse(m, membro.getUsuarioId()), dest, 5);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Não foi possivel enviar uma mensagem:" + e.getMessage());
         }
     }
 
-    private static Message mensagemDeStatus(Membro m, String target) throws UnsupportedEncodingException {
-        return new Message.Builder()
-                .addData("target", target)
-                .addData("tipo", "STATUS")
-                .addData("tipo_status","NOVO_MEMBRO")
-                .addData("usuario_id", m.getUsuarioId())
-                .addData("membro_id", m.getId().toString())
-                .addData("rede_id",m.getRedeId().toString())
-                .addData("nome_rede", URLEncoder.encode(m.getNomeRede(), "UTF-8"))
-                .addData("nome_usuario",URLEncoder.encode(m.getUsuario().getNome(), "UTF-8"))
-                .addData("avatar", m.getUsuario().getAvatar())
-                .addData("avatar_blur",m.getUsuario().getAvatarBlur())
-                .build();
 
+    private static List<String> getDestinations(Membro membro) {
+        List<String> ids = new ArrayList<String>();
+            for(Dispositivo d: membro.getDispositivos()){
+                ids.add(d.getDispositivoId());
+            }
+        return ids;
     }
+
+
 }

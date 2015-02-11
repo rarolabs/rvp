@@ -178,7 +178,12 @@ public class Rede {
             ofy.save().entity(endereco).now();
         }
 
-        final Membro m = new Membro();
+        final Membro m = Membro.novoOuInativo(id,usuarioId);
+        if(m.getStatus().equals(Membro.Status.ATIVO)){
+            throw new ConflictException("Esse usuário já foi adicionado");
+        }
+
+
         m.setRede(rede);
         m.setUsuario(usuario);
         m.setEndereco(endereco);

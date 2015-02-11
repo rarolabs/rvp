@@ -15,6 +15,7 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
@@ -47,6 +48,7 @@ import java.io.InputStream;
 
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.config.Constants;
+import rarolabs.com.br.rvp.config.RVPApp;
 import rarolabs.com.br.rvp.fragments.AlertasFragment;
 import rarolabs.com.br.rvp.fragments.BuscaRedeFragment;
 import rarolabs.com.br.rvp.fragments.GeoqueryResponderFragment;
@@ -100,13 +102,7 @@ public class MainActivity extends RVPActivity
     private NotificacoesFragment notificacoesFragment;
     private BuscaRedeFragment buscaRedeFragment;
     private GcmRegister gcmRegister;
-    private RelativeLayout alerta;
-    private AnimatorSet animations;
-    private TextSwitcher alertaTexto;
-    private Boolean alertaSendoExibido = false;
-    private BroadcastReceiver mReceiver;
-    private IntentFilter intentFilter;
-
+    private boolean mudarParaNotificacoes = false;
 
 
     @Override
@@ -150,22 +146,10 @@ public class MainActivity extends RVPActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-
-
-        alerta = (RelativeLayout) findViewById(R.id.notificacao);
-
-        setupAnimation();
-
-        mReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Log.d("Main", "Alerta rececido");
-                mostrarAlerta();
-            }
-        };
-
-        intentFilter = new IntentFilter("rarolabs.com.br.rvp.broadcast.MOSTRA_ALERTA");
-        onNewIntent(getIntent());
+        enableNotificacoes((RelativeLayout) findViewById(R.id.notificacao));
+        if(mudarParaNotificacoes) {
+            mNavigationDrawerFragment.mostraNotificacoes();
+        }
     }
 
 
@@ -175,58 +159,12 @@ public class MainActivity extends RVPActivity
         Bundle extras = intent.getExtras();
         if (extras != null) {
             if (extras.containsKey(Constants.FRAGMENT)) {
-                mNavigationDrawerFragment.mostraNotificacoes();
+                this.mudarParaNotificacoes = true;
             }
         }
     }
 
-    private void setupAnimation() {
-        int px = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                42,
-                getResources().getDisplayMetrics()
-        );
 
-        ObjectAnimator anim1 = ObjectAnimator.ofFloat(alerta, "TranslationY", px);
-        ObjectAnimator anim2 = ObjectAnimator.ofFloat(alerta, "TranslationY", -px);
-        anim2.setStartDelay(2000);
-        animations = new AnimatorSet();
-        animations.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                mostrandoAlerta(true);
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mostrandoAlerta(false);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-                mostrandoAlerta(false);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-                mostrandoAlerta(false);
-            }
-        });
-        animations.play(anim1).before(anim2);
-    }
-
-    private synchronized void mostrandoAlerta(Boolean status) {
-        alertaSendoExibido = status;
-    }
-
-    public void mostrarAlerta() {
-        if (!alertaSendoExibido) {
-            animations.start();
-            if (sectionNumer == SECTION_NOTIFICACOES) {
-                notificacoesFragment.refreshContent();
-            }
-        }
-    }
 
     private void fabClick() {
         switch (sectionNumer) {
@@ -290,16 +228,20 @@ public class MainActivity extends RVPActivity
 
         if (fragment instanceof MinhasRedesFragment) {
             mTitleView.setText(getString(R.string.title_rede_de_vizinhos));
+            mFab.setVisibility(View.VISIBLE);
             this.sectionNumer = SECTION_MINHAS_REDES;
         } else if (fragment instanceof BuscaRedeFragment) {
             mTitleView.setText(getString(R.string.title_busca_redes));
             this.sectionNumer = SECTION_BUSCA_REDES;
+            mFab.setVisibility(View.VISIBLE);
         } else if (fragment instanceof AlertasFragment) {
             mTitleView.setText(getString(R.string.title_alertas));
+            mFab.setVisibility(View.GONE);
             this.sectionNumer = SECTION_ALERTAS;
         } else if (fragment instanceof NotificacoesFragment) {
             mTitleView.setText(getString(R.string.title_notificacoes));
             this.sectionNumer = SECTION_NOTIFICACOES;
+            mFab.setVisibility(View.GONE);
         }
 
         invalidateOptionsMenu();
@@ -373,9 +315,10 @@ public class MainActivity extends RVPActivity
         }
         FragmentManager fragmentManager = getFragmentManager();
         Fragment fragment = null;
+        (findViewById(R.id.container)).setPadding(0,0,0,0);
         switch (id) {
             case R.id.action_buscar_rede:
-
+                (findViewById(R.id.container)).setPadding(0, RVPApp.getDesinty().intValue() * 200,0,0);
                 fragment = getFragmentBySection(SECTION_BUSCA_REDES);
                 sectionNumer = SECTION_BUSCA_REDES;
                 fragmentManager.beginTransaction()
@@ -455,11 +398,11 @@ public class MainActivity extends RVPActivity
         Rect rect = new Rect();
         mFab.getLocalVisibleRect(rect);
 
-        int mFabTranslateY = ((rect.centerY() - adjustedScrollY) - (mFab.getHeight() / 2));
-        ViewHelper.setTranslationY(mFab, mFabTranslateY);
+//        int mFabTranslateY = ((rect.centerY() - adjustedScrollY) - (mFab.getHeight() / 2));
+//        ViewHelper.setTranslationY(mFab, mFabTranslateY);
 
         // Show/hide FAB
-        if (scrollY > 80) {
+        if (scrollY > 0) {
             hideFab();
         } else {
             showFab();
@@ -525,22 +468,12 @@ public class MainActivity extends RVPActivity
 
     }
 
-//    myReceiver = new MyReceiver();
-//    intentFilter = new IntentFilter("com.hmkcode.android.USER_ACTION");
-//}
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        registerReceiver(mReceiver, intentFilter);
+    public void mostrarAlerta() {
+        super.mostrarAlerta();
+        if (sectionNumer == SECTION_NOTIFICACOES) {
+            notificacoesFragment.refreshContent();
+        }
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(mReceiver);
-    }
-
 
     @Override
     public void returnFromDialog(long notificacaoId) {

@@ -184,6 +184,10 @@ public class Membro {
         this.endereco = Ref.create(endereco);
     }
 
+    @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
+    public List<Dispositivo> getDispositivos() {
+        return this.getUsuario().getDispositivos();
+    }
 
 
 
@@ -275,7 +279,7 @@ public class Membro {
         return m;
     }
 
-    public static void deixarRede(Long membroId,String email) throws ForbiddenException, OAuthRequestException {
+    public static Membro deixarRede(Long membroId,String email) throws ForbiddenException, OAuthRequestException {
         Objectify ofy = OfyService.ofy();
         Membro m = ofy.load().type(Membro.class).id(membroId).now();
 
@@ -299,6 +303,7 @@ public class Membro {
             m.setStatus(Status.INATIVO);
             ofy.save().entity(m).now();
         }
+        return m;
 
     }
 
@@ -390,6 +395,15 @@ public class Membro {
         }
         return this;
 
+    }
+
+    public static Membro novoOuInativo(Long redeId, String usuarioId) {
+        Membro m = OfyService.ofy().load().type(Membro.class).filter("redeId",redeId).filter("usuarioId",usuarioId).first().now();
+        if(m!=null){
+            return m;
+        }else{
+            return new Membro();
+        }
     }
 
 

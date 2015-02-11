@@ -4,10 +4,12 @@ import android.app.ProgressDialog;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -45,6 +47,9 @@ public class PerfilActivity extends ActionBarActivity {
     private View containerAutoridade;
     private CompoundButton.OnCheckedChangeListener adminListener;
     private CompoundButton.OnCheckedChangeListener autoridadeListener;
+    private View containerAcoes;
+    private Button botaoRejeitar;
+    private Button botaoAdicionar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +74,8 @@ public class PerfilActivity extends ActionBarActivity {
 
         containerAdministrador = findViewById(R.id.container_admin);
         containerAutoridade = findViewById(R.id.container_autoridade);
+
+
         adminListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -82,8 +89,34 @@ public class PerfilActivity extends ActionBarActivity {
             }
         };
 
+        containerAcoes = findViewById(R.id.container_acoes);
+        botaoRejeitar = (Button) findViewById(R.id.rejeitar);
+        botaoRejeitar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rejeitar();
+            }
+        });
+
+        botaoAdicionar = (Button) findViewById(R.id.adicionar);
+        botaoAdicionar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adicionar();
+            }
+        });
+
+
         new BuscaPerfilAsyncTask(this).execute(membroId);
 
+
+    }
+
+    private void rejeitar() {
+
+    }
+
+    private void adicionar() {
 
     }
 
@@ -119,6 +152,10 @@ public class PerfilActivity extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+        if( id == R.id.home){
+            onBackPressed();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -152,16 +189,21 @@ public class PerfilActivity extends ActionBarActivity {
 
         if (p.getPapelDoVisualizado().equals("ADMIN") ||
                 p.getPapelDoVisualizado().equals("CRIADOR")) {
-            if (p.getPapel().equals("ADMIN")) {
-                tornarAdministrador.setChecked(true);
-                tornarAutoridade.setChecked(false);
-            } else if (p.getPapel().equals("AUTORIDADE")) {
-                tornarAdministrador.setChecked(false);
-                tornarAutoridade.setChecked(true);
-            }
 
             if (p.getStatus().equals("ATIVO")) {
-                enableListerners();            }
+                if (p.getPapel().equals("ADMIN")) {
+                    tornarAdministrador.setChecked(true);
+                    tornarAutoridade.setChecked(false);
+                } else if (p.getPapel().equals("AUTORIDADE")) {
+                    tornarAdministrador.setChecked(false);
+                    tornarAutoridade.setChecked(true);
+                }
+                enableListerners();
+            }else{
+                containerAcoes.setVisibility(View.VISIBLE);
+            }
+
+
 
         } else {
             containerAdministrador.setVisibility(View.GONE);
@@ -225,4 +267,8 @@ public class PerfilActivity extends ActionBarActivity {
         tornarAutoridade.setOnCheckedChangeListener(null);
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

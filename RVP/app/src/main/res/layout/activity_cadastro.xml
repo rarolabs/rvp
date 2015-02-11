@@ -7,6 +7,9 @@
     android:statusBarColor="@android:color/transparent"
     tools:context="rarolabs.com.br.rvp.activities.CadastroActivity"
     tools:ignore="MergeRootFrame">
+    <include
+        layout="@layout/barra_notificacao"
+        android:id="@+id/notificacao"/>
 
 
     <ScrollView

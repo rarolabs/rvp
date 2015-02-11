@@ -105,7 +105,9 @@ public class MembrosAPI {
         if(user==null){
             throw new OAuthRequestException("Usuário não autenticado");
         }
-        return Membro.reprovarAssociacao(membroId);
+        Membro m = Membro.reprovarAssociacao(membroId);
+        NotificacaoService.notificarReprovarAssociacao(m);
+        return m;
     }
 
     /**
@@ -120,7 +122,10 @@ public class MembrosAPI {
         if(user==null){
             throw new OAuthRequestException("Usuário não autenticado");
         }
-        return Membro.tornarAdministrador(membroId);
+        Membro m = Membro.tornarAdministrador(membroId);
+        NotificacaoService.notificarNovoAdministrador(m);
+        return m;
+
     }
 
     /**
@@ -135,7 +140,10 @@ public class MembrosAPI {
         if(user==null){
             throw new OAuthRequestException("Usuário não autenticado");
         }
-        return Membro.retirarPermissaoAdministrador(membroId);
+        Membro m =  Membro.retirarPermissaoAdministrador(membroId);
+        NotificacaoService.notificarRetirarAdministrador(m);
+        return m;
+
     }
 
     /**
@@ -180,7 +188,9 @@ public class MembrosAPI {
         if(user==null){
             throw new OAuthRequestException("Usuário não autenticado");
         }
-        Membro.deixarRede(membroId,user.getEmail());
+        Membro m = Membro.deixarRede(membroId,user.getEmail());
+        NotificacaoService.notificarDeixarARede(m);
+
     }
     /**
      * Torna um usuário a autoridade policial da rede
@@ -194,7 +204,11 @@ public class MembrosAPI {
         if(user==null){
             throw new OAuthRequestException("Usuário não autenticado");
         }
-        return Membro.tornarAutoridade(membroId);
+        Membro m =  Membro.tornarAutoridade(membroId);
+        NotificacaoService.notificarTornarAutoridade(m);
+        return m;
+
+
     }
 
     /**
@@ -210,7 +224,10 @@ public class MembrosAPI {
             throw new OAuthRequestException("Usuário não autenticado");
         }
 
-       return Membro.retirarPermissaoAutoridade(membroId);
+        Membro m =  Membro.retirarPermissaoAutoridade(membroId);
+        NotificacaoService.notificarRetirarAutoridade(m);
+        return m;
+
     }
 
     @ApiMethod(name = "obterURLparaUpload")

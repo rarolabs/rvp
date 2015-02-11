@@ -30,6 +30,7 @@ import rarolabs.com.br.rvp.activities.MainActivity;
 import rarolabs.com.br.rvp.activities.RedeActivity;
 import rarolabs.com.br.rvp.adapters.MinhasRedesAdapter;
 import rarolabs.com.br.rvp.config.Constants;
+import rarolabs.com.br.rvp.config.RVPApp;
 import rarolabs.com.br.rvp.listeners.RecyclerItemClickListener;
 import rarolabs.com.br.rvp.services.tasks.BuscaRedesAsyncTask;
 import rarolabs.com.br.rvp.services.tasks.MinhasRedesAsyncTask;
@@ -80,7 +81,7 @@ public class MinhasRedesFragment extends Fragment {
         MainActivity activity = (MainActivity) getActivity();
         activity.setRecycleView(mRecyclerView);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.minhas_redes_swipe_refresh_layout);
-        mSwipeRefreshLayout.setProgressViewOffset(false,150,190);
+        mSwipeRefreshLayout.setProgressViewOffset(false, RVPApp.getDesinty().intValue() * 130, RVPApp.getDesinty().intValue() * 170);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                                                      @Override
                                                      public void onRefresh() {
