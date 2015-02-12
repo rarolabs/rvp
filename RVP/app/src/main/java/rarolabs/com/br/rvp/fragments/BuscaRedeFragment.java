@@ -75,10 +75,13 @@ public class BuscaRedeFragment extends Fragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         resultFragment = new GeoqueryResponderFragment();
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.fragment_content, resultFragment);
-        ft.commit();
+
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.fragment_content, resultFragment, "RESULT_FRAGMENT")
+                .addToBackStack("RESULT_FRAGMENT")
+                .commit();
+
 
     }
 
