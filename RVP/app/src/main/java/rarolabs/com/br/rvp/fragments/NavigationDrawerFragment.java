@@ -122,12 +122,6 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         settings = getActivity().getSharedPreferences("RVP",0);
         profileImage = ((ImageView) view.findViewById(R.id.profile_image));
-        profileImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alterarFoto();
-            }
-        });
         if(settings.getBoolean("PROFILE_IMAGE",false)){
             profileImage.setImageBitmap(ImageUtil.loadImageFromStorage(getActivity(), "profile.jpg"));
         }
@@ -245,7 +239,6 @@ public class NavigationDrawerFragment extends Fragment {
         mCurrentSelectedPosition = position;
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
-            DrawerItens.check(position);
         }
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);

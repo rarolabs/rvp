@@ -1,10 +1,13 @@
 package rarolabs.com.br.rvp.activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,9 +15,12 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import br.com.rarolabs.rvp.api.rvpAPI.RvpAPI;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
@@ -22,12 +28,15 @@ import br.com.rarolabs.rvp.api.rvpAPI.model.Profile;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.listeners.GPSTracker;
+import rarolabs.com.br.rvp.models.Notificacao;
+import rarolabs.com.br.rvp.services.tasks.AceitarSolicitacaoAsyncTask;
 import rarolabs.com.br.rvp.services.tasks.BuscaPerfilAsyncTask;
+import rarolabs.com.br.rvp.services.tasks.RejeitarMembroAsyncTask;
 import rarolabs.com.br.rvp.services.tasks.TornarAdministradorAsyncTask;
 import rarolabs.com.br.rvp.services.tasks.TornarAutoridadeAsyncTask;
 import rarolabs.com.br.rvp.utils.ImageUtil;
 
-public class PerfilActivity extends ActionBarActivity {
+public class PerfilActivity extends RVPActivity implements CompoundButton.OnCheckedChangeListener {
 
 
     private long membroId;
@@ -50,13 +59,22 @@ public class PerfilActivity extends ActionBarActivity {
     private View containerAcoes;
     private Button botaoRejeitar;
     private Button botaoAdicionar;
+    private TextView labelTornarAdministrador;
+    private TextView labelTornarAutoridade;
+    private boolean listernersEnabled = false;
+    private long notificacaoID;
+    private Notificacao notificacao = null;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
         getSupportActionBar().setTitle("");
         membroId = getIntent().getExtras().getLong(Constants.EXTRA_MEMBRO_ID, 0l);
+        notificacaoID = getIntent().getExtras().getLong(Constants.EXTRA_NOTIFICACAO_ID, 0l);
+        if(notificacaoID > 0){
+            notificacao = Notificacao.findById(Notificacao.class, notificacaoID);
+        }
         containerProfile = findViewById(R.id.conteiner_profile);
 
         loading = findViewById(R.id.loading);
@@ -66,28 +84,38 @@ public class PerfilActivity extends ActionBarActivity {
         nome = (TextView) findViewById(R.id.nome);
         endereco = (TextView) findViewById(R.id.endereco);
         telefoneFixo = (TextView) findViewById(R.id.telefone_fixo);
+        telefoneFixo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                telefonar(((TextView)v).getText().toString());
+            }
+        });
+
         telefoneCelular = (TextView) findViewById(R.id.telefone_celular);
+        telefoneCelular.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                telefonar(((TextView) v).getText().toString());
+            }
+        });
+
         profile = (ImageView) findViewById(R.id.profile_image);
         profileBG = findViewById(R.id.profile_image_bg);
+
         tornarAdministrador = (SwitchCompat) findViewById(R.id.tornar_administrador);
+        tornarAdministrador.setOnCheckedChangeListener(this);
+
         tornarAutoridade = (SwitchCompat) findViewById(R.id.tornar_autoridade);
+        tornarAutoridade.setOnCheckedChangeListener(this);
 
         containerAdministrador = findViewById(R.id.container_admin);
         containerAutoridade = findViewById(R.id.container_autoridade);
 
+        labelTornarAdministrador = (TextView) findViewById(R.id.label_tornar_administrador);
+        labelTornarAutoridade = (TextView) findViewById(R.id.label_tornar_autoridade);
 
-        adminListener = new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                toggleAdmin(buttonView.isChecked());
-            }
-        };
-        autoridadeListener = new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                toggleAutoridade(buttonView.isChecked());
-            }
-        };
+
+
 
         containerAcoes = findViewById(R.id.container_acoes);
         botaoRejeitar = (Button) findViewById(R.id.rejeitar);
@@ -102,23 +130,46 @@ public class PerfilActivity extends ActionBarActivity {
         botaoAdicionar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                adicionar();
+                tornarMembro();
+
             }
         });
 
-
+        enableNotificacoes((RelativeLayout) findViewById(R.id.notificacao));
         new BuscaPerfilAsyncTask(this).execute(membroId);
 
 
     }
 
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if(buttonView.getId() == R.id.tornar_administrador){
+            labelTornarAdministrador.setTextColor(getResources().getColor(getLabelColor(isChecked)));
+            if(this.listernersEnabled){
+                toggleAdmin(buttonView.isChecked());
+            }
+        }else{
+            labelTornarAutoridade.setTextColor(getResources().getColor(getLabelColor(isChecked)));
+            if(this.listernersEnabled){
+                toggleAutoridade(buttonView.isChecked());
+            }
+        }
+
+
+    }
+
+    private int getLabelColor(boolean isChecked) {
+        return isChecked ? R.color.material_green_500 : R.color.fonte_busca_rede_bairro ;
+    }
+
+
     private void rejeitar() {
+        progress = ProgressDialog.show(this, getString(R.string.aguarde),
+                getString(R.string.enviando_solicitacao, true));
+        new RejeitarMembroAsyncTask(this).execute(membroId);
 
     }
 
-    private void adicionar() {
-
-    }
 
     private void toggleAutoridade(Boolean checked) {
         progress = ProgressDialog.show(this, getString(R.string.aguarde),
@@ -217,9 +268,11 @@ public class PerfilActivity extends ActionBarActivity {
 
     }
 
-    public void error(String descricao) {
+    public void error(String descricao,boolean finish) {
         Toast.makeText(this, descricao, Toast.LENGTH_LONG).show();
-        finish();
+        if(finish) {
+            finish();
+        }
     }
 
 
@@ -258,17 +311,52 @@ public class PerfilActivity extends ActionBarActivity {
    }
 
     private void enableListerners() {
-        tornarAdministrador.setOnCheckedChangeListener(adminListener);
-        tornarAutoridade.setOnCheckedChangeListener(autoridadeListener);
+        this.listernersEnabled=true;
     }
 
     private void disableListeners() {
-        tornarAdministrador.setOnCheckedChangeListener(null);
-        tornarAutoridade.setOnCheckedChangeListener(null);
+        this.listernersEnabled=false;
     }
 
     @Override
     public void onBackPressed() {
         finish();
     }
+
+    public void telefonar(String numero){
+        numero = numero.replace("(","").replace(")","").replace(" ","");
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:" + numero));
+        startActivity(callIntent);
+    }
+
+
+    public void ok() {
+        progress.dismiss();
+        Toast.makeText(this, "Sua solicitação foi enviada com sucesso!", Toast.LENGTH_SHORT).show();
+        if(notificacao!=null) {
+            notificacao.setRespondida(true);
+            notificacao.setAbrivel(false);
+            notificacao.save();
+        }
+
+        finish();
+    }
+
+    private void tornarMembro() {
+        Log.d("Notificacao", "tornarMembro");
+        progress = ProgressDialog.show(this, getString(R.string.aguarde),
+                                             getString(R.string.enviando_solicitacao, true));
+
+        Object[] params ={
+                membroId,
+                Boolean.valueOf(tornarAdministrador.isChecked()),
+                Boolean.valueOf(tornarAutoridade.isChecked())
+        };
+
+        new AceitarSolicitacaoAsyncTask(this).execute(params);
+
+    }
+
+
 }

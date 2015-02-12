@@ -38,4 +38,5 @@ public class Constants {
     public static final String REFRESH_MAIN = "refresh_main";
     public static final String WELCOME = "welcome";
     public static final java.lang.String EXTRA_AVATAR = "avatar";
+    public static final String EXTRA_NOTIFICACAO_ID = "notificacao_id";
 }

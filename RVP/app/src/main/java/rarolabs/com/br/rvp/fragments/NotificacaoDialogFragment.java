@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,7 +43,7 @@ import rarolabs.com.br.rvp.utils.ImageUtil;
  * Use the {@link NotificacaoDialogFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NotificacaoDialogFragment extends DialogFragment {
+public class NotificacaoDialogFragment extends DialogFragment implements CompoundButton.OnCheckedChangeListener {
 
     private static final String ARG_USER_ID = "user_id";
     private static final String ARG_MEMBRO_ID = "membro_id";
@@ -69,6 +70,8 @@ public class NotificacaoDialogFragment extends DialogFragment {
     private long mNotificacaoId;
     private String mAvatar;
     private String mAvatarBlur;
+    private TextView mLabelTornarAdministrador;
+    private TextView mLabelTornarAutoridade;
 
     public static NotificacaoDialogFragment newInstance(String userId, Long membroId, String nomeRede,
                                                         String nomeUsuario,Long notificacaoId, String avatar,
@@ -84,8 +87,10 @@ public class NotificacaoDialogFragment extends DialogFragment {
         args.putString(ARG_AVATAR_BLUR, avatarBlur);
         fragment.setArguments(args);
 
+
         return fragment;
     }
+
 
     public interface NoticeDialogListener {
         public void returnFromDialog(long notificacaoId);
@@ -117,6 +122,7 @@ public class NotificacaoDialogFragment extends DialogFragment {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
+
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
@@ -136,7 +142,11 @@ public class NotificacaoDialogFragment extends DialogFragment {
             }
         });
 
+        mLabelTornarAdministrador = (TextView) mView.findViewById(R.id.label_tornar_administrador);
         mTornarAdministrador = (SwitchCompat) mView.findViewById(R.id.tornar_administrador);
+
+
+        mLabelTornarAutoridade = (TextView) mView.findViewById(R.id.label_tornar_autoridade);
         mTornarAutoridade = (SwitchCompat) mView.findViewById(R.id.tornar_autoridade);
         mCancelar = (Button) mView.findViewById(R.id.cancelar);
         mTornarMembro = (Button) mView.findViewById(R.id.tornar_membro);
@@ -163,15 +173,36 @@ public class NotificacaoDialogFragment extends DialogFragment {
             }
         });
 
+        mTornarAdministrador.setOnCheckedChangeListener(this);
+        mTornarAutoridade.setOnCheckedChangeListener(this);
+
+
         builder.setView(mView);
+
         return builder.create();
 
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if(buttonView.getId() == R.id.tornar_administrador){
+            mLabelTornarAdministrador.setTextColor(getResources().getColor(getLabelColor(isChecked)));
+        }else{
+            mLabelTornarAutoridade.setTextColor(getResources().getColor(getLabelColor(isChecked)));
+        }
+
+    }
+
+    private int getLabelColor(boolean isChecked) {
+        return isChecked ? R.color.material_green_500 : R.color.fonte_busca_rede_bairro ;
     }
 
     private void perfilDetalhado() {
         Intent i = new Intent(NotificacaoDialogFragment.this.getActivity(), PerfilActivity.class);
         i.putExtra(Constants.EXTRA_MEMBRO_ID,mMembroId);
+        i.putExtra(Constants.EXTRA_NOTIFICACAO_ID,mNotificacaoId);
         startActivity(i);
+        this.dismiss();
     }
 
     private void tornarMembro() {
@@ -235,6 +266,7 @@ public class NotificacaoDialogFragment extends DialogFragment {
         progress.dismiss();
         Notificacao notificacao = Notificacao.findById(Notificacao.class,mNotificacaoId);
         notificacao.setRespondida(true);
+        notificacao.setAbrivel(false);
         notificacao.save();
         Toast.makeText(this.getActivity(), "Sua solicitação foi enviada com sucesso!", Toast.LENGTH_SHORT).show();
         dismiss();

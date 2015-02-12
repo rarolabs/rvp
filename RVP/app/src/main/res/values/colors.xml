@@ -27,6 +27,7 @@
     <color name="fonte_cancelar">#444444</color>
     <color name="botao_rejeitar">#e0432a</color>
     <color name="botao_aceitar">#e9ecef</color>
+    <color name="cor_divisor">#cfd8dc</color>
 
 
 </resources>

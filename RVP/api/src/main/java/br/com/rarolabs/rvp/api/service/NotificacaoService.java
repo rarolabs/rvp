@@ -57,6 +57,7 @@ public class NotificacaoService {
     }
 
     public static void notificarDeixarARede(Membro m) {
+        //Acontece null pointer
         enviarNotificacao(m,m.getRede().membrosAtivos(), new Notificacoes().new StatusTemplate(STATUS_DEIXOU_REDE), 5);
     }
 

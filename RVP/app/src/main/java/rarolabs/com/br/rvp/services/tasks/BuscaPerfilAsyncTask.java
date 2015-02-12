@@ -53,7 +53,7 @@ public class BuscaPerfilAsyncTask extends AsyncTask<Long, Void, Profile> {
             Log.e("BuscaRedes", e.getDescricao());
             activity.runOnUiThread(new Runnable() {
                 public void run() {
-                    ((PerfilActivity)activity).error(e.getDescricao());
+                    ((PerfilActivity)activity).error(e.getDescricao(),true);
                 }
             });
             return null;

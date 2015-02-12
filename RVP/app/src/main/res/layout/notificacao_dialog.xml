@@ -32,8 +32,8 @@
         android:textColor="@color/fonte_descricao_dialogo"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingTop="32dp"
-        android:paddingBottom="32dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
         android:text="@string/exemplo_tornar_membro"
         />
 
@@ -56,6 +56,7 @@
             android:gravity="center_vertical"
             android:paddingLeft="16dp"
             android:layout_weight="1"
+            android:id="@+id/label_tornar_administrador"
             />
 
          <android.support.v7.widget.SwitchCompat
@@ -89,6 +90,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="16dp"
                 android:layout_weight="1"
+                android:id="@+id/label_tornar_autoridade"
 
                 />
 

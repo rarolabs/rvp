@@ -36,7 +36,7 @@ public class Membro {
     public enum Visibilidade {PUBLICO,PRIVADO, SOMENTE_COM_AUTORIDADE}
 
     private Papel papel = Papel.VIVIZINHO;
-    private Status status = Status.ATIVO;
+    private Status status = Status.INATIVO;
 
     private Date dataAssociacao;
 

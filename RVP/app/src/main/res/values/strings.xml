@@ -86,7 +86,7 @@
     <string name="notificacoes_marcadas_como_lidas">As notificações foram marcadas como lidas</string>
     <string name="titulo_notificacao_solicitacao">Solicitação</string>
     <string name="titulo_notificacao_novo_membro">Novo vizinho adicionado</string>
-    <string name="titulo_notificacao_novo_admin">Novo administrador adicionado</string>
+    <string name="titulo_notificacao_novo_admin">Novo administrador</string>
     <string name="titulo_notificacao_nova_autoridade">Nova autoridade policial</string>
     <string name="atualizar_notificacoes">Atualizar notificações</string>
     <string name="title_activity_perfil">PerfilActivity</string>
@@ -108,5 +108,17 @@
     <string name="descricao_notificacao_deixou_de_ser_administrador">&lt;b>%1$s&lt;/b> não é mais administrador da rede &lt;b>%2$s&lt;/b></string>
     <string name="descricao_notificacao_deixou_de_ser_autoridade" >&lt;b>%1$s&lt;/b> não é mais autoridade policial da rede &lt;b>%2$s&lt;/b></string>
     <string name="descricao_notificacao_deixou_a_rede" >&lt;b>%1$s&lt;/b> não faz mais parte da rede &lt;b>%2$s&lt;/b></string>
+    <string name="tamanho_ddd_invalido">precisa ter 2 digitos</string>
+    <string name="tamanho_telefone_invalido">numero de telefone inválido</string>
+    <string name="tamanho_endereco_invalido">coloca seu endereço certinho porque é importante</string>
+    <string name="menu_trocar_foto">Trocar Foto</string>
+    <string name="menu_singout">Sair</string>
+    <string name="erro_desconhecido">Não foi possível realizar essa ação. Verifique sua conexão com a internet</string>
+    <string name="redes_mais_proximas">Redes de vizinhos mais próximas</string>
+    <string name="notificacao_ja_respondida">Essa notificação já foi respondida</string>
+    <string name="descricao_tutorial_1">Encontre ou crie sua rede de vizinhos</string>
+    <string name="descricao_tutorial_3">Torne sua vizinhaça mais segura</string>
+    <string name="descricao_tutorial_4">Compartilhe alertas e mensagens de segurança</string>
+    <string name="descricao_tutorial_2">Conecte-se com seus vizinhos</string>
 
 </resources>

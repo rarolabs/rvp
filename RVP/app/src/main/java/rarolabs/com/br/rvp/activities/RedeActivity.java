@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +26,7 @@ import rarolabs.com.br.rvp.config.RVPApp;
 import rarolabs.com.br.rvp.services.tasks.DeixarRedeAsyncTask;
 import rarolabs.com.br.rvp.utils.ImageUtil;
 
-public class RedeActivity extends Activity {
+public class RedeActivity extends RVPActivity {
 
 
     private ImageView thumb;
@@ -43,14 +44,15 @@ public class RedeActivity extends Activity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("REDE","onCreate:" + (savedInstanceState == null));
         setContentView(R.layout.activity_rede);
 
-        if(getActionBar()!=null) {
-            getActionBar().hide();
+        if(getSupportActionBar()!=null) {
+            getSupportActionBar().hide();
         }
+
         Intent i = getIntent();
         extras = i.getExtras();
         if(extras == null){
@@ -99,7 +101,7 @@ public class RedeActivity extends Activity {
             location[locationIndex++] = extras.getDouble("latitude_" + membroCount);
             location[locationIndex++] = extras.getDouble("longitude_" + membroCount);
         }
-
+        enableNotificacoes((RelativeLayout) findViewById(R.id.notificacao));
         ImageUtil.googleMapsThumb(this,location,thumb);
 
     }

@@ -13,7 +13,9 @@ public class DrawerItens {
 
     static{
         itens = new DrawerItem[labels.length];
+
         itens[0] = new DrawerItem(labels[0],icons[0],selectedIcons[0]);
+        itens[0].setChecked(true);
         itens[1] = new DrawerItem(labels[1],icons[1],selectedIcons[1]);
         itens[2] = new NotificacaoDrawerItem(labels[2],icons[2],selectedIcons[2]);
         itens[3] = new DrawerItem(labels[3],icons[3],selectedIcons[3]);

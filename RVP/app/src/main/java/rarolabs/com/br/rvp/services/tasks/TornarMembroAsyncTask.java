@@ -50,6 +50,7 @@ public class TornarMembroAsyncTask extends AsyncTask<Object, Void, Boolean> {
         //Torna-se membro da rede
         try {
                 Log.d("Membro", "Adicionando usuario");
+
                 backendServices.novoUsuario(usuario);
                 Log.d("Membro", "Usuario adicionado");
 

@@ -66,6 +66,7 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
     private String nomeRede;
     private String texto;
     private Boolean respondida;
+    private Boolean abrivel = true;
     private String avatar;
     private String avatarBlur;
 
@@ -287,6 +288,14 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
 
     public void setTarget(String target) {
         this.target = target;
+    }
+
+    public Boolean isAbrivel() {
+        return abrivel;
+    }
+
+    public void setAbrivel(Boolean abrivel) {
+        this.abrivel = abrivel;
     }
 
     public String getSecao() {

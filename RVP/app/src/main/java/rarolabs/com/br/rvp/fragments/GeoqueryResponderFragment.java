@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 import com.google.android.gms.maps.MapFragment;
 
 import java.text.SimpleDateFormat;
@@ -25,6 +26,7 @@ import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponder;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
 import rarolabs.com.br.rvp.R;
 
+import rarolabs.com.br.rvp.activities.MainActivity;
 import rarolabs.com.br.rvp.activities.RedeActivity;
 import rarolabs.com.br.rvp.adapters.BuscaRedeAdapter;
 import rarolabs.com.br.rvp.config.Constants;
@@ -63,7 +65,7 @@ public class GeoqueryResponderFragment extends Fragment implements AbsListView.O
      * Views.
      */
     private BuscaRedeAdapter mAdapter;
-    private RecyclerView mRecyclerView;
+    private ObservableRecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
 
     // TODO: Rename and change types of parameters
@@ -106,7 +108,8 @@ public class GeoqueryResponderFragment extends Fragment implements AbsListView.O
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_geoqueryresponder, container, false);
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.lista_redes_recycler_view);
+        mRecyclerView = (ObservableRecyclerView) view.findViewById(R.id.lista_redes_recycler_view);
+
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -119,33 +122,35 @@ public class GeoqueryResponderFragment extends Fragment implements AbsListView.O
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        GeoqueryResponder geo = getAdapter().get(position);
-                        Intent i = new Intent(GeoqueryResponderFragment.this.getActivity(),RedeActivity.class);
+                        if(position > 0) {
+                            GeoqueryResponder geo = getAdapter().get(position - 1);
+                            Intent i = new Intent(GeoqueryResponderFragment.this.getActivity(), RedeActivity.class);
 
-                        i.putExtra(Constants.EXTRA_ID_REDE,geo.getIdRede());
-                        i.putExtra(Constants.EXTRA_NOME_REDE,geo.getNomeRede());
-                        i.putExtra(Constants.EXTRA_ENDERECO_REDE,"Nao sei ainda");
-                        i.putExtra(Constants.EXTRA_NOME_ADMIN,geo.getNomeAdministrador());
-                        i.putExtra(Constants.EXTRA_AVATAR,geo.getAvatarAdministrador());
-                        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d 'de' MMMM 'de' yyyy 'às' HH:mm");
-                        i.putExtra(Constants.EXTRA_ULTIMA_ATIVIDADE, sdf.format(new Date(geo.getUltimaAtividade().getValue())));
+                            i.putExtra(Constants.EXTRA_ID_REDE, geo.getIdRede());
+                            i.putExtra(Constants.EXTRA_NOME_REDE, geo.getNomeRede());
+                            i.putExtra(Constants.EXTRA_ENDERECO_REDE, "Nao sei ainda");
+                            i.putExtra(Constants.EXTRA_NOME_ADMIN, geo.getNomeAdministrador());
+                            i.putExtra(Constants.EXTRA_AVATAR, geo.getAvatarAdministrador());
+                            SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d 'de' MMMM 'de' yyyy 'às' HH:mm");
+                            i.putExtra(Constants.EXTRA_ULTIMA_ATIVIDADE, sdf.format(new Date(geo.getUltimaAtividade().getValue())));
+                            i.putExtra(Constants.EXTRA_QUANTIDADE_MEMBROS, geo.getQuantidadeMembros());
 
+                            int pos = 0;
+                            for (Coordinator c : geo.getCoordinators()) {
+                                i.putExtra("latitude_" + pos, c.getLatitude());
+                                i.putExtra("longitude_" + pos, c.getLongitude());
+                                pos++;
+                            }
 
-                        i.putExtra(Constants.EXTRA_ULTIMA_ATIVIDADE,geo.getUltimaAtividade().toString());
-                        i.putExtra(Constants.EXTRA_QUANTIDADE_MEMBROS,geo.getQuantidadeMembros());
-
-                        int pos = 0;
-                        for(Coordinator c : geo.getCoordinators()){
-                            i.putExtra("latitude_" + pos,c.getLatitude());
-                            i.putExtra("longitude_" + pos,c.getLongitude());
-                            pos++;
+                            startActivity(i);
                         }
-
-                        startActivity(i);
-                        Toast.makeText(getActivity(),"Clicado:" + position,Toast.LENGTH_SHORT).show();
                     }
                 })
         );
+
+        if(getActivity() instanceof MainActivity){
+            ((MainActivity)getActivity()).setRecycleView(mRecyclerView);
+        }
 
 
 
@@ -172,9 +177,8 @@ public class GeoqueryResponderFragment extends Fragment implements AbsListView.O
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(getActivity(),"Clicado",Toast.LENGTH_SHORT).show();
+
         if (null != mListener) {
-            Toast.makeText(getActivity(),"Clicado",Toast.LENGTH_SHORT).show();
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
             //mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).getIdRede().toString());

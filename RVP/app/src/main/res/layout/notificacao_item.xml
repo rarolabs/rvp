@@ -16,7 +16,8 @@
         android:paddingTop="29dp"
         android:text="Ontem"
         android:textColor="@color/fonte_busca_rede_bairro"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:textStyle="bold"/>
 
     <LinearLayout
         android:layout_width="match_parent"

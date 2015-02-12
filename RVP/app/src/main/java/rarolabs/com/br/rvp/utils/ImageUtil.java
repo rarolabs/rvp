@@ -37,7 +37,7 @@ public class ImageUtil {
     private static final  DisplayImageOptions options;
     static {
         options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.ic_tutorial_loading)
+                .showImageOnLoading(R.drawable.ic_cadastro_foto_vazia)
                 .showImageForEmptyUri(R.drawable.ic_cadastro_foto_vazia)
                 .showImageOnFail(R.drawable.ic_cadastro_foto_vazia)
                 .cacheInMemory(true)

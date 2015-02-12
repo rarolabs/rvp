@@ -22,12 +22,14 @@ import android.widget.Toast;
 
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
 
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.fragments.BuscaRedeFragment;
 import rarolabs.com.br.rvp.fragments.GeoqueryResponderFragment;
 import rarolabs.com.br.rvp.gcm.GcmRegister;
+import rarolabs.com.br.rvp.views.RVPSlideView;
 
 
 public class WelcomeActivity extends RVPActivity implements
@@ -53,12 +55,26 @@ public class WelcomeActivity extends RVPActivity implements
 
         SliderLayout sliderShow = (SliderLayout) findViewById(R.id.slider);
 
-        DefaultSliderView defaultSliderView = new DefaultSliderView(this);
-        defaultSliderView
-                .image(R.drawable.img1);
+        RVPSlideView image1 = new RVPSlideView (this);
+        image1.image(R.drawable.tutorial_slider_1);
+        image1.description(getString(R.string.descricao_tutorial_1));
 
-        sliderShow.stopAutoCycle();
-        sliderShow.addSlider(defaultSliderView);
+        RVPSlideView  image2 = new RVPSlideView (this);
+        image2.image(R.drawable.tutorial_slider_2);
+        image2.description(getString(R.string.descricao_tutorial_2));
+
+        RVPSlideView  image3 = new RVPSlideView (this);
+        image3.image(R.drawable.tutorial_slider_3);
+        image3.description(getString(R.string.descricao_tutorial_3));
+
+        RVPSlideView  image4 = new RVPSlideView (this);
+        image4.image(R.drawable.tutorial_slider_4);
+        image4.description(getString(R.string.descricao_tutorial_4));
+
+        sliderShow.addSlider(image1);
+        sliderShow.addSlider(image2);
+        sliderShow.addSlider(image3);
+        sliderShow.addSlider(image4);
 
         gcmRegister = GcmRegister.newInstance(this);
 
@@ -176,6 +192,7 @@ public class WelcomeActivity extends RVPActivity implements
     protected void setRequestCodePickAccountOK(String email) {
         super.setRequestCodePickAccountOK(email);
         disableWelcomeActivity();
+        startActivity(new Intent(this,StartUpActivity.class));
         finish();
     }
 

@@ -14,6 +14,8 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
+import rarolabs.com.br.rvp.R;
+
 /**
  * Created by rodrigosol on 12/31/14.
  */
@@ -79,7 +81,7 @@ public class BackendExpection extends Exception {
                 this.tipo = Tipo.VALIDACAO;
             } catch (Exception e1) {
                 this.setTipo(Tipo.DESCONHECIDO);
-                this.setDescricao(e.getClass().toString());
+                this.setDescricao("Não foi possível completar essa ação. Verifique sua conexão com a Internet");
 
             }
         }

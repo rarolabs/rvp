@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,23 +76,23 @@ public class CadastroActivity extends RVPActivity implements Validator.Validatio
     private EditText nome;
 
     @NotEmpty(messageResId = R.string.error_ddd_fixo)
-    @Size(min = 2, max = 2)
+    @Size(min = 2, max = 2, messageResId = R.string.tamanho_ddd_invalido)
     private EditText dddFixo;
 
-    @Size(min = 8, max = 9)
+    @Size(min = 8, max = 9, messageResId = R.string.tamanho_telefone_invalido)
     @NotEmpty(messageResId = R.string.error_tel_fixo)
     private EditText telFixo;
 
-    @Size(min = 2, max = 2)
+    @Size(min = 2, max = 2, messageResId = R.string.tamanho_ddd_invalido)
     @NotEmpty(messageResId = R.string.error_ddd_cel)
     private EditText dddCel;
 
-    @Size(min = 8, max = 9)
+    @Size(min = 8, max = 9, messageResId = R.string.tamanho_telefone_invalido)
     @NotEmpty(messageResId = R.string.error_tel_cel)
     private EditText telCel;
 
     @NotEmpty(messageResId = R.string.error_endereco)
-    @Size(min = 6)
+    @Size(min = 6, messageResId = R.string.tamanho_endereco_invalido)
     private EditText endereco;
 
     private Validator validator;
@@ -201,6 +202,7 @@ public class CadastroActivity extends RVPActivity implements Validator.Validatio
         loadFromPrefs();
         loadAddress();
 
+        enableNotificacoes((RelativeLayout) findViewById(R.id.notificacao));
 
     }
 

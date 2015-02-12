@@ -103,22 +103,20 @@ public class NotificacoesFragment extends Fragment {
                         } else if (position > 0) {
                             Notificacao notificacao = mAdapter.get(position - 1);
                             if (notificacao.getTipo().equals(Notificacao.Tipo.SOLICITACAO)) {
-
-                                NotificacaoDialogFragment.newInstance(notificacao.getUsuarioId(),
-                                        notificacao.getMembroId(),
-                                        notificacao.getNomeRede(),
-                                        notificacao.getNomeUsuario(),
-                                        notificacao.getId(),
-                                        notificacao.getAvatar(),
-                                        notificacao.getAvatarBlur()
-                                ).show(getFragmentManager(), "NOTIFICACAO_DIALOG");
-
-
-
+                                if(notificacao.isAbrivel()) {
+                                    NotificacaoDialogFragment.newInstance(notificacao.getUsuarioId(),
+                                            notificacao.getMembroId(),
+                                            notificacao.getNomeRede(),
+                                            notificacao.getNomeUsuario(),
+                                            notificacao.getId(),
+                                            notificacao.getAvatar(),
+                                            notificacao.getAvatarBlur()
+                                    ).show(getFragmentManager(), "NOTIFICACAO_DIALOG");
+                                }else{
+                                    Toast.makeText(NotificacoesFragment.this.getActivity(),R.string.notificacao_ja_respondida,Toast.LENGTH_SHORT).show();
+                                }
                             }
-
                         }
-
                     }
                 })
         );

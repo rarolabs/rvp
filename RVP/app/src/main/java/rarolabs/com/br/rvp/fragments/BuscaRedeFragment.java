@@ -13,7 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,9 @@ import java.util.List;
 import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponder;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.activities.Locable;
+import rarolabs.com.br.rvp.activities.MainActivity;
+import rarolabs.com.br.rvp.activities.WelcomeActivity;
+import rarolabs.com.br.rvp.config.RVPApp;
 import rarolabs.com.br.rvp.listeners.GPSTracker;
 import rarolabs.com.br.rvp.services.tasks.BuscaRedesAsyncTask;
 
@@ -87,6 +92,19 @@ public class BuscaRedeFragment extends Fragment
 
         statusBusca = (TextView) view.findViewById(R.id.status_busca);
         loading = view.findViewById(R.id.loading);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT
+        );
+        if(getActivity() instanceof WelcomeActivity){
+            params.setMargins(0, 10 * RVPApp.getDesinty().intValue(), 0, 0);
+            loading.setLayoutParams(params);
+
+        }else{
+            params.setMargins(0, 100 * RVPApp.getDesinty().intValue(), 0, 0);
+            loading.setLayoutParams(params);
+        }
+
         spinner = (ImageView) view.findViewById(R.id.spinner);
 
         resultFragmentView.setVisibility(View.GONE);
@@ -105,6 +123,7 @@ public class BuscaRedeFragment extends Fragment
 
             onLocationChange(gps.getLocation());
         }
+
 
         return view;
     }

@@ -22,10 +22,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
@@ -93,7 +95,7 @@ public class MainActivity extends RVPActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
 
-    private int sectionNumer = 0;
+    private int sectionNumer = -1;
     private View mFab;
     private int mFabMargin;
     private boolean mFabIsShown;
@@ -150,7 +152,9 @@ public class MainActivity extends RVPActivity
         if(mudarParaNotificacoes) {
             mNavigationDrawerFragment.mostraNotificacoes();
         }
+
     }
+
 
 
 
@@ -228,20 +232,16 @@ public class MainActivity extends RVPActivity
 
         if (fragment instanceof MinhasRedesFragment) {
             mTitleView.setText(getString(R.string.title_rede_de_vizinhos));
-            mFab.setVisibility(View.VISIBLE);
             this.sectionNumer = SECTION_MINHAS_REDES;
         } else if (fragment instanceof BuscaRedeFragment) {
             mTitleView.setText(getString(R.string.title_busca_redes));
             this.sectionNumer = SECTION_BUSCA_REDES;
-            mFab.setVisibility(View.VISIBLE);
         } else if (fragment instanceof AlertasFragment) {
             mTitleView.setText(getString(R.string.title_alertas));
-            mFab.setVisibility(View.GONE);
             this.sectionNumer = SECTION_ALERTAS;
         } else if (fragment instanceof NotificacoesFragment) {
             mTitleView.setText(getString(R.string.title_notificacoes));
             this.sectionNumer = SECTION_NOTIFICACOES;
-            mFab.setVisibility(View.GONE);
         }
 
         invalidateOptionsMenu();
@@ -280,18 +280,23 @@ public class MainActivity extends RVPActivity
             case 0:
                 menu_itens = R.menu.menu_fragment_redes;
                 mTitleView.setText(getString(R.string.title_rede_de_vizinhos));
+                mFab.setVisibility(View.VISIBLE);
                 break;
             case 1:
                 menu_itens = R.menu.menu_fragment_alertas;
                 mTitleView.setText(getString(R.string.title_alertas));
+                mFab.setVisibility(View.GONE);
+
                 break;
             case 2:
                 menu_itens = R.menu.menu_fragment_notificacoes;
                 mTitleView.setText(getString(R.string.title_notificacoes));
+                mFab.setVisibility(View.GONE);
                 break;
             case 3:
                 menu_itens = R.menu.menu_fragment_busca_redes;
                 mTitleView.setText(getString(R.string.title_busca_redes));
+                mFab.setVisibility(View.VISIBLE);
                 break;
         }
 
@@ -315,10 +320,9 @@ public class MainActivity extends RVPActivity
         }
         FragmentManager fragmentManager = getFragmentManager();
         Fragment fragment = null;
-        (findViewById(R.id.container)).setPadding(0,0,0,0);
+
         switch (id) {
             case R.id.action_buscar_rede:
-                (findViewById(R.id.container)).setPadding(0, RVPApp.getDesinty().intValue() * 200,0,0);
                 fragment = getFragmentBySection(SECTION_BUSCA_REDES);
                 sectionNumer = SECTION_BUSCA_REDES;
                 fragmentManager.beginTransaction()
@@ -508,6 +512,40 @@ public class MainActivity extends RVPActivity
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.action_trocar_foto:
+                        trocarFoto();
+                        return true;
+                    case R.id.action_signout:
+                        sair();
+                        return true;
+                }
+                return false;
+            }
+        });
+
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.menu_draweler, popup.getMenu());
+        popup.show();
+    }
+
+    private void sair() {
+
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(Constants.ACCOUNT, null);
+        editor.putBoolean(Constants.WELCOME, true);
+        editor.putBoolean(Constants.PREF_NEW_USER,true);
+        editor.commit();
+        startActivity(new Intent(this,StartUpActivity.class));
+        finish();
 
     }
 

@@ -172,7 +172,7 @@ public class RVPActivity extends ActionBarActivity {
     }
 
     protected void disableWelcomeActivity(){
-        settings.edit().putBoolean(Constants.WELCOME,true).apply();
+        settings.edit().putBoolean(Constants.WELCOME,false).apply();
     }
 
     private void setupAnimation() {

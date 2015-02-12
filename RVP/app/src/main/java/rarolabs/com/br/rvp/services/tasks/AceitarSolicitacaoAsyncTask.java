@@ -14,6 +14,7 @@ import br.com.rarolabs.rvp.api.rvpAPI.model.Endereco;
 import br.com.rarolabs.rvp.api.rvpAPI.model.MembroCollection;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
 import rarolabs.com.br.rvp.activities.CadastroActivity;
+import rarolabs.com.br.rvp.activities.PerfilActivity;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.fragments.NotificacaoDialogFragment;
 import rarolabs.com.br.rvp.services.BackendExpection;
@@ -25,14 +26,24 @@ import rarolabs.com.br.rvp.services.BackendServices;
 public class AceitarSolicitacaoAsyncTask extends AsyncTask<Object, Void, Void> {
     private static BackendServices backendServices = null;
     private final Activity activity;
-    private final Fragment fragment;
+    private Fragment fragment = null;
     private Context context;
     private SharedPreferences settings;
 
-    public AceitarSolicitacaoAsyncTask(Fragment fragment) {
-        this.fragment = fragment;
-        this.context = fragment.getActivity();
-        this.activity = (Activity) this.context;
+    public AceitarSolicitacaoAsyncTask(Object host) {
+        Fragment fragment1;
+        fragment1 = null;
+        if(host instanceof Fragment) {
+            fragment1 = (Fragment) host;
+            this.fragment = fragment1;
+            this.context = fragment.getActivity();
+            this.activity = (Activity) this.context;
+        }else{
+            this.activity = (Activity) host;
+            this.context = this.activity;
+        }
+
+
     }
 
     @Override
@@ -62,7 +73,11 @@ public class AceitarSolicitacaoAsyncTask extends AsyncTask<Object, Void, Void> {
             Log.e("BuscaRedes", e.getDescricao());
             activity.runOnUiThread(new Runnable() {
                 public void run() {
-                    ((NotificacaoDialogFragment)fragment).error(e.getDescricao());
+                    if(fragment!=null) {
+                        ((NotificacaoDialogFragment) fragment).error(e.getDescricao());
+                    }else{
+                        ((PerfilActivity)activity).error(e.getDescricao(),false);
+                    }
                 }
             });
         }
@@ -73,7 +88,11 @@ public class AceitarSolicitacaoAsyncTask extends AsyncTask<Object, Void, Void> {
     protected void onPostExecute(Void v) {
         activity.runOnUiThread(new Runnable() {
             public void run() {
-                ((NotificacaoDialogFragment)fragment).ok();
+            if(fragment!=null) {
+                ((NotificacaoDialogFragment) fragment).ok();
+            }else{
+                ((PerfilActivity)activity).ok();
+            }
             }
         });
     }
