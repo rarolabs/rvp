@@ -22,6 +22,15 @@
         <url-pattern>/blob/upload</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>atualiza_endereco</servlet-name>
+        <servlet-class>br.com.rarolabs.rvp.api.servlet.AtualizaEnderecoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>atualiza_endereco</servlet-name>
+        <url-pattern>/atualiza_endereco</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>

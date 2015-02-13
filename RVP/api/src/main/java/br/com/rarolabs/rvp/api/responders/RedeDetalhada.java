@@ -16,6 +16,7 @@ public class RedeDetalhada {
     private String nomeRede;
     private String nomeAdministrador;
     private String avatarAdministrador;
+    private String localizacao;
 
     private Integer quantidadeMembros;
     private Date ultimaAtividade;
@@ -40,6 +41,7 @@ public class RedeDetalhada {
         this.setUltimaAtividade(new Date());
         this.membros = m.getRede().membrosAtivos();
         this.status = m.getStatus();
+        this.localizacao = m.getRede().getLocalizacao();
 
         System.out.println("Avatar:" + m.getRede().getDono().getUsuario());
         System.out.println("Avatar:" + this.nomeAdministrador);
@@ -106,6 +108,14 @@ public class RedeDetalhada {
 
     public Collection<Membro> getMembros() {
         return membros;
+    }
+
+    public String getLocalizacao() {
+        return localizacao;
+    }
+
+    public void setLocalizacao(String localizacao) {
+        this.localizacao = localizacao;
     }
 
     @Override

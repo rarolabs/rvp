@@ -110,7 +110,7 @@ public class MinhasRedesFragment extends Fragment {
                             i.putExtra(Constants.EXTRA_MEMBRO,true);
                             i.putExtra(Constants.EXTRA_ID_REDE, rede.getRedeId());
                             i.putExtra(Constants.EXTRA_NOME_REDE, rede.getNomeRede());
-                            i.putExtra(Constants.EXTRA_ENDERECO_REDE, "Nao sei ainda");
+                            i.putExtra(Constants.EXTRA_ENDERECO_REDE, rede.getLocalizacao());
                             i.putExtra(Constants.EXTRA_NOME_ADMIN, rede.getNomeAdministrador());
                             i.putExtra(Constants.EXTRA_AVATAR, rede.getAvatarAdministrador());
                             SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d 'de' MMMM 'de' yyyy 'às' HH:mm");

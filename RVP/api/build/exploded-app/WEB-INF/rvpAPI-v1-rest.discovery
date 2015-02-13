@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/xatoHshPUhVNSP6Ko7o_bpKaEGc\"",
+ "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/4tZ1trwwZ3F3Va06xjL3_mjj2mk\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -154,6 +154,9 @@
     "latitude": {
      "type": "number",
      "format": "double"
+    },
+    "localizacao": {
+     "type": "string"
     },
     "longitude": {
      "type": "number",
@@ -330,6 +333,9 @@
      "type": "number",
      "format": "double"
     },
+    "localizacao": {
+     "type": "string"
+    },
     "longitude": {
      "type": "number",
      "format": "double"
@@ -344,6 +350,9 @@
    "type": "object",
    "properties": {
     "avatarAdministrador": {
+     "type": "string"
+    },
+    "localizacao": {
      "type": "string"
     },
     "membroId": {

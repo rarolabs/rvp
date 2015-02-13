@@ -6,6 +6,9 @@ import com.google.api.server.spi.config.ApiResourceProperty;
 import com.google.api.server.spi.response.ConflictException;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.oauth.OAuthRequestException;
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
+import com.google.appengine.api.taskqueue.TaskOptions;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
@@ -52,6 +55,8 @@ public class Rede {
     @Index
     @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
     private @Load List<Ref<Alerta>> alertas = new ArrayList<Ref<Alerta>>();
+
+    private String localizacao;
 
 
     public Long getId() {
@@ -106,6 +111,13 @@ public class Rede {
       return getDono().getEndereco().getLongitude();
     }
 
+    public String getLocalizacao() {
+        return localizacao;
+    }
+
+    public void setLocalizacao(String localizacao) {
+        this.localizacao = localizacao;
+    }
 
     public static Rede novaRede(final String nome, final String usuarioId, final Endereco endereco, Membro.Visibilidade visibilidadeFixo, Membro.Visibilidade visibilidadeCel, Membro.Visibilidade visibilidadeEndereco) throws ConflictException {
         final Objectify ofy = OfyService.ofy();
@@ -151,6 +163,10 @@ public class Rede {
         m.setRede(rede);
         ofy.save().entity(m).now();
         SearchService.createDocument(m);
+
+        Queue q = QueueFactory.getDefaultQueue();
+        q.add(TaskOptions.Builder.withUrl("/atualiza_endereco").param("key", rede.getId().toString()));
+
 
         return rede;
     }

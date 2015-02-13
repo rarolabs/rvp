@@ -22,6 +22,7 @@ public class GeoqueryResponder {
     private Double longitude;
     private String nomeAdministrador;
     private String avatarAdministrador;
+    private String localizacao;
 
     private Date ultimaAtividade;
     private Integer quantidadeMembros;
@@ -117,6 +118,14 @@ public class GeoqueryResponder {
         this.longitude = longitude;
     }
 
+    public String getLocalizacao() {
+        return localizacao;
+    }
+
+    public void setLocalizacao(String localizacao) {
+        this.localizacao = localizacao;
+    }
+
     @Override
     public String toString() {
         return "GeoqueryResponder{" +
@@ -129,4 +138,6 @@ public class GeoqueryResponder {
                 ", longitude=" + longitude +
                 '}';
     }
+
+
 }

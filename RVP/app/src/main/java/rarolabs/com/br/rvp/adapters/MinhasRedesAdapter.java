@@ -73,7 +73,7 @@ public class MinhasRedesAdapter extends RecyclerView.Adapter<MinhasRedesAdapter.
         if (holder instanceof VHItem) {
             RedeDetalhada membro = myDataset.get(position - 1);
             ((VHItem)holder).nome.setText(membro.getNomeRede());
-            ((VHItem)holder).localizacao.setText("Mangabeiras, Belo Horizonte");
+            ((VHItem)holder).localizacao.setText(membro.getLocalizacao());
 
             if(membro.getStatus().equals("ATIVO")){
                 ((VHItem)holder).icone.setImageResource(R.drawable.ic_redes_perfil_aprovada);

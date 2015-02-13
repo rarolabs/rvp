@@ -52,13 +52,14 @@
                 android:textSize="14sp"/>
 </LinearLayout>
             <ImageButton
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/arrow_down_float"
+                android:src="@drawable/ic_drawer_dropdown"
                 android:onClick="showPopup"
                 android:layout_weight="1"
                 android:layout_marginRight="16dp"
                 android:layout_gravity="center_vertical"
+                android:background="@android:color/transparent"
                 />
 
         </LinearLayout>

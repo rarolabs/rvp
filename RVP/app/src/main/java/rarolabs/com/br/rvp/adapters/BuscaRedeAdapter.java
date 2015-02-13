@@ -92,8 +92,7 @@ public class BuscaRedeAdapter extends RecyclerView.Adapter<BuscaRedeAdapter.View
             GeoqueryResponder geo = myDataset.get(position - 1);
             ((VHItem)holder).distancia.setText(Formarter.distanciaHumana(geo.getDistance()));
             ((VHItem)holder).nome.setText(geo.getNomeRede());
-            ((VHItem)holder).localizacao.setText("Mangabeiras, Belo Horizonte");
-
+            ((VHItem)holder).localizacao.setText(geo.getLocalizacao());
         }
 
     }

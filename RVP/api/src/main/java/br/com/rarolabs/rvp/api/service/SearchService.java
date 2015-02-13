@@ -39,7 +39,7 @@ import br.com.rarolabs.rvp.api.util.Utils;
  */
 public class SearchService {
 
-    private static final String indexName = "RVP";
+    private static final String indexName = "RVP_ALPHA";
 
     public static void createDocument(Membro membro) {
         Rede r = membro.getRede();
@@ -138,22 +138,25 @@ public class SearchService {
 
             Objectify ofy = OfyService.ofy();
             Rede rede = ofy.load().type(Rede.class).id(id).now();
+            if(rede!=null) {
 
-            System.out.println(rede);
-            geo.setIdRede(id);
-            geo.setDistance(redes.get(id));
-            System.out.println("REDE:" + rede.getDono());
-            geo.setNomeRede(rede.getNome());
-            geo.setLatitude(rede.getLatitude());
-            geo.setLongitude(rede.getLongitude());
-            geo.setCoordinators(rede.getMembros());
-            geo.setNomeAdministrador(rede.getDono().getUsuario().getNome());
-            geo.setAvatarAdministrador(rede.getDono().getUsuario().getAvatar());
-            geo.setQuantidadeMembros(rede.getMembros().size());
-            geo.setUltimaAtividade(new Date());
+                System.out.println(rede);
+                geo.setIdRede(id);
+                geo.setDistance(redes.get(id));
+                System.out.println("REDE:" + rede.getDono());
+                geo.setNomeRede(rede.getNome());
+                geo.setLocalizacao(rede.getLocalizacao());
+                geo.setLatitude(rede.getLatitude());
+                geo.setLongitude(rede.getLongitude());
+                geo.setCoordinators(rede.getMembros());
+                geo.setNomeAdministrador(rede.getDono().getUsuario().getNome());
+                geo.setAvatarAdministrador(rede.getDono().getUsuario().getAvatar());
+                geo.setQuantidadeMembros(rede.getMembros().size());
+                geo.setUltimaAtividade(new Date());
 
 
-            results.add(geo);
+                results.add(geo);
+            }
 
         }
         return results;

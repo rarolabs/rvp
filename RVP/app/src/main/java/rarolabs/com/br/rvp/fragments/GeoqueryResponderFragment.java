@@ -128,7 +128,7 @@ public class GeoqueryResponderFragment extends Fragment implements AbsListView.O
 
                             i.putExtra(Constants.EXTRA_ID_REDE, geo.getIdRede());
                             i.putExtra(Constants.EXTRA_NOME_REDE, geo.getNomeRede());
-                            i.putExtra(Constants.EXTRA_ENDERECO_REDE, "Nao sei ainda");
+                            i.putExtra(Constants.EXTRA_ENDERECO_REDE, geo.getLocalizacao());
                             i.putExtra(Constants.EXTRA_NOME_ADMIN, geo.getNomeAdministrador());
                             i.putExtra(Constants.EXTRA_AVATAR, geo.getAvatarAdministrador());
                             SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d 'de' MMMM 'de' yyyy 'às' HH:mm");
