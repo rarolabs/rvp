@@ -78,7 +78,7 @@ public class RedesAPI {
                                                        @Named("longitude") Double longitude,
                                                        @Named("distancia") Double distancia){
 
-        return SearchService.searchByPosition(latitude, longitude, distancia);
+        return SearchService.searchByPosition(latitude, longitude, 10000000.00);
 
     }
 

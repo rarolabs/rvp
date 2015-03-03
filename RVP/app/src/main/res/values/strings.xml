@@ -106,8 +106,8 @@
     <string name="titulo_notificacao_deixou_a_rede">Saiu da rede</string>
     <string name="descricao_notificacao_rejeitado">&lt;b>%1$s&lt;/b> foi adicionado como uma nova autoridade policial da rede &lt;b>%2$s&lt;/b></string>
     <string name="descricao_notificacao_deixou_de_ser_administrador">&lt;b>%1$s&lt;/b> não é mais administrador da rede &lt;b>%2$s&lt;/b></string>
-    <string name="descricao_notificacao_deixou_de_ser_autoridade" >&lt;b>%1$s&lt;/b> não é mais autoridade policial da rede &lt;b>%2$s&lt;/b></string>
-    <string name="descricao_notificacao_deixou_a_rede" >&lt;b>%1$s&lt;/b> não faz mais parte da rede &lt;b>%2$s&lt;/b></string>
+    <string name="descricao_notificacao_deixou_de_ser_autoridade">&lt;b>%1$s&lt;/b> não é mais autoridade policial da rede &lt;b>%2$s&lt;/b></string>
+    <string name="descricao_notificacao_deixou_a_rede">&lt;b>%1$s&lt;/b> não faz mais parte da rede &lt;b>%2$s&lt;/b></string>
     <string name="tamanho_ddd_invalido">precisa ter 2 digitos</string>
     <string name="tamanho_telefone_invalido">numero de telefone inválido</string>
     <string name="tamanho_endereco_invalido">coloca seu endereço certinho porque é importante</string>
@@ -120,5 +120,29 @@
     <string name="descricao_tutorial_3">Torne sua vizinhaça mais segura</string>
     <string name="descricao_tutorial_4">Compartilhe alertas e mensagens de segurança</string>
     <string name="descricao_tutorial_2">Conecte-se com seus vizinhos</string>
+    <string name="pessoa_suspeita">Pessoa Suspeita</string>
+    <string name="veiculo_suspeito">Veículo suspeito</string>
+    <string name="ausencia">Ausência</string>
+    <string name="mudanca">Mudança</string>
+    <string name="title_activity_criar_alerta">CriarAlertaActivity</string>
+    <string name="pessoa_suspeita_header">Informe seus vizinhos sobre uma pessoa suspeita</string>
+    <string name="veiculo_suspeito_header">Informe seus vizinhos sobre um veículo suspeito</string>
+    <string name="ausencia_header">Informe seus vizinhos sobre sua ausência</string>
+    <string name="mudanca_header">Informe seus vizinhos sobre sua mudança</string>
+    <string name="incendio_header">Informe seus vizinhos sobre um incêndio</string>
+    <string name="emergencia_header">Informe seus vizinhos sobre uma emergência policial</string>
+    <string name="incendio">Incêndio</string>
+    <string name="emergencia">Emergência Policial</string>
+    <string name="hint_dia_da_mudancao">Dia da Mudança</string>
+    <string name="detalhes_pessoas_suspeita">Dê detalhes da pessoa suspeita</string>
+    <string name="detalhes_veiculo_suspeito">Dê detalhes do veículo suspeito</string>
+    <string name="data_ausencia_inicio">Inicio da Ausência</string>
+    <string name="data_ausencia_fim">Fim da Ausência</string>
+    <string name="detalhes_ausencia">Dê detalhes da sua ausência</string>
+    <string name="data_mudanca">Data da Mudança</string>
+    <string name="detalhes_mudanca">Dê detalhes sobre sua mudança</string>
+    <string name="detalhes_incendio">Dê detalhes sobre o incêndio</string>
+    <string name="detalhes_emergecia">Dê detalhes sobre a emergência</string>
+    <string name="enviando_alerta">Enviando alerta</string>
 
 </resources>

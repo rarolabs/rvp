@@ -52,6 +52,7 @@ public class NavigationDrawerFragment extends Fragment {
      */
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
     private static final String PREF_NEW_USER = "new_user";
+    private static final String PREF_USER_SECTION = "user_section";
 
     /**
      * A pointer to the current callbacks instance (the Activity).
@@ -73,6 +74,7 @@ public class NavigationDrawerFragment extends Fragment {
     private DrawerAdapter mAdapter;
     private SharedPreferences settings;
     private ImageView profileImage;
+    private SharedPreferences sp;
 
     public NavigationDrawerFragment() {
     }
@@ -83,8 +85,9 @@ public class NavigationDrawerFragment extends Fragment {
 
         // Read in the flag indicating whether or not the user has demonstrated awareness of the
         // drawer. See PREF_USER_LEARNED_DRAWER for details.
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
+        mCurrentSelectedPosition = sp.getInt(PREF_USER_SECTION,0);
 
 
         if (savedInstanceState != null) {
@@ -247,6 +250,7 @@ public class NavigationDrawerFragment extends Fragment {
         if (mCallbacks != null) {
             mCallbacks.onNavigationDrawerItemSelected(position);
         }
+        sp.edit().putInt(PREF_USER_SECTION, position).apply();
     }
 
     @Override
@@ -325,6 +329,7 @@ public class NavigationDrawerFragment extends Fragment {
     public ImageView getProfileImage() {
         return profileImage;
     }
+
 
     /**
      * Callbacks interface that all activities using this fragment must implement.

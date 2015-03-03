@@ -21,6 +21,7 @@ import br.com.rarolabs.rvp.api.rvpAPI.RvpAPI;
 import br.com.rarolabs.rvp.api.rvpAPI.RvpAPIRequest;
 import br.com.rarolabs.rvp.api.rvpAPI.RvpAPIRequestInitializer;
 
+import br.com.rarolabs.rvp.api.rvpAPI.model.Alerta;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Endereco;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Profile;
@@ -255,6 +256,14 @@ public class BackendServices {
     public  void desregistrarDispositivo(String idDispositivo) throws BackendExpection {
         try {
             service.desregistrarDispositivo(idDispositivo).execute();
+        } catch (IOException e) {
+            throw new BackendExpection(e);
+        }
+    }
+
+    public  void enviarAlerta(Alerta alerta) throws BackendExpection {
+        try {
+            service.enviarAlerta(alerta).execute();
         } catch (IOException e) {
             throw new BackendExpection(e);
         }

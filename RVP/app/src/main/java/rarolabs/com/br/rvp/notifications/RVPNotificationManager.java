@@ -5,7 +5,6 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
-import java.util.Date;
 import java.util.List;
 
 import rarolabs.com.br.rvp.R;
@@ -41,7 +39,7 @@ public class RVPNotificationManager {
                     context.getSystemService(Context.NOTIFICATION_SERVICE);
             Intent i = new Intent(context, MainActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            i.putExtra(Constants.FRAGMENT,"NOTIFICACAO");
+            i.putExtra(Constants.FRAGMENT_NOTIFICACOES,"NOTIFICACAO");
             PendingIntent contentIntent = PendingIntent.getActivity(context, 0,i, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Builder mBuilder =

@@ -1,6 +1,9 @@
 package br.com.rarolabs.rvp.api.models;
 
+import com.google.api.server.spi.config.AnnotationBoolean;
+import com.google.api.server.spi.config.ApiResourceProperty;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -15,37 +18,30 @@ import java.util.Date;
 @Entity
 public class Alerta {
 
-    public enum Tipo {VEICULO_SUSPEITO,PESSOA_SUSPEITA,
-                      PANICO,PORTAO_ABERTO,SUSPEITA_DE_INVACAO,AUSENCIA, MUDANCA}
+    public enum Tipo {PESSOA_SUSPEITA,VEICULO_SUSPEITO,AUSENCIA,MUDANCA,PANICO,INCENDIO,EMERGENCIA_POLICIAL};
+
 
     //Identificacao do Alerta
     @Id
-    private String id;
+    private Long id;
     private Tipo tipo;
     private Date data;
-
-    //Relacionamentos
-    private Key<Rede> rede;
-    private Key<Membro> membro;
-    private Key<Mensagem> mensagem;
+    private Double latitude;
+    private Double logitude;
 
     //Campos adicionais dependendo do contexto
     private String descricao;
-    private String local;
-    private String veiculo;
-    private String marca;
-    private String modelo;
-    private String cor;
-    private String quantidade;
-    private String caracteristicas;
     private Date de;
     private Date ate;
+    private Long redeId;
+    private Long membroId;
 
-    public String getId() {
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -65,28 +61,20 @@ public class Alerta {
         this.data = data;
     }
 
-    public Key<Rede> getRede() {
-        return rede;
+    public Double getLatitude() {
+        return latitude;
     }
 
-    public void setRede(Key<Rede> rede) {
-        this.rede = rede;
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 
-    public Key<Membro> getMembro() {
-        return membro;
+    public Double getLogitude() {
+        return logitude;
     }
 
-    public void setMembro(Key<Membro> membro) {
-        this.membro = membro;
-    }
-
-    public Key<Mensagem> getMensagem() {
-        return mensagem;
-    }
-
-    public void setMensagem(Key<Mensagem> mensagem) {
-        this.mensagem = mensagem;
+    public void setLogitude(Double logitude) {
+        this.logitude = logitude;
     }
 
     public String getDescricao() {
@@ -95,62 +83,6 @@ public class Alerta {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public String getLocal() {
-        return local;
-    }
-
-    public void setLocal(String local) {
-        this.local = local;
-    }
-
-    public String getVeiculo() {
-        return veiculo;
-    }
-
-    public void setVeiculo(String veiculo) {
-        this.veiculo = veiculo;
-    }
-
-    public String getMarca() {
-        return marca;
-    }
-
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-
-    public String getModelo() {
-        return modelo;
-    }
-
-    public void setModelo(String modelo) {
-        this.modelo = modelo;
-    }
-
-    public String getCor() {
-        return cor;
-    }
-
-    public void setCor(String cor) {
-        this.cor = cor;
-    }
-
-    public String getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(String quantidade) {
-        this.quantidade = quantidade;
-    }
-
-    public String getCaracteristicas() {
-        return caracteristicas;
-    }
-
-    public void setCaracteristicas(String caracteristicas) {
-        this.caracteristicas = caracteristicas;
     }
 
     public Date getDe() {
@@ -167,5 +99,21 @@ public class Alerta {
 
     public void setAte(Date ate) {
         this.ate = ate;
+    }
+
+    public Long getRedeId() {
+        return redeId;
+    }
+
+    public void setRedeId(Long redeId) {
+        this.redeId = redeId;
+    }
+
+    public Long getMembroId() {
+        return membroId;
+    }
+
+    public void setMembroId(Long membroId) {
+        this.membroId = membroId;
     }
 }

@@ -1,10 +1,18 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="rarolabs.com.br.rvp.fragments.AlertasFragment">
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/minhas_redes_swipe_refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    >
 
-</FrameLayout>
+    <com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView
+        android:id="@+id/lista_alertas_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    </com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView>
+</android.support.v4.widget.SwipeRefreshLayout>

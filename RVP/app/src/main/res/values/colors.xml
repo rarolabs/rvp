@@ -28,6 +28,17 @@
     <color name="botao_rejeitar">#e0432a</color>
     <color name="botao_aceitar">#e9ecef</color>
     <color name="cor_divisor">#cfd8dc</color>
-
-
+    <color name="fonte_alerta">#4D4D4D</color>
+    <color name="pessoa_suspeita">#7e57c2</color>
+    <color name="pessoa_suspeita_overlay">#4C3474</color>
+    <color name="veiculo_suspeito">#ec7030</color>
+    <color name="veiculo_suspeito_overlay">#8E431D</color>
+    <color name="ausencia">#039be5</color>
+    <color name="ausencia_overlay">#025D89</color>
+    <color name="mudanca">#8c6f64</color>
+    <color name="mudanca_overlay">#54433C</color>
+    <color name="incendio">#fcbb31</color>
+    <color name="incendio_overlay">#97701D</color>
+    <color name="emergencia">#434343</color>
+    <color name="emergencia_overlay">#282828</color>
 </resources>

@@ -1,15 +1,30 @@
 package rarolabs.com.br.rvp.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
+import br.com.rarolabs.rvp.api.rvpAPI.model.RedeDetalhada;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.activities.MainActivity;
+import rarolabs.com.br.rvp.activities.RedeActivity;
+import rarolabs.com.br.rvp.config.Constants;
+import rarolabs.com.br.rvp.config.RVPApp;
+import rarolabs.com.br.rvp.listeners.RecyclerItemClickListener;
+import rarolabs.com.br.rvp.services.tasks.MinhasRedesAsyncTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +45,8 @@ public class AlertasFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private ObservableRecyclerView mRecyclerView;
+    private LinearLayoutManager mLayoutManager;
 
     /**
      * Use this factory method to create a new instance of
@@ -65,8 +82,21 @@ public class AlertasFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_alertas, container, false);
+        mRecyclerView = (ObservableRecyclerView) view.findViewById(R.id.lista_alertas_recycler_view);
+        MainActivity activity = (MainActivity) getActivity();
+        activity.setRecycleView(mRecyclerView);
+
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this.getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        return view;
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_alertas, container, false);
+        //return inflater.inflate(R.layout.fragment_alertas, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

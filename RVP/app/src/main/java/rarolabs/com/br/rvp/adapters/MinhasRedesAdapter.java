@@ -9,24 +9,22 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponder;
-import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
-import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import br.com.rarolabs.rvp.api.rvpAPI.model.RedeDetalhada;
 import rarolabs.com.br.rvp.R;
-import rarolabs.com.br.rvp.utils.Formarter;
+import rarolabs.com.br.rvp.models.Rede;
 
 /**
  * Created by rodrigosol on 1/14/15.
  */
+
 public class MinhasRedesAdapter extends RecyclerView.Adapter<MinhasRedesAdapter.ViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
 
-    private final List<RedeDetalhada> myDataset;
+    private final List<Rede> myDataset;
     private View.OnClickListener mOnClickListener;
 
-    public MinhasRedesAdapter(List<RedeDetalhada> myDataset) {
+    public MinhasRedesAdapter(List<Rede> myDataset) {
         this.myDataset = myDataset;
     }
 
@@ -71,7 +69,7 @@ public class MinhasRedesAdapter extends RecyclerView.Adapter<MinhasRedesAdapter.
     @Override
     public void onBindViewHolder(MinhasRedesAdapter.ViewHolder holder, int position) {
         if (holder instanceof VHItem) {
-            RedeDetalhada membro = myDataset.get(position - 1);
+            Rede membro = myDataset.get(position - 1);
             ((VHItem)holder).nome.setText(membro.getNomeRede());
             ((VHItem)holder).localizacao.setText(membro.getLocalizacao());
 
@@ -86,21 +84,26 @@ public class MinhasRedesAdapter extends RecyclerView.Adapter<MinhasRedesAdapter.
 
     }
 
+
     @Override
     public int getItemCount() {
         return myDataset.size() + 1;
     }
 
     public void addAll(List<RedeDetalhada> itens){
-        myDataset.addAll(itens);
+        for(RedeDetalhada rede: itens){
+            Rede r = new Rede(rede);
+            myDataset.add(r);
+        }
     }
 
-    public RedeDetalhada get(int position) {
+    public Rede get(int position) {
         return myDataset.get(position);
     }
 
     public void clear() {
         myDataset.clear();
+        myDataset.addAll(Rede.getRedes());
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

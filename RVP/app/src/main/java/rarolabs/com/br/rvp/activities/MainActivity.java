@@ -1,24 +1,14 @@
 package rarolabs.com.br.rvp.activities;
 
-import android.animation.Animator;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Vibrator;
-import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,10 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
@@ -50,7 +37,7 @@ import java.io.InputStream;
 
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.config.Constants;
-import rarolabs.com.br.rvp.config.RVPApp;
+import rarolabs.com.br.rvp.fragments.AlertaDialogFragment;
 import rarolabs.com.br.rvp.fragments.AlertasFragment;
 import rarolabs.com.br.rvp.fragments.BuscaRedeFragment;
 import rarolabs.com.br.rvp.fragments.GeoqueryResponderFragment;
@@ -71,6 +58,7 @@ public class MainActivity extends RVPActivity
         MinhasRedesFragment.OnFragmentInteractionListener,
         NotificacoesFragment.OnFragmentInteractionListener,
         NotificacaoDialogFragment.NoticeDialogListener,
+        AlertaDialogFragment.NoticeDialogListener,
         ObservableScrollViewCallbacks {
 
 
@@ -89,7 +77,6 @@ public class MainActivity extends RVPActivity
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
-    private static final String PREF_NEW_USER = "new_user";
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -105,6 +92,7 @@ public class MainActivity extends RVPActivity
     private BuscaRedeFragment buscaRedeFragment;
     private GcmRegister gcmRegister;
     private boolean mudarParaNotificacoes = false;
+    private boolean mudarParaAlertas;
 
 
     @Override
@@ -162,7 +150,7 @@ public class MainActivity extends RVPActivity
     public void onNewIntent(Intent intent) {
         Bundle extras = intent.getExtras();
         if (extras != null) {
-            if (extras.containsKey(Constants.FRAGMENT)) {
+            if (extras.containsKey(Constants.FRAGMENT_NOTIFICACOES)) {
                 this.mudarParaNotificacoes = true;
             }
         }
@@ -176,7 +164,13 @@ public class MainActivity extends RVPActivity
             case SECTION_BUSCA_REDES:
                 novaRede();
                 break;
+            case SECTION_ALERTAS:
+                novoAlerta();
         }
+    }
+
+    private void novoAlerta() {
+        AlertaDialogFragment.newInstance().show(getFragmentManager(), "ALERTA_DIALOG");
     }
 
     private void novaRede() {
@@ -285,7 +279,7 @@ public class MainActivity extends RVPActivity
             case 1:
                 menu_itens = R.menu.menu_fragment_alertas;
                 mTitleView.setText(getString(R.string.title_alertas));
-                mFab.setVisibility(View.GONE);
+                mFab.setVisibility(View.VISIBLE);
 
                 break;
             case 2:
@@ -548,5 +542,10 @@ public class MainActivity extends RVPActivity
         finish();
 
     }
+
+    public void alertaSelecionado(View view){
+
+    }
+
 
 }

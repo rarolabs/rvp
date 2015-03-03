@@ -22,8 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
-import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
+
 import br.com.rarolabs.rvp.api.rvpAPI.model.RedeDetalhada;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.activities.MainActivity;
@@ -32,6 +31,8 @@ import rarolabs.com.br.rvp.adapters.MinhasRedesAdapter;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.config.RVPApp;
 import rarolabs.com.br.rvp.listeners.RecyclerItemClickListener;
+import rarolabs.com.br.rvp.models.Membro;
+import rarolabs.com.br.rvp.models.Rede;
 import rarolabs.com.br.rvp.services.tasks.BuscaRedesAsyncTask;
 import rarolabs.com.br.rvp.services.tasks.MinhasRedesAsyncTask;
 import rarolabs.com.br.rvp.views.Loading;
@@ -69,7 +70,7 @@ public class MinhasRedesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new MinhasRedesAdapter(new ArrayList<RedeDetalhada>());
+        mAdapter = new MinhasRedesAdapter(new ArrayList<Rede>());
         currentUser = getActivity().getSharedPreferences("RVP",0).getString(Constants.ACCOUNT,null);
     }
 
@@ -105,7 +106,7 @@ public class MinhasRedesFragment extends Fragment {
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         if(position > 0) {
-                            RedeDetalhada rede = mAdapter.get(position - 1);
+                            Rede rede = mAdapter.get(position - 1);
                             Intent i = new Intent(MinhasRedesFragment.this.getActivity(), RedeActivity.class);
                             i.putExtra(Constants.EXTRA_MEMBRO,true);
                             i.putExtra(Constants.EXTRA_ID_REDE, rede.getRedeId());
@@ -114,7 +115,7 @@ public class MinhasRedesFragment extends Fragment {
                             i.putExtra(Constants.EXTRA_NOME_ADMIN, rede.getNomeAdministrador());
                             i.putExtra(Constants.EXTRA_AVATAR, rede.getAvatarAdministrador());
                             SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d 'de' MMMM 'de' yyyy 'às' HH:mm");
-                            i.putExtra(Constants.EXTRA_ULTIMA_ATIVIDADE, sdf.format(new Date(rede.getUltimaAtividade().getValue())));
+                            i.putExtra(Constants.EXTRA_ULTIMA_ATIVIDADE, sdf.format(rede.getUltimaAtividade()));
                             i.putExtra(Constants.EXTRA_QUANTIDADE_MEMBROS, rede.getQuantidadeMembros());
                             int pos = 0;
                             for(Membro m : rede.getMembros()){
@@ -182,6 +183,7 @@ public class MinhasRedesFragment extends Fragment {
             if(result.size()==0){
                 Toast.makeText(getActivity(), "Você ainda não pertence a nenhuma rede", Toast.LENGTH_SHORT).show();
             }else{
+                Rede.deleteAll(Rede.class);
                 mAdapter.clear();
                 mAdapter.addAll(result);
                 mAdapter.notifyDataSetChanged();

@@ -5,7 +5,7 @@
         <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
         <init-param>
             <param-name>services</param-name>
-            <param-value>br.com.rarolabs.rvp.api.endpoints.MembrosAPI,br.com.rarolabs.rvp.api.endpoints.RedesAPI,br.com.rarolabs.rvp.api.endpoints.UsuariosAPI,br.com.rarolabs.rvp.api.endpoints.UtilsAPI,br.com.rarolabs.rvp.api.endpoints.RegistroDispositivoAPI</param-value>
+            <param-value>br.com.rarolabs.rvp.api.endpoints.MembrosAPI,br.com.rarolabs.rvp.api.endpoints.RedesAPI,br.com.rarolabs.rvp.api.endpoints.UsuariosAPI,br.com.rarolabs.rvp.api.endpoints.UtilsAPI,br.com.rarolabs.rvp.api.endpoints.RegistroDispositivoAPI,br.com.rarolabs.rvp.api.endpoints.AlertasAPI</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>
