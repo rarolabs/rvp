@@ -12,24 +12,25 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.Alerta;
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.activities.CriarAlertaActivity;
 import rarolabs.com.br.rvp.activities.PerfilActivity;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.listeners.GPSTracker;
 import rarolabs.com.br.rvp.services.BackendExpection;
 import rarolabs.com.br.rvp.services.BackendServices;
 
-public class EnviarAlertaAsyncTask extends AsyncTask<Alerta, Void, Void> {
+public class EnviarAlertaAsyncTask extends AsyncTask<Alerta, Void, Boolean> {
     private static BackendServices backendServices = null;
-    private Context context;
+    private CriarAlertaActivity context;
     private SharedPreferences settings;
 
 
-    public EnviarAlertaAsyncTask(Activity activity) {
+    public EnviarAlertaAsyncTask(CriarAlertaActivity activity) {
         this.context = activity;
     }
 
     @Override
-    protected Void doInBackground(Alerta... params) {
+    protected Boolean doInBackground(Alerta... params) {
         settings = context.getSharedPreferences("RVP", 0);
 
         if(backendServices == null) { // Only do this once
@@ -46,15 +47,29 @@ public class EnviarAlertaAsyncTask extends AsyncTask<Alerta, Void, Void> {
             Log.d("REDE", "Deu erro");
             Log.e("BuscaRedes", e.getMessage());
             Log.e("BuscaRedes", e.getDescricao());
-            Toast.makeText(context, R.string.nao_foi_possivel_enviar_alerta,Toast.LENGTH_SHORT).show();
+            context.runOnUiThread(new Runnable() {
+                public void run() {
+                    context.error(e.getDescricao());
+                }
+            });
+
+            return Boolean.FALSE;
 
         }
-        return null;
+        return Boolean.TRUE;
     }
 
     @Override
-    protected void onPostExecute(final Void result) {
-        Toast.makeText(context, R.string.alerta_enviado_com_sucesso,Toast.LENGTH_SHORT).show();
+    protected void onPostExecute(final Boolean result) {
+        if (result){
+            context.runOnUiThread(new Runnable() {
+                public void run() {
+                    context.ok();
+                }
+            });
+        }
+
+
 
     }
 

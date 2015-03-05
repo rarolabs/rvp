@@ -2,6 +2,7 @@ package rarolabs.com.br.rvp.activities;
 
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
+import android.app.ProgressDialog;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Build;
@@ -53,6 +54,7 @@ public class CriarAlertaActivity extends ActionBarActivity implements DatePicker
     private int currentDataView;
     private Location location;
     private GPSTracker tracker;
+    private ProgressDialog progress;
 
 
     @Override
@@ -131,6 +133,9 @@ public class CriarAlertaActivity extends ActionBarActivity implements DatePicker
     }
 
     private void enviarAlerta() {
+        progress = ProgressDialog.show(this, getString(R.string.aguarde),
+                getString(R.string.enviando_alerta, true));
+
         Alerta alerta = new Alerta();
         alerta.setDescricao(detalhes.getText().toString());
         alerta.setTipo(tipo);
@@ -142,10 +147,9 @@ public class CriarAlertaActivity extends ActionBarActivity implements DatePicker
             alerta.setLatitude(location.getLatitude());
             alerta.setLogitude(location.getLongitude());
         }
-        new EnviarAlertaAsyncTask(this).execute(alerta);
-        Toast.makeText(this,R.string.enviando_alerta,Toast.LENGTH_SHORT).show();
         tracker.stopUsingGPS();
-        finish();
+        new EnviarAlertaAsyncTask(this).execute(alerta);
+
     }
 
 
@@ -179,6 +183,19 @@ public class CriarAlertaActivity extends ActionBarActivity implements DatePicker
         if(location != null && location.getLatitude() != 0 ){
             tracker.stopUsingGPS();
         }
+    }
+
+    public void ok() {
+        Toast.makeText(CriarAlertaActivity.this, R.string.alerta_enviado_com_sucesso,Toast.LENGTH_SHORT).show();
+        progress.dismiss();
+        tracker.stopUsingGPS();
+        finish();
+    }
+
+    public void error(String descricao) {
+        progress.dismiss();
+        Toast.makeText(CriarAlertaActivity.this, descricao,Toast.LENGTH_SHORT).show();
+        location = tracker.getLocation();
     }
 }
 
