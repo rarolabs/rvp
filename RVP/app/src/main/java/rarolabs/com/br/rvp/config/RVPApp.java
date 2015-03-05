@@ -1,6 +1,5 @@
 package rarolabs.com.br.rvp.config;
 
-import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -10,8 +9,6 @@ import android.view.WindowManager;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-
-import rarolabs.com.br.rvp.adapters.NotificacoesAdapter;
 
 /**
  * Created by rodrigosol on 1/28/15.

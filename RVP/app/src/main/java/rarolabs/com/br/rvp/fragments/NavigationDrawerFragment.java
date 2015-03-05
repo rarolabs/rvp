@@ -325,6 +325,9 @@ public class NavigationDrawerFragment extends Fragment {
     public void mostraNotificacoes() {
         selectItem(2);
     }
+    public void mostraAlertas() {
+        selectItem(1);
+    }
 
     public ImageView getProfileImage() {
         return profileImage;

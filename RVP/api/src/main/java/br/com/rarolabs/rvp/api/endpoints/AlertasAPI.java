@@ -15,6 +15,9 @@ import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.oauth.OAuthRequestException;
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
+import com.google.appengine.api.taskqueue.TaskOptions;
 import com.google.appengine.api.users.User;
 
 import javax.inject.Named;
@@ -58,6 +61,8 @@ public class AlertasAPI {
             throw new OAuthRequestException("Usuário não autenticado");
         }
         OfyService.ofy().save().entity(alerta).now();
+        Queue q = QueueFactory.getDefaultQueue();
+        q.add(TaskOptions.Builder.withUrl("/push_message").param("key", alerta.getId().toString()));
     }
 
 }

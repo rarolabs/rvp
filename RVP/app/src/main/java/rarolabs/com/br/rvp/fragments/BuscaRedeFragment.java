@@ -3,7 +3,6 @@ package rarolabs.com.br.rvp.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.net.Uri;
@@ -15,7 +14,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +22,6 @@ import java.util.List;
 import br.com.rarolabs.rvp.api.rvpAPI.model.GeoqueryResponder;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.activities.Locable;
-import rarolabs.com.br.rvp.activities.MainActivity;
 import rarolabs.com.br.rvp.activities.WelcomeActivity;
 import rarolabs.com.br.rvp.config.RVPApp;
 import rarolabs.com.br.rvp.listeners.GPSTracker;
@@ -114,7 +111,7 @@ public class BuscaRedeFragment extends Fragment
 
 
         if (gps == null) {
-            gps = new GPSTracker(this);
+            gps = new GPSTracker(this.getActivity(), true);
         }
 
         // check if GPS enabled

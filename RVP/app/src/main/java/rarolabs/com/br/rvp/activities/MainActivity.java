@@ -38,13 +38,14 @@ import java.io.InputStream;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.fragments.AlertaDialogFragment;
-import rarolabs.com.br.rvp.fragments.AlertasFragment;
+
 import rarolabs.com.br.rvp.fragments.BuscaRedeFragment;
 import rarolabs.com.br.rvp.fragments.GeoqueryResponderFragment;
 import rarolabs.com.br.rvp.fragments.MinhasRedesFragment;
 import rarolabs.com.br.rvp.fragments.NavigationDrawerFragment;
 import rarolabs.com.br.rvp.fragments.NotificacaoDialogFragment;
-import rarolabs.com.br.rvp.fragments.NotificacoesFragment;
+import rarolabs.com.br.rvp.fragments.notificacoes.AlertasFragment;
+import rarolabs.com.br.rvp.fragments.notificacoes.NotificacoesFragment;
 import rarolabs.com.br.rvp.gcm.GcmRegister;
 import rarolabs.com.br.rvp.models.Notificacao;
 import rarolabs.com.br.rvp.services.tasks.AtualizarAvatarAsyncTask;
@@ -139,6 +140,8 @@ public class MainActivity extends RVPActivity
         enableNotificacoes((RelativeLayout) findViewById(R.id.notificacao));
         if(mudarParaNotificacoes) {
             mNavigationDrawerFragment.mostraNotificacoes();
+        }else if(mudarParaAlertas){
+            mNavigationDrawerFragment.mostraAlertas();
         }
 
     }
@@ -149,10 +152,15 @@ public class MainActivity extends RVPActivity
     @Override
     public void onNewIntent(Intent intent) {
         Bundle extras = intent.getExtras();
+
         if (extras != null) {
-            if (extras.containsKey(Constants.FRAGMENT_NOTIFICACOES)) {
+            Log.d("Notificacao","Extra:" + extras.getString(Constants.FRAGMENT_NOTIFICACOES,""));
+            if (extras.getString(Constants.FRAGMENT_NOTIFICACOES,"").equals("NOTIFICACAO")) {
                 this.mudarParaNotificacoes = true;
+            }else if (extras.getString(Constants.FRAGMENT_NOTIFICACOES,"").equals("ALERTA")) {
+                this.mudarParaAlertas = true;
             }
+
         }
     }
 
@@ -194,13 +202,13 @@ public class MainActivity extends RVPActivity
                 return buscaRedeFragment;
             case SECTION_ALERTAS:
                 if (alertasFragment == null) {
-                    alertasFragment = new AlertasFragment();
+                    alertasFragment = AlertasFragment.newInstance();
                 }
                 return alertasFragment;
 
             case SECTION_NOTIFICACOES:
                 if (notificacoesFragment == null) {
-                    notificacoesFragment = new NotificacoesFragment();
+                    notificacoesFragment =  NotificacoesFragment.newInstance();
                 }
                 return notificacoesFragment;
         }
@@ -466,10 +474,13 @@ public class MainActivity extends RVPActivity
 
     }
 
-    public void mostrarAlerta() {
-        super.mostrarAlerta();
+    @Override
+    public void mostraBarraNotificacao(String tipoAlerta) {
+        super.mostraBarraNotificacao(tipoAlerta);
         if (sectionNumer == SECTION_NOTIFICACOES) {
             notificacoesFragment.refreshContent();
+        }else if(sectionNumer == SECTION_ALERTAS){
+            alertasFragment.refreshContent();
         }
     }
 

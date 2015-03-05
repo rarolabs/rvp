@@ -22,7 +22,9 @@ import rarolabs.com.br.rvp.activities.Locable;
  */
 public class GPSTracker extends Service implements LocationListener {
 
-    private final Fragment fragment;
+
+    private final Context context;
+    private final boolean update;
 
     // flag for GPS status
     boolean isGPSEnabled = false;
@@ -46,14 +48,15 @@ public class GPSTracker extends Service implements LocationListener {
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
-    public GPSTracker(Fragment fragment) {
-        this.fragment = fragment;
+    public GPSTracker(Context context, boolean update) {
+        this.context = context;
+        this.update = update;
         getLocation();
     }
 
     public Location getLocation() {
         try {
-            locationManager = (LocationManager) fragment.getActivity()
+            locationManager = (LocationManager) context
                     .getSystemService(LOCATION_SERVICE);
 
             // getting GPS status
@@ -158,38 +161,40 @@ public class GPSTracker extends Service implements LocationListener {
      * On pressing Settings button will lauch Settings Options
      * */
     public void showSettingsAlert(){
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(fragment.getActivity());
+        if(update) {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
 
-        // Setting Dialog Title
-        alertDialog.setTitle(R.string.gps_title);
+            // Setting Dialog Title
+            alertDialog.setTitle(R.string.gps_title);
 
-        // Setting Dialog Message
-        alertDialog.setMessage(R.string.gps_text);
+            // Setting Dialog Message
+            alertDialog.setMessage(R.string.gps_text);
 
-        // On pressing Settings button
-        alertDialog.setPositiveButton(R.string.settings, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                fragment.getActivity().startActivity(intent);
+            // On pressing Settings button
+            alertDialog.setPositiveButton(R.string.settings, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    context.startActivity(intent);
 
-            }
-        });
+                }
+            });
 
-        // on pressing cancel button
-        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+            // on pressing cancel button
+            alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
 
-        // Showing Alert Message
-        alertDialog.show();
+            // Showing Alert Message
+            alertDialog.show();
+        }
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.d("GPS", "On Location change:" + location.getLatitude() + "," + location.getLongitude());
-        ((Locable) fragment).onLocationChange(location);
+            Log.d("GPS", "On Location change:" + location.getLatitude() + "," + location.getLongitude());
+            ((Locable) context).onLocationChange(location);
     }
 
     @Override

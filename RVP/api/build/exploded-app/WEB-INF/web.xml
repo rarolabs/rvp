@@ -31,6 +31,15 @@
         <url-pattern>/atualiza_endereco</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>push_message</servlet-name>
+        <servlet-class>br.com.rarolabs.rvp.api.servlet.PushMessageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>push_message</servlet-name>
+        <url-pattern>/push_message</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>

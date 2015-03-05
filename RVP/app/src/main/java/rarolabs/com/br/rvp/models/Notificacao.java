@@ -3,18 +3,14 @@ package rarolabs.com.br.rvp.models;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.orm.SugarRecord;
 
 import java.io.UnsupportedEncodingException;
@@ -42,18 +38,17 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
 
 
 
-    public enum TipoAlerta {VEICULO_SUSPEITO,PESSOA_SUSPEITA,
-        PANICO,PORTAO_ABERTO,SUSPEITA_DE_INVACAO,AUSENCIA, MUDANCA,INCENDIO}
-
+    public enum TipoAlerta {PESSOA_SUSPEITA,VEICULO_SUSPEITO,AUSENCIA,MUDANCA,PANICO,INCENDIO,EMERGENCIA_POLICIAL};
     public enum TipoStatus {NOVO_MEMBRO,NOVO_ADMINISTRADOR,NOVA_AUTORIDADE,REJEITAR,RETIRAR_ADMINISTRADOR,RETIRAR_AUTORIDADE,DEIXOU_REDE}
 
     public enum Tipo {SOLICITACAO,ALERTA,SISTEMA,STATUS}
 
     private static final SimpleDateFormat sdfSecao = new SimpleDateFormat("EEEE, d 'de' MMMM 'de' yyyy");
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyDDmm");
+    private static final SimpleDateFormat sdfDia = new SimpleDateFormat("dd/MM");
 
 
-    private Date data;
+    private Long data;
     private int icon;
     private Boolean lido = false;
     private Tipo tipo;
@@ -70,6 +65,11 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
     private String avatar;
     private String avatarBlur;
 
+    private String detalhes;
+    private Long dataDe;
+    private Long dataAte;
+
+
 
     public Notificacao(){
     }
@@ -79,6 +79,7 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
         this.setTipo(Notificacao.Tipo.valueOf(extras.getString("tipo")));
         String extraTipoStatus = extras.getString("tipo_status");
         this.setTipoStatus(extraTipoStatus != null ? Notificacao.TipoStatus.valueOf(extraTipoStatus) : null);
+
         this.setUsuarioId(extras.getString("usuario_id"));
         this.setMembroId(Long.valueOf(extras.getString("membro_id")));
         try {
@@ -88,11 +89,38 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
             e.printStackTrace();
         }
 
-        this.setData(new Date());
-        Log.d("Image", "Avatar:" + extras.getString("avatar"));
-        Log.d("Image","Avatar:" + extras.toString());
+        String extraTipoAlerta = extras.getString("tipo_alerta",null);
+        if(extraTipoAlerta!=null) {
+            this.setTipoAlerta(extraTipoAlerta != null ? TipoAlerta.valueOf(extraTipoAlerta) : null);
+
+            String de = extras.getString("data_de");
+            if(de!=null && !de.equals("")){
+                this.setDataDe(Long.parseLong(de));
+            }
+
+            String ate = extras.getString("data_ate");
+            if(ate !=null && !ate.equals("")){
+                this.setDataAte(Long.parseLong(ate));
+            }
+            try {
+                this.setDetalhes(URLDecoder.decode(extras.getString("detalhes"), "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+        this.setData(Long.parseLong(extras.getString("data")));
         this.setAvatar(extras.getString("avatar"));
         this.setAvatarBlur(extras.getString("avatar_blur"));
+        save();
+
+        if(extraTipoAlerta!=null){
+            new Comentario(this,this.membroId,this.nomeUsuario,this.avatar,this.avatarBlur,this.data,this.detalhes).save();
+        }
+
+
 
 
     }
@@ -126,16 +154,42 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
                     case DEIXOU_REDE:
                         return context.getString(R.string.titulo_notificacao_deixou_a_rede);
                 }
+                break;
+            case ALERTA:
+                switch (tipoAlerta){
+                    case PESSOA_SUSPEITA:
+                    case VEICULO_SUSPEITO:
+                    case INCENDIO:
+                    case EMERGENCIA_POLICIAL:
+                        return context.getString(getEsquema().getTitle());
+                    case MUDANCA:
+                        if(dataDe != null && dataDe > 0) {
+                            return String.format(context.getString(R.string.titulo_mudanca), sdfDia.format(new Date(dataDe)));
+                        }else{
+                            return context.getString(getEsquema().getTitle());
+                        }
+                    case AUSENCIA:
+                        if(dataDe != null && dataDe > 0 ) {
+                            if (dataAte != null && dataAte > 0 && dataDe != dataAte) {
+                                return String.format(context.getString(R.string.titulo_ausencia), sdfDia.format(new Date(dataDe)), sdfDia.format(new Date(dataAte)));
+                            }else{
+                                return String.format(context.getString(R.string.titulo_ausencia_unico_dia), sdfDia.format(new Date(dataDe)));
+                            }
+
+                        }else{
+                            return context.getString(getEsquema().getTitle());
+                        }
+                }
         }
 
         return "Não implementado";
     }
 
     public Date getData() {
-        return data;
+        return new Date(data);
     }
 
-    public void setData(Date data) {
+    public void setData(Long data) {
         this.data = data;
     }
 
@@ -162,9 +216,28 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
                         return Html.fromHtml(String.format(context.getString(R.string.descricao_notificacao_deixou_a_rede), nomeUsuario, nomeRede));
 
                 }
+                break;
+            case ALERTA:
+                Comentario comentario = this.getUltimoComentario();
+                if(comentario!=null) {
+                    return Html.fromHtml(comentario.getTexto());
+                }else{
+                    return Html.fromHtml("");
+                }
+
         }
         return Html.fromHtml("Nao implementado");
 
+    }
+
+    public Comentario getUltimoComentario() {
+        List<Comentario> comentarios = Comentario.findWithQuery(Comentario.class, "SELECT * FROM comentario where notificacao = ?  ORDER by data desc LIMIT 0, 1", this.getId().toString());
+        Log.d("Comentario","size:" + comentarios.size());
+        if(comentarios.size()>0){
+            Log.d("comentario",comentarios.get(0).toString());
+            return comentarios.get(0);
+        }
+        return null;
     }
 
     public int getIcon() {
@@ -298,8 +371,32 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
         this.abrivel = abrivel;
     }
 
+    public String getDetalhes() {
+        return detalhes;
+    }
+
+    public void setDetalhes(String detalhes) {
+        this.detalhes = detalhes;
+    }
+
+    public Date getDataDe() {
+        return new Date(dataDe);
+    }
+
+    public void setDataDe(Long dataDe) {
+        this.dataDe = dataDe;
+    }
+
+    public Date getDataAte() {
+        return new Date(dataAte);
+    }
+
+    public void setDataAte(Long dataAte) {
+        this.dataAte = dataAte;
+    }
+
     public String getSecao() {
-        int diffDays = getDiff(data);
+        int diffDays = getDiff(getData());
         switch (diffDays){
             case 0:
                 return "Hoje";
@@ -406,10 +503,9 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
                 return getIconeFromString("ic_alertas_veiculo", lido);
             case PESSOA_SUSPEITA:
                 return getIconeFromString("ic_alertas_pessoa", lido);
-            case PORTAO_ABERTO:
             case PANICO:
                 return getIconeFromString("ic_alertas_panico", lido);
-            case SUSPEITA_DE_INVACAO:
+            case EMERGENCIA_POLICIAL:
                 return getIconeFromString("ic_alertas_policia", lido);
             case AUSENCIA:
                 return getIconeFromString("ic_alertas_ausencia", lido);
@@ -422,6 +518,11 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
 
     }
 
+    public EsquemaAlerta getEsquema() {
+        return EsquemaAlerta.get(this.tipoAlerta.toString());
+    }
+
+
     private String getIconeFromString(String nome, Boolean lido) {
         String sufixo = (lido ? "read" : "unread");
         return nome+"_" +sufixo;
@@ -429,24 +530,46 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
 
     public static long totalNotificacoes(String target) {
         String[] params = {target};
-        return Notificacao.count(Notificacao.class, "target=?", params);
+        return Notificacao.count(Notificacao.class, "tipo <> 'ALERTA' and target=?", params);
     }
-    public static long totalNotificacoesNaoLidas(String target) {
+    public static long totalAlertas(String target) {
         String[] params = {target};
-        return Notificacao.count(Notificacao.class, "lido = 0 and target=?",params);
+        return Notificacao.count(Notificacao.class, "tipo = 'ALERTA' and target=?", params);
     }
 
-    public static void marcarTodasComoLidas(String target) {
-        Notificacao.executeQuery("UPDATE notificacao SET lido = 1 where target = '"+target+"'");
+    public static long totalNotificacoesNaoLidas(String target) {
+        String[] params = {target};
+        return Notificacao.count(Notificacao.class, "tipo <> 'ALERTA' and lido = 0 and target=?",params);
     }
-    public static void excluirTodo(String target) {
-        Notificacao.executeQuery("DELETE FROM notificacao where target = '"+target+"'");
+    public static long totalAlertasNaoLidos(String target) {
+        String[] params = {target};
+        return Notificacao.count(Notificacao.class, "tipo = 'ALERTA' and lido = 0 and target=?",params);
+    }
+
+    public static void marcarTodasNotificacoesComoLidas(String target) {
+        Notificacao.executeQuery("UPDATE notificacao SET lido = 1 where TIPO <> 'ALERTA' and target = '"+target+"'");
+    }
+
+    public static void marcarTodosAlertasComoLidos(String target) {
+        Notificacao.executeQuery("UPDATE notificacao SET lido = 1 where TIPO = 'ALERTA' and target = '"+target+"'");
+    }
+
+    public static void excluirTodasNotificacoes(String target) {
+        Notificacao.executeQuery("DELETE FROM notificacao where tipo <> 'ALERTA' and  target = '"+target+"'");
+    }
+
+    public static void excluirTodosAlertas(String target) {
+        Notificacao.executeQuery("DELETE FROM notificacao where tipo = 'ALERTA' and  target = '"+target+"'");
     }
 
 
     public static List<Notificacao> getNotificacoes(Integer skip, Integer count,String target,Notificacao ultimaCarregada){
-       return criaSecoes(Notificacao.findWithQuery(Notificacao.class, "SELECT * FROM notificacao where target = ? ORDER by data desc LIMIT ?, ?", target, skip.toString(), count.toString()),ultimaCarregada);
-   }
+       return criaSecoes(Notificacao.findWithQuery(Notificacao.class, "SELECT * FROM notificacao where TIPO <> ? and target = ? ORDER by data desc LIMIT ?, ?", "ALERTA" ,target, skip.toString(), count.toString()),ultimaCarregada);
+    }
+
+    public static List<Notificacao> getAlertas(Integer skip, Integer count,String target,Notificacao ultimaCarregada){
+        return criaSecoes(Notificacao.findWithQuery(Notificacao.class, "SELECT * FROM notificacao where TIPO = ? and target = ? ORDER by data desc LIMIT ?, ?", "ALERTA" ,target, skip.toString(), count.toString()),ultimaCarregada);
+    }
 
     private static List<Notificacao> criaSecoes(List<Notificacao> notificacaos,Notificacao ultimaCarregada) {
         String secaoAtual = "";
@@ -463,5 +586,6 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
         }
         return notificacaos;
     }
+
 
 }

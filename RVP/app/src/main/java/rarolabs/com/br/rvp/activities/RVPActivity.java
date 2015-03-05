@@ -9,35 +9,30 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextSwitcher;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.AccountPicker;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
 
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.config.Constants;
-import rarolabs.com.br.rvp.utils.ImageUtil;
+import rarolabs.com.br.rvp.models.EsquemaAlerta;
 
 /**
  * Created by rodrigosol on 2/9/15.
@@ -52,7 +47,9 @@ public class RVPActivity extends ActionBarActivity {
     protected BroadcastReceiver mReceiver;
     protected IntentFilter intentFilter;
     protected Vibrator vibe;
-    private RelativeLayout alerta;
+    private RelativeLayout barraNotificacao;
+    private ImageView barraNotificacaoIcon;
+    private TextView barraNotificacaoText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +60,14 @@ public class RVPActivity extends ActionBarActivity {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     Log.d("Main", "Alerta rececido");
-                    mostrarAlerta();
+
+                    String tipoNotificacao = "";
+
+                    if(barraNotificacao != null && intent.getExtras().getString(Constants.EXTRA_NOTIFICACAO_TIPO,"").equals("ALERTA")){
+                        tipoNotificacao = intent.getExtras().getString(Constants.EXTRA_NOTIFICACAO_TIPO_ALERTA,"");
+                    }
+                    mostraBarraNotificacao(tipoNotificacao);
+
                 }
             };
 
@@ -74,6 +78,9 @@ public class RVPActivity extends ActionBarActivity {
 
 
     }
+
+
+
     public void trocarFoto() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
@@ -182,8 +189,8 @@ public class RVPActivity extends ActionBarActivity {
                 getResources().getDisplayMetrics()
         );
 
-        ObjectAnimator anim1 = ObjectAnimator.ofFloat(alerta, "TranslationY", px);
-        ObjectAnimator anim2 = ObjectAnimator.ofFloat(alerta, "TranslationY", -px);
+        ObjectAnimator anim1 = ObjectAnimator.ofFloat(barraNotificacao, "TranslationY", px);
+        ObjectAnimator anim2 = ObjectAnimator.ofFloat(barraNotificacao, "TranslationY", -px);
         anim2.setStartDelay(2000);
         animations = new AnimatorSet();
         animations.addListener(new Animator.AnimatorListener() {
@@ -214,20 +221,48 @@ public class RVPActivity extends ActionBarActivity {
         alertaSendoExibido = status;
     }
 
-    public void mostrarAlerta() {
-        if(alerta!=null) {
+    public void mostraBarraNotificacao(String tipoAlerta) {
+        if(tipoAlerta.equals("")){
+            mostrarNotificacao();
+        }else{
+            mostrarAlerta(tipoAlerta);
+        }
+    }
+
+    private void mostrarNotificacao() {
+        barraNotificacao.setBackgroundColor(getResources().getColor(R.color.material_lime_A400));
+        barraNotificacaoIcon.setImageResource(R.drawable.ic_drawer_notificacoes_selected);
+        barraNotificacaoText.setTextColor(getResources().getColor(R.color.material_green_700));
+        barraNotificacaoText.setText(getString(R.string.notificacao_recebida));
+        showNotificationBar();
+    }
+
+    private void mostrarAlerta(String tipo) {
+        EsquemaAlerta esquema = EsquemaAlerta.get(tipo);
+        barraNotificacao.setBackgroundColor(getResources().getColor(esquema.getActionBarColor()));
+        barraNotificacaoIcon.setImageResource(esquema.getHeaderIcon());
+        barraNotificacaoText.setTextColor(getResources().getColor(R.color.white));
+        barraNotificacaoText.setText(getString(esquema.getNotificationTitle()));
+        showNotificationBar();
+    }
+
+    private void showNotificationBar(){
+        if(barraNotificacao !=null) {
             if (!alertaSendoExibido) {
-                if (alerta != null) {
+                if (barraNotificacao != null) {
                     animations.start();
                 }
                 vibe.vibrate(50);
             }
         }
-
     }
 
-    protected void enableNotificacoes(RelativeLayout alerta){
-        this.alerta = alerta;
+
+    protected void enableNotificacoes(RelativeLayout barraNotificacao){
+        this.barraNotificacao = barraNotificacao;
+        this.barraNotificacaoIcon = (ImageView) barraNotificacao.findViewById(R.id.barra_notificacao_icon);
+        this.barraNotificacaoText = (TextView) barraNotificacao.findViewById(R.id.barra_notificacao_texto);
+
         setupAnimation();
     }
 

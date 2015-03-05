@@ -33,13 +33,18 @@ public class RVPNotificationManager {
 
     private static void notify(Context context, Bundle extras) {
         Notificacao notificacao = new Notificacao(extras);
-        notificacao.save();
         if (!appIsRunning(context)) {
             NotificationManager mNotificationManager = (NotificationManager)
                     context.getSystemService(Context.NOTIFICATION_SERVICE);
             Intent i = new Intent(context, MainActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            i.putExtra(Constants.FRAGMENT_NOTIFICACOES,"NOTIFICACAO");
+            Log.d("Notificacao", "Tipo:" + notificacao.getTipo());
+            if(notificacao.getTipo().toString().equals("ALERTA")){
+                i.putExtra(Constants.FRAGMENT_NOTIFICACOES,"ALERTA");
+            }else{
+                i.putExtra(Constants.FRAGMENT_NOTIFICACOES,"NOTIFICACAO");
+            }
+
             PendingIntent contentIntent = PendingIntent.getActivity(context, 0,i, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Builder mBuilder =
@@ -63,6 +68,10 @@ public class RVPNotificationManager {
             Log.d("Notificacao:", "Tentando notificar activity");
             Intent i = new Intent();
             i.setAction("rarolabs.com.br.rvp.broadcast.MOSTRA_ALERTA");
+            i.putExtra(Constants.EXTRA_NOTIFICACAO_TIPO,notificacao.getTipo().toString());
+            if(notificacao.getTipoAlerta()!=null) {
+                i.putExtra(Constants.EXTRA_NOTIFICACAO_TIPO_ALERTA, notificacao.getTipoAlerta().toString());
+            }
             context.sendBroadcast(i);
         }
 

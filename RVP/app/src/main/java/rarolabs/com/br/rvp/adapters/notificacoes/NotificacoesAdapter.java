@@ -1,4 +1,4 @@
-package rarolabs.com.br.rvp.adapters;
+package rarolabs.com.br.rvp.adapters.notificacoes;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,12 +6,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -22,46 +22,22 @@ import rarolabs.com.br.rvp.models.Notificacao;
 /**
  * Created by rodrigosol on 1/14/15.
  */
-public class NotificacoesAdapter extends RecyclerView.Adapter<NotificacoesAdapter.ViewHolder> {
-    private static final int TYPE_HEADER = 0;
-    private static final int TYPE_ITEM = 1;
-    private static final int TYPE_FOOTER = 2;
-
-    private static final int PAGE_SIZE = 20;
-    private int currentPage;
-
-
-    private final List<Notificacao> myDataset;
-    private final SimpleDateFormat sdfData = new SimpleDateFormat("dd/MM/yyyy, hh:mm");
-    private final Context context;
-    private View.OnClickListener mOnClickListener;
-    private long totalNotificacoes;
-    private String target;
+public class NotificacoesAdapter extends NotificacaoBaseAdapter {
 
 
     public NotificacoesAdapter(Context context) {
-        this.target = context.getSharedPreferences("RVP",0).getString(Constants.ACCOUNT,"");
-        this.currentPage = 0;
-        this.context = context;
-        this.myDataset = new ArrayList<Notificacao>();
-        this.totalNotificacoes = Notificacao.totalNotificacoes(target);
+        super(context);
     }
 
     public void reflesh(){
-        this.myDataset.clear();
-        this.myDataset.addAll(Notificacao.getNotificacoes(currentPage * PAGE_SIZE, PAGE_SIZE,target, null));
+        super.myDataset.clear();
+        super.myDataset.addAll(Notificacao.getNotificacoes(currentPage * PAGE_SIZE, PAGE_SIZE,target, null));
         notifyDataSetChanged();
     }
 
-    public void carregarMais() {
-        if(myDataset.size() < totalNotificacoes){
-            this.currentPage++;
-            this.myDataset.addAll(Notificacao.getNotificacoes(currentPage * PAGE_SIZE, PAGE_SIZE,target,
-                    myDataset.get(myDataset.size() - 1)));
-            notifyDataSetChanged();
-        }else{
-            Toast.makeText(context,R.string.nao_existe_mais_itens,Toast.LENGTH_SHORT).show();
-        }
+    @Override
+    protected Collection<Notificacao> load(Notificacao n) {
+        return Notificacao.getNotificacoes(currentPage * PAGE_SIZE, PAGE_SIZE, target,n);
     }
 
     @Override
@@ -100,32 +76,6 @@ public class NotificacoesAdapter extends RecyclerView.Adapter<NotificacoesAdapte
         }
 
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
-    }
-
-
-    @Override
-    public int getItemViewType(int position) {
-        if (isPositionHeader(position)) {
-            Log.i("MAIS", "Posiiton:" + position + " - HEADER");
-            return TYPE_HEADER;
-        }else if(isPositionFooter(position)){
-            Log.i("MAIS", "Posiiton:" + position + " - FOOTER");
-            Log.i("Datasetsize", "Size:" + myDataset.size());
-            Log.i("Datasetsize", "Total:" + totalNotificacoes);
-            Log.i("Datasetsize", "Visible:" + (myDataset.size() < totalNotificacoes));
-
-            return TYPE_FOOTER;
-        }
-        Log.i("MAIS", "Posiiton:" + position + " - ITEM");
-        return TYPE_ITEM;
-    }
-
-    private boolean isPositionFooter(int position) {
-        return position > myDataset.size();
-    }
-
-    private boolean isPositionHeader(int position) {
-        return position == 0;
     }
 
 
@@ -169,30 +119,6 @@ public class NotificacoesAdapter extends RecyclerView.Adapter<NotificacoesAdapte
 
 
 
-    @Override
-    public int getItemCount() {
-        return myDataset.size() + 2;
-    }
-
-    public Notificacao get(int position) {
-        return myDataset.get(position);
-    }
-
-    public void clear() {
-        myDataset.clear();
-    }
-
-    public int datasetSize() {
-        return myDataset.size();
-    }
-
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
-
     public static class VHItem extends ViewHolder {
         public CircleImageView icone;
         public TextView secao;
@@ -205,18 +131,10 @@ public class NotificacoesAdapter extends RecyclerView.Adapter<NotificacoesAdapte
         }
     }
 
-    class VHHeader extends ViewHolder {
-        public VHHeader(View itemView) {
-            super(itemView);
-        }
+    @Override
+    public long total() {
+        return Notificacao.totalNotificacoesNaoLidas(target);
     }
-
-    class VHFooter extends ViewHolder {
-        public VHFooter(View itemView) {
-            super(itemView);
-        }
-    }
-
 
 
 }

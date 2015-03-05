@@ -1,4 +1,4 @@
-package rarolabs.com.br.rvp.fragments;
+package rarolabs.com.br.rvp.fragments.notificacoes;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -21,9 +21,11 @@ import java.util.List;
 import br.com.rarolabs.rvp.api.rvpAPI.model.RedeDetalhada;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.activities.MainActivity;
-import rarolabs.com.br.rvp.adapters.NotificacoesAdapter;
+import rarolabs.com.br.rvp.adapters.notificacoes.NotificacaoBaseAdapter;
+import rarolabs.com.br.rvp.adapters.notificacoes.NotificacoesAdapter;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.config.RVPApp;
+import rarolabs.com.br.rvp.fragments.NotificacaoDialogFragment;
 import rarolabs.com.br.rvp.listeners.RecyclerItemClickListener;
 import rarolabs.com.br.rvp.models.Notificacao;
 import rarolabs.com.br.rvp.views.Loading;
@@ -31,30 +33,23 @@ import rarolabs.com.br.rvp.views.Loading;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link MinhasRedesFragment.OnFragmentInteractionListener} interface
+ * {@link rarolabs.com.br.rvp.fragments.MinhasRedesFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link MinhasRedesFragment#newInstance} factory method to
+ * Use the {@link rarolabs.com.br.rvp.fragments.MinhasRedesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NotificacoesFragment extends Fragment {
+public class NotificacaoBaseFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private ObservableRecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
-    private NotificacoesAdapter mAdapter;
+    private NotificacaoBaseAdapter mAdapter;
     private Loading loading;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private String currentUser;
 
-    // TODO: Rename and change types and number of parameters
-    public static NotificacoesFragment newInstance(String param1, String param2) {
-        NotificacoesFragment fragment = new NotificacoesFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
-    public NotificacoesFragment() {
+    public NotificacaoBaseFragment() {
         // Required empty public constructor
     }
 
@@ -113,7 +108,7 @@ public class NotificacoesFragment extends Fragment {
                                             notificacao.getAvatarBlur()
                                     ).show(getFragmentManager(), "NOTIFICACAO_DIALOG");
                                 }else{
-                                    Toast.makeText(NotificacoesFragment.this.getActivity(),R.string.notificacao_ja_respondida,Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(NotificacaoBaseFragment.this.getActivity(),R.string.notificacao_ja_respondida,Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
@@ -127,7 +122,7 @@ public class NotificacoesFragment extends Fragment {
             }
         });
 
-        mAdapter = new NotificacoesAdapter(NotificacoesFragment.this.getActivity());
+
         mRecyclerView.setAdapter(mAdapter);
 
         new AsyncTask<Void,Void,Void>(){
@@ -202,7 +197,7 @@ public class NotificacoesFragment extends Fragment {
     }
 
     public void marcarTodasComoLidas() {
-        Notificacao.marcarTodasComoLidas(currentUser);
+        Notificacao.marcarTodasNotificacoesComoLidas(currentUser);
         ((NotificacoesAdapter)mRecyclerView.getAdapter()).reflesh();
         Toast.makeText(this.getActivity(),R.string.notificacoes_marcadas_como_lidas,Toast.LENGTH_SHORT).show();
 
@@ -217,16 +212,21 @@ public class NotificacoesFragment extends Fragment {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Notificacao.excluirTodo(currentUser);
+                        Notificacao.excluirTodasNotificacoes(currentUser);
                         ((NotificacoesAdapter)mRecyclerView.getAdapter()).reflesh();
 
-                        Toast.makeText(NotificacoesFragment.this.getActivity(),R.string.notificacoes_excluidas,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NotificacaoBaseFragment.this.getActivity(),R.string.notificacoes_excluidas,Toast.LENGTH_SHORT).show();
                     }
 
                 })
                 .setNegativeButton(R.string.nao, null)
                 .show();
     }
+
+    public void setAdapter(NotificacaoBaseAdapter adapter) {
+        this.mAdapter = adapter;
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

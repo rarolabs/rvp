@@ -41,4 +41,6 @@ public class Constants {
     public static final String EXTRA_NOTIFICACAO_ID = "notificacao_id";
     public static final java.lang.String EXTRA_TIPO_ALERTA = "tipo_alerta";
     public static final String FRAGMENT_ALERTAS = "fragment_alertas";
+    public static final String EXTRA_NOTIFICACAO_TIPO = "notificao_tipo";
+    public static final String EXTRA_NOTIFICACAO_TIPO_ALERTA = "notificacao_tipo_alerta";
 }

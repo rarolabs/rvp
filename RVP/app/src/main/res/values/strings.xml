@@ -143,6 +143,18 @@
     <string name="detalhes_mudanca">Dê detalhes sobre sua mudança</string>
     <string name="detalhes_incendio">Dê detalhes sobre o incêndio</string>
     <string name="detalhes_emergecia">Dê detalhes sobre a emergência</string>
-    <string name="enviando_alerta">Enviando alerta</string>
-
+    <string name="enviando_alerta">Enviando alerta...</string>
+    <string name="nao_foi_possivel_enviar_alerta">Não foi possível enviar o alerta</string>
+    <string name="alerta_enviado_com_sucesso">Alerta enviado com sucesso</string>
+    <string name="notificacao_recebida">Nova Notificação Recebida</string>
+    <string name="emergencia_notificacao">Alerta de emergência policial</string>
+    <string name="incendio_notificacao">Alerta de incêndio</string>
+    <string name="mudanca_notificacao">Nova mudança planejada</string>
+    <string name="ausencia_notificacao">Alerta de ausência</string>
+    <string name="veiculo_suspeito_notificacao">Alerta de veículo suspeito</string>
+    <string name="pessoa_suspeita_notificacao">Alerta de pessoa suspeita</string>
+    <string name="nao_existe_mais_alertas">Não existem mais alertas</string>
+    <string name="titulo_mudanca">Mudança dia %1$s</string>
+    <string name="titulo_ausencia">Ausência entre %1$s e %2$s</string>
+    <string name="titulo_ausencia_unico_dia">Ausência no dia %1$s</string>
 </resources>
