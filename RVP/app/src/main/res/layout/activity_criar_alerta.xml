@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:statusBarColor="@android:color/transparent"
-    tools:context="rarolabs.com.br.rvp.activities.CriarAlertaActivity"
+    tools:context="rarolabs.com.br.rvp.activities.alertas.CriarAlertaActivity"
     tools:ignore="MergeRootFrame"
     android:background="@color/white">
     <include

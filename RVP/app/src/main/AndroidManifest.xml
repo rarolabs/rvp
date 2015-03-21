@@ -121,16 +121,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.CriarAlertaActivity"
+            android:name=".activities.alertas.CriarAlertaActivity"
             android:label="@string/title_activity_criar_alerta"
-            android:theme="@style/AppThemeLight">
+            android:theme="@style/AppThemeLight" >
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
             >
-
+        </activity>
+        <activity
+            android:name=".activities.alertas.AlertaActivity"
+            android:label="@string/title_activity_alerta"
+            android:theme="@style/AppThemeLight">
         </activity>
     </application>
 

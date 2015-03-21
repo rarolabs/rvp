@@ -1,7 +1,6 @@
-package rarolabs.com.br.rvp.activities;
+package rarolabs.com.br.rvp.activities.alertas;
 
 import android.app.DatePickerDialog;
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
@@ -26,20 +25,17 @@ import com.google.api.client.util.DateTime;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.Alerta;
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.activities.Locable;
 import rarolabs.com.br.rvp.config.Constants;
-import rarolabs.com.br.rvp.fragments.DatePickerDialogFragment;
-import rarolabs.com.br.rvp.fragments.NotificacaoDialogFragment;
 import rarolabs.com.br.rvp.listeners.GPSTracker;
 import rarolabs.com.br.rvp.models.EsquemaAlerta;
 import rarolabs.com.br.rvp.models.Rede;
 import rarolabs.com.br.rvp.services.tasks.EnviarAlertaAsyncTask;
 
-public class CriarAlertaActivity extends ActionBarActivity implements DatePickerDialog.OnDateSetListener,Locable{
+public class CriarAlertaActivity extends ActionBarActivity implements DatePickerDialog.OnDateSetListener,Locable {
 
 
 

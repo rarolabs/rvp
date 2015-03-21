@@ -1,21 +1,14 @@
 package rarolabs.com.br.rvp.services.tasks;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.location.Location;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.Alerta;
-import rarolabs.com.br.rvp.R;
-import rarolabs.com.br.rvp.activities.CriarAlertaActivity;
-import rarolabs.com.br.rvp.activities.PerfilActivity;
+import rarolabs.com.br.rvp.activities.alertas.CriarAlertaActivity;
 import rarolabs.com.br.rvp.config.Constants;
-import rarolabs.com.br.rvp.listeners.GPSTracker;
 import rarolabs.com.br.rvp.services.BackendExpection;
 import rarolabs.com.br.rvp.services.BackendServices;
 

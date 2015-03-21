@@ -4,29 +4,15 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.SwitchCompat;
-import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import rarolabs.com.br.rvp.R;
-import rarolabs.com.br.rvp.activities.CriarAlertaActivity;
-import rarolabs.com.br.rvp.activities.PerfilActivity;
+import rarolabs.com.br.rvp.activities.alertas.CriarAlertaActivity;
 import rarolabs.com.br.rvp.config.Constants;
-import rarolabs.com.br.rvp.models.Notificacao;
-import rarolabs.com.br.rvp.services.tasks.AceitarSolicitacaoAsyncTask;
-import rarolabs.com.br.rvp.utils.ImageUtil;
 
 /**
  * A simple {@link android.app.Fragment} subclass.

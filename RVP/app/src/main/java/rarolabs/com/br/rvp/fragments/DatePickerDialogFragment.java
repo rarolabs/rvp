@@ -1,22 +1,15 @@
 package rarolabs.com.br.rvp.fragments;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
 
 import java.util.Calendar;
-
-import rarolabs.com.br.rvp.R;
-import rarolabs.com.br.rvp.activities.CriarAlertaActivity;
-import rarolabs.com.br.rvp.config.Constants;
 
 /**
  * A simple {@link android.app.Fragment} subclass.

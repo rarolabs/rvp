@@ -3,6 +3,7 @@ package rarolabs.com.br.rvp.fragments.notificacoes;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import java.util.List;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.RedeDetalhada;
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.activities.alertas.AlertaActivity;
 import rarolabs.com.br.rvp.activities.MainActivity;
 import rarolabs.com.br.rvp.adapters.notificacoes.NotificacaoBaseAdapter;
 import rarolabs.com.br.rvp.adapters.notificacoes.NotificacoesAdapter;
@@ -110,6 +112,9 @@ public class NotificacaoBaseFragment extends Fragment {
                                 }else{
                                     Toast.makeText(NotificacaoBaseFragment.this.getActivity(),R.string.notificacao_ja_respondida,Toast.LENGTH_SHORT).show();
                                 }
+                            }else if(notificacao.getTipo().equals(Notificacao.Tipo.ALERTA)){
+                                Intent i =  new Intent(NotificacaoBaseFragment.this.getActivity(), AlertaActivity.class);
+                                startActivity(i);
                             }
                         }
                     }
