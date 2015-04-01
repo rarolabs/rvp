@@ -35,6 +35,7 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
 
 
     private String target;
+    private Long backendId;
 
 
 
@@ -57,6 +58,7 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
     private TipoStatus tipoStatus;
     private String usuarioId;
     private Long membroId;
+    private Long redeId;
     private String nomeUsuario;
     private String nomeRede;
     private String texto;
@@ -68,6 +70,8 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
     private String detalhes;
     private Long dataDe;
     private Long dataAte;
+
+    private transient List<Mensagem> mensagens;
 
 
 
@@ -81,6 +85,7 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
         this.setTipoStatus(extraTipoStatus != null ? Notificacao.TipoStatus.valueOf(extraTipoStatus) : null);
 
         this.setUsuarioId(extras.getString("usuario_id"));
+        this.setRedeId(extras.getLong("rede_id"));
         this.setMembroId(Long.valueOf(extras.getString("membro_id")));
         try {
             this.setNomeRede(URLDecoder.decode(extras.getString("nome_rede"), "UTF-8"));
@@ -92,7 +97,7 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
         String extraTipoAlerta = extras.getString("tipo_alerta",null);
         if(extraTipoAlerta!=null) {
             this.setTipoAlerta(extraTipoAlerta != null ? TipoAlerta.valueOf(extraTipoAlerta) : null);
-
+            this.backendId = extras.getLong("backend_id");
             String de = extras.getString("data_de");
             if(de!=null && !de.equals("")){
                 this.setDataDe(Long.parseLong(de));
@@ -131,7 +136,29 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
             save();
         }
     }
+    public String getAlertaSubTitulo(Context context) {
+        switch (tipoAlerta){
+            case MUDANCA:
+                if(dataDe != null && dataDe > 0) {
+                    return String.format(context.getString(R.string.titulo_mudanca), sdfDia.format(new Date(dataDe)));
+                }else{
+                    return context.getString(getEsquema().getTitle());
+                }
+            case AUSENCIA:
+                if(dataDe != null && dataDe > 0 ) {
+                    if (dataAte != null && dataAte > 0 && dataDe != dataAte) {
+                        return String.format(context.getString(R.string.titulo_ausencia), sdfDia.format(new Date(dataDe)), sdfDia.format(new Date(dataAte)));
+                    }else{
+                        return String.format(context.getString(R.string.titulo_ausencia_unico_dia), sdfDia.format(new Date(dataDe)));
+                    }
 
+                }else{
+                    return context.getString(getEsquema().getTitle());
+                }
+        }
+        return "";
+
+    }
     public String getTitulo(Context context) {
 
         switch (tipo){
@@ -246,6 +273,14 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
 
     public void setIcon(int icon) {
         this.icon = icon;
+    }
+
+    public Long getBackendId() {
+        return backendId;
+    }
+
+    public void setBackendId(Long backendId) {
+        this.backendId = backendId;
     }
 
     public Boolean isLido() {
@@ -395,6 +430,23 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
         this.dataAte = dataAte;
     }
 
+    public Long getRedeId() {
+        return redeId;
+    }
+
+    public void setRedeId(Long redeId) {
+        this.redeId = redeId;
+    }
+
+    public  List<Mensagem> getMensagens() {
+        String[] params = {this.getId().toString()};
+        return Mensagem.find(Mensagem.class, "notificacao = ?", params);
+    }
+
+    public void setMensagens(List<Mensagem> mensagens) {
+        this.mensagens = mensagens;
+    }
+
     public String getSecao() {
         int diffDays = getDiff(getData());
         switch (diffDays){
@@ -415,6 +467,11 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
         long diff = now.getTime() - data.getTime();
         return  (int) diff / (24 * 60 * 60 * 1000);
     }
+
+    public String getAlertaIconResource(CircleImageView icone) {
+        return getIconeAlerta(tipoAlerta,false);
+    }
+
     @Override
     public String getIconResource(CircleImageView icone) {
 

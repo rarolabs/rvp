@@ -9,6 +9,7 @@ import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
+import com.google.appengine.api.users.User;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
@@ -359,5 +360,14 @@ public class Rede {
         return filteredMembros;
 
     }
+    @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
+    public Membro getMembroByUser(Usuario user) {
 
+        return OfyService.ofy().load()
+                               .type(Membro.class)
+                               .filter("redeId",this.getId())
+                               .filter("usuarioId",user.getEmail()).first().now();
+
+
+    }
 }

@@ -72,7 +72,6 @@ public class AlertaDialogFragment extends DialogFragment implements View.OnClick
         mView.findViewById(R.id.veiculo_suspeito).setOnClickListener(this);
         mView.findViewById(R.id.ausencia).setOnClickListener(this);
         mView.findViewById(R.id.mudanca).setOnClickListener(this);
-        mView.findViewById(R.id.panico).setOnClickListener(this);
         mView.findViewById(R.id.incendio).setOnClickListener(this);
         mView.findViewById(R.id.emergencia).setOnClickListener(this);
 

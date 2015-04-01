@@ -28,7 +28,9 @@ import br.com.rarolabs.rvp.api.rvpAPI.model.Profile;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import br.com.rarolabs.rvp.api.rvpAPI.model.RedeDetalhadaCollection;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
+import br.com.rarolabs.rvp.api.rvpAPI.model.Mensagem;
 import rarolabs.com.br.rvp.config.Constants;
+
 
 import static android.support.v4.app.ActivityCompat.startActivityForResult;
 
@@ -264,6 +266,13 @@ public class BackendServices {
     public  void enviarAlerta(Alerta alerta) throws BackendExpection {
         try {
             service.enviarAlerta(alerta).execute();
+        } catch (IOException e) {
+            throw new BackendExpection(e);
+        }
+    }
+    public  void enviarMensagen(Mensagem mensagem) throws BackendExpection {
+        try {
+            service.enviarMensagem(mensagem).execute();
         } catch (IOException e) {
             throw new BackendExpection(e);
         }

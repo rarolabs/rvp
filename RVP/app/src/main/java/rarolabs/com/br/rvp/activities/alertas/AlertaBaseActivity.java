@@ -39,52 +39,35 @@ public class AlertaBaseActivity extends ActionBarActivity {
 
 
     private String tipo;
-
+    protected EsquemaAlerta esquema;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    protected void setEsquemaActionBar(TextView data1){
-        int id = getIntent().getExtras().getInt(Constants.EXTRA_TIPO_ALERTA, 0);
-        ActionBar mActionBar = getSupportActionBar();
-        EsquemaAlerta esquema = EsquemaAlerta.get(id);
-
-        if(esquema!=null) {
-            tipo = esquema.getType();
-            mActionBar.setTitle(getString(esquema.getTitle()));
-            mActionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(esquema.getActionBarColor())));
-            mActionBar.setDisplayShowTitleEnabled(false);
-            mActionBar.setDisplayShowTitleEnabled(true);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-                Window window = getWindow();
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(getResources().getColor(esquema.getContainerColor()));
+        if(getIntent().getExtras()!=null) {
+            esquema = EsquemaAlerta.get(getIntent().getExtras().getInt(Constants.EXTRA_TIPO_ALERTA, 0));
+            if(esquema==null){
+                esquema = EsquemaAlerta.get(getIntent().getExtras().getString(Constants.EXTRA_TIPO_ALERTA_STRING, ""));
             }
-        }else{
-            Log.d("Alerta", "Não encontrado:" + id);
+            ActionBar mActionBar = getSupportActionBar();
+            if (esquema != null) {
+                tipo = esquema.getType();
+                mActionBar.setTitle(getString(esquema.getTitle()));
+                mActionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(esquema.getActionBarColor())));
+                mActionBar.setDisplayShowTitleEnabled(false);
+                mActionBar.setDisplayShowTitleEnabled(true);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Window window = getWindow();
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    window.setStatusBarColor(getResources().getColor(esquema.getContainerColor()));
+                }
+            } else {
+                Log.d("Alerta", "Não encontrado:");
+            }
         }
     }
 
-    protected void setEsquemaHeader(){
-        ((ImageView) findViewById(R.id.header_icon)).setImageResource(esquema.getHeaderIcon());
-        ((TextView) findViewById(R.id.header_text)).setText(getString(esquema.getHeaderString()));
-        ((LinearLayout) findViewById(R.id.header_container)).setBackgroundColor(getResources().getColor(esquema.getContainerColor()));
-        if(esquema.getLabelData1()!=0){
-            ((TextView) findViewById(R.id.data_1)).setHint(getString(esquema.getLabelData1()));
-            findViewById(R.id.data_1_container).setVisibility(View.VISIBLE);
 
-            if(esquema.getLabelData2()!=0){
-                ((TextView) findViewById(R.id.data_2)).setHint(getString(esquema.getLabelData2()));
-                findViewById(R.id.data_2_container).setVisibility(View.VISIBLE);
-            }
-
-        }
-
-        ((EditText) findViewById(R.id.detalhes)).setHint(getString(esquema.getLabelDescricao()));
-
-    }
 
 
 }

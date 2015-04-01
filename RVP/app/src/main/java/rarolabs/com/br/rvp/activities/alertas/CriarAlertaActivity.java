@@ -35,7 +35,7 @@ import rarolabs.com.br.rvp.models.EsquemaAlerta;
 import rarolabs.com.br.rvp.models.Rede;
 import rarolabs.com.br.rvp.services.tasks.EnviarAlertaAsyncTask;
 
-public class CriarAlertaActivity extends ActionBarActivity implements DatePickerDialog.OnDateSetListener,Locable {
+public class CriarAlertaActivity extends AlertaBaseActivity implements DatePickerDialog.OnDateSetListener,Locable {
 
 
 
@@ -58,18 +58,8 @@ public class CriarAlertaActivity extends ActionBarActivity implements DatePicker
         super.onCreate(savedInstanceState);
         tracker = new GPSTracker(this, false);
         setContentView(R.layout.activity_criar_alerta);
-        ActionBar mActionBar = getSupportActionBar();
-        int id = getIntent().getExtras().getInt(Constants.EXTRA_TIPO_ALERTA, 0);
-        EsquemaAlerta esquema = EsquemaAlerta.get(id);
-
         if(esquema!=null) {
             tipo = esquema.getType();
-            mActionBar.setTitle(getString(esquema.getTitle()));
-            mActionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(esquema.getActionBarColor())));
-            mActionBar.setDisplayShowTitleEnabled(false);
-            mActionBar.setDisplayShowTitleEnabled(true);
-
-
             ((ImageView) findViewById(R.id.header_icon)).setImageResource(esquema.getHeaderIcon());
             ((TextView) findViewById(R.id.header_text)).setText(getString(esquema.getHeaderString()));
             ((LinearLayout) findViewById(R.id.header_container)).setBackgroundColor(getResources().getColor(esquema.getContainerColor()));
@@ -88,13 +78,6 @@ public class CriarAlertaActivity extends ActionBarActivity implements DatePicker
 
             ((EditText) findViewById(R.id.detalhes)).setHint(getString(esquema.getLabelDescricao()));
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-                Window window = getWindow();
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(getResources().getColor(esquema.getContainerColor()));
-            }
-        }else{
-            Log.d("Alerta", "Não encontrado:" + id);
         }
 
         detalhes = (EditText) findViewById(R.id.detalhes);

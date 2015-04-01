@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="@color/white">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/avatar"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginRight="16dp"
+            android:gravity="top"
+            android:src="@drawable/ic_cadastro_foto_vazia"
+            android:layout_marginTop="4dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="22dp"
+                android:orientation="horizontal"
+                android:paddingBottom="0dp">
+                <TextView
+                    android:id="@+id/nome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:clickable="false"
+                    android:fontFamily="Roboto-Medium"
+                    android:gravity="top"
+                    android:lines="2"
+                    android:maxLines="1"
+                    android:text="Rodrigo Sol"
+                    android:textColor="@color/fonte_busca_rede"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="0dp"
+                    android:textStyle="bold"
+
+                    />
+                <TextView
+                    android:id="@+id/data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:clickable="false"
+                    android:fontFamily="Roboto-Medium"
+                    android:gravity="top|left"
+                    android:lines="2"
+                    android:maxLines="1"
+                    android:text="13/02/2015 às 22:30"
+                    android:textColor="@color/fonte_busca_rede_bairro"
+                    android:textSize="10sp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="4dp"
+
+
+                    />
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/subtitulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:fontFamily="Roboto-Medium"
+                android:maxLines="20"
+                android:text="Entre 28/02 a 30/03"
+                android:textColor="@color/material_blue_500"
+                android:textSize="16sp"
+                android:paddingBottom="10dp"
+
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/icone_alerta"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginRight="16dp"
+            android:gravity="top"
+            android:src="@drawable/ic_cadastro_foto_vazia"
+            android:layout_marginTop="0dp" />
+
+        <TextView
+            android:id="@+id/texto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:fontFamily="Roboto-Medium"
+            android:maxLines="20"
+            android:text="Arthur Gouveia gostaria de se tornar membro da rede Ipanema Kings Arthur Gouveia gostaria de se tornar membro da rede Ipanema Kings Arthur Gouveia gostaria de se tornar membro da rede Ipanema Kings Arthur Gouveia gostaria de se tornar membro da rede Ipanema Kings Arthur Gouveia gostaria de se tornar membro da rede Ipanema Kings Arthur Gouveia gostaria de se tornar membro da rede Ipanema Kings Arthur Gouveia gostaria de se tornar membro da rede Ipanema Kings"
+            android:textColor="@color/fonte_busca_rede_bairro"
+            android:textSize="16sp"
+            android:paddingBottom="16dp"
+            />
+
+
+    </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/list_divider"
+        android:clickable="false"
+        android:layout_marginLeft="58dp"/>
+
+
+
+
+
+</LinearLayout>

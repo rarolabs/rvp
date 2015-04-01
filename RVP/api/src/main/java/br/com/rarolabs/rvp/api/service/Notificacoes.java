@@ -8,6 +8,7 @@ import java.util.Date;
 
 import br.com.rarolabs.rvp.api.models.Alerta;
 import br.com.rarolabs.rvp.api.models.Membro;
+import br.com.rarolabs.rvp.api.models.Mensagem;
 
 /**
  * Created by rodrigosol on 2/11/15.
@@ -81,10 +82,28 @@ public class Notificacoes {
                     .addData("data_de",de )
                     .addData("data_ate",ate)
                     .addData("detalhes", detalhes)
+                    .addData("backend_id", alerta.getId().toString())
                     .build();
         }
 
     }
+
+    public class MensagemTemplate extends MessageTemplate {
+        public MensagemTemplate(Object... params){
+            super(params);
+        }
+
+        @Override
+        public Message parse(Membro m, String target) throws UnsupportedEncodingException {
+            Mensagem mensagem = (Mensagem) params[0];
+            return super.base(m, target)
+                    .addData("backend_id", mensagem.getAlerta().getId().toString())
+                    .addData("data", String.valueOf(mensagem.getData().getTime()))
+                    .addData("detalhes", mensagem.getTexto())
+                    .build();
+        }
+    }
+
 
 
 }

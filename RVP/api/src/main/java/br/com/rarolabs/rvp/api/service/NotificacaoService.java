@@ -1,6 +1,7 @@
 package br.com.rarolabs.rvp.api.service;
 
 import com.google.android.gcm.server.Sender;
+import com.google.appengine.api.users.User;
 import com.googlecode.objectify.Objectify;
 
 import java.io.IOException;
@@ -12,6 +13,8 @@ import br.com.rarolabs.rvp.api.auth.Constants;
 import br.com.rarolabs.rvp.api.models.Alerta;
 import br.com.rarolabs.rvp.api.models.Dispositivo;
 import br.com.rarolabs.rvp.api.models.Membro;
+import br.com.rarolabs.rvp.api.models.Mensagem;
+import br.com.rarolabs.rvp.api.models.Usuario;
 
 /**
  * Created by rodrigosol on 2/2/15.
@@ -35,6 +38,7 @@ public class NotificacaoService {
         STATUS_RETIRAR_AUTORIDADE[0] = "RETIRAR_AUTORIDADE";
         STATUS_DEIXOU_REDE[0] = "DEIXOU_REDE";
     }
+
 
 
     public static void notificarSolicacaoAssociacao(Membro m) {
@@ -75,6 +79,12 @@ public class NotificacaoService {
         Objectify ofy = OfyService.ofy();
         Membro m = ofy.load().type(Membro.class).id(alerta.getMembroId()).now();
         enviarNotificacao(m, m.getRede().membrosAtivos(), new Notificacoes().new AlertaTemplate(alerta), 10);
+    }
+
+    public static void enviarMensagem(Mensagem mensagem,Usuario user) {
+        Membro m = mensagem.getMembro(user);
+        enviarNotificacao(m, m.getRede().membrosAtivos(), new Notificacoes().new MensagemTemplate(mensagem), 10);
+
     }
 
 

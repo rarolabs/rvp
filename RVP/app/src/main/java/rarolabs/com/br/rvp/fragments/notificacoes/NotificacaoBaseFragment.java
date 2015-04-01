@@ -114,6 +114,8 @@ public class NotificacaoBaseFragment extends Fragment {
                                 }
                             }else if(notificacao.getTipo().equals(Notificacao.Tipo.ALERTA)){
                                 Intent i =  new Intent(NotificacaoBaseFragment.this.getActivity(), AlertaActivity.class);
+                                i.putExtra(Constants.EXTRA_TIPO_ALERTA_STRING,notificacao.getTipoAlerta().toString());
+                                i.putExtra(Constants.EXTRA_NOTIFICACAO_ID,notificacao.getId());
                                 startActivity(i);
                             }
                         }

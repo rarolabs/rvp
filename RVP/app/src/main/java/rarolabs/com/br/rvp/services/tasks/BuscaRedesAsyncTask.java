@@ -69,7 +69,8 @@ public class BuscaRedesAsyncTask extends AsyncTask<Location, Void, List<Geoquery
     protected void onPostExecute(final List<GeoqueryResponder> result) {
         activity.runOnUiThread(new Runnable() {
             public void run() {
-                ((BuscaRedeFragment)fragment).ok(result);
+                    ((BuscaRedeFragment) fragment).ok(result);
+
             }
         });
     }

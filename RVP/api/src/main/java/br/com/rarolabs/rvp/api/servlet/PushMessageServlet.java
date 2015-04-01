@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.com.rarolabs.rvp.api.models.Alerta;
+import br.com.rarolabs.rvp.api.models.Mensagem;
 import br.com.rarolabs.rvp.api.models.Rede;
+import br.com.rarolabs.rvp.api.models.Usuario;
 import br.com.rarolabs.rvp.api.service.GeocodingService;
 import br.com.rarolabs.rvp.api.service.NotificacaoService;
 import br.com.rarolabs.rvp.api.service.OfyService;
@@ -22,10 +24,13 @@ public class PushMessageServlet extends HttpServlet {
             throws IOException {
 
         String key = req.getParameter("key");
+        String user = req.getParameter("user");
         System.out.println("Key:" + key);
-        Alerta alerta = OfyService.ofy().load().type(Alerta.class).id(new Long(key).longValue()).now();
-        if(alerta!=null){
-            NotificacaoService.enviarAlerta(alerta);
+        System.out.println("User:" + key);
+        Mensagem mensagem = OfyService.ofy().load().type(Mensagem.class).id(new Long(key).longValue()).now();
+        Usuario usuario = OfyService.ofy().load().type(Usuario.class).id(new Long(user).longValue()).now();
+        if(mensagem!=null){
+            NotificacaoService.enviarMensagem(mensagem,usuario);
         }
 
     }

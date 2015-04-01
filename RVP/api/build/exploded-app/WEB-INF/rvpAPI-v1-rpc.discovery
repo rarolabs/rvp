@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"c05bU6zpvXPOpQakG5gG3IOJh8Y/5TShfvBQ3KLYJ-LOWWl1yHLszA8\"",
+ "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/Mhd9cOYMtDYU2kug20WPvUcSzSA\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -299,6 +299,31 @@
      "items": {
       "$ref": "Membro"
      }
+    }
+   }
+  },
+  "Mensagem": {
+   "id": "Mensagem",
+   "type": "object",
+   "properties": {
+    "alertaId": {
+     "type": "string",
+     "format": "int64"
+    },
+    "data": {
+     "type": "string",
+     "format": "date-time"
+    },
+    "id": {
+     "type": "string",
+     "format": "int64"
+    },
+    "redeId": {
+     "type": "string",
+     "format": "int64"
+    },
+    "texto": {
+     "type": "string"
     }
    }
   },
@@ -796,13 +821,12 @@
   "rvpAPI.enviarMensagem": {
    "id": "rvpAPI.enviarMensagem",
    "parameters": {
-    "mensagem": {
-     "type": "string",
-     "required": true
+    "resource": {
+     "$ref": "Mensagem"
     }
    },
    "parameterOrder": [
-    "mensagem"
+    "resource"
    ],
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.profile"

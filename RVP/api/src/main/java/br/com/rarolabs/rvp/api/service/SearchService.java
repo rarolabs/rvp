@@ -39,7 +39,7 @@ import br.com.rarolabs.rvp.api.util.Utils;
  */
 public class SearchService {
 
-    private static final String indexName = "RVP_ALPHA";
+    private static final String indexName = "RVP_ALPHA_1_2";
 
     public static void createDocument(Membro membro) {
         Rede r = membro.getRede();

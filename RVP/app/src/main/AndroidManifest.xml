@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="rarolabs.com.br.rvp" >
+    package="rarolabs.com.br.rvp"
+    android:versionCode="3"
+    android:versionName="1.0.2">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
@@ -135,6 +137,11 @@
             android:name=".activities.alertas.AlertaActivity"
             android:label="@string/title_activity_alerta"
             android:theme="@style/AppThemeLight">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+            >
         </activity>
     </application>
 
