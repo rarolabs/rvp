@@ -272,7 +272,8 @@ public class BackendServices {
     }
     public  void enviarMensagen(Mensagem mensagem) throws BackendExpection {
         try {
-            service.enviarMensagem(mensagem).execute();
+
+            service.enviarMensagem(mensagem.getTexto(),mensagem.getRedeId(),mensagem.getAlertaId()).execute();
         } catch (IOException e) {
             throw new BackendExpection(e);
         }

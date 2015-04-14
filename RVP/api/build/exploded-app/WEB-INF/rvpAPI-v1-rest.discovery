@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/Mhd9cOYMtDYU2kug20WPvUcSzSA\"",
+ "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/ptU8RDdkzFttTnLKrkEIStPIUdg\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -301,31 +301,6 @@
      "items": {
       "$ref": "Membro"
      }
-    }
-   }
-  },
-  "Mensagem": {
-   "id": "Mensagem",
-   "type": "object",
-   "properties": {
-    "alertaId": {
-     "type": "string",
-     "format": "int64"
-    },
-    "data": {
-     "type": "string",
-     "format": "date-time"
-    },
-    "id": {
-     "type": "string",
-     "format": "int64"
-    },
-    "redeId": {
-     "type": "string",
-     "format": "int64"
-    },
-    "texto": {
-     "type": "string"
     }
    }
   },
@@ -859,12 +834,32 @@
   },
   "enviarMensagem": {
    "id": "rvpAPI.enviarMensagem",
-   "path": "enviarMensagem",
+   "path": "enviarMensagem/{texto}/{redeId}/{alertaId}",
    "httpMethod": "POST",
-   "request": {
-    "$ref": "Mensagem",
-    "parameterName": "resource"
+   "parameters": {
+    "alertaId": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    },
+    "redeId": {
+     "type": "string",
+     "required": true,
+     "format": "int64",
+     "location": "path"
+    },
+    "texto": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    }
    },
+   "parameterOrder": [
+    "texto",
+    "redeId",
+    "alertaId"
+   ],
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.profile"
    ]

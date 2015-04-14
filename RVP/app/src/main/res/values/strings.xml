@@ -159,5 +159,6 @@
     <string name="titulo_ausencia_unico_dia">Ausência no dia %1$s</string>
     <string name="title_activity_alerta">Alerta</string>
     <string name="enviando_mensagem">Enviando mensagem</string>
+    <string name="nao_foi_possivel_enviar_mensagem">Não foi possível enviar sua mensagem</string>
 
 </resources>

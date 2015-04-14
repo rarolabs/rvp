@@ -18,7 +18,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.activities.alertas.AlertaActivity;
 import rarolabs.com.br.rvp.config.Constants;
-import rarolabs.com.br.rvp.models.Mensagem;
+import rarolabs.com.br.rvp.models.Comentario;
 import rarolabs.com.br.rvp.models.Notificacao;
 import rarolabs.com.br.rvp.models.Rede;
 
@@ -122,10 +122,10 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
     @Override
     public void onBindViewHolder(DetalhesAlertaAdapter.ViewHolder holder, int position) {
         if (holder instanceof VHItem) {
-            Mensagem m  = notificacao.getMensagens().get(position - 1);
-            ((VHItem)holder).nome.setText(m.getNome());
-            ((VHItem)holder).texto.setText(m.getTexto());
-            ((VHItem)holder).data.setText(m.getData().toString());
+            Comentario c  = notificacao.getComentarios().get(position - 1);
+            ((VHItem)holder).nome.setText(c.getNome());
+            ((VHItem)holder).texto.setText(c.getTexto());
+            ((VHItem)holder).data.setText(c.getData().toString());
         }else if(holder instanceof VHHeader){
             ((VHHeader)holder).nome.setText(notificacao.getNomeUsuario());
             ((VHHeader)holder).texto.setText(notificacao.getDetalhes());
@@ -148,7 +148,7 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
 
     @Override
     public int getItemCount() {
-        return notificacao.getMensagens().size() + 2;
+        return notificacao.getComentarios().size() + 2;
     }
 
 

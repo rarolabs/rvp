@@ -15,9 +15,12 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.util.List;
 
+
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.activities.MainActivity;
 import rarolabs.com.br.rvp.config.Constants;
+import rarolabs.com.br.rvp.models.Comentario;
+
 import rarolabs.com.br.rvp.models.Notificacao;
 
 /**
@@ -32,7 +35,17 @@ public class RVPNotificationManager {
     }
 
     private static void notify(Context context, Bundle extras) {
-        Notificacao notificacao = new Notificacao(extras);
+        Log.d("GCM", "Chegou push:" + extras.toString());
+        if(extras.containsKey("msg")){
+            //Mensagem mensagem = new Mensagem(extras);
+
+        }else{
+            Notificacao notificacao = new Notificacao(extras);
+            criaNotificacao(notificacao, context);
+        }
+    }
+
+    private static void criaNotificacao(Notificacao notificacao, Context context){
         if (!appIsRunning(context)) {
             NotificationManager mNotificationManager = (NotificationManager)
                     context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -74,7 +87,6 @@ public class RVPNotificationManager {
             }
             context.sendBroadcast(i);
         }
-
     }
 
 

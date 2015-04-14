@@ -16,6 +16,7 @@ import com.orm.SugarRecord;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,8 +37,6 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
 
     private String target;
     private Long backendId;
-
-
 
     public enum TipoAlerta {PESSOA_SUSPEITA,VEICULO_SUSPEITO,AUSENCIA,MUDANCA,PANICO,INCENDIO,EMERGENCIA_POLICIAL};
     public enum TipoStatus {NOVO_MEMBRO,NOVO_ADMINISTRADOR,NOVA_AUTORIDADE,REJEITAR,RETIRAR_ADMINISTRADOR,RETIRAR_AUTORIDADE,DEIXOU_REDE}
@@ -71,7 +70,7 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
     private Long dataDe;
     private Long dataAte;
 
-    private transient List<Mensagem> mensagens;
+
 
 
 
@@ -85,7 +84,7 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
         this.setTipoStatus(extraTipoStatus != null ? Notificacao.TipoStatus.valueOf(extraTipoStatus) : null);
 
         this.setUsuarioId(extras.getString("usuario_id"));
-        this.setRedeId(extras.getLong("rede_id"));
+        this.setRedeId(Long.parseLong(extras.getString("rede_id")));
         this.setMembroId(Long.valueOf(extras.getString("membro_id")));
         try {
             this.setNomeRede(URLDecoder.decode(extras.getString("nome_rede"), "UTF-8"));
@@ -97,7 +96,7 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
         String extraTipoAlerta = extras.getString("tipo_alerta",null);
         if(extraTipoAlerta!=null) {
             this.setTipoAlerta(extraTipoAlerta != null ? TipoAlerta.valueOf(extraTipoAlerta) : null);
-            this.backendId = extras.getLong("backend_id");
+            this.backendId = Long.parseLong(extras.getString("backend_id"));
             String de = extras.getString("data_de");
             if(de!=null && !de.equals("")){
                 this.setDataDe(Long.parseLong(de));
@@ -438,14 +437,6 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
         this.redeId = redeId;
     }
 
-    public  List<Mensagem> getMensagens() {
-        String[] params = {this.getId().toString()};
-        return Mensagem.find(Mensagem.class, "notificacao = ?", params);
-    }
-
-    public void setMensagens(List<Mensagem> mensagens) {
-        this.mensagens = mensagens;
-    }
 
     public String getSecao() {
         int diffDays = getDiff(getData());
@@ -627,6 +618,11 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
     public static List<Notificacao> getAlertas(Integer skip, Integer count,String target,Notificacao ultimaCarregada){
         return criaSecoes(Notificacao.findWithQuery(Notificacao.class, "SELECT * FROM notificacao where TIPO = ? and target = ? ORDER by data desc LIMIT ?, ?", "ALERTA" ,target, skip.toString(), count.toString()),ultimaCarregada);
     }
+
+    public List<Comentario> getComentarios() {
+        return new ArrayList<Comentario>();
+    }
+
 
     private static List<Notificacao> criaSecoes(List<Notificacao> notificacaos,Notificacao ultimaCarregada) {
         String secaoAtual = "";

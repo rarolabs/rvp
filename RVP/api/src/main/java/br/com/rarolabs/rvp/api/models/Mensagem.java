@@ -81,9 +81,8 @@ public class Mensagem {
         return alertaId;
     }
 
-    public void setRedeId(Long alertaId) {
+    public void setAlertaId(Long alertaId){
         this.alertaId = alertaId;
         setAlerta(OfyService.ofy().load().type(Alerta.class).id(alertaId).now());
-
     }
 }

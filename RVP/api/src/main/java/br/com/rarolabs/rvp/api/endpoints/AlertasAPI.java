@@ -28,6 +28,7 @@ import br.com.rarolabs.rvp.api.models.Endereco;
 import br.com.rarolabs.rvp.api.models.Membro;
 import br.com.rarolabs.rvp.api.models.Mensagem;
 import br.com.rarolabs.rvp.api.models.Rede;
+import br.com.rarolabs.rvp.api.models.Usuario;
 import br.com.rarolabs.rvp.api.responders.Profile;
 import br.com.rarolabs.rvp.api.responders.StringResponse;
 import br.com.rarolabs.rvp.api.service.NotificacaoService;
@@ -67,11 +68,18 @@ public class AlertasAPI {
     }
 
     @ApiMethod(name = "enviarMensagem")
-    public void enviarMensagem(Mensagem mensagem,
+    public void enviarMensagem(@Named("texto") String texto,
+                               @Named("redeId") Long redeId,
+                               @Named("alertaId") Long alertaId,
                        User user) throws OAuthRequestException, NotFoundException, ConflictException {
         if(user==null){
             throw new OAuthRequestException("Usuário não autenticado");
         }
+        Mensagem mensagem = new Mensagem();
+        mensagem.setTexto(texto);
+        mensagem.setAlerta(OfyService.ofy().load().type(Alerta.class).id(alertaId).now());
+        mensagem.setUsuario(OfyService.ofy().load().type(Usuario.class).id(user.getEmail()).now());
+
         OfyService.ofy().save().entity(mensagem).now();
         Queue q = QueueFactory.getDefaultQueue();
         q.add(TaskOptions.Builder.withUrl("/push_message").param("key", mensagem.getId().toString())

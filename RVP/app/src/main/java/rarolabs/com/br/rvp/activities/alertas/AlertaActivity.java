@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 
@@ -74,9 +75,13 @@ public class AlertaActivity extends AlertaBaseActivity {
     }
 
     public void error(String descricao) {
+        progress.dismiss();
+        Toast.makeText(this,R.string.nao_foi_possivel_enviar_mensagem,Toast.LENGTH_SHORT).show();
     }
 
     public void ok() {
+        progress.dismiss();
+        mRecyclerView.getAdapter().notifyDataSetChanged();
 
     }
 

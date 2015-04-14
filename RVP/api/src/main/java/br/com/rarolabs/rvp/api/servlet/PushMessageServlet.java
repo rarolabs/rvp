@@ -28,7 +28,7 @@ public class PushMessageServlet extends HttpServlet {
         System.out.println("Key:" + key);
         System.out.println("User:" + key);
         Mensagem mensagem = OfyService.ofy().load().type(Mensagem.class).id(new Long(key).longValue()).now();
-        Usuario usuario = OfyService.ofy().load().type(Usuario.class).id(new Long(user).longValue()).now();
+        Usuario usuario = OfyService.ofy().load().type(Usuario.class).id(user).now();
         if(mensagem!=null){
             NotificacaoService.enviarMensagem(mensagem,usuario);
         }
