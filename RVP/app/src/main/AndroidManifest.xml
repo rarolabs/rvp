@@ -136,7 +136,11 @@
         <activity
             android:name=".activities.alertas.AlertaActivity"
             android:label="@string/title_activity_alerta"
-            android:theme="@style/AppThemeLight">
+            android:theme="@style/AppThemeLight"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="rarolabs.com.br.rvp.broadcast.MOSTRA_ALERTA" />
+            </intent-filter>
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

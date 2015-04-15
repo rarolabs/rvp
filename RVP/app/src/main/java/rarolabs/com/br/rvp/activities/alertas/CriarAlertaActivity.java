@@ -54,7 +54,7 @@ public class CriarAlertaActivity extends AlertaBaseActivity implements DatePicke
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tracker = new GPSTracker(this, false);
         setContentView(R.layout.activity_criar_alerta);

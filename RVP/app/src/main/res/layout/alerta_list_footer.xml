@@ -9,15 +9,16 @@
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/texto"
-        android:layout_weight="1"/>
+        android:id="@+id/texto_mensagem"
+        android:layout_weight="1"
+        android:textColor="@color/fonte_busca_rede_bairro"/>
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/enviar"
-        android:src="@drawable/ic_rede_entrar"
+        android:src="@drawable/ic_texto_enviar_normal"
         android:background="@android:color/transparent"
-        android:layout_weight="1"
+        android:layout_marginRight="0dp"
     />
 
 </LinearLayout>

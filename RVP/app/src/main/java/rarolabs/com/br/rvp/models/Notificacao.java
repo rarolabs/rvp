@@ -620,7 +620,7 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
     }
 
     public List<Comentario> getComentarios() {
-        return new ArrayList<Comentario>();
+        return Comentario.findWithQuery(Comentario.class,"SELECT * FROM COMENTARIO where NOTIFICACAO = ?  LIMIT -1 OFFSET 1",this.getId().toString());
     }
 
 

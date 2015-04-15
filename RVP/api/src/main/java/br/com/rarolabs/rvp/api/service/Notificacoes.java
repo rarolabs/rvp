@@ -98,8 +98,8 @@ public class Notificacoes {
             Mensagem mensagem = (Mensagem) params[0];
             return super.base(m, target)
                     .addData("backend_id", mensagem.getAlerta().getId().toString())
-                    .addData("data", String.valueOf(System.currentTimeMillis()))
                     .addData("detalhes", mensagem.getTexto())
+                    .addData("msg","1")
                     .build();
         }
     }

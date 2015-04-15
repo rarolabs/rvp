@@ -29,19 +29,23 @@ import java.util.Calendar;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Alerta;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.activities.Locable;
+import rarolabs.com.br.rvp.activities.RVPActivity;
 import rarolabs.com.br.rvp.config.Constants;
+import rarolabs.com.br.rvp.config.RVPApp;
 import rarolabs.com.br.rvp.listeners.GPSTracker;
 import rarolabs.com.br.rvp.models.EsquemaAlerta;
+import rarolabs.com.br.rvp.models.Notificacao;
 import rarolabs.com.br.rvp.models.Rede;
 import rarolabs.com.br.rvp.services.tasks.EnviarAlertaAsyncTask;
 
-public class AlertaBaseActivity extends ActionBarActivity {
+public class AlertaBaseActivity extends RVPActivity {
 
 
     private String tipo;
     protected EsquemaAlerta esquema;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(getIntent().getExtras()!=null) {
             esquema = EsquemaAlerta.get(getIntent().getExtras().getInt(Constants.EXTRA_TIPO_ALERTA, 0));
@@ -67,6 +71,10 @@ public class AlertaBaseActivity extends ActionBarActivity {
         }
     }
 
+    @Override
+    public void mostraMensagem(Notificacao notificacao) {
+        super.mostraMensagem(notificacao);
+    }
 
 
 
