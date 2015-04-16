@@ -1,9 +1,13 @@
 package rarolabs.com.br.rvp.activities.alertas;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.os.Vibrator;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -16,9 +20,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +51,7 @@ import rarolabs.com.br.rvp.models.Rede;
 import rarolabs.com.br.rvp.services.tasks.EnviarAlertaAsyncTask;
 import rarolabs.com.br.rvp.services.tasks.EnviarMensagemAsyncTask;
 import rarolabs.com.br.rvp.services.tasks.MinhasRedesAsyncTask;
+import rarolabs.com.br.rvp.utils.SoundUtil;
 
 public class AlertaActivity extends AlertaBaseActivity {
 
@@ -52,9 +59,11 @@ public class AlertaActivity extends AlertaBaseActivity {
     private LinearLayoutManager mLayoutManager;
     private Notificacao notificacao;
     private ProgressDialog progress;
+    protected BroadcastReceiver mReceiver;
+    protected IntentFilter intentFilter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alerta);
         mRecyclerView = (ObservableRecyclerView) findViewById(R.id.lista_destalhes_alerta_recycler_view);
@@ -65,6 +74,25 @@ public class AlertaActivity extends AlertaBaseActivity {
         notificacao = Notificacao.findById(Notificacao.class,getIntent().getExtras().getLong(Constants.EXTRA_NOTIFICACAO_ID,0l));
         Log.d("Alerta",notificacao.toString());
         mRecyclerView.setAdapter(new DetalhesAlertaAdapter(this, notificacao));
+        enableNotificacoes((RelativeLayout) findViewById(R.id.notificacao));
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d("Main", "Mensagem rececida");
+                if(intent.getExtras().containsKey(Constants.EXTRA_NOTIFICACAO_ID)) {
+                    long notificacaoId = intent.getExtras().getLong(Constants.EXTRA_NOTIFICACAO_ID, 0l);
+                    if (notificacaoId == notificacao.getId()) {
+                        mRecyclerView.getAdapter();
+                        SoundUtil.playNotificationSound(AlertaActivity.this);
+                    }else{
+                        mostraMensagem(notificacao);
+                    }
+                }
+            }
+        };
+
+        intentFilter = new IntentFilter("rarolabs.com.br.rvp.broadcast.MOSTRA_ALERTA");
+        onNewIntent(getIntent());
     }
 
     @Override
@@ -81,7 +109,15 @@ public class AlertaActivity extends AlertaBaseActivity {
 
     public void ok() {
         progress.dismiss();
-        mRecyclerView.getAdapter().notifyDataSetChanged();
+        Toast.makeText(this,R.string.mensagem_enviada_com_sucesso,Toast.LENGTH_SHORT).show();
+        EditText msg = ((EditText)findViewById(R.id.texto_mensagem));
+        msg.setText("");
+
+        InputMethodManager imm = (InputMethodManager)getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(msg.getWindowToken(), 0);
+
+        SoundUtil.playNotificationSound(this);
 
     }
 
@@ -95,6 +131,18 @@ public class AlertaActivity extends AlertaBaseActivity {
         mensagem.setTexto(texto);
         new EnviarMensagemAsyncTask(this).execute(mensagem);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(mReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mReceiver);
     }
 
 }

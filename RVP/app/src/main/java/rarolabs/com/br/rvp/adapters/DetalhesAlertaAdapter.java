@@ -31,6 +31,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.api.client.util.DateTime;
+
 import java.util.List;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.RedeDetalhada;
@@ -85,7 +87,7 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.alerta_list_footer, parent, false);
             final VHFooter footer = new VHFooter(v);
-            footer.texto = (EditText) v.findViewById(R.id.texto);
+            footer.texto = (EditText) v.findViewById(R.id.texto_mensagem);
             footer.enviar = (ImageButton) v.findViewById(R.id.enviar);
             footer.enviar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -124,8 +126,9 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
         if (holder instanceof VHItem) {
             Comentario c  = notificacao.getComentarios().get(position - 1);
             ((VHItem)holder).nome.setText(c.getNome());
+            ImageUtil.loadIconAssync(c.getAvatar(), ((VHItem) holder).avatar, 40);
             ((VHItem)holder).texto.setText(c.getTexto());
-            ((VHItem)holder).data.setText(c.getData().toString());
+            ((VHItem)holder).data.setText(new DateTime(c.getData()).toString());
         }else if(holder instanceof VHHeader){
             ((VHHeader)holder).nome.setText(notificacao.getNomeUsuario());
             ((VHHeader)holder).texto.setText(notificacao.getDetalhes());

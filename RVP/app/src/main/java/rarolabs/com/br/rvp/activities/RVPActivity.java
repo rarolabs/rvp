@@ -33,6 +33,7 @@ import java.util.Locale;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.models.EsquemaAlerta;
+import rarolabs.com.br.rvp.models.Notificacao;
 
 /**
  * Created by rodrigosol on 2/9/15.
@@ -44,7 +45,7 @@ public class RVPActivity extends ActionBarActivity {
     protected AnimatorSet animations;
     protected TextSwitcher alertaTexto;
     protected Boolean alertaSendoExibido = false;
-    protected BroadcastReceiver mReceiver;
+    protected BroadcastReceiver mReceiverNotificacao;
     protected IntentFilter intentFilter;
     protected Vibrator vibe;
     private RelativeLayout barraNotificacao;
@@ -56,17 +57,22 @@ public class RVPActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         settings = getSharedPreferences("RVP",0);
 
-            mReceiver = new BroadcastReceiver() {
+            mReceiverNotificacao = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     Log.d("Main", "Alerta rececido");
 
                     String tipoNotificacao = "";
-
-                    if(barraNotificacao != null && intent.getExtras().getString(Constants.EXTRA_NOTIFICACAO_TIPO,"").equals("ALERTA")){
-                        tipoNotificacao = intent.getExtras().getString(Constants.EXTRA_NOTIFICACAO_TIPO_ALERTA,"");
+                    if(barraNotificacao != null){
+                        if(intent.getExtras().getString(Constants.EXTRA_NOTIFICACAO_TIPO,"").equals("ALERTA")) {
+                            tipoNotificacao = intent.getExtras().getString(Constants.EXTRA_NOTIFICACAO_TIPO_ALERTA, "");
+                            mostraBarraNotificacao(tipoNotificacao);
+                        }else if(intent.getExtras().getString(Constants.EXTRA_NOTIFICACAO_TIPO,"").equals("MENSAGEM")){
+                            Notificacao notificacao = Notificacao.findById(Notificacao.class,intent.getExtras().getLong(Constants.EXTRA_NOTIFICACAO_ID));
+                            mostraMensagem(notificacao);
+                        }
                     }
-                    mostraBarraNotificacao(tipoNotificacao);
+
 
                 }
             };
@@ -221,6 +227,7 @@ public class RVPActivity extends ActionBarActivity {
         alertaSendoExibido = status;
     }
 
+
     public void mostraBarraNotificacao(String tipoAlerta) {
         if(tipoAlerta.equals("")){
             mostrarNotificacao();
@@ -235,6 +242,15 @@ public class RVPActivity extends ActionBarActivity {
         barraNotificacaoText.setTextColor(getResources().getColor(R.color.material_green_700));
         barraNotificacaoText.setText(getString(R.string.notificacao_recebida));
         showNotificationBar();
+    }
+
+    public void mostraMensagem(Notificacao notificacao) {
+        barraNotificacao.setBackgroundColor(getResources().getColor(R.color.material_lime_A400));
+        barraNotificacaoIcon.setImageResource(R.drawable.ic_drawer_notificacoes_selected);
+        barraNotificacaoText.setTextColor(getResources().getColor(R.color.material_green_700));
+        barraNotificacaoText.setText(notificacao.getUltimoComentario().getTexto());
+        showNotificationBar();
+
     }
 
     private void mostrarAlerta(String tipo) {
@@ -269,13 +285,13 @@ public class RVPActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        registerReceiver(mReceiver, intentFilter);
+        registerReceiver(mReceiverNotificacao, intentFilter);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(mReceiver);
+        unregisterReceiver(mReceiverNotificacao);
     }
 
 }

@@ -37,7 +37,8 @@ public class RVPNotificationManager {
     private static void notify(Context context, Bundle extras) {
         Log.d("GCM", "Chegou push:" + extras.toString());
         if(extras.containsKey("msg")){
-            //Mensagem mensagem = new Mensagem(extras);
+            Comentario comentario = new Comentario(extras);
+            criarNotificacao(comentario,context);
 
         }else{
             Notificacao notificacao = new Notificacao(extras);
@@ -45,10 +46,49 @@ public class RVPNotificationManager {
         }
     }
 
+    private static void criarNotificacao(Comentario comentario, Context context) {
+        if (!appIsRunning(context)) {
+            NotificationManager mNotificationManager = (NotificationManager)
+                    context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            Intent i = new Intent(context, MainActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Log.d("Mensagem", "MSG:" + comentario.getTexto());
+            i.putExtra(Constants.FRAGMENT_NOTIFICACOES,"COMENTARIO");
+
+            PendingIntent contentIntent = PendingIntent.getActivity(context, 0,i, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(context)
+                            .setSmallIcon(R.drawable.ic_rvp_status)
+                            .setContentTitle(comentario.getNome().split(" ")[0])
+                            .setStyle(new NotificationCompat.BigTextStyle()
+                                    .bigText(comentario.getTexto()))
+                            .setGroup("RVP")
+                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                            .setContentText(comentario.getTexto());
+
+            mBuilder.setContentIntent(contentIntent);
+            Notification notification = mBuilder.build();
+            notification.flags |= Notification.FLAG_AUTO_CANCEL;
+            mNotificationManager.notify(comentario.getId().intValue(), notification);
+
+        }else{
+            Log.d("Mensagem:", "Tentando notificar activity");
+            Intent i = new Intent();
+            i.setAction("rarolabs.com.br.rvp.broadcast.MOSTRA_ALERTA");
+            i.putExtra(Constants.EXTRA_NOTIFICACAO_TIPO,"MENSAGEM");
+            i.putExtra(Constants.EXTRA_NOTIFICACAO_ID,comentario.getNotificacao().getId());
+            context.sendBroadcast(i);
+        }
+    }
+
+
     private static void criaNotificacao(Notificacao notificacao, Context context){
         if (!appIsRunning(context)) {
             NotificationManager mNotificationManager = (NotificationManager)
                     context.getSystemService(Context.NOTIFICATION_SERVICE);
+
             Intent i = new Intent(context, MainActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             Log.d("Notificacao", "Tipo:" + notificacao.getTipo());
