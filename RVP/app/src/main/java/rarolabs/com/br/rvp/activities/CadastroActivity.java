@@ -138,19 +138,28 @@ public class CadastroActivity extends RVPActivity implements Validator.Validatio
         account = i.getExtras().getString(Constants.ACCOUNT);
         idRede = i.getExtras().getLong(Constants.EXTRA_ID_REDE);
 
+        //Close keyboard
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+
         nome = ((EditText)findViewById(R.id.cadastro_nome));
         nome.setOnFocusChangeListener(this);
+        imm.hideSoftInputFromWindow(nome.getWindowToken(), 0);
 
         dddFixo = ((EditText)findViewById(R.id.ddd_fixo));
+        imm.hideSoftInputFromWindow(dddFixo.getWindowToken(), 0);
+
         dddFixo.setOnFocusChangeListener(this);
 
         telFixo = ((EditText)findViewById(R.id.tel_fixo));
+        imm.hideSoftInputFromWindow(telFixo.getWindowToken(), 0); //Close keyboard
         telFixo.setOnFocusChangeListener(this);
 
         dddCel = ((EditText)findViewById(R.id.ddd_cel));
+        imm.hideSoftInputFromWindow(dddCel.getWindowToken(), 0); //Close keyboard
         dddCel.setOnFocusChangeListener(this);
 
         telCel = ((EditText)findViewById(R.id.tel_cel));
+        imm.hideSoftInputFromWindow(telCel.getWindowToken(), 0); //Close keyboard
         telCel.setOnFocusChangeListener(this);
 
         endereco = ((EditText)findViewById(R.id.cadastro_endereco));

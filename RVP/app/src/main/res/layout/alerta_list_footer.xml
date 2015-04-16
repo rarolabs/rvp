@@ -17,7 +17,7 @@
         android:id="@+id/enviar"
         android:src="@drawable/ic_rede_entrar"
         android:background="@android:color/transparent"
-        android:layout_weight="1"
+        android:layout_weight="0.5"
     />
 
 </LinearLayout>
