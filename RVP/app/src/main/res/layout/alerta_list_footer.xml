@@ -13,16 +13,12 @@
         android:layout_weight="1"
         android:textColor="@color/fonte_busca_rede_bairro"/>
     <ImageButton
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:id="@+id/enviar"
         android:src="@drawable/ic_texto_enviar_normal"
         android:background="@android:color/transparent"
-<<<<<<< HEAD
-        android:layout_weight="0.5"
-=======
-        android:layout_marginRight="0dp"
->>>>>>> 762e346c19fa3acc9893307878b9983850ab32cf
+        android:layout_weight="1"
     />
 
 </LinearLayout>

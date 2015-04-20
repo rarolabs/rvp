@@ -16,6 +16,7 @@
             android:layout_marginRight="16dp"
             android:gravity="top"
             android:src="@drawable/ic_cadastro_foto_vazia"
+            android:onClick="verPerfilCriador"
             android:layout_marginTop="4dp" />
 
         <LinearLayout

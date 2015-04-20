@@ -75,12 +75,12 @@ public class CadastroActivity extends RVPActivity implements Validator.Validatio
     @NotEmpty(messageResId = R.string.error_cadastro_nome)
     private EditText nome;
 
-    @NotEmpty(messageResId = R.string.error_ddd_fixo)
-    @Size(min = 2, max = 2, messageResId = R.string.tamanho_ddd_invalido)
+//    @NotEmpty(messageResId = R.string.error_ddd_fixo)
+//    @Size(min = 2, max = 2, messageResId = R.string.tamanho_ddd_invalido)
     private EditText dddFixo;
 
-    @Size(min = 8, max = 9, messageResId = R.string.tamanho_telefone_invalido)
-    @NotEmpty(messageResId = R.string.error_tel_fixo)
+//    @Size(min = 8, max = 9, messageResId = R.string.tamanho_telefone_invalido)
+//    @NotEmpty(messageResId = R.string.error_tel_fixo)
     private EditText telFixo;
 
     @Size(min = 2, max = 2, messageResId = R.string.tamanho_ddd_invalido)
@@ -138,14 +138,14 @@ public class CadastroActivity extends RVPActivity implements Validator.Validatio
         account = i.getExtras().getString(Constants.ACCOUNT);
         idRede = i.getExtras().getLong(Constants.EXTRA_ID_REDE);
 
-        //Close keyboard
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-
         nome = ((EditText)findViewById(R.id.cadastro_nome));
         nome.setOnFocusChangeListener(this);
-        imm.hideSoftInputFromWindow(nome.getWindowToken(), 0);
+        InputMethodManager imn = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imn.hideSoftInputFromWindow(nome.getWindowToken(), 0);
 
         dddFixo = ((EditText)findViewById(R.id.ddd_fixo));
+        //Close keyboard
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(dddFixo.getWindowToken(), 0);
 
         dddFixo.setOnFocusChangeListener(this);

@@ -1,7 +1,9 @@
 package rarolabs.com.br.rvp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -16,6 +19,7 @@ import java.util.List;
 import br.com.rarolabs.rvp.api.rvpAPI.model.RedeDetalhada;
 import de.hdodenhof.circleimageview.CircleImageView;
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.activities.PerfilActivity;
 import rarolabs.com.br.rvp.activities.alertas.AlertaActivity;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.models.Comentario;
@@ -30,6 +34,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.api.client.util.DateTime;
 
@@ -39,6 +44,8 @@ import br.com.rarolabs.rvp.api.rvpAPI.model.RedeDetalhada;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.models.Rede;
 import rarolabs.com.br.rvp.utils.ImageUtil;
+
+import static android.support.v4.app.ActivityCompat.startActivity;
 
 /**
  * Created by rodrigosol on 1/14/15.
@@ -51,7 +58,8 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
 
     private final Notificacao notificacao;
     private final AlertaActivity context;
-    private View.OnClickListener mOnClickListener;
+
+
 
     public DetalhesAlertaAdapter(AlertaActivity context,Notificacao notificacao) {
         this.notificacao = notificacao;
@@ -63,14 +71,21 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
         if (viewType == TYPE_ITEM) {
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.alerta_list_item, parent, false);
-            VHItem item = new VHItem(v);
+
+            final VHItem item = new VHItem(v);
             item.avatar = (CircleImageView) v.findViewById(R.id.avatar);
             item.nome = (TextView) v.findViewById(R.id.nome);
             item.data = (TextView) v.findViewById(R.id.data);
             item.texto = (TextView) v.findViewById(R.id.texto);
+            item.avatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    positionClick(item.getPosition());
+                }
+            });
             return item;
 
-        } else if (viewType == TYPE_HEADER) {
+       } else if (viewType == TYPE_HEADER) {
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.alerta_list_header, parent, false);
             VHHeader header = new VHHeader(v);
@@ -102,6 +117,10 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
     }
 
+    private void positionClick(int position){
+       Log.d("Posicao de click", " " + position);
+       context.verPerfil(position);
+    }
     @Override
     public int getItemViewType(int position) {
         if (isPositionHeader(position)) {
@@ -168,6 +187,7 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
         public TextView texto;
         public TextView data;
 
+
         public VHItem(View itemView) {
             super(itemView);
         }
@@ -195,6 +215,7 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
             super(itemView);
         }
     }
+
 
 
 }

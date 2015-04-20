@@ -6,6 +6,7 @@ import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,7 +19,7 @@ import rarolabs.com.br.rvp.models.Notificacao;
 /**
  * Created by rodrigosol on 1/14/15.
  */
-public class AlertasAdapter extends NotificacaoBaseAdapter {
+public class AlertasAdapter extends NotificacaoBaseAdapter{
 
 
     public AlertasAdapter(Context context) {
@@ -120,8 +121,6 @@ public class AlertasAdapter extends NotificacaoBaseAdapter {
         }
 
     }
-
-
 
     public static class VHItem extends ViewHolder {
         public CircleImageView icone;

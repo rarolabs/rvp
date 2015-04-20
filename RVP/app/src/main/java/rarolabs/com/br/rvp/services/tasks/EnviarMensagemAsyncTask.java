@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
-import br.com.rarolabs.rvp.api.rvpAPI.model.Mensagem;
+
 import rarolabs.com.br.rvp.activities.alertas.AlertaActivity;
 import rarolabs.com.br.rvp.activities.alertas.CriarAlertaActivity;
 import rarolabs.com.br.rvp.config.Constants;
@@ -14,7 +14,7 @@ import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.services.BackendExpection;
 import rarolabs.com.br.rvp.services.BackendServices;
 
-public class EnviarMensagemAsyncTask extends AsyncTask<Mensagem, Void, Boolean> {
+public class EnviarMensagemAsyncTask extends AsyncTask<Object, Void, Boolean> {
     private static BackendServices backendServices = null;
     private AlertaActivity context;
     private SharedPreferences settings;
@@ -25,7 +25,7 @@ public class EnviarMensagemAsyncTask extends AsyncTask<Mensagem, Void, Boolean> 
     }
 
     @Override
-    protected Boolean doInBackground(Mensagem... params) {
+    protected Boolean doInBackground(Object... params) {
         settings = context.getSharedPreferences("RVP", 0);
 
         if(backendServices == null) { // Only do this once
@@ -33,10 +33,12 @@ public class EnviarMensagemAsyncTask extends AsyncTask<Mensagem, Void, Boolean> 
             backendServices= new BackendServices(context,settings.getString(Constants.ACCOUNT,null),Constants.BACKEND_URL);
         }
 
-        Mensagem mensagem = params[0];
+        String texto =  (String) params[0];
+        Long redeId =  (Long) params[1];
+        Long alertaId =  (Long) params[2];
 
         try {
-            backendServices.enviarMensagen(mensagem);
+            backendServices.enviarMensagen(texto,redeId,alertaId);
 
         } catch (final BackendExpection e) {
             Log.d("REDE", "Deu erro");

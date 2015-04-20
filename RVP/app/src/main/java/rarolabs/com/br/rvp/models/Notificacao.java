@@ -41,6 +41,13 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
     public enum TipoAlerta {PESSOA_SUSPEITA,VEICULO_SUSPEITO,AUSENCIA,MUDANCA,PANICO,INCENDIO,EMERGENCIA_POLICIAL};
     public enum TipoStatus {NOVO_MEMBRO,NOVO_ADMINISTRADOR,NOVA_AUTORIDADE,REJEITAR,RETIRAR_ADMINISTRADOR,RETIRAR_AUTORIDADE,DEIXOU_REDE}
 
+
+    public Enum<?>[] getColumnsEnum() {
+        return Columns.values();
+    }
+    public static enum Columns{NOVO_MEMBRO,NOVO_ADMINISTRADOR,NOVA_AUTORIDADE,REJEITAR,RETIRAR_ADMINISTRADOR,RETIRAR_AUTORIDADE,DEIXOU_REDE}
+
+
     public enum Tipo {SOLICITACAO,ALERTA,SISTEMA,STATUS}
 
     private static final SimpleDateFormat sdfSecao = new SimpleDateFormat("EEEE, d 'de' MMMM 'de' yyyy");
@@ -71,13 +78,11 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
     private Long dataAte;
 
 
-
-
-
     public Notificacao(){
     }
 
     public Notificacao(Bundle extras) {
+
         this.target = extras.getString("target","");
         this.setTipo(Notificacao.Tipo.valueOf(extras.getString("tipo")));
         String extraTipoStatus = extras.getString("tipo_status");
@@ -266,6 +271,15 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
         return null;
     }
 
+    public Comentario getComentarioPosicao(int posicao) {
+        List<Comentario> comentarios = Comentario.findWithQuery(Comentario.class, "SELECT * FROM comentario where notificacao = ?  ORDER by data asc", this.getId().toString());
+        Log.d("Comentario","size:" + comentarios.size());
+        if(comentarios.size()> posicao){
+            return comentarios.get(posicao);
+        }
+        return null;
+    }
+
     public int getIcon() {
         return icon;
     }
@@ -439,7 +453,7 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
 
 
     public String getSecao() {
-        int diffDays = getDiff(getData());
+        int diffDays = getDiff(     getData());
         switch (diffDays){
             case 0:
                 return "Hoje";
@@ -616,7 +630,7 @@ public class Notificacao extends SugarRecord<Notificacao> implements Iconable  {
     }
 
     public static List<Notificacao> getAlertas(Integer skip, Integer count,String target,Notificacao ultimaCarregada){
-        return criaSecoes(Notificacao.findWithQuery(Notificacao.class, "SELECT * FROM notificacao where TIPO = ? and target = ? ORDER by data desc LIMIT ?, ?", "ALERTA" ,target, skip.toString(), count.toString()),ultimaCarregada);
+        return criaSecoes(Notificacao.findWithQuery(Notificacao.class, "SELECT * FROM notificacao where TIPO = ? and target = ? ORDER by data desc LIMIT ?, ?", "ALERTA", target, skip.toString(), count.toString()), ultimaCarregada);
     }
 
     public List<Comentario> getComentarios() {

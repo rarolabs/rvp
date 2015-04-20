@@ -108,7 +108,8 @@
                         android:textColorHint="@color/hint_color"
                         android:textSize="16sp"
                         android:nextFocusRight="@+id/ddd_cel"
-                        android:nextFocusLeft="@+id/nome_rede"/>
+                        android:nextFocusLeft="@+id/nome_rede"
+                        android:nextFocusDown="@+id/ddd_cel" />
 
                 </LinearLayout>
 
@@ -138,7 +139,8 @@
                         android:textSize="16sp"
                         android:maxLength="2"
                         android:nextFocusLeft="@+id/cadastro_nome"
-                        android:nextFocusRight="@+id/tel_cel"/>
+                        android:nextFocusRight="@+id/tel_cel"
+                        android:nextFocusDown="@+id/tel_cel" />
 
                     <EditText
                         android:id="@+id/tel_cel"
@@ -153,7 +155,7 @@
                         android:maxLength="9"
                         android:nextFocusLeft="@+id/ddd_cel"
                         android:nextFocusRight="@+id/visibilidade_cel"
-
+                        android:nextFocusDown="@+id/ddd_fixo"
                         />
 
                 </LinearLayout>
@@ -219,6 +221,7 @@
                         android:maxLength="2"
                         android:nextFocusLeft="@+id/visibilidade_cel"
                         android:nextFocusRight="@+id/tel_fixo"
+                        android:nextFocusDown="@+id/tel_fixo"
 
                         />
 

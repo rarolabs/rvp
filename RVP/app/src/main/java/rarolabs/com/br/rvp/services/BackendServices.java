@@ -28,7 +28,6 @@ import br.com.rarolabs.rvp.api.rvpAPI.model.Profile;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Rede;
 import br.com.rarolabs.rvp.api.rvpAPI.model.RedeDetalhadaCollection;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Usuario;
-import br.com.rarolabs.rvp.api.rvpAPI.model.Mensagem;
 import rarolabs.com.br.rvp.config.Constants;
 
 
@@ -270,10 +269,10 @@ public class BackendServices {
             throw new BackendExpection(e);
         }
     }
-    public  void enviarMensagen(Mensagem mensagem) throws BackendExpection {
+    public  void enviarMensagen(String texto, Long redeId, Long alertaId) throws BackendExpection {
         try {
 
-            service.enviarMensagem(mensagem.getTexto(),mensagem.getRedeId(),mensagem.getAlertaId()).execute();
+            service.enviarMensagem(texto,redeId,alertaId).execute();
         } catch (IOException e) {
             throw new BackendExpection(e);
         }
