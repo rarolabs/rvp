@@ -23,6 +23,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
@@ -34,6 +35,7 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Stack;
 
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.config.Constants;
@@ -94,12 +96,14 @@ public class MainActivity extends RVPActivity
     private GcmRegister gcmRegister;
     private boolean mudarParaNotificacoes = false;
     private boolean mudarParaAlertas;
-
+    Stack<Integer> stackSection = new Stack<Integer>();
+    private int cont = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_actionbar_menu);
         toolbar.setNavigationContentDescription("Menu");
@@ -226,6 +230,7 @@ public class MainActivity extends RVPActivity
                 .replace(R.id.container, fragment, "MAIN_FRAGMENT_" + sectionNumer)
                 .addToBackStack("MAIN_FRAGMENT_" + sectionNumer)
                 .commit();
+        stackSection.push(sectionNumer);
 
     }
 
@@ -288,7 +293,6 @@ public class MainActivity extends RVPActivity
                 menu_itens = R.menu.menu_fragment_alertas;
                 mTitleView.setText(getString(R.string.title_alertas));
                 mFab.setVisibility(View.VISIBLE);
-
                 break;
             case 2:
                 menu_itens = R.menu.menu_fragment_notificacoes;
@@ -333,6 +337,7 @@ public class MainActivity extends RVPActivity
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .commit();
                 onSectionAttached(fragment);
+                stackSection.push(sectionNumer);
                 break;
 
             case R.id.action_voltar:
@@ -461,17 +466,37 @@ public class MainActivity extends RVPActivity
     }
 
     public void onBackPressed() {
+        Log.d("onBackPressed", "Back");
         FragmentManager fragmentManager = getFragmentManager();
-        if (fragmentManager.getBackStackEntryCount() > 1) {
-            fragmentManager.popBackStackImmediate();
-            fragmentManager.beginTransaction().commit();
+//        if (fragmentManager.getBackStackEntryCount() > 1) {
+//            Toast.makeText(this, "Back", Toast.LENGTH_SHORT).show();
+//            fragmentManager.popBackStackImmediate();
+//            fragmentManager.beginTransaction().commit();
+        if(fragmentManager.getBackStackEntryCount() > 0){
+            fragmentManager.popBackStack();
+            if(stackSection.size() > 0) {  // adaptação
+                Integer onSection = 0;
+                if(cont == 0){
+                    stackSection.pop();
+                }
+                cont++;
+                if(stackSection.size() > 0) {
+                    onSection = stackSection.pop();
+                    sectionNumer = onSection;
+                }else{ cont = 0;}
+                Log.d("onBackPressed","Pilha tamanho: " + stackSection.size());
+                Log.d("onBackPressed","Section: " + onSection);
+            }else{
+                cont = 0;
+            }
+        }else{
+            super.onBackPressed();
         }
-        if (sectionNumer == SECTION_BUSCA_REDES) {
-            sectionNumer = SECTION_MINHAS_REDES;
-        }
+//        if (sectionNumer == SECTION_BUSCA_REDES) {
+//            sectionNumer = SECTION_ALERTAS;
+//
+//        }
         invalidateOptionsMenu();
-
-
     }
 
     @Override

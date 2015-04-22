@@ -251,6 +251,7 @@
                         android:text="@string/rejeitar"
                         android:textColor="@color/white"
                         android:layout_marginRight="10dp"
+                        android:elevation="1dp"
                         />
                     <Button
                         android:id="@+id/adicionar"
@@ -259,6 +260,7 @@
                         android:background="@color/botao_aceitar"
                         android:layout_weight="1"
                         android:text="@string/adicionar"
+                        android:elevation="1dp"
                         android:textColor="@color/fonte_cancelar"
                         android:layout_marginLeft="10dp"/>
 

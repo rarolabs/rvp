@@ -33,7 +33,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:textColor="@android:color/white"
                 android:id="@+id/nova_rede"
-
+                android:elevation="1dp"
                 />
 
             <Button
@@ -42,6 +42,7 @@
                 android:layout_height="match_parent"
                 android:text="@string/logar"
                 android:layout_weight="1"
+                android:elevation="1dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:textColor="@android:color/white"
                 />

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.RedeDetalhada;
@@ -139,6 +140,7 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
         return position == getItemCount() - 1;
     }
 
+    private final SimpleDateFormat sdfData = new SimpleDateFormat("dd/MM/yyyy, hh:mm");
 
     @Override
     public void onBindViewHolder(DetalhesAlertaAdapter.ViewHolder holder, int position) {
@@ -147,11 +149,14 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
             ((VHItem)holder).nome.setText(c.getNome());
             ImageUtil.loadIconAssync(c.getAvatar(), ((VHItem) holder).avatar, 40);
             ((VHItem)holder).texto.setText(c.getTexto());
-            ((VHItem)holder).data.setText(new DateTime(c.getData()).toString());
+            //((VHItem)holder).data.setText(new DateTime(c.getData()).toString());
+            ((VHItem)holder).data.setText(sdfData.format(c.getData()));
         }else if(holder instanceof VHHeader){
             ((VHHeader)holder).nome.setText(notificacao.getNomeUsuario());
             ((VHHeader)holder).texto.setText(notificacao.getDetalhes());
-            ((VHHeader)holder).data.setText(notificacao.getData().toString());
+            //((VHHeader)holder).data.setText(notificacao.getData().toString());
+            ((VHHeader)holder).data.setText(sdfData.format(notificacao.getData()));
+
             ImageUtil.loadIconAssync(notificacao.getAvatar(), ((VHHeader) holder).avatar, 40);
             ((VHHeader)holder).subtitulo.setText(notificacao.getAlertaSubTitulo(context));
             ((VHHeader)holder).subtitulo.setTextColor(context.getResources().getColor(notificacao.getEsquema().getActionBarColor()));
@@ -215,8 +220,6 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
             super(itemView);
         }
     }
-
-
 
 }
 

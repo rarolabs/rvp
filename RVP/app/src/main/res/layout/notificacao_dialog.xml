@@ -121,6 +121,7 @@
                 android:text="@string/cancelar_maiuscula"
                 android:background="?android:attr/selectableItemBackground"
                 android:textSize="14sp"
+                android:elevation="1dp"
                 android:textColor="@color/fonte_cancelar"
                 android:layout_weight="60"
                 />
@@ -131,6 +132,7 @@
                 android:text="@string/tornar_membro"
                 android:background="?android:attr/selectableItemBackground"
                 android:textSize="14sp"
+                android:elevation="1dp"
                 android:textColor="@color/titulo_rede"
                 android:layout_weight="40"/>
 

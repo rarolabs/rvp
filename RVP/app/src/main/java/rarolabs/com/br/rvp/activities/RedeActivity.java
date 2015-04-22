@@ -1,6 +1,7 @@
 package rarolabs.com.br.rvp.activities;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -23,6 +24,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.config.RVPApp;
+import rarolabs.com.br.rvp.fragments.BuscaRedeFragment;
+import rarolabs.com.br.rvp.fragments.MinhasRedesFragment;
+import rarolabs.com.br.rvp.fragments.notificacoes.AlertasFragment;
+import rarolabs.com.br.rvp.fragments.notificacoes.NotificacoesFragment;
 import rarolabs.com.br.rvp.services.tasks.DeixarRedeAsyncTask;
 import rarolabs.com.br.rvp.utils.ImageUtil;
 
@@ -46,6 +51,8 @@ public class RedeActivity extends RVPActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         Log.d("REDE","onCreate:" + (savedInstanceState == null));
         setContentView(R.layout.activity_rede);
 
@@ -175,4 +182,5 @@ public class RedeActivity extends RVPActivity {
         Toast.makeText(this,R.string.nao_faz_mais_parte_da_rede,Toast.LENGTH_LONG).show();
         finish();
     }
+
 }

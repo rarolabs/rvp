@@ -25,6 +25,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="240dp"
         android:layout_marginBottom="30dp"
+        android:elevation="1dp"
         android:src="@drawable/ic_rede_entrar"
         fab:fab_colorNormal="@color/material_lime_A400"
         fab:fab_colorPressed="@color/material_green_A200"

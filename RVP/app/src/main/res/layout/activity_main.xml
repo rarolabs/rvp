@@ -86,6 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="center"
+            android:elevation="1dp"
             android:src="@drawable/ic_alertas_adicionar"
             fab:fab_colorNormal="@color/material_lime_A400"
             fab:fab_colorPressed="@color/material_green_A200"
