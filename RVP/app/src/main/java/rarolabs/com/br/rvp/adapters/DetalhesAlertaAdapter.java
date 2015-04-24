@@ -14,7 +14,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.RedeDetalhada;
@@ -37,13 +39,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.api.client.util.DateTime;
 
 import java.util.List;
+import java.util.TimeZone;
+
+import javax.xml.datatype.Duration;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.RedeDetalhada;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.models.Rede;
+import rarolabs.com.br.rvp.utils.DateUtils;
 import rarolabs.com.br.rvp.utils.ImageUtil;
 
 import static android.support.v4.app.ActivityCompat.startActivity;
@@ -142,6 +147,17 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
 
     private final SimpleDateFormat sdfData = new SimpleDateFormat("dd/MM/yyyy, hh:mm");
 
+    public final static long SECOND_MILLIS = 1000;
+    public final static long MINUTE_MILLIS = SECOND_MILLIS*60;
+    public final static long HOUR_MILLIS = MINUTE_MILLIS*60;
+    public final static long DAY_MILLIS = HOUR_MILLIS*24;
+
+    public static int daysDiff( Date earlierDate, Date laterDate )
+    {
+        if( earlierDate == null || laterDate == null ) return 0;
+        return (int)((laterDate.getTime()/DAY_MILLIS) - (earlierDate.getTime()/DAY_MILLIS));
+    }
+
     @Override
     public void onBindViewHolder(DetalhesAlertaAdapter.ViewHolder holder, int position) {
         if (holder instanceof VHItem) {
@@ -150,7 +166,34 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
             ImageUtil.loadIconAssync(c.getAvatar(), ((VHItem) holder).avatar, 40);
             ((VHItem)holder).texto.setText(c.getTexto());
             //((VHItem)holder).data.setText(new DateTime(c.getData()).toString());
-            ((VHItem)holder).data.setText(sdfData.format(c.getData()));
+
+            DateFormat df = DateFormat.getTimeInstance();
+            df.setTimeZone(TimeZone.getTimeZone("gmt"));
+            String gmtTime = df.format(new Date());
+            Date startTime = new Date();
+            Date endTime = new Date(c.getData());
+
+            long mills = startTime.getTime() - endTime.getTime();
+            int Hours = (int) (mills/(1000 * 60 * 60));
+            int Mins = (int) (mills/(1000*60)) % 60;
+
+            String diff = Hours + ":" + Mins; // updated value every1 second
+            ((VHItem)holder).data.setText(diff);
+
+            //Duration duration = new Duration(com, now);
+
+//            long mills = c.getData() - now;
+//            int Hours = millis/(1000 * 60 * 60);
+//            int Mins = millis % (1000*60*60);
+
+//            String diff = Hours + ":" + Mins;
+
+            //int time = daysDiff(new DateTime(c.getData()),);
+            //String intervalo = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date(time*1000));
+            //((VHItem)holder).data.setText(sdfData.format(c.getData()));
+            //((VHItem)holder).data.setText(gmtTime);
+
+
         }else if(holder instanceof VHHeader){
             ((VHHeader)holder).nome.setText(notificacao.getNomeUsuario());
             ((VHHeader)holder).texto.setText(notificacao.getDetalhes());

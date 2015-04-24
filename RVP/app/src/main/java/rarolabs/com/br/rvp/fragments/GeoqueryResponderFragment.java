@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -130,10 +131,14 @@ public class GeoqueryResponderFragment extends Fragment implements AbsListView.O
                             i.putExtra(Constants.EXTRA_NOME_REDE, geo.getNomeRede());
                             i.putExtra(Constants.EXTRA_ENDERECO_REDE, geo.getLocalizacao());
                             i.putExtra(Constants.EXTRA_NOME_ADMIN, geo.getNomeAdministrador());
+
                             i.putExtra(Constants.EXTRA_AVATAR, geo.getAvatarAdministrador());
                             SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d 'de' MMMM 'de' yyyy 'às' HH:mm");
                             i.putExtra(Constants.EXTRA_ULTIMA_ATIVIDADE, sdf.format(new Date(geo.getUltimaAtividade().getValue())));
                             i.putExtra(Constants.EXTRA_QUANTIDADE_MEMBROS, geo.getQuantidadeMembros());
+
+                            i.putExtra(Constants.EXTRA_MEMBRO_ID, geo.getMembroId());
+                            Log.d("Geo_perfil", "Valor do membro Id" + geo.getMembroId());
 
                             int pos = 0;
                             for (Coordinator c : geo.getCoordinators()) {

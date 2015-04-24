@@ -66,9 +66,12 @@ public class RedeActivity extends RVPActivity {
             extras = ((RVPApp)getApplicationContext()).getUltimaRede();
         }
 
+
         membro = extras.getBoolean(Constants.EXTRA_MEMBRO, false);
         membroId = extras.getLong(Constants.EXTRA_MEMBRO_ID, 0l);
-
+        Log.d("Remover rede ","ID membro: " + membroId);
+        Log.d("Remover rede ","ID rede: " + extras.getLong(Constants.EXTRA_ID_REDE, 0l));
+        Log.d("Remover rede ","Dono da rede: " + extras.getString(Constants.EXTRA_NOME_ADMIN));
 
 
 
@@ -124,7 +127,9 @@ public class RedeActivity extends RVPActivity {
     private void sair() {
         progress = ProgressDialog.show(this, getString(R.string.aguarde),
                 getString(R.string.enviando_solicitacao, true));
-        new DeixarRedeAsyncTask(this).execute(membroId);
+           new DeixarRedeAsyncTask(this).execute(membroId);
+
+        //Toast.makeText(this,"ID do membro :" + membroId,Toast.LENGTH_LONG).show();
     }
 
 
@@ -174,7 +179,8 @@ public class RedeActivity extends RVPActivity {
 
     public void error(String descricao) {
         progress.dismiss();
-        Toast.makeText(this,descricao,Toast.LENGTH_LONG).show();
+        Log.d("RedeActivity", "Erro: " + descricao);
+        //Toast.makeText(this,"Erro: " + descricao,Toast.LENGTH_LONG).show();
     }
 
     public void ok() {

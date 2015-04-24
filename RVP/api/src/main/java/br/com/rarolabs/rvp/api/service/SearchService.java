@@ -153,7 +153,8 @@ public class SearchService {
                 geo.setAvatarAdministrador(rede.getDono().getUsuario().getAvatar());
                 geo.setQuantidadeMembros(rede.getMembros().size());
                 geo.setUltimaAtividade(new Date());
-
+                //geo.setMembroId(Long.valueOf(100));
+                geo.setMembroId(rede.getDono().getId());
 
                 results.add(geo);
             }

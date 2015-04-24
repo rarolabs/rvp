@@ -23,6 +23,8 @@ public class GeoqueryResponder {
     private String nomeAdministrador;
     private String avatarAdministrador;
     private String localizacao;
+    private Long membroId;
+
 
     private Date ultimaAtividade;
     private Integer quantidadeMembros;
@@ -92,6 +94,14 @@ public class GeoqueryResponder {
         for(Membro m : membros){
             coordinators.add(new Coordinator(m.getEndereco().getLatitude(),m.getEndereco().getLongitude()));
         }
+    }
+
+    public Long getMembroId() {
+        return membroId;
+    }
+
+    public void setMembroId(Long membroId) {
+        this.membroId = membroId;
     }
 
     public Integer getResultSize() {

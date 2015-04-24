@@ -117,6 +117,11 @@ public class MinhasRedesFragment extends Fragment {
                             SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d 'de' MMMM 'de' yyyy 'às' HH:mm");
                             i.putExtra(Constants.EXTRA_ULTIMA_ATIVIDADE, sdf.format(rede.getUltimaAtividade()));
                             i.putExtra(Constants.EXTRA_QUANTIDADE_MEMBROS, rede.getQuantidadeMembros());
+
+                            i.putExtra(Constants.EXTRA_MEMBRO_ID, rede.getMembroId());
+                            Log.d("Geo_Redes", "Valor do membro Id" + rede.getMembroId());
+
+
                             int pos = 0;
                             for(Membro m : rede.getMembros()){
                                 if(m.getUsuarioId().equals(currentUser)){

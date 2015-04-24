@@ -475,17 +475,16 @@ public class MainActivity extends RVPActivity
         if(fragmentManager.getBackStackEntryCount() > 0){
             fragmentManager.popBackStack();
             if(stackSection.size() > 0) {  // adaptação
-                Integer onSection = 0;
                 if(cont == 0){
                     stackSection.pop();
                 }
                 cont++;
                 if(stackSection.size() > 0) {
-                    onSection = stackSection.pop();
-                    sectionNumer = onSection;
+                    sectionNumer = stackSection.pop();
+                    if(sectionNumer == 3 && stackSection.size() > 0){ sectionNumer = stackSection.pop();}else{cont=0;}
                 }else{ cont = 0;}
                 Log.d("onBackPressed","Pilha tamanho: " + stackSection.size());
-                Log.d("onBackPressed","Section: " + onSection);
+                Log.d("onBackPressed","Section: " + sectionNumer);
             }else{
                 cont = 0;
             }

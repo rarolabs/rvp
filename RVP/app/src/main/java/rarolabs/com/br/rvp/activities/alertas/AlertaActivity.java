@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,6 +50,7 @@ import rarolabs.com.br.rvp.activities.MainActivity;
 import rarolabs.com.br.rvp.activities.PerfilActivity;
 import rarolabs.com.br.rvp.activities.RedeActivity;
 import rarolabs.com.br.rvp.adapters.DetalhesAlertaAdapter;
+import rarolabs.com.br.rvp.adapters.ScrollingLinearLayoutManager;
 import rarolabs.com.br.rvp.adapters.notificacoes.NotificacaoBaseAdapter;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.config.RVPApp;
@@ -67,7 +69,7 @@ import rarolabs.com.br.rvp.utils.SoundUtil;
 import static rarolabs.com.br.rvp.R.id.*;
 import static rarolabs.com.br.rvp.R.id.notificacao;
 
-public class AlertaActivity extends AlertaBaseActivity {
+public class AlertaActivity extends AlertaBaseActivity{
 
     private ObservableRecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
@@ -75,21 +77,28 @@ public class AlertaActivity extends AlertaBaseActivity {
     private ProgressDialog progress;
     protected BroadcastReceiver mReceiver;
     protected IntentFilter intentFilter;
-    private int avatarSelecionada;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alerta);
         mRecyclerView = (ObservableRecyclerView) findViewById(lista_destalhes_alerta_recycler_view);
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
 
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        Log.d("Alerta", "Id:" + getIntent().getExtras().getLong(Constants.EXTRA_NOTIFICACAO_ID, 0l));
+        //mRecyclerView.setHasFixedSize(true);
+        // use a linear layout manager
+        //mLayoutManager = new LinearLayoutManager(this);
+
         notificacao = Notificacao.findById(Notificacao.class, getIntent().getExtras().getLong(Constants.EXTRA_NOTIFICACAO_ID, 0l));
-        Log.d("Alerta", notificacao.toString());
         mRecyclerView.setAdapter(new DetalhesAlertaAdapter(this, notificacao));
+
+        int duration = notificacao.getComentarios().size() * 2 ;
+        mRecyclerView.setLayoutManager(new ScrollingLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false, duration));
+
+//        mRecyclerView.setLayoutManager(mLayoutManager);
+//        Log.d("Alerta", "Id:" + getIntent().getExtras().getLong(Constants.EXTRA_NOTIFICACAO_ID, 0l));
+//        notificacao = Notificacao.findById(Notificacao.class, getIntent().getExtras().getLong(Constants.EXTRA_NOTIFICACAO_ID, 0l));
+//        Log.d("Alerta", notificacao.toString());
+//        mRecyclerView.setAdapter(new DetalhesAlertaAdapter(this, notificacao));
 
         enableNotificacoes((RelativeLayout) findViewById(R.id.notificacao));
 
@@ -175,6 +184,5 @@ public class AlertaActivity extends AlertaBaseActivity {
         i.putExtra(Constants.EXTRA_NOTIFICACAO_ID,notificacao.getId());
         startActivity(i);
     }
-
 
 }

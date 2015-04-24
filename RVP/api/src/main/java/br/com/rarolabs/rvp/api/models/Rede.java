@@ -50,6 +50,7 @@ public class Rede {
     @Index
     @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
     private @Load Ref<Membro> dono;
+
     private @Index Long donoId;
 
 
