@@ -27,6 +27,7 @@
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"
             android:textSize="16dp"
+            android:fontFamily="Roboto-Regular"
             android:lineSpacingExtra="4dp"
             android:lines="2"
             />

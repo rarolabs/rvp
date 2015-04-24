@@ -40,6 +40,7 @@
                 android:textSize="16sp"
                 android:paddingBottom="0dp"
                 android:layout_marginBottom="0dp"
+                android:fontFamily="Roboto-Regular"
                 />
 
             <TextView
@@ -49,6 +50,7 @@
                 android:textColor="@color/white"
                 android:paddingLeft="16dp"
                 android:layout_marginTop="-2dp"
+                android:fontFamily="Roboto-Medium"
                 android:textSize="14sp"/>
 </LinearLayout>
             <ImageButton

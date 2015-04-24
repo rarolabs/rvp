@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:textSize="16sp"
     android:gravity="left"
+    android:fontFamily="Roboto-Regular"
     android:textColor="@color/fonte_edit_text"
     android:padding="10dp"
 

@@ -16,6 +16,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="Roboto-Regular"
         android:id="@+id/drawer_item_text"
         android:padding="16dp"
         android:layout_gravity="center_vertical"

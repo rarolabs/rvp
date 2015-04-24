@@ -4,11 +4,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="rarolabs.com.br.rvp.activities.MainActivity">
-    <item android:id="@+id/action_marcar_notificacoes_como_lidas" android:title="@string/marcar_como_lidas"
+    <item
+        android:id="@+id/action_marcar_notificacoes_como_lidas"
+        android:title="@string/marcar_como_lidas"
+        android:fontFamily="Roboto-Regular"
         android:orderInCategory="100"  />
-    <item android:id="@+id/action_atualizar_notificacoes" android:title="@string/atualizar_notificacoes"
+    <item
+        android:id="@+id/action_atualizar_notificacoes"
+        android:title="@string/atualizar_notificacoes"
+        android:fontFamily="Roboto-Regular"
         android:orderInCategory="100"  />
-    <item android:id="@+id/action_excluir_todas_notificacoes" android:title="@string/excluir_todas"
+    <item
+        android:id="@+id/action_excluir_todas_notificacoes"
+        android:title="@string/excluir_todas"
+        android:fontFamily="Roboto-Regular"
         android:orderInCategory="100"  />
 
 </menu>

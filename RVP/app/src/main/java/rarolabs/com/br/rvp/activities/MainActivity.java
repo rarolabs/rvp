@@ -578,9 +578,5 @@ public class MainActivity extends RVPActivity
 
     }
 
-    public void alertaSelecionado(View view){
-
-    }
-
 
 }

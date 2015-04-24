@@ -41,6 +41,7 @@
             android:singleLine="false"
             android:textAlignment="center"
             android:id="@+id/status_busca"
+            android:fontFamily="Roboto-Regular"
             />
 
     </LinearLayout>
@@ -99,6 +100,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="16dp"
+                    android:fontFamily="Roboto-Regular"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="16dp"
                     android:textColor="@color/fonte_edit_text"
@@ -124,7 +126,7 @@
                         android:textSize="16dp"
                         android:textColor="@color/fonte_edit_text"
                         android:layout_gravity="center_vertical"
-
+                        android:fontFamily="Roboto-Regular"
                         />
 
                     </LinearLayout>
@@ -148,6 +150,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
                         android:textSize="16dp"
+                        android:fontFamily="Roboto-Regular"
                         android:textColor="@color/fonte_edit_text"
                         android:layout_gravity="center_vertical"
                         />
@@ -176,6 +179,7 @@
                         android:text="@string/tornar_administrador"
                         android:layout_gravity="left"
                         android:textSize="14dp"
+                        android:fontFamily="Roboto-Regular"
                         android:textColor="@color/fonte_busca_rede_bairro"
                         android:gravity="center_vertical"
                         android:layout_weight="1"
@@ -210,6 +214,7 @@
                         android:text="@string/tonar_autoridade_policial"
                         android:layout_gravity="left"
                         android:textSize="14dp"
+                        android:fontFamily="Roboto-Regular"
                         android:textColor="@color/fonte_busca_rede_bairro"
                         android:gravity="center_vertical"
                         android:layout_weight="1"
@@ -272,6 +277,7 @@
                         android:text="Últimas atividades"
                         android:textStyle="bold"
                         android:layout_marginTop="16dp"
+                        android:fontFamily="Roboto-Regular"
                         />
 
                     <LinearLayout

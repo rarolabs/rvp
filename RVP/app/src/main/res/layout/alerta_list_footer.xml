@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/texto_mensagem"
         android:layout_weight="1"
+        android:fontFamily="Roboto-Regular"
         android:textColor="@color/fonte_busca_rede_bairro"/>
     <ImageButton
         android:layout_width="70dp"

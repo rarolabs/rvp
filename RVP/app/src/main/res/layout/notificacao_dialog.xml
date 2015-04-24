@@ -34,6 +34,7 @@
         android:paddingRight="16dp"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
+        android:fontFamily="Roboto-Regular"
         android:text="@string/exemplo_tornar_membro"
         />
 
@@ -56,6 +57,7 @@
             android:gravity="center_vertical"
             android:paddingLeft="16dp"
             android:layout_weight="1"
+            android:fontFamily="Roboto-Medium"
             android:id="@+id/label_tornar_administrador"
             />
 
@@ -91,7 +93,7 @@
                 android:paddingLeft="16dp"
                 android:layout_weight="1"
                 android:id="@+id/label_tornar_autoridade"
-
+                android:fontFamily="Roboto-Medium"
                 />
 
             <android.support.v7.widget.SwitchCompat
@@ -119,6 +121,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/cancelar_maiuscula"
+                android:fontFamily="Roboto-Regular"
                 android:background="?android:attr/selectableItemBackground"
                 android:textSize="14sp"
                 android:elevation="1dp"
@@ -130,6 +133,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/tornar_membro"
+                android:fontFamily="Roboto-Regular"
                 android:background="?android:attr/selectableItemBackground"
                 android:textSize="14sp"
                 android:elevation="1dp"

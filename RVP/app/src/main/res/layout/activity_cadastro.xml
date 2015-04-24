@@ -316,10 +316,11 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="0dp"
                             android:fontFamily="Roboto-Regular"
-                            android:inputType="textPostalAddress"
                             android:textColor="@color/fonte_edit_text"
                             android:textColorHint="@color/hint_color"
                             android:textSize="16sp"
+                            android:inputType="textMultiLine"
+                            android:lines="3"
                             android:nextFocusLeft="@+id/visibilidade_fixo"
                             android:nextFocusRight="@+id/visibilidade_endereco"
                             />

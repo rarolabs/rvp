@@ -17,6 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tool_bar"
+            android:fontFamily="Roboto-Regular"
             android:text="@string/hello_world" />
 
         <android.support.v7.widget.RecyclerView

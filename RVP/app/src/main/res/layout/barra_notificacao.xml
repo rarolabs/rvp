@@ -26,6 +26,7 @@
             android:layout_height="40dp"
             android:text="@string/notificacao_recebida"
             android:textColor="@color/material_green_700"
+            android:fontFamily="Roboto-Redular"
             android:gravity="center"
             android:layout_marginLeft="6dp"
             android:textSize="16dp"

@@ -34,6 +34,7 @@
             android:layout_marginTop="20dp"
             android:singleLine="false"
             android:textAlignment="center"
+            android:fontFamily="Roboto-Regular"
             android:id="@+id/status_busca"
             />
 

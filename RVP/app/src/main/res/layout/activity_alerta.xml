@@ -12,7 +12,11 @@
         layout="@layout/barra_notificacao"
         android:id="@+id/notificacao"/>
 
-
+    <View
+        android:id="@+id/flexible_space_alerta"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+     />
 
     <com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView
         android:id="@+id/lista_destalhes_alerta_recycler_view"

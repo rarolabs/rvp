@@ -19,6 +19,7 @@
                     android:text="100\nm"
                     android:lineSpacingExtra="-5sp"
                     android:gravity="center"
+                    android:fontFamily="Roboto-Regular"
                     android:textColor="@color/white"
                     android:id="@+id/distancia"
                      />
@@ -34,10 +35,7 @@
                     android:id="@+id/nome"
                     android:layout_width="match_parent"
                     android:gravity="center_vertical"
-
-
                     android:layout_marginBottom="4dp"
-
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:maxLines="1"

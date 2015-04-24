@@ -12,10 +12,12 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.adapters.DetalhesAlertaAdapter;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.models.Notificacao;
 
@@ -101,7 +103,7 @@ public class NotificacoesAdapter extends NotificacaoBaseAdapter {
             notificacao.autoLido();
 
             ((VHItem)holder).texto.setText(notificacao.getTexto(context));
-            ((VHItem)holder).data.setText(sdfData.format(notificacao.getData()));
+            ((VHItem)holder).data.setText(DetalhesAlertaAdapter.returnTime(new Date(), notificacao.getData()));
 
             String iconResource = notificacao.getIconResource(((VHItem)holder).icone);
             //Caso o icone seja estatico ele eh carregado automaticamente

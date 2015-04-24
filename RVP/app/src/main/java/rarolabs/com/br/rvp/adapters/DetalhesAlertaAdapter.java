@@ -24,6 +24,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.activities.PerfilActivity;
 import rarolabs.com.br.rvp.activities.alertas.AlertaActivity;
+import rarolabs.com.br.rvp.adapters.notificacoes.AlertasAdapter;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.models.Comentario;
 import rarolabs.com.br.rvp.models.Notificacao;
@@ -64,8 +65,6 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
 
     private final Notificacao notificacao;
     private final AlertaActivity context;
-
-
 
     public DetalhesAlertaAdapter(AlertaActivity context,Notificacao notificacao) {
         this.notificacao = notificacao;
@@ -145,18 +144,6 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
         return position == getItemCount() - 1;
     }
 
-    private final SimpleDateFormat sdfData = new SimpleDateFormat("dd/MM/yyyy, hh:mm");
-
-    public final static long SECOND_MILLIS = 1000;
-    public final static long MINUTE_MILLIS = SECOND_MILLIS*60;
-    public final static long HOUR_MILLIS = MINUTE_MILLIS*60;
-    public final static long DAY_MILLIS = HOUR_MILLIS*24;
-
-    public static int daysDiff( Date earlierDate, Date laterDate )
-    {
-        if( earlierDate == null || laterDate == null ) return 0;
-        return (int)((laterDate.getTime()/DAY_MILLIS) - (earlierDate.getTime()/DAY_MILLIS));
-    }
 
     @Override
     public void onBindViewHolder(DetalhesAlertaAdapter.ViewHolder holder, int position) {
@@ -166,39 +153,14 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
             ImageUtil.loadIconAssync(c.getAvatar(), ((VHItem) holder).avatar, 40);
             ((VHItem)holder).texto.setText(c.getTexto());
             //((VHItem)holder).data.setText(new DateTime(c.getData()).toString());
-
-            DateFormat df = DateFormat.getTimeInstance();
-            df.setTimeZone(TimeZone.getTimeZone("gmt"));
-            String gmtTime = df.format(new Date());
-            Date startTime = new Date();
-            Date endTime = new Date(c.getData());
-
-            long mills = startTime.getTime() - endTime.getTime();
-            int Hours = (int) (mills/(1000 * 60 * 60));
-            int Mins = (int) (mills/(1000*60)) % 60;
-
-            String diff = Hours + ":" + Mins; // updated value every1 second
-            ((VHItem)holder).data.setText(diff);
-
-            //Duration duration = new Duration(com, now);
-
-//            long mills = c.getData() - now;
-//            int Hours = millis/(1000 * 60 * 60);
-//            int Mins = millis % (1000*60*60);
-
-//            String diff = Hours + ":" + Mins;
-
-            //int time = daysDiff(new DateTime(c.getData()),);
-            //String intervalo = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date(time*1000));
-            //((VHItem)holder).data.setText(sdfData.format(c.getData()));
-            //((VHItem)holder).data.setText(gmtTime);
-
+            ((VHItem)holder).data.setText(returnTime(new Date(), new Date(c.getData())));
 
         }else if(holder instanceof VHHeader){
             ((VHHeader)holder).nome.setText(notificacao.getNomeUsuario());
             ((VHHeader)holder).texto.setText(notificacao.getDetalhes());
             //((VHHeader)holder).data.setText(notificacao.getData().toString());
-            ((VHHeader)holder).data.setText(sdfData.format(notificacao.getData()));
+
+            ((VHHeader)holder).data.setText(returnTime(new Date(), notificacao.getData()));
 
             ImageUtil.loadIconAssync(notificacao.getAvatar(), ((VHHeader) holder).avatar, 40);
             ((VHHeader)holder).subtitulo.setText(notificacao.getAlertaSubTitulo(context));
@@ -220,8 +182,6 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
     public int getItemCount() {
         return notificacao.getComentarios().size() + 2;
     }
-
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(View itemView) {
@@ -262,6 +222,24 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
         public VHFooter(View itemView) {
             super(itemView);
         }
+    }
+
+    public static String returnTime(Date startTime, Date endTime){
+        long mills = startTime.getTime() - endTime.getTime();
+        int hrs = (int) (mills/(1000 * 60 * 60));
+        int min = (int) (mills/(1000*60)) % 60;
+
+        if((hrs == 0)  && (min == 0)){
+            return "agora";
+        }else if(hrs == 0){
+            return "há " + min + " minutos";
+        }else if(hrs < 24){
+            return hrs + " horas " + min + " minutos atrás";
+        }else{
+            SimpleDateFormat sdfData = new SimpleDateFormat("dd/MM/yyyy, hh:mm");
+            return sdfData.format(endTime);
+        }
+
     }
 
 }

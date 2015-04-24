@@ -11,9 +11,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Collection;
+import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.adapters.DetalhesAlertaAdapter;
 import rarolabs.com.br.rvp.models.Notificacao;
 
 /**
@@ -106,7 +108,8 @@ public class AlertasAdapter extends NotificacaoBaseAdapter{
             }
             ((VHItem)holder).nome.setText(notificacao.getUltimoComentario().getNome());
 
-            ((VHItem)holder).data.setText(sdfData.format(notificacao.getData()));
+            //((VHItem)holder).data.setText(sdfData.format(notificacao.getData()));
+            ((VHItem)holder).data.setText(DetalhesAlertaAdapter.returnTime(new Date(), notificacao.getData()));
 
             String iconResource = notificacao.getIconResource(((VHItem)holder).icone);
             //Caso o icone seja estatico ele eh carregado automaticamente

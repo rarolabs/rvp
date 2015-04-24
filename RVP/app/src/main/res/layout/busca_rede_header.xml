@@ -7,6 +7,7 @@
     android:textColor="@color/fonte_edit_text"
     android:textSize="14dp"
     android:paddingTop="116dp"
+    android:fontFamily="Roboto-Regular"
     >
 
 

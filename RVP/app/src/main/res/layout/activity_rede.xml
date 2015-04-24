@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/administrador"
                 android:textColor="@color/subtitles"
-                android:fontFamily="Roboto-Bold"
+                android:fontFamily="Roboto-Medium"
                 android:textSize="12sp"
                 android:layout_marginBottom="0dp"
                 />

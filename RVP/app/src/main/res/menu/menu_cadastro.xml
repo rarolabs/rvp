@@ -2,7 +2,10 @@
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 tools:context="rarolabs.com.br.rvp.activities.CadastroActivity">
-<item android:id="@+id/action_confirmar" android:title="@string/action_confirmar"
+<item
+    android:id="@+id/action_confirmar"
+    android:title="@string/action_confirmar"
     android:icon="@drawable/ic_actionbar_confirmar"
+    android:fontFamily="Roboto-Regular"
     android:orderInCategory="100" app:showAsAction="always" />
 </menu>

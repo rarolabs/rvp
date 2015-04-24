@@ -50,6 +50,7 @@
                android:layout_gravity="center"
                android:gravity="center"
                android:textAlignment="center"
+               android:fontFamily="Roboto-Regular"
                android:layout_margin="20dp"
                android:id="@+id/header_text"/>
 
