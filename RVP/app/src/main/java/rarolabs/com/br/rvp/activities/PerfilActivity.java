@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SwitchCompat;
 
 import android.util.Log;
@@ -20,12 +21,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
+
 import org.w3c.dom.Text;
 
 import br.com.rarolabs.rvp.api.rvpAPI.RvpAPI;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Membro;
 import br.com.rarolabs.rvp.api.rvpAPI.model.Profile;
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.adapters.DetalhesAlertaAdapter;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.listeners.GPSTracker;
 import rarolabs.com.br.rvp.models.Notificacao;
@@ -69,6 +73,7 @@ public class PerfilActivity extends RVPActivity implements CompoundButton.OnChec
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
+
         getSupportActionBar().setTitle("");
         membroId = getIntent().getExtras().getLong(Constants.EXTRA_MEMBRO_ID, 0l);
         notificacaoID = getIntent().getExtras().getLong(Constants.EXTRA_NOTIFICACAO_ID, 0l);
@@ -115,8 +120,6 @@ public class PerfilActivity extends RVPActivity implements CompoundButton.OnChec
         labelTornarAutoridade = (TextView) findViewById(R.id.label_tornar_autoridade);
 
 
-
-
         containerAcoes = findViewById(R.id.container_acoes);
         botaoRejeitar = (Button) findViewById(R.id.rejeitar);
         botaoRejeitar.setOnClickListener(new View.OnClickListener() {
@@ -137,6 +140,14 @@ public class PerfilActivity extends RVPActivity implements CompoundButton.OnChec
 
         enableNotificacoes((RelativeLayout) findViewById(R.id.notificacao));
         new BuscaPerfilAsyncTask(this).execute(membroId);
+
+
+//        mRecyclerView = (ObservableRecyclerView) findViewById(R.id.lista_perfil_alerta_recycler_view);
+//
+//        mLayoutManager = new LinearLayoutManager(this);
+//        mRecyclerView.setLayoutManager(mLayoutManager);
+//        notificacao = Notificacao.findById(Notificacao.class, getIntent().getExtras().getLong(Constants.EXTRA_NOTIFICACAO_ID, 0l));
+//        mRecyclerView.setAdapter(notificacao);
 
 
     }

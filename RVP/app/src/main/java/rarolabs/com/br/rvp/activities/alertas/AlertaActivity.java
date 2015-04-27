@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.TypedArray;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -19,6 +20,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -80,14 +82,15 @@ import com.nineoldandroids.view.ViewHelper;
 
 public class AlertaActivity extends AlertaBaseActivity{
 
-    private int mFlexibleSpaceHeight;
-
     private ObservableRecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private Notificacao notificacao;
     private ProgressDialog progress;
     protected BroadcastReceiver mReceiver;
     protected IntentFilter intentFilter;
+
+    private View mFlexibleSpaceView;
+    private int mFlexibleSpaceHeight;
 
 
     @Override
@@ -97,14 +100,24 @@ public class AlertaActivity extends AlertaBaseActivity{
 
         mRecyclerView = (ObservableRecyclerView) findViewById(lista_destalhes_alerta_recycler_view);
 
-        mLayoutManager = new LinearLayoutManager(this);
-        notificacao = Notificacao.findById(Notificacao.class, getIntent().getExtras().getLong(Constants.EXTRA_NOTIFICACAO_ID, 0l));
-        mRecyclerView.setAdapter(new DetalhesAlertaAdapter(this, notificacao));
-        int duration = notificacao.getComentarios().size() * 2 ;
-        mRecyclerView.setLayoutManager(new ScrollingLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false, duration));
+        mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        //int duration = 100; //notificacao.getComentarios().size() * 2 ;
+        //mRecyclerView.setLayoutManager(new ScrollingLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false, duration));
+        mRecyclerView.setHasFixedSize(true);
+        //mRecyclerView.setScrollViewCallbacks(this);
+
+        mFlexibleSpaceHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_height);
+        //int flexibleSpaceAndToolbarHeight = mFlexibleSpaceHeight + getActionBarSize();
+        //mFlexibleSpaceView.getLayoutParams().height = flexibleSpaceAndToolbarHeight;
+
+        //mRecyclerView.fling(0,1);
+        //mRecyclerView.smoothScrollToPosition(notificacao.getComentarios().size());
 
         notificacao = Notificacao.findById(Notificacao.class, getIntent().getExtras().getLong(Constants.EXTRA_NOTIFICACAO_ID, 0l));
         mRecyclerView.setAdapter(new DetalhesAlertaAdapter(this, notificacao));
+
+
 
 /* Rodrigo
         mLayoutManager = new LinearLayoutManager(this);
@@ -198,7 +211,5 @@ public class AlertaActivity extends AlertaBaseActivity{
         i.putExtra(Constants.EXTRA_NOTIFICACAO_ID,notificacao.getId());
         startActivity(i);
     }
-
-
 
 }
