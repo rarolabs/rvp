@@ -46,6 +46,7 @@ import rarolabs.com.br.rvp.fragments.GeoqueryResponderFragment;
 import rarolabs.com.br.rvp.fragments.MinhasRedesFragment;
 import rarolabs.com.br.rvp.fragments.NavigationDrawerFragment;
 import rarolabs.com.br.rvp.fragments.NotificacaoDialogFragment;
+import rarolabs.com.br.rvp.fragments.SobreFragment;
 import rarolabs.com.br.rvp.fragments.notificacoes.AlertasFragment;
 import rarolabs.com.br.rvp.fragments.notificacoes.NotificacoesFragment;
 import rarolabs.com.br.rvp.gcm.GcmRegister;
@@ -74,6 +75,7 @@ public class MainActivity extends RVPActivity
     private static final int SECTION_ALERTAS = 1;
     private static final int SECTION_NOTIFICACOES = 2;
     private static final int SECTION_BUSCA_REDES = 3;
+    private static final int SECTION_SOBRE = 4;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -92,6 +94,7 @@ public class MainActivity extends RVPActivity
     private MinhasRedesFragment minhasRedesFragment;
     private AlertasFragment alertasFragment;
     private NotificacoesFragment notificacoesFragment;
+    private SobreFragment sobreFragment;
     private BuscaRedeFragment buscaRedeFragment;
     private GcmRegister gcmRegister;
     private boolean mudarParaNotificacoes = false;
@@ -191,6 +194,14 @@ public class MainActivity extends RVPActivity
         startActivity(i);
     }
 
+    private void sobreApp() {
+        Intent i = new Intent(MainActivity.this, SobreActivity.class);
+        i.putExtra("SOBRE", true);
+        startActivity(i);
+    }
+
+
+
     public Fragment getFragmentBySection(int sectionNumer) {
         switch (sectionNumer) {
             case SECTION_MINHAS_REDES:
@@ -215,6 +226,11 @@ public class MainActivity extends RVPActivity
                     notificacoesFragment =  NotificacoesFragment.newInstance();
                 }
                 return notificacoesFragment;
+            case SECTION_SOBRE:
+                if(sobreFragment == null){
+                    sobreFragment = SobreFragment.newInstance();
+                }
+                return sobreFragment;
         }
 
         return null;
@@ -223,15 +239,19 @@ public class MainActivity extends RVPActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         sectionNumer = position;
-
-        Fragment fragment = getFragmentBySection(sectionNumer);
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment, "MAIN_FRAGMENT_" + sectionNumer)
-                .addToBackStack("MAIN_FRAGMENT_" + sectionNumer)
-                .commit();
         stackSection.push(sectionNumer);
-
+        if (sectionNumer == 4 ){
+            sobreApp();
+            stackSection.pop();
+        }else {
+            Fragment fragment = getFragmentBySection(sectionNumer);
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, fragment, "MAIN_FRAGMENT_" + sectionNumer)
+                    .addToBackStack("MAIN_FRAGMENT_" + sectionNumer)
+                    .commit();
+            //stackSection.push(sectionNumer);
+        }
     }
 
     public void onSectionAttached(Fragment fragment) {
@@ -249,7 +269,10 @@ public class MainActivity extends RVPActivity
         } else if (fragment instanceof NotificacoesFragment) {
             mTitleView.setText(getString(R.string.title_notificacoes));
             this.sectionNumer = SECTION_NOTIFICACOES;
-        }
+        } /*else if(fragment instanceof SobreFragment) {
+            mTitleView.setText(getString(R.string.title_sobre));
+            this.sectionNumer = SECTION_SOBRE;
+        }*/
 
         invalidateOptionsMenu();
 
@@ -304,6 +327,12 @@ public class MainActivity extends RVPActivity
                 mTitleView.setText(getString(R.string.title_busca_redes));
                 mFab.setVisibility(View.VISIBLE);
                 break;
+            case 4:
+               menu_itens = R.menu.menu_fragment_alertas;
+               mTitleView.setText(getString(R.string.title_sobre));
+               mFab.setVisibility(View.VISIBLE);
+               Toast.makeText(this,"To aqui",Toast.LENGTH_LONG).show();
+               break;
         }
 
         getMenuInflater().inflate(menu_itens, menu);

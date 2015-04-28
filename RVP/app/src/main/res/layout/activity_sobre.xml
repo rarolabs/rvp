@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_gravity="center"
+        android:stretchColumns="0,1">
+
+        <!--<ImageView-->
+            <!--android:id="@+id/img_logo"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="200dp"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:src="@drawable/ic_rede_de_vizinhos"-->
+            <!--/>-->
+        <TableRow
+            android:padding="5dip"
+            >
+        <TextView
+            android:id="@+id/title_app"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/titulo_rede"
+            android:textStyle="bold"
+            android:fontFamily="Roboto-Regular"
+            android:textSize="20dp"
+            android:text="Rede de Vizinhos Protegidos"
+            />
+        </TableRow>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="normal"
+        android:fontFamily="Roboto-Regular"
+        android:textSize="16dp"
+        android:text="O aplicativo Rede de Vizinhos Protegidos  foi desenvolvido pela"
+        />
+    <TableRow
+        android:padding="10dip"
+        android:paddingBottom="10dip">
+
+        <ImageView
+            android:id="@+id/icon_raro"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:src="@drawable/logo_raro" />
+        </TableRow>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="normal"
+        android:fontFamily="Roboto-Regular"
+        android:textSize="16dp"
+        android:text= "Financiado com o prêmio do concurso"
+        />
+    <TableRow
+        android:padding="10dip"
+        android:paddingBottom="10dip">
+
+
+    <ImageView
+        android:id="@+id/icon_inovapps"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:src="@drawable/inovapp_novo" />
+    </TableRow>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="normal"
+        android:fontFamily="Roboto-Regular"
+        android:textSize="16dp"
+        android:text="do Ministério da Comunicação."
+
+        />
+    <TableRow
+        android:padding="10dip"
+        android:paddingBottom="10dip">
+
+    <ImageView
+        android:id="@+id/icon_MC"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:src="@drawable/logoministerio"
+        />
+    </TableRow>
+    </TableLayout>
+   </ScrollView>
+</LinearLayout>

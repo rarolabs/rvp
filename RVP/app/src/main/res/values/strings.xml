@@ -162,4 +162,8 @@
     <string name="nao_foi_possivel_enviar_mensagem">Não foi possível enviar sua mensagem</string>
     <string name="mensagem_enviada_com_sucesso">Sua mensagem foi enviada com sucesso</string>
 
+    <string name="drawer_sobre">Sobre</string>
+    <string name="title_sobre">Sobre</string>
+
+
 </resources>
