@@ -131,7 +131,7 @@ public class AlertaActivity extends AlertaBaseActivity{
                 if (intent.getExtras().containsKey(Constants.EXTRA_NOTIFICACAO_ID)) {
                     long notificacaoId = intent.getExtras().getLong(Constants.EXTRA_NOTIFICACAO_ID, 0l);
                     if (notificacaoId == notificacao.getId()) {
-                        mRecyclerView.getAdapter();
+                        ((DetalhesAlertaAdapter)mRecyclerView.getAdapter()).update();
                         SoundUtil.playNotificationSound(AlertaActivity.this);
                     } else {
                         mostraMensagem(notificacao);

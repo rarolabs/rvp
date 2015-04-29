@@ -74,6 +74,9 @@ public class ImageUtil {
 
 
     public static void loadIconAssync(String url, final ImageView v,Integer size) {
+        if(url == null || url.equals("")){
+            return;
+        }
         String dpSize = "";
         if(size!=null){
             dpSize = "=s" + RVPApp.getDesinty().intValue() * size;
@@ -83,6 +86,10 @@ public class ImageUtil {
     }
 
     public static void loadIconAssync(String url, final View v,Integer size) {
+        if(url == null || url.equals("")){
+            return;
+        }
+
         String dpSize = "";
         if(size!=null){
             dpSize = "=s" + RVPApp.getDesinty().intValue() * size;
@@ -101,7 +108,7 @@ public class ImageUtil {
 
 
     private static String parseUrl(String url) {
-        if (url != null && url.contains("8080")) {
+        if (url != null || url.contains("8080")) {
             url = Constants.BACKEND_URL_UPLOAD + url.split("8080")[1];
             Log.d("Avatar:", "Nova URL:" + url);
         }

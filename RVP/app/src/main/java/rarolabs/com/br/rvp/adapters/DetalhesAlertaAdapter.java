@@ -16,7 +16,9 @@ import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.RedeDetalhada;
@@ -65,10 +67,14 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
 
     private final Notificacao notificacao;
     private final AlertaActivity context;
+    private Comentario[] cache = new Comentario[]{};
+    private int size;
 
     public DetalhesAlertaAdapter(AlertaActivity context,Notificacao notificacao) {
         this.notificacao = notificacao;
         this.context = context;
+        update();
+
     }
 
     @Override
@@ -148,7 +154,7 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
     @Override
     public void onBindViewHolder(DetalhesAlertaAdapter.ViewHolder holder, int position) {
         if (holder instanceof VHItem) {
-            Comentario c  = notificacao.getComentarios().get(position - 1);
+            Comentario c  = cache[position - 1];
             ((VHItem)holder).nome.setText(c.getNome());
             ImageUtil.loadIconAssync(c.getAvatar(), ((VHItem) holder).avatar, 40);
             ((VHItem)holder).texto.setText(c.getTexto());
@@ -180,7 +186,14 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
 
     @Override
     public int getItemCount() {
-        return notificacao.getComentarios().size() + 2;
+        return size + 2;
+    }
+
+    public void update() {
+        this.cache = notificacao.getComentarios().toArray(cache);
+        this.size = notificacao.getComentarios().size();
+        notifyDataSetChanged();
+
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
