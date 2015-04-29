@@ -63,7 +63,7 @@ public class SobreActivity extends AlertaBaseActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        finish();
     }
 
 }

@@ -114,20 +114,6 @@
         </activity>
 
         <activity
-            android:name=".activities.SobreActivity"
-            android:label="@string/title_sobre"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppThemeLight" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
-            >
-            <intent-filter>
-                <action android:name="rarolabs.com.br.rvp.broadcast.MOSTRA_ALERTA" />
-            </intent-filter>
-        </activity>
-
-        <activity
             android:name=".activities.StartUpActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoDisplay" >

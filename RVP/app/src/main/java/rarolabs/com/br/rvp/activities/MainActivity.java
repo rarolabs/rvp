@@ -228,8 +228,8 @@ public class MainActivity extends RVPActivity
                 return notificacoesFragment;
             case SECTION_SOBRE:
                 if(sobreFragment == null){
-                    sobreFragment = SobreFragment.newInstance();
-                }
+                    sobreFragment = new SobreFragment();
+               }
                 return sobreFragment;
         }
 
@@ -240,18 +240,12 @@ public class MainActivity extends RVPActivity
     public void onNavigationDrawerItemSelected(int position) {
         sectionNumer = position;
         stackSection.push(sectionNumer);
-        if (sectionNumer == 4 ){
-            sobreApp();
-            stackSection.pop();
-        }else {
-            Fragment fragment = getFragmentBySection(sectionNumer);
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, fragment, "MAIN_FRAGMENT_" + sectionNumer)
-                    .addToBackStack("MAIN_FRAGMENT_" + sectionNumer)
-                    .commit();
-            //stackSection.push(sectionNumer);
-        }
+        Fragment fragment = getFragmentBySection(sectionNumer);
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, fragment, "MAIN_FRAGMENT_" + sectionNumer)
+                .addToBackStack("MAIN_FRAGMENT_" + sectionNumer)
+                .commit();
     }
 
     public void onSectionAttached(Fragment fragment) {
@@ -269,10 +263,10 @@ public class MainActivity extends RVPActivity
         } else if (fragment instanceof NotificacoesFragment) {
             mTitleView.setText(getString(R.string.title_notificacoes));
             this.sectionNumer = SECTION_NOTIFICACOES;
-        } /*else if(fragment instanceof SobreFragment) {
-            mTitleView.setText(getString(R.string.title_sobre));
+        } else if(fragment instanceof SobreFragment) {
+            //mTitleView.setText(getString(R.string.title_sobre));
             this.sectionNumer = SECTION_SOBRE;
-        }*/
+        }
 
         invalidateOptionsMenu();
 
@@ -330,8 +324,7 @@ public class MainActivity extends RVPActivity
             case 4:
                menu_itens = R.menu.menu_fragment_alertas;
                mTitleView.setText(getString(R.string.title_sobre));
-               mFab.setVisibility(View.VISIBLE);
-               Toast.makeText(this,"To aqui",Toast.LENGTH_LONG).show();
+               mFab.setVisibility(View.GONE);
                break;
         }
 
@@ -344,9 +337,6 @@ public class MainActivity extends RVPActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
