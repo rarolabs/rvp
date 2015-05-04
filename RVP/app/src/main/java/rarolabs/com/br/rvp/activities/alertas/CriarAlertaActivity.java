@@ -18,17 +18,20 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.api.client.util.DateTime;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.Alerta;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.activities.Locable;
+import rarolabs.com.br.rvp.adapters.ListRedesAdapter;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.listeners.GPSTracker;
 import rarolabs.com.br.rvp.models.EsquemaAlerta;
@@ -51,7 +54,7 @@ public class CriarAlertaActivity extends AlertaBaseActivity implements DatePicke
     private Location location;
     private GPSTracker tracker;
     private ProgressDialog progress;
-
+    private Spinner mSpinner;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,10 +83,16 @@ public class CriarAlertaActivity extends AlertaBaseActivity implements DatePicke
 
         }
 
+        ArrayList<Rede> moradors = (ArrayList)Rede.listAll(Rede.class);
+        mSpinner = (Spinner) findViewById(R.id.spinner_rede);
+        ListRedesAdapter mAdapter = new ListRedesAdapter(this, R.layout.simple_spinner_item, moradors);
+        mSpinner.setAdapter(mAdapter);
+
+
         detalhes = (EditText) findViewById(R.id.detalhes);
-        Rede r = Rede.listAll(Rede.class).get(0);
-        redeId = r.getRedeId();
-        membroId = r.getMembroId();
+        //Rede r = Rede.listAll(Rede.class).get(0);
+        //redeId = r.getRedeId();
+        //membroId = r.getMembroId();
         location = tracker.getLocation();
     }
 
@@ -114,6 +123,11 @@ public class CriarAlertaActivity extends AlertaBaseActivity implements DatePicke
     private void enviarAlerta() {
         progress = ProgressDialog.show(this, getString(R.string.aguarde),
                 getString(R.string.enviando_alerta, true));
+
+        int position = mSpinner.getSelectedItemPosition();
+        Rede r = Rede.listAll(Rede.class).get(position);
+        redeId = r.getRedeId();
+        membroId = r.getMembroId();
 
         Alerta alerta = new Alerta();
         alerta.setDescricao(detalhes.getText().toString());
