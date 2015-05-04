@@ -108,9 +108,10 @@ public class ImageUtil {
 
 
     private static String parseUrl(String url) {
-        if (url != null || url.contains("8080")) {
+        if (url != null && url.contains("8080")) {  //Troca de || para &&
+            Log.d("Avatar:", "Antiga URL: " + url);
             url = Constants.BACKEND_URL_UPLOAD + url.split("8080")[1];
-            Log.d("Avatar:", "Nova URL:" + url);
+            Log.d("Avatar:", "Nova URL: " + url);
         }
         return url;
     }

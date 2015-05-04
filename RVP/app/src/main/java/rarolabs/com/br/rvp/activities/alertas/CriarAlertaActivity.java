@@ -191,5 +191,3 @@ public class CriarAlertaActivity extends AlertaBaseActivity implements DatePicke
         location = tracker.getLocation();
     }
 }
-
-

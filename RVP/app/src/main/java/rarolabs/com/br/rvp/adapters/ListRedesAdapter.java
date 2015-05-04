@@ -35,8 +35,7 @@ public class ListRedesAdapter extends ArrayAdapter<Rede> {
     }
 
     @Override
-    public View getDropDownView(int position, View convertView, ViewGroup parent)
-    {   // This view starts when we click the spinner.
+    public View getDropDownView(int position, View convertView, ViewGroup parent){
         View row = convertView;
         if(row == null){
             LayoutInflater inflater = context.getLayoutInflater();

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +44,7 @@ public class AlertaBaseActivity extends RVPActivity {
 
     private String tipo;
     protected EsquemaAlerta esquema;
+    AlertaActivity alertaActivity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,8 +75,13 @@ public class AlertaBaseActivity extends RVPActivity {
 
     @Override
     public void mostraMensagem(Notificacao notificacao) {
-        super.mostraMensagem(notificacao);
+        //super.mostraMensagem(notificacao);
+        Toast toast = Toast.makeText(this,"Nova mensagem: " + notificacao.getUltimoComentario().getTexto(), Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
+
+
 
 
 }

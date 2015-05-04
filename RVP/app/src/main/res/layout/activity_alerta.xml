@@ -12,7 +12,8 @@
     android:paddingRight="20dp">
     <include
         layout="@layout/barra_notificacao"
-        android:id="@+id/notificacao"/>
+        android:id="@+id/notificacao"
+        />
 
     <View
         android:id="@+id/flexible_space_alerta"

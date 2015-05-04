@@ -74,8 +74,8 @@ public class MainActivity extends RVPActivity
     private static final int SECTION_MINHAS_REDES = 0;
     private static final int SECTION_ALERTAS = 1;
     private static final int SECTION_NOTIFICACOES = 2;
-    private static final int SECTION_BUSCA_REDES = 3;
-    private static final int SECTION_SOBRE = 4;
+    private static final int SECTION_BUSCA_REDES = 4;
+    private static final int SECTION_SOBRE = 3;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -145,6 +145,9 @@ public class MainActivity extends RVPActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         enableNotificacoes((RelativeLayout) findViewById(R.id.notificacao));
+        findViewById(R.id.notificacao).setVisibility(View.GONE);
+
+
         if(mudarParaNotificacoes) {
             mNavigationDrawerFragment.mostraNotificacoes();
         }else if(mudarParaAlertas){
@@ -181,6 +184,7 @@ public class MainActivity extends RVPActivity
                 break;
             case SECTION_ALERTAS:
                 novoAlerta();
+                findViewById(R.id.notificacao).setVisibility(View.VISIBLE);
         }
     }
 
@@ -316,12 +320,12 @@ public class MainActivity extends RVPActivity
                 mTitleView.setText(getString(R.string.title_notificacoes));
                 mFab.setVisibility(View.GONE);
                 break;
+//            case 3:
+//                menu_itens = R.menu.menu_fragment_busca_redes;
+//                mTitleView.setText(getString(R.string.title_busca_redes));
+//                mFab.setVisibility(View.VISIBLE);
+//                break;
             case 3:
-                menu_itens = R.menu.menu_fragment_busca_redes;
-                mTitleView.setText(getString(R.string.title_busca_redes));
-                mFab.setVisibility(View.VISIBLE);
-                break;
-            case 4:
                menu_itens = R.menu.menu_fragment_alertas;
                mTitleView.setText(getString(R.string.title_sobre));
                mFab.setVisibility(View.GONE);

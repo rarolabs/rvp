@@ -23,6 +23,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -162,6 +163,8 @@ public class AlertaActivity extends AlertaBaseActivity{
         Toast.makeText(this, R.string.mensagem_enviada_com_sucesso, Toast.LENGTH_SHORT).show();
         EditText msg = ((EditText) findViewById(texto_mensagem));
         msg.setText("");
+
+
 
         InputMethodManager imm = (InputMethodManager) getSystemService(
                 Context.INPUT_METHOD_SERVICE);

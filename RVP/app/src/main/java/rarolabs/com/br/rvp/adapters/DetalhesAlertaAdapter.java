@@ -115,6 +115,22 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
             final VHFooter footer = new VHFooter(v);
             footer.texto = (EditText) v.findViewById(R.id.texto_mensagem);
             footer.enviar = (ImageButton) v.findViewById(R.id.enviar);
+            footer.texto.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if(hasFocus){
+                        footer.enviar.setPressed(true);
+                    }else {
+                        Log.d("DetalhesAlertaAdapter","Button not pressed");
+                    }
+                }
+            });
+//            footer.texto.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    footer.enviar.setPressed(true);
+//                }
+//            });
             footer.enviar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -247,7 +263,7 @@ public class DetalhesAlertaAdapter extends RecyclerView.Adapter<DetalhesAlertaAd
         }else if(hrs == 0){
             return "há " + min + " minutos";
         }else if(hrs < 24){
-            return hrs + " horas " + min + " minutos atrás";
+            return hrs + " h : " + min + " min atrás";
         }else{
             SimpleDateFormat sdfData = new SimpleDateFormat("dd/MM/yyyy, hh:mm");
             return sdfData.format(endTime);

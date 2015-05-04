@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Locale;
 
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.activities.alertas.AlertaActivity;
 import rarolabs.com.br.rvp.config.Constants;
 import rarolabs.com.br.rvp.models.EsquemaAlerta;
 import rarolabs.com.br.rvp.models.Notificacao;
@@ -241,6 +242,8 @@ public class RVPActivity extends ActionBarActivity {
         barraNotificacaoIcon.setImageResource(R.drawable.ic_drawer_notificacoes_selected);
         barraNotificacaoText.setTextColor(getResources().getColor(R.color.material_green_700));
         barraNotificacaoText.setText(getString(R.string.notificacao_recebida));
+        //
+
         showNotificationBar();
     }
 
@@ -250,7 +253,6 @@ public class RVPActivity extends ActionBarActivity {
         barraNotificacaoText.setTextColor(getResources().getColor(R.color.material_green_700));
         barraNotificacaoText.setText(notificacao.getUltimoComentario().getTexto());
         showNotificationBar();
-
     }
 
     private void mostrarAlerta(String tipo) {
