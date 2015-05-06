@@ -7,8 +7,8 @@ import rarolabs.com.br.rvp.R;
  */
 public class DrawerItens {
     private static  final int labels[] = {R.string.drawer_redes,R.string.drawer_alertas,R.string.drawer_notificacoes,R.string.drawer_sobre};
-    private static  final int icons[] = {R.drawable.ic_drawer_redes_normal,R.drawable.ic_drawer_alertas_normal,R.drawable.ic_drawer_notificacoes_normal,R.drawable.info_sign};
-    private static  final int selectedIcons[] = {R.drawable.ic_drawer_redes_selected,R.drawable.ic_drawer_alertas_selected,R.drawable.ic_drawer_notificacoes_selected,R.drawable.info_sign_verde};
+    private static  final int icons[] = {R.drawable.ic_drawer_redes_normal,R.drawable.ic_drawer_alertas_normal,R.drawable.ic_drawer_notificacoes_normal,R.drawable.ic_drawer_sobre_normal};
+    private static  final int selectedIcons[] = {R.drawable.ic_drawer_redes_selected,R.drawable.ic_drawer_alertas_selected,R.drawable.ic_drawer_notificacoes_selected,R.drawable.ic_drawer_sobre_selected};
     private static   DrawerItem[] itens = null;
 
     static{
