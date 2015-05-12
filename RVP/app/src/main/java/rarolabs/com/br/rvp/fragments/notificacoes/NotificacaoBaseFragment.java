@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import br.com.rarolabs.rvp.api.rvpAPI.model.RedeDetalhada;
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.activities.RVPActivity;
 import rarolabs.com.br.rvp.activities.alertas.AlertaActivity;
 import rarolabs.com.br.rvp.activities.MainActivity;
 import rarolabs.com.br.rvp.adapters.notificacoes.NotificacaoBaseAdapter;
@@ -66,6 +68,7 @@ public class NotificacaoBaseFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_notificacoes, container, false);
+
 
         mRecyclerView = (ObservableRecyclerView) view.findViewById(R.id.notificacoes_recycler_view);
         MainActivity activity = (MainActivity) getActivity();
@@ -150,7 +153,6 @@ public class NotificacaoBaseFragment extends Fragment {
                 refreshContent();
             }
         }.execute();
-
 
         return view;
 

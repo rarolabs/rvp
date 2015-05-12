@@ -19,7 +19,7 @@ import br.com.rarolabs.rvp.api.models.Dispositivo;
         namespace = @ApiNamespace(ownerDomain = "api.rvp.rarolabs.com.br",
                 ownerName = "api.rvp.rarolabs.com.br", packagePath = ""),
         scopes = {Constants.PROFILE_SCOPE},
-        clientIds = {Constants.WEB_CLIENT_ID, Constants.ANDROID_CLIENT_ID,com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+        clientIds = {Constants.WEB_CLIENT_ID, Constants.ANDROID_CLIENT_ID, Constants.PRODUCTION_ANDROID_CLIENT_ID,com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
         audiences = {Constants.ANDROID_AUDIENCE}
 )
 public class RegistroDispositivoAPI {

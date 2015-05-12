@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="rarolabs.com.br.rvp"
-    android:versionCode="3"
-    android:versionName="1.0.2">
+    android:versionCode="4"
+    android:versionName="1.0.4">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
@@ -17,11 +17,15 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
 
+    <!-- Settings for GCM -->
     <permission
         android:name="rarolabs.com.br.rvp.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
     <uses-permission android:name="rarolabs.com.br.rvp.permission.C2D_MESSAGE" />
+
+
+
 
     <application
         android:name=".config.RVPApp"

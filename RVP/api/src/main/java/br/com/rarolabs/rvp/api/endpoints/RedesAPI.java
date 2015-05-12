@@ -28,7 +28,7 @@ import br.com.rarolabs.rvp.api.service.SearchService;
         namespace = @ApiNamespace(ownerDomain = "api.rvp.rarolabs.com.br",
                 ownerName = "api.rvp.rarolabs.com.br", packagePath = ""),
         scopes = {Constants.PROFILE_SCOPE},
-        clientIds = {Constants.WEB_CLIENT_ID, Constants.ANDROID_CLIENT_ID,com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+        clientIds = {Constants.WEB_CLIENT_ID, Constants.ANDROID_CLIENT_ID, Constants.PRODUCTION_ANDROID_CLIENT_ID,com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
         audiences = {Constants.ANDROID_AUDIENCE}
 )
 public class RedesAPI {
@@ -152,9 +152,9 @@ public class RedesAPI {
      */
     @ApiMethod(name = "buscarMembrosAtivos")
     public Collection<Membro> buscarMembrosAtios(@Named("rede_id") Long redeID,User user) throws NotFoundException, OAuthRequestException {
-        if(user==null){
-            throw new OAuthRequestException("Usuário não autenticado");
-        }
+//        if(user==null){
+//            throw new OAuthRequestException("Usuário não autenticado");
+//        }
 
         return Rede.buscar(redeID).membrosAtivos();
     }

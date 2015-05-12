@@ -13,6 +13,5 @@
         android:fillViewport="true"
         android:scrollbars="none"
         xmlns:android="http://schemas.android.com/apk/res/android">
-
 </com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView>
     </android.support.v4.widget.SwipeRefreshLayout>

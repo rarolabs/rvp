@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
@@ -26,6 +27,7 @@ import java.util.List;
 import br.com.rarolabs.rvp.api.rvpAPI.model.RedeDetalhada;
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.activities.MainActivity;
+import rarolabs.com.br.rvp.activities.RVPActivity;
 import rarolabs.com.br.rvp.activities.RedeActivity;
 import rarolabs.com.br.rvp.adapters.MinhasRedesAdapter;
 import rarolabs.com.br.rvp.config.Constants;
@@ -78,6 +80,7 @@ public class MinhasRedesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_minhas_redes, container, false);
+
         mRecyclerView = (ObservableRecyclerView) view.findViewById(R.id.lista_minhas_redes_recycler_view);
         MainActivity activity = (MainActivity) getActivity();
         activity.setRecycleView(mRecyclerView);

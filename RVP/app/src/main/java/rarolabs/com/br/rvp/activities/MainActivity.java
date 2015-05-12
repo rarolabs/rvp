@@ -341,6 +341,7 @@ public class MainActivity extends RVPActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement

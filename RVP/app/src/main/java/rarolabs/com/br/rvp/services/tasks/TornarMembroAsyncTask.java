@@ -64,7 +64,7 @@ public class TornarMembroAsyncTask extends AsyncTask<Object, Void, Boolean> {
             Log.d("membro", "Solicitado");
 
             MembroCollection pendentes = backendServices.solicitacoesPendentes(redeId);
-            Log.d("Membro", "Quantidade:" + pendentes.getItems().size());
+
 
         } catch (final BackendExpection e) {
             Log.d("REDE", "Deu erro");

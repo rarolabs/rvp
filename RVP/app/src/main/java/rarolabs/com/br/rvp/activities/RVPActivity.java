@@ -71,6 +71,8 @@ public class RVPActivity extends ActionBarActivity {
                         }else if(intent.getExtras().getString(Constants.EXTRA_NOTIFICACAO_TIPO,"").equals("MENSAGEM")){
                             Notificacao notificacao = Notificacao.findById(Notificacao.class,intent.getExtras().getLong(Constants.EXTRA_NOTIFICACAO_ID));
                             mostraMensagem(notificacao);
+                        }else{
+                            mostrarNotificacao();
                         }
                     }
 
@@ -139,13 +141,12 @@ public class RVPActivity extends ActionBarActivity {
                     strReturnedAddress.append(returnedAddress.getAddressLine(i)).append(", ");
                 }
                 strAdd = strReturnedAddress.toString();
-                Log.w("My Current loction address", "" + strReturnedAddress.toString());
             } else {
-                Log.w("My Current loction address", "No Address returned!");
+
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Log.w("My Current loction address", "Canont get Address!");
+
         }
         return strAdd;
     }
@@ -224,7 +225,7 @@ public class RVPActivity extends ActionBarActivity {
         animations.play(anim1).before(anim2);
     }
 
-    private synchronized void mostrandoAlerta(Boolean status) {
+    private  void mostrandoAlerta(Boolean status) {
         alertaSendoExibido = status;
     }
 
@@ -237,7 +238,7 @@ public class RVPActivity extends ActionBarActivity {
         }
     }
 
-    private void mostrarNotificacao() {
+    public void mostrarNotificacao() {
         barraNotificacao.setBackgroundColor(getResources().getColor(R.color.material_lime_A400));
         barraNotificacaoIcon.setImageResource(R.drawable.ic_drawer_notificacoes_selected);
         barraNotificacaoText.setTextColor(getResources().getColor(R.color.material_green_700));
@@ -264,7 +265,7 @@ public class RVPActivity extends ActionBarActivity {
         showNotificationBar();
     }
 
-    private void showNotificationBar(){
+    protected void showNotificationBar(){
         if(barraNotificacao !=null) {
             if (!alertaSendoExibido) {
                 if (barraNotificacao != null) {

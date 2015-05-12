@@ -303,13 +303,6 @@ public class BackendServices {
 
     }
 
-    public  void cleanForTesting() {
-        try {
-            service.cleanDataBaseForTesting().execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public boolean isNetworkAvailable() {
         return ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo() != null;

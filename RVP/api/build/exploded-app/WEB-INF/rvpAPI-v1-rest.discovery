@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/Og-ZyU3cDmJYGGVjGSgom0vOocE\"",
+ "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/g_GAV_ZFQ3MQtaVogAC0SgHYvw8\"",
  "discoveryVersion": "v1",
  "id": "rvpAPI:v1",
  "name": "rvpAPI",
@@ -775,14 +775,6 @@
    "response": {
     "$ref": "Usuario"
    },
-   "scopes": [
-    "https://www.googleapis.com/auth/userinfo.profile"
-   ]
-  },
-  "cleanDataBaseForTesting": {
-   "id": "rvpAPI.cleanDataBaseForTesting",
-   "path": "cleanDataBaseForTesting",
-   "httpMethod": "POST",
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.profile"
    ]
