@@ -145,7 +145,7 @@ public class MainActivity extends RVPActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         enableNotificacoes((RelativeLayout) findViewById(R.id.notificacao));
-        findViewById(R.id.notificacao).setVisibility(View.GONE);
+        findViewById(R.id.notificacao).setVisibility(View.VISIBLE);
 
 
         if(mudarParaNotificacoes) {
