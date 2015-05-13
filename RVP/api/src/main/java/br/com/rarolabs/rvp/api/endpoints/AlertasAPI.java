@@ -62,7 +62,7 @@ public class AlertasAPI {
         if(user==null){
             throw new OAuthRequestException("Usuário não autenticado");
         }
-        OfyService.ofy().save().entity(alerta).now();
+        OfyService.ofy().cache(false).cache(false).save().entity(alerta).now();
         Queue q = QueueFactory.getDefaultQueue();
         q.add(TaskOptions.Builder.withUrl("/push_alertas").param("key", alerta.getId().toString()));
     }
@@ -77,10 +77,10 @@ public class AlertasAPI {
         }
         Mensagem mensagem = new Mensagem();
         mensagem.setTexto(texto);
-        mensagem.setAlerta(OfyService.ofy().load().type(Alerta.class).id(alertaId).now());
-        mensagem.setUsuario(OfyService.ofy().load().type(Usuario.class).id(user.getEmail()).now());
+        mensagem.setAlerta(OfyService.ofy().cache(false).load().type(Alerta.class).id(alertaId).now());
+        mensagem.setUsuario(OfyService.ofy().cache(false).load().type(Usuario.class).id(user.getEmail()).now());
 
-        OfyService.ofy().save().entity(mensagem).now();
+        OfyService.ofy().cache(false).save().entity(mensagem).now();
         Queue q = QueueFactory.getDefaultQueue();
         q.add(TaskOptions.Builder.withUrl("/push_message").param("key", mensagem.getId().toString())
                                                           .param("user",user.getEmail()));

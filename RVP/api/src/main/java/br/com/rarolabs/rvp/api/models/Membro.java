@@ -36,6 +36,7 @@ public class Membro {
     public enum Visibilidade {PUBLICO,PRIVADO, SOMENTE_COM_AUTORIDADE}
 
     private Papel papel = Papel.VIVIZINHO;
+    @Index
     private Status status = Status.INATIVO;
 
     private Date dataAssociacao;
@@ -109,7 +110,7 @@ public class Membro {
 
 
     public Rede getRede() {
-        return OfyService.ofy().load().ref(rede).now();
+        return OfyService.ofy().cache(false).load().ref(rede).now();
     }
 
     public void setRede(Rede rede) {
@@ -119,7 +120,7 @@ public class Membro {
 
 
     public Usuario getUsuario() {
-        return OfyService.ofy().load().type(Usuario.class).id(usuarioId).now();
+        return OfyService.ofy().cache(false).load().type(Usuario.class).id(usuarioId).now();
     }
 
     public void setUsuario(Usuario usuario) {
