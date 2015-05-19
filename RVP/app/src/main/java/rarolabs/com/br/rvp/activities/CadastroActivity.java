@@ -224,7 +224,7 @@ public class CadastroActivity extends RVPActivity implements Validator.Validatio
         Log.d("ADDR","Longitude:" + longitude);
         String addr = getCompleteAddressString(latitude,longitude);
         Log.d("ADDR", "Add: 2" + addr);
-        addr = addr.substring(0, addr.length()-2);
+//        addr = addr.substring(0, addr.length()-2);
         endereco.setText(addr);
 
 
