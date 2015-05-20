@@ -1,17 +1,24 @@
-<android.support.v4.widget.SwipeRefreshLayout
-    android:id="@+id/notificacoes_swipe_refresh_layout"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent">
 
-    >
-    <com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView
-        android:id="@+id/notificacoes_recycler_view"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/notificacoes_swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:scrollbars="none"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        >
 
-    </com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView>
-</android.support.v4.widget.SwipeRefreshLayout>
+        <com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView
+            android:id="@+id/notificacoes_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbars="none"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+
+        </com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</RelativeLayout>

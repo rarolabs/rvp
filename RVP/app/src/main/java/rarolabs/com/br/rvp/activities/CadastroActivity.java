@@ -284,7 +284,7 @@ public class CadastroActivity extends RVPActivity implements Validator.Validatio
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Toast.makeText(this,"Back",Toast.LENGTH_LONG).show();
+        //Toast.makeText(this,"Back",Toast.LENGTH_LONG).show();
     }
 
     @Override

@@ -56,8 +56,6 @@ public class CriarAlertaActivity extends AlertaBaseActivity implements DatePicke
     private ProgressDialog progress;
     private Spinner mSpinner;
 
-    public enum Status {ATIVO, INATIVO,AGUARDANDO_APROVACAO,REPROVADO}
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
