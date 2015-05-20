@@ -56,6 +56,9 @@ public class CriarAlertaActivity extends AlertaBaseActivity implements DatePicke
     private ProgressDialog progress;
     private Spinner mSpinner;
 
+    public enum Status {ATIVO, INATIVO,AGUARDANDO_APROVACAO,REPROVADO}
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,10 +85,16 @@ public class CriarAlertaActivity extends AlertaBaseActivity implements DatePicke
             ((EditText) findViewById(R.id.detalhes)).setHint(getString(esquema.getLabelDescricao()));
 
         }
-
+        ArrayList<Rede> moradores = new ArrayList<Rede>();
         ArrayList<Rede> moradors = (ArrayList)Rede.listAll(Rede.class);
+        for(int i=0;i<moradors.size();i++){
+            if(moradors.get(i).getStatus().equals("ATIVO")){
+                moradores.add(moradors.get(i));
+            }
+        }
+
         mSpinner = (Spinner) findViewById(R.id.spinner_rede);
-        ListRedesAdapter mAdapter = new ListRedesAdapter(this, R.layout.simple_spinner_item, moradors);
+        ListRedesAdapter mAdapter = new ListRedesAdapter(this, R.layout.simple_spinner_item, moradores);
         mSpinner.setAdapter(mAdapter);
 
 

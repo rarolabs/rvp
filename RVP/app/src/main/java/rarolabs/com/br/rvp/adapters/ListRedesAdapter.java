@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import rarolabs.com.br.rvp.R;
+import rarolabs.com.br.rvp.models.Membro;
 import rarolabs.com.br.rvp.models.Rede;
 
 /**
@@ -19,6 +20,7 @@ import rarolabs.com.br.rvp.models.Rede;
 public class ListRedesAdapter extends ArrayAdapter<Rede> {
     private Activity context;
     ArrayList<Rede> data = null;
+    public enum Status {ATIVO, INATIVO,AGUARDANDO_APROVACAO,REPROVADO}
 
     public ListRedesAdapter(Activity context, int resource, ArrayList<Rede> data){
         super(context, resource, data);
@@ -42,11 +44,13 @@ public class ListRedesAdapter extends ArrayAdapter<Rede> {
             row = inflater.inflate(R.layout.spinner_item, parent, false);
         }
         Rede item = data.get(position);
+
         if(item != null){   // Parse the data from each object and set it.
+            //(item.getStatus() == "ATIVO")
             TextView myCountry = (TextView) row.findViewById(R.id.spinner_item_text);
             if(myCountry != null)
                 myCountry.setText(item.getNomeRede());
-                Log.d("ListRede", "Nome da rede " + item.getNomeRede());
+                Log.d("ListRede", "Nome da rede " + item.getNomeRede() + " " + item.getStatus());
         }
         return row;
     }

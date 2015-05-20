@@ -8,6 +8,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Date;
+import java.util.List;
+
+import rarolabs.com.br.rvp.services.BackendServices;
 
 /**
  * Created by rodrigosol on 3/4/15.
@@ -35,15 +38,17 @@ public class Comentario extends SugarRecord<Comentario>{
 
     public Comentario(Bundle extras) {
         try {
-
-            this.setMembroId(Long.valueOf(extras.getString("membro_id")));
-            this.setAvatar(extras.getString("avatar"));
-            this.setAvatarBlur(extras.getString("avatar_blue"));
-            this.setNome(URLDecoder.decode(extras.getString("nome_usuario"), "UTF-8"));
-            this.setData(Long.parseLong(extras.getString("data")));
-            this.notificacao = Notificacao.find(Notificacao.class, "BACKEND_ID = ?", extras.getString("backend_id")).get(0);
-            this.texto = URLDecoder.decode(extras.getString("detalhes"), "UTF-8");
-            save();
+            List<Notificacao> notificacaos = Notificacao.find(Notificacao.class, "BACKEND_ID = ?", extras.getString("backend_id"));
+            if(notificacaos.size() > 0 ){
+                this.notificacao = notificacaos.get(0);
+                this.texto = URLDecoder.decode(extras.getString("detalhes"), "UTF-8");
+                this.setMembroId(Long.valueOf(extras.getString("membro_id")));
+                this.setAvatar(extras.getString("avatar"));
+                this.setAvatarBlur(extras.getString("avatar_blue"));
+                this.setNome(URLDecoder.decode(extras.getString("nome_usuario"), "UTF-8"));
+                this.setData(Long.parseLong(extras.getString("data")));
+                save();
+            }
         }catch (Exception e){
             e.printStackTrace();
         }

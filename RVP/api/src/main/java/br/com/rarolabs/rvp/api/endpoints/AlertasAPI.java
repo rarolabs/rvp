@@ -67,6 +67,7 @@ public class AlertasAPI {
         q.add(TaskOptions.Builder.withUrl("/push_alertas").param("key", alerta.getId().toString()));
     }
 
+
     @ApiMethod(name = "enviarMensagem")
     public void enviarMensagem(@Named("texto") String texto,
                                @Named("redeId") Long redeId,
