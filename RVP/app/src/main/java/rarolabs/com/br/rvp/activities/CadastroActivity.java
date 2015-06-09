@@ -83,11 +83,11 @@ public class CadastroActivity extends RVPActivity implements Validator.Validatio
 //    @NotEmpty(messageResId = R.string.error_tel_fixo)
     private EditText telFixo;
 
-    @Size(min = 2, max = 2, messageResId = R.string.tamanho_ddd_invalido)
+   //@Size(min = 2, max = 2, messageResId = R.string.tamanho_ddd_invalido)
     @NotEmpty(messageResId = R.string.error_ddd_cel)
     private EditText dddCel;
 
-    @Size(min = 8, max = 9, messageResId = R.string.tamanho_telefone_invalido)
+    //@Size(min = 8, max = 9, messageResId = R.string.tamanho_telefone_invalido)
     @NotEmpty(messageResId = R.string.error_tel_cel)
     private EditText telCel;
 

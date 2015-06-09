@@ -21,8 +21,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
 
 import rarolabs.com.br.rvp.R;
 import rarolabs.com.br.rvp.config.Constants;
