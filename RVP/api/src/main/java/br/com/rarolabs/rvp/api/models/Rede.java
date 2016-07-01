@@ -9,11 +9,7 @@ import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
-import com.google.appengine.api.users.User;
 import com.google.common.collect.Collections2;
-import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
-import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.VoidWork;
@@ -25,8 +21,6 @@ import com.googlecode.objectify.annotation.Load;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 

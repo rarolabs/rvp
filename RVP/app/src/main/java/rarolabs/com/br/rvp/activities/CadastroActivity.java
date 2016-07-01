@@ -33,7 +33,6 @@ import com.mobsandgeeks.saripaar.QuickRule;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
-import com.mobsandgeeks.saripaar.annotation.Size;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -92,7 +91,6 @@ public class CadastroActivity extends RVPActivity implements Validator.Validatio
     private EditText telCel;
 
     @NotEmpty(messageResId = R.string.error_endereco)
-    @Size(min = 6, messageResId = R.string.tamanho_endereco_invalido)
     private EditText endereco;
 
     private Validator validator;
